@@ -1,0 +1,2 @@
+SampleCMS - MIT license
+==============
