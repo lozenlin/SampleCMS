@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://samplecms.dev.com", "http://samplecms.dev.com", "{5280B754-9F03-476B-9ABE-6F29D15FF8D3}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/samplecms.dev.com"
+		Debug.AspNetCompiler.PhysicalPath = "Root\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\samplecms.dev.com\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/samplecms.dev.com"
+		Release.AspNetCompiler.PhysicalPath = "Root\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\samplecms.dev.com\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "Root\"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Management", "http://samplecms.dev.com/Management", "{6319B360-A190-4F22-8E66-2F66F38EE25B}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{67548d79-7859-408a-97d8-7e6233d274a0}|Common.DataAccess.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/Management"
+		Debug.AspNetCompiler.PhysicalPath = "Management\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Management\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Management"
+		Release.AspNetCompiler.PhysicalPath = "Management\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Management\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "Management\"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{15D9AADF-C975-4ACC-AB16-BB5994321974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataAccess", "Common\Common.DataAccess\Common.DataAccess.csproj", "{67548D79-7859-408A-97D8-7E6233D274A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.LogicObject", "Common\Common.LogicObject\Common.LogicObject.csproj", "{E72437E3-DD4D-42A0-840B-070898A01AF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Utility", "Common\Common.Utility\Common.Utility.csproj", "{148266C2-75DC-4C89-85FC-23E9EEF766CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5280B754-9F03-476B-9ABE-6F29D15FF8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5280B754-9F03-476B-9ABE-6F29D15FF8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5280B754-9F03-476B-9ABE-6F29D15FF8D3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{5280B754-9F03-476B-9ABE-6F29D15FF8D3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6319B360-A190-4F22-8E66-2F66F38EE25B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6319B360-A190-4F22-8E66-2F66F38EE25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6319B360-A190-4F22-8E66-2F66F38EE25B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6319B360-A190-4F22-8E66-2F66F38EE25B}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{67548D79-7859-408A-97D8-7E6233D274A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67548D79-7859-408A-97D8-7E6233D274A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67548D79-7859-408A-97D8-7E6233D274A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67548D79-7859-408A-97D8-7E6233D274A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E72437E3-DD4D-42A0-840B-070898A01AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E72437E3-DD4D-42A0-840B-070898A01AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E72437E3-DD4D-42A0-840B-070898A01AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E72437E3-DD4D-42A0-840B-070898A01AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{148266C2-75DC-4C89-85FC-23E9EEF766CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148266C2-75DC-4C89-85FC-23E9EEF766CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148266C2-75DC-4C89-85FC-23E9EEF766CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148266C2-75DC-4C89-85FC-23E9EEF766CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{67548D79-7859-408A-97D8-7E6233D274A0} = {15D9AADF-C975-4ACC-AB16-BB5994321974}
+		{E72437E3-DD4D-42A0-840B-070898A01AF7} = {15D9AADF-C975-4ACC-AB16-BB5994321974}
+		{148266C2-75DC-4C89-85FC-23E9EEF766CF} = {15D9AADF-C975-4ACC-AB16-BB5994321974}
+	EndGlobalSection
+EndGlobal

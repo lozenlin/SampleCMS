@@ -1,0 +1,2 @@
+﻿log4net 檔案下載位置
+http://logging.apache.org/log4net/download_log4net.cgi

@@ -202,3 +202,21 @@ go
 
 --預設內容(todo by lozen)
 go
+
+----------------------------------------------------------------------------
+-- dbo.BackEndLog 後端操作記錄
+----------------------------------------------------------------------------
+create table dbo.BackEndLog(
+	Seqno	int	Not Null	identity primary key
+	,EmpAccount	varchar(20)		
+	,Description	nvarchar(4000)		
+	,OpDate	datetime		
+	,IP	varchar(50)		
+)
+go
+
+--加快查詢速度用
+create index IX_BackEndLog_OpDate on dbo.BackEndLog( OpDate )
+	include(EmpAccount, IP) with (fillfactor=70)
+go
+

@@ -1,0 +1,12 @@
+/Source/Root/Web.config
+/Source/Management/Web.config
+*.suo
+/Source/Common/Microsoft.ApplicationBlocks.Data/bin
+/Source/Common/Microsoft.ApplicationBlocks.Data/doc
+/Source/Common/Microsoft.ApplicationBlocks.Data/obj
+/Source/Common/Common.DataAccess/bin
+/Source/Common/Common.DataAccess/obj
+/Source/Common/Common.LogicObject/bin
+/Source/Common/Common.LogicObject/obj
+/Source/Common/Common.Utility/bin
+/Source/Common/Common.Utility/obj
