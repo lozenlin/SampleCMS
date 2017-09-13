@@ -1837,8 +1837,8 @@ namespace Microsoft.ApplicationBlocks.Data
 					{
 						if( tableNames[index] == null || tableNames[index].Length == 0 ) throw new ArgumentException( "The tableNames parameter must contain a list of tables, a value was provided as null or empty string.", "tableNames" );
 						dataAdapter.TableMappings.Add(tableName, tableNames[index]);
-                        tableName += (index + 1).ToString();
-					}
+                        tableName = "Table" + (index + 1).ToString();    // 2017/09/13, lozen_lin, modify, 修正 FillDataset 指定 TableName 第三個沒套用到的問題; org-> tableName += (index + 1).ToString();
+                    }
 				}
                 
 				// Fill the DataSet using default values for DataTable names, etc
