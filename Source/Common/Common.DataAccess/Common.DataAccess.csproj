@@ -49,7 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomAttributes.cs" />
+    <Compile Include="DataAccessCommandBase.cs" />
     <Compile Include="DataAccessSource.cs" />
+    <Compile Include="DataClasses.cs" />
     <Compile Include="EmployeeAuthorityDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

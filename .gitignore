@@ -10,3 +10,6 @@
 /Source/Common/Common.LogicObject/obj
 /Source/Common/Common.Utility/bin
 /Source/Common/Common.Utility/obj
+/Source/Management/Bin/Common.DataAccess.pdb
+/Source/Management/Bin/Common.DataAccess.XML
+/Source/Management/Bin/Common.DataAccess.dll

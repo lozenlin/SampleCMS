@@ -90,7 +90,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 關閉DataReader
         /// </summary>
-        public static void CloseDataReader(IDataReader rdr, IDbConnection conn)
+        public void CloseDataReader(IDataReader rdr, IDbConnection conn)
         {
             if (rdr != null)
                 rdr.Close();

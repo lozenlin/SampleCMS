@@ -12,13 +12,19 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        DataAccessSource db = new DataAccessSource();
-        spEmployee_GetDataToLogin sp = new spEmployee_GetDataToLogin(db)
+        DataAccessSource mainDB = new DataAccessSource();
+        spEmployee_GetList cmd = new spEmployee_GetList(mainDB)
         {
-            EmpAccount = "EmpAccountValue",
-            newId = 123
+            DeptId = 0,
+            SearchName = "",
+            ListMode = 2,
+            BeginNum = 1,
+            EndNum = 20,
+            SortField = "",
+            IsSortDesc = false
         };
 
-        DataSet ds = sp.ExecuteDataset();
+        DataSet ds = cmd.ExecuteDataset();
+        int rowCount = cmd.RowCount;
     }
 }
