@@ -30,7 +30,7 @@ namespace Common.DataAccess
     /// <summary>
     /// 資料庫存取指令執行者
     /// </summary>
-    public class DataAccessCommand : IDataAccessCommand
+    public class DataAccessCommand : IDataAccessCommand, IDataAccessCommandInnerTools
     {
         /// <summary>
         /// 記錄工具
@@ -166,7 +166,7 @@ namespace Common.DataAccess
             //若有自訂取回 DataSet 的執行功能就轉用自訂的
             if (cmdInfo is ICustomExecuteDataset)
             {
-                return ((ICustomExecuteDataset)cmdInfo).ExecuteDataset();
+                return ((ICustomExecuteDataset)cmdInfo).ExecuteDataset(this);
             }
 
             CommandType cmdType = cmdInfo.GetCommandType();
@@ -259,7 +259,7 @@ namespace Common.DataAccess
             //若有自訂執行功能就轉用自訂的
             if (cmdInfo is ICustomExecuteNonQuery)
             {
-                return ((ICustomExecuteNonQuery)cmdInfo).ExecuteNonQuery();
+                return ((ICustomExecuteNonQuery)cmdInfo).ExecuteNonQuery(this);
             }
 
             CommandType cmdType = cmdInfo.GetCommandType();
@@ -352,7 +352,7 @@ namespace Common.DataAccess
             //若有自訂執行功能就轉用自訂的
             if (cmdInfo is ICustomExecuteScalar)
             {
-                return ((ICustomExecuteScalar)cmdInfo).ExecuteScalar<T>(errCode);
+                return ((ICustomExecuteScalar)cmdInfo).ExecuteScalar<T>(this, errCode);
             }
 
             T result = default(T);
@@ -435,6 +435,101 @@ namespace Common.DataAccess
 
         #endregion
 
+        #region 輸出 DataReader
+
+        /// <summary>
+        /// 執行指令並取回 DataReader
+        /// </summary>
+        public IDataReader ExecuteReader(IDataAccessCommandInfo cmdInfo, out SqlConnection connOut)
+        {
+            //若有自訂執行功能就轉用自訂的
+            if (cmdInfo is ICustomExecuteReader)
+            {
+                return ((ICustomExecuteReader)cmdInfo).ExecuteReader(this, out connOut);
+            }
+
+            CommandType cmdType = cmdInfo.GetCommandType();
+            string cmdText = cmdInfo.GetCommandText();
+            IDataReader rdr = null;
+            
+            //動態取得物件的公用欄位
+            List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
+
+            if (hasParameters)
+            {
+                //輸出DataReader,有參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                    //在執行sql指令前異動參數內容
+                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
+                    {
+                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                    }
+
+                    LogSql(cmdText, commandParameters);
+
+                    rdr = SqlHelper.ExecuteReader(conn, cmdType, cmdText,
+                        commandParameters);
+
+                    //輸出連線資訊
+                    connOut = conn;
+
+                    //取得輸出參數值
+                    if (hasOutputParameters)
+                    {
+                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    //失敗時關閉連線
+                    db.CloseConnection(conn);
+                    connOut = null;
+                    return null;
+                }
+            }
+            else
+            {
+                //輸出DataReader,無參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    LogSql(cmdText, "");
+                    
+                    rdr = SqlHelper.ExecuteReader(conn, cmdType, cmdText);
+
+                    //輸出連線資訊
+                    connOut = conn;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    //失敗時關閉連線
+                    db.CloseConnection(conn);
+                    connOut = null;
+                    return null;
+                }
+            }
+
+            return rdr;
+        }
+
+        #endregion
+
         /// <summary>
         /// 動態取得物件的公用欄位當做指令參數
         /// </summary>
@@ -510,5 +605,24 @@ namespace Common.DataAccess
 
             return sqlParas.ToArray();
         }
+
+        #region IDataAccessCommandInnerTools
+
+        public IDataAccessSource GetDataAccessSource()
+        {
+            return db;
+        }
+
+        public ILog GetLogger()
+        {
+            return Logger;
+        }
+
+        public void SetErrMsg(string errMsg)
+        {
+            this.errMsg = errMsg;
+        }
+
+        #endregion
     }
 }

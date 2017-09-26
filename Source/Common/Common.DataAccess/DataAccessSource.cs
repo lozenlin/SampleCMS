@@ -95,10 +95,7 @@ namespace Common.DataAccess
             if (rdr != null)
                 rdr.Close();
 
-            if (conn == null)
-                return;
-
-            conn.Close();
+            CloseConnection(conn);
         }
 
         #endregion

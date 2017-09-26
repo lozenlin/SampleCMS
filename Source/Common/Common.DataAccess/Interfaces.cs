@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using log4net;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Common.DataAccess
@@ -53,9 +54,32 @@ namespace Common.DataAccess
         /// <param name="errCode">做為錯誤碼的值</param>
         T ExecuteScalar<T>(IDataAccessCommandInfo cmdInfo, T errCode);
         /// <summary>
+        /// 執行指令並取回 DataReader
+        /// </summary>
+        IDataReader ExecuteReader(IDataAccessCommandInfo cmdInfo, out SqlConnection connOut);
+        /// <summary>
         /// 執行後的錯誤訊息
         /// </summary>
         string GetErrMsg();
+    }
+
+    /// <summary>
+    /// 資料庫存取指令執行者內部工具
+    /// </summary>
+    public interface IDataAccessCommandInnerTools
+    {
+        /// <summary>
+        /// 取得資料存取來源
+        /// </summary>
+        IDataAccessSource GetDataAccessSource();
+        /// <summary>
+        /// 取得記錄器
+        /// </summary>
+        ILog GetLogger();
+        /// <summary>
+        /// 設定錯誤訊息
+        /// </summary>
+        void SetErrMsg(string errMsg);
     }
 
     /// <summary>
@@ -92,7 +116,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 執行指令並取回 DataSet
         /// </summary>
-        DataSet ExecuteDataset();
+        DataSet ExecuteDataset(IDataAccessCommandInnerTools innerTools);
     }
 
     /// <summary>
@@ -103,7 +127,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 執行指令
         /// </summary>
-        bool ExecuteNonQuery();
+        bool ExecuteNonQuery(IDataAccessCommandInnerTools innerTools);
     }
 
     /// <summary>
@@ -115,6 +139,17 @@ namespace Common.DataAccess
         /// 執行指令並取回第一個欄位值
         /// </summary>
         /// <param name="errCode">做為錯誤碼的值</param>
-        T ExecuteScalar<T>(T errCode);
+        T ExecuteScalar<T>(IDataAccessCommandInnerTools innerTools, T errCode);
+    }
+
+    /// <summary>
+    /// 自訂取回 DataReader 的執行功能
+    /// </summary>
+    public interface ICustomExecuteReader
+    {
+        /// <summary>
+        /// 執行指令並取回 DataReader
+        /// </summary>
+        IDataReader ExecuteReader(IDataAccessCommandInnerTools innerTools, out SqlConnection connOut);
     }
 }
