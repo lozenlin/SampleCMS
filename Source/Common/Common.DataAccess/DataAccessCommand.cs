@@ -10,9 +10,27 @@ using System.Text;
 namespace Common.DataAccess
 {
     /// <summary>
-    /// 基礎資料庫存取指令功能
+    /// 資料庫存取指令執行者工廠
     /// </summary>
-    public abstract class DataAccessCommandBase
+    public class DataAccessCommandFactory
+    {
+        public DataAccessCommandFactory()
+        {
+        }
+
+        /// <summary>
+        /// 取得資料庫存取指令執行者
+        /// </summary>
+        public static IDataAccessCommand GetDataAccessCommand(IDataAccessSource dataAccessSource)
+        {
+            return new DataAccessCommand(dataAccessSource);
+        }
+    }
+
+    /// <summary>
+    /// 資料庫存取指令執行者
+    /// </summary>
+    public class DataAccessCommand : IDataAccessCommand
     {
         /// <summary>
         /// 記錄工具
@@ -22,20 +40,16 @@ namespace Common.DataAccess
             get;
             set;
         }
-
-        protected DataAccessSource db = null;
-        protected CommandType cmdType = CommandType.Text;
-        protected string cmdText = "";
+        
+        protected IDataAccessSource db = null;
         protected string errMsg = "";
-        protected string typeName = "";
 
         private SqlConnection conn = null;
 
-        public DataAccessCommandBase(DataAccessSource dataAccessSource)
+        public DataAccessCommand(IDataAccessSource dataAccessSource)
         {
             db = dataAccessSource;
             Logger = LogManager.GetLogger(this.GetType());
-            typeName = this.GetType().Name;
         }
 
         /// <summary>
@@ -51,7 +65,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 記錄送去資料庫的指令和參數值
         /// </summary>
-        public void LogSql(string commandText, params object[] parameterValues)
+        protected void LogSql(string commandText, params object[] parameterValues)
         {
             if (Logger.IsDebugEnabled)
             {
@@ -87,7 +101,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 記錄送去資料庫的指令和參數值
         /// </summary>
-        public void LogSql(string commandText, params SqlParameter[] commandParameters)
+        protected void LogSql(string commandText, params SqlParameter[] commandParameters)
         {
             if (Logger.IsDebugEnabled)
             {
@@ -142,14 +156,25 @@ namespace Common.DataAccess
 
         #region 輸出資料集
 
-        public virtual DataSet ExecuteDataset()
+        /// <summary>
+        /// 執行指令並取回 DataSet
+        /// </summary>
+        public virtual DataSet ExecuteDataset(IDataAccessCommandInfo cmdInfo)
         {
+            //若有自訂取回 DataSet 的執行功能就轉用自訂的
+            if (cmdInfo is ICustomExecuteDataset)
+            {
+                return ((ICustomExecuteDataset)cmdInfo).ExecuteDataset();
+            }
+
+            CommandType cmdType = cmdInfo.GetCommandType();
+            string cmdText = cmdInfo.GetCommandText();
             DataSet ds = null;
             bool hasParameters = false;
             bool hasOutputParameters = false;
 
             //動態取得物件的公用欄位
-            FieldInfo[] fields = this.GetType().GetFields();
+            FieldInfo[] fields = cmdInfo.GetType().GetFields();
             List<SqlParaInfo> paraInfos = new List<SqlParaInfo>();
 
             if (fields.Length > 0)
@@ -160,7 +185,7 @@ namespace Common.DataAccess
                 object[] outputAttrs = field.GetCustomAttributes(typeof(OutputParaAttribute), false);
 
                 object fieldValue = null;
-                fieldValue = field.GetValue(this);
+                fieldValue = field.GetValue(cmdInfo);
                 bool isOutputPara = false;
 
                 if (outputAttrs.Length > 0)
@@ -189,7 +214,11 @@ namespace Common.DataAccess
 
                     SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
 
-                    ModifyParaInfosBeforeExecute(paraInfos);
+                    //在執行sql指令前異動參數內容
+                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
+                    {
+                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                    }
 
                     LogSql(cmdText, commandParameters);
 
@@ -204,7 +233,7 @@ namespace Common.DataAccess
                             if (paraInfo.IsOutput)
                             {
                                 FieldInfo outputParaFieldInfo = paraInfo.ParaFieldInfo;
-                                outputParaFieldInfo.SetValue(this, paraInfo.SqlPara.Value);
+                                outputParaFieldInfo.SetValue(cmdInfo, paraInfo.SqlPara.Value);
                             }
                         }
                     }
@@ -256,12 +285,8 @@ namespace Common.DataAccess
         #endregion
 
         /// <summary>
-        /// 在執行sql指令前異動參數內容
+        /// 用 SqlParaInfo 產生 SqlParameter
         /// </summary>
-        protected virtual void ModifyParaInfosBeforeExecute(List<SqlParaInfo> paraInfos)
-        {
-        }
-
         protected SqlParameter[] GenerateCommandParameters(List<SqlParaInfo> paraInfos)
         {
             List<SqlParameter> sqlParas = new List<SqlParameter>();

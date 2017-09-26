@@ -50,10 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAttributes.cs" />
-    <Compile Include="DataAccessCommandBase.cs" />
+    <Compile Include="DataAccessCommand.cs" />
     <Compile Include="DataAccessSource.cs" />
     <Compile Include="DataClasses.cs" />
-    <Compile Include="EmployeeAuthorityDataAccess.cs" />
+    <Compile Include="EmployeeAuthority.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

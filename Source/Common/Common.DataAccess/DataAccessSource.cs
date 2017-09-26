@@ -7,7 +7,7 @@ namespace Common.DataAccess
     /// <summary>
     /// 資料存取來源
     /// </summary>
-    public class DataAccessSource
+    public class DataAccessSource : IDataAccessSource
     {
         /// <summary>
         /// 連線字串提取名稱

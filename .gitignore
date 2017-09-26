@@ -13,3 +13,5 @@
 /Source/Management/Bin/Common.DataAccess.pdb
 /Source/Management/Bin/Common.DataAccess.XML
 /Source/Management/Bin/Common.DataAccess.dll
+*.user
+/Source/Logs
