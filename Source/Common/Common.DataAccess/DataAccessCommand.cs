@@ -42,6 +42,8 @@ namespace Common.DataAccess
         }
         
         protected IDataAccessSource db = null;
+        protected bool hasParameters = false;
+        protected bool hasOutputParameters = false;
         protected string errMsg = "";
 
         private SqlConnection conn = null;
@@ -159,7 +161,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 執行指令並取回 DataSet
         /// </summary>
-        public virtual DataSet ExecuteDataset(IDataAccessCommandInfo cmdInfo)
+        public DataSet ExecuteDataset(IDataAccessCommandInfo cmdInfo)
         {
             //若有自訂取回 DataSet 的執行功能就轉用自訂的
             if (cmdInfo is ICustomExecuteDataset)
@@ -170,39 +172,9 @@ namespace Common.DataAccess
             CommandType cmdType = cmdInfo.GetCommandType();
             string cmdText = cmdInfo.GetCommandText();
             DataSet ds = null;
-            bool hasParameters = false;
-            bool hasOutputParameters = false;
 
             //動態取得物件的公用欄位
-            FieldInfo[] fields = cmdInfo.GetType().GetFields();
-            List<SqlParaInfo> paraInfos = new List<SqlParaInfo>();
-
-            if (fields.Length > 0)
-                hasParameters = true;
-
-            foreach (FieldInfo field in fields)
-            {
-                object[] outputAttrs = field.GetCustomAttributes(typeof(OutputParaAttribute), false);
-
-                object fieldValue = null;
-                fieldValue = field.GetValue(cmdInfo);
-                bool isOutputPara = false;
-
-                if (outputAttrs.Length > 0)
-                {
-                    isOutputPara = true;
-                    hasOutputParameters = true;
-                }
-
-                paraInfos.Add(new SqlParaInfo()
-                {
-                    Name = field.Name,
-                    Value = fieldValue,
-                    IsOutput = isOutputPara,
-                    ParaType = field.FieldType,
-                    ParaFieldInfo = field
-                });
-            }
+            List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
 
             if (hasParameters)
             {
@@ -228,14 +200,7 @@ namespace Common.DataAccess
                     //取得輸出參數值
                     if (hasOutputParameters)
                     {
-                        foreach (SqlParaInfo paraInfo in paraInfos)
-                        {
-                            if (paraInfo.IsOutput)
-                            {
-                                FieldInfo outputParaFieldInfo = paraInfo.ParaFieldInfo;
-                                outputParaFieldInfo.SetValue(cmdInfo, paraInfo.SqlPara.Value);
-                            }
-                        }
+                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
                     }
                 }
                 catch (Exception ex)
@@ -283,6 +248,246 @@ namespace Common.DataAccess
         }
 
         #endregion
+
+        #region 無輸出
+
+        /// <summary>
+        /// 執行指令
+        /// </summary>
+        public bool ExecuteNonQuery(IDataAccessCommandInfo cmdInfo)
+        {
+            //若有自訂執行功能就轉用自訂的
+            if (cmdInfo is ICustomExecuteNonQuery)
+            {
+                return ((ICustomExecuteNonQuery)cmdInfo).ExecuteNonQuery();
+            }
+
+            CommandType cmdType = cmdInfo.GetCommandType();
+            string cmdText = cmdInfo.GetCommandText();
+
+            //動態取得物件的公用欄位
+            List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
+
+            if (hasParameters)
+            {
+                //無輸出,有參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                    //在執行sql指令前異動參數內容
+                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
+                    {
+                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                    }
+
+                    LogSql(cmdText, commandParameters);
+
+                    SqlHelper.ExecuteNonQuery(conn, cmdType, cmdText,
+                        commandParameters);
+
+                    //取得輸出參數值
+                    if (hasOutputParameters)
+                    {
+                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    return false;
+                }
+                finally
+                {
+                    //關閉連線資訊
+                    db.CloseConnection(conn);
+                }
+            }
+            else
+            {
+                //無輸出,無參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    LogSql(cmdText, "");
+
+                    SqlHelper.ExecuteNonQuery(conn, cmdType, cmdText);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    return false;
+                }
+                finally
+                {
+                    //關閉連線資訊
+                    db.CloseConnection(conn);
+                }
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region 輸出有型別內容(int,string,...)
+
+        /// <summary>
+        /// 執行指令並取回第一個欄位值
+        /// </summary>
+        /// <param name="errCode">做為錯誤碼的值</param>
+        public T ExecuteScalar<T>(IDataAccessCommandInfo cmdInfo, T errCode)
+        {
+            //若有自訂執行功能就轉用自訂的
+            if (cmdInfo is ICustomExecuteScalar)
+            {
+                return ((ICustomExecuteScalar)cmdInfo).ExecuteScalar<T>(errCode);
+            }
+
+            T result = default(T);
+            CommandType cmdType = cmdInfo.GetCommandType();
+            string cmdText = cmdInfo.GetCommandText();
+
+            //動態取得物件的公用欄位
+            List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
+
+            if (hasParameters)
+            {
+                //輸出有型別內容(int,string,...),有參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                    //在執行sql指令前異動參數內容
+                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
+                    {
+                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                    }
+
+                    LogSql(cmdText, commandParameters);
+
+                    result = (T)SqlHelper.ExecuteScalar(conn, cmdType, cmdText,
+                        commandParameters);
+
+                    //取得輸出參數值
+                    if (hasOutputParameters)
+                    {
+                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    return errCode;
+                }
+                finally
+                {
+                    //關閉連線資訊
+                    db.CloseConnection(conn);
+                }
+            }
+            else
+            {
+                //輸出有型別內容(int,string,...),無參數
+                try
+                {
+                    //建立連線資訊並開啟連線
+                    conn = db.CreateConnectionInstanceWithOpen();
+
+                    LogSql(cmdText, "");
+
+                    result = (T)SqlHelper.ExecuteScalar(conn, cmdType, cmdText);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("", ex);
+
+                    //回傳錯誤訊息
+                    errMsg = ex.Message;
+                    return errCode;
+                }
+                finally
+                {
+                    //關閉連線資訊
+                    db.CloseConnection(conn);
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 動態取得物件的公用欄位當做指令參數
+        /// </summary>
+        protected List<SqlParaInfo> GenerateSqlParaInfos(IDataAccessCommandInfo cmdInfo)
+        {
+            //動態取得物件的公用欄位
+            FieldInfo[] fields = cmdInfo.GetType().GetFields();
+            List<SqlParaInfo> paraInfos = new List<SqlParaInfo>();
+
+            if (fields.Length > 0)
+                hasParameters = true;
+
+            foreach (FieldInfo field in fields)
+            {
+                object[] outputAttrs = field.GetCustomAttributes(typeof(OutputParaAttribute), false);
+
+                object fieldValue = null;
+                fieldValue = field.GetValue(cmdInfo);
+                bool isOutputPara = false;
+
+                if (outputAttrs.Length > 0)
+                {
+                    isOutputPara = true;
+                    hasOutputParameters = true;
+                }
+
+                paraInfos.Add(new SqlParaInfo()
+                {
+                    Name = field.Name,
+                    Value = fieldValue,
+                    IsOutput = isOutputPara,
+                    ParaType = field.FieldType,
+                    ParaFieldInfo = field
+                });
+            }
+
+            return paraInfos;
+        }
+
+        /// <summary>
+        /// 從 SqlParameter 更新參數資訊清單中的所有輸出參數值
+        /// </summary>
+        protected void UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(List<SqlParaInfo> paraInfos, IDataAccessCommandInfo cmdInfo)
+        {
+            foreach (SqlParaInfo paraInfo in paraInfos)
+            {
+                if (paraInfo.IsOutput)
+                {
+                    FieldInfo outputParaFieldInfo = paraInfo.ParaFieldInfo;
+                    outputParaFieldInfo.SetValue(cmdInfo, paraInfo.SqlPara.Value);
+                }
+            }
+        }
 
         /// <summary>
         /// 用 SqlParaInfo 產生 SqlParameter

@@ -44,6 +44,15 @@ namespace Common.DataAccess
         /// </summary>
         DataSet ExecuteDataset(IDataAccessCommandInfo cmdInfo);
         /// <summary>
+        /// 執行指令
+        /// </summary>
+        bool ExecuteNonQuery(IDataAccessCommandInfo cmdInfo);
+        /// <summary>
+        /// 執行指令並取回第一個欄位值
+        /// </summary>
+        /// <param name="errCode">做為錯誤碼的值</param>
+        T ExecuteScalar<T>(IDataAccessCommandInfo cmdInfo, T errCode);
+        /// <summary>
         /// 執行後的錯誤訊息
         /// </summary>
         string GetErrMsg();
@@ -84,5 +93,28 @@ namespace Common.DataAccess
         /// 執行指令並取回 DataSet
         /// </summary>
         DataSet ExecuteDataset();
+    }
+
+    /// <summary>
+    /// 自訂執行功能
+    /// </summary>
+    public interface ICustomExecuteNonQuery
+    {
+        /// <summary>
+        /// 執行指令
+        /// </summary>
+        bool ExecuteNonQuery();
+    }
+
+    /// <summary>
+    /// 自訂取回第一個欄位值的執行功能
+    /// </summary>
+    public interface ICustomExecuteScalar
+    {
+        /// <summary>
+        /// 執行指令並取回第一個欄位值
+        /// </summary>
+        /// <param name="errCode">做為錯誤碼的值</param>
+        T ExecuteScalar<T>(T errCode);
     }
 }
