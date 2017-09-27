@@ -53,6 +53,7 @@
     <Compile Include="DataAccessCommand.cs" />
     <Compile Include="DataAccessSource.cs" />
     <Compile Include="DataClasses.cs" />
+    <Compile Include="DemoCommandInfos.cs" />
     <Compile Include="EmployeeAuthority.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

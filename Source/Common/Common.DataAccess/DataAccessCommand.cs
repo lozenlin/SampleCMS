@@ -176,72 +176,49 @@ namespace Common.DataAccess
             //動態取得物件的公用欄位
             List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
 
-            if (hasParameters)
+            try
             {
-                //輸出資料集,有參數
-                try
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+
+                SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                //在執行sql指令前異動參數內容
+                if (cmdInfo is IModifyCommandParametersBeforeExecute)
                 {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
+                    ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                }
 
-                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+                LogSql(cmdText, commandParameters);
 
-                    //在執行sql指令前異動參數內容
-                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
-                    {
-                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
-                    }
-
-                    LogSql(cmdText, commandParameters);
-
+                if (hasParameters)
+                {
                     ds = SqlHelper.ExecuteDataset(conn, cmdType, cmdText,
                         commandParameters);
-
-                    //取得輸出參數值
-                    if (hasOutputParameters)
-                    {
-                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error("", ex);
-
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return null;
-                }
-                finally
-                {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
-                }
-            }
-            else
-            {
-                //輸出資料集,無參數
-                try
-                {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
-
-                    LogSql(cmdText, "");
-
                     ds = SqlHelper.ExecuteDataset(conn, cmdType, cmdText);
                 }
-                catch (Exception ex)
-                {
-                    Logger.Error("", ex);
 
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return null;
-                }
-                finally
+                //取得輸出參數值
+                if (hasOutputParameters)
                 {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
+                    UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("", ex);
+
+                //回傳錯誤訊息
+                errMsg = ex.Message;
+                return null;
+            }
+            finally
+            {
+                //關閉連線資訊
+                db.CloseConnection(conn);
             }
 
             return ds;
@@ -268,72 +245,49 @@ namespace Common.DataAccess
             //動態取得物件的公用欄位
             List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
 
-            if (hasParameters)
+            try
             {
-                //無輸出,有參數
-                try
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+
+                SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                //在執行sql指令前異動參數內容
+                if (cmdInfo is IModifyCommandParametersBeforeExecute)
                 {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
+                    ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                }
 
-                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+                LogSql(cmdText, commandParameters);
 
-                    //在執行sql指令前異動參數內容
-                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
-                    {
-                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
-                    }
-
-                    LogSql(cmdText, commandParameters);
-
+                if (hasParameters)
+                {
                     SqlHelper.ExecuteNonQuery(conn, cmdType, cmdText,
                         commandParameters);
-
-                    //取得輸出參數值
-                    if (hasOutputParameters)
-                    {
-                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error("", ex);
-
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return false;
-                }
-                finally
-                {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
-                }
-            }
-            else
-            {
-                //無輸出,無參數
-                try
-                {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
-
-                    LogSql(cmdText, "");
-
                     SqlHelper.ExecuteNonQuery(conn, cmdType, cmdText);
                 }
-                catch (Exception ex)
-                {
-                    Logger.Error("", ex);
 
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return false;
-                }
-                finally
+                //取得輸出參數值
+                if (hasOutputParameters)
                 {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
+                    UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("", ex);
+
+                //回傳錯誤訊息
+                errMsg = ex.Message;
+                return false;
+            }
+            finally
+            {
+                //關閉連線資訊
+                db.CloseConnection(conn);
             }
 
             return true;
@@ -362,72 +316,49 @@ namespace Common.DataAccess
             //動態取得物件的公用欄位
             List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
 
-            if (hasParameters)
+            try
             {
-                //輸出有型別內容(int,string,...),有參數
-                try
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+
+                SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                //在執行sql指令前異動參數內容
+                if (cmdInfo is IModifyCommandParametersBeforeExecute)
                 {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
+                    ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                }
 
-                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+                LogSql(cmdText, commandParameters);
 
-                    //在執行sql指令前異動參數內容
-                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
-                    {
-                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
-                    }
-
-                    LogSql(cmdText, commandParameters);
-
+                if (hasParameters)
+                {
                     result = (T)SqlHelper.ExecuteScalar(conn, cmdType, cmdText,
                         commandParameters);
-
-                    //取得輸出參數值
-                    if (hasOutputParameters)
-                    {
-                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error("", ex);
-
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return errCode;
-                }
-                finally
-                {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
-                }
-            }
-            else
-            {
-                //輸出有型別內容(int,string,...),無參數
-                try
-                {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
-
-                    LogSql(cmdText, "");
-
                     result = (T)SqlHelper.ExecuteScalar(conn, cmdType, cmdText);
                 }
-                catch (Exception ex)
-                {
-                    Logger.Error("", ex);
 
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    return errCode;
-                }
-                finally
+                //取得輸出參數值
+                if (hasOutputParameters)
                 {
-                    //關閉連線資訊
-                    db.CloseConnection(conn);
+                    UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("", ex);
+
+                //回傳錯誤訊息
+                errMsg = ex.Message;
+                return errCode;
+            }
+            finally
+            {
+                //關閉連線資訊
+                db.CloseConnection(conn);
             }
 
             return result;
@@ -455,74 +386,51 @@ namespace Common.DataAccess
             //動態取得物件的公用欄位
             List<SqlParaInfo> paraInfos = GenerateSqlParaInfos(cmdInfo);
 
-            if (hasParameters)
+            try
             {
-                //輸出DataReader,有參數
-                try
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+
+                SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+
+                //在執行sql指令前異動參數內容
+                if (cmdInfo is IModifyCommandParametersBeforeExecute)
                 {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
+                    ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
+                }
 
-                    SqlParameter[] commandParameters = GenerateCommandParameters(paraInfos);
+                LogSql(cmdText, commandParameters);
 
-                    //在執行sql指令前異動參數內容
-                    if (cmdInfo is IModifyCommandParametersBeforeExecute)
-                    {
-                        ((IModifyCommandParametersBeforeExecute)cmdInfo).ModifyCommandParametersBeforeExecute(commandParameters);
-                    }
-
-                    LogSql(cmdText, commandParameters);
-
+                if (hasParameters)
+                {
                     rdr = SqlHelper.ExecuteReader(conn, cmdType, cmdText,
                         commandParameters);
-
-                    //輸出連線資訊
-                    connOut = conn;
-
-                    //取得輸出參數值
-                    if (hasOutputParameters)
-                    {
-                        UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error("", ex);
+                    rdr = SqlHelper.ExecuteReader(conn, cmdType, cmdText);
+                }
 
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    //失敗時關閉連線
-                    db.CloseConnection(conn);
-                    connOut = null;
-                    return null;
+                //輸出連線資訊
+                connOut = conn;
+
+                //取得輸出參數值
+                if (hasOutputParameters)
+                {
+                    UpdateOutputParameterValuesOfSqlParaInfosFromSqlParameter(paraInfos, cmdInfo);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                //輸出DataReader,無參數
-                try
-                {
-                    //建立連線資訊並開啟連線
-                    conn = db.CreateConnectionInstanceWithOpen();
+                Logger.Error("", ex);
 
-                    LogSql(cmdText, "");
-                    
-                    rdr = SqlHelper.ExecuteReader(conn, cmdType, cmdText);
+                //回傳錯誤訊息
+                errMsg = ex.Message;
+                //失敗時關閉連線
+                db.CloseConnection(conn);
+                connOut = null;
 
-                    //輸出連線資訊
-                    connOut = conn;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error("", ex);
-
-                    //回傳錯誤訊息
-                    errMsg = ex.Message;
-                    //失敗時關閉連線
-                    db.CloseConnection(conn);
-                    connOut = null;
-                    return null;
-                }
+                return null;
             }
 
             return rdr;
@@ -623,6 +531,17 @@ namespace Common.DataAccess
             this.errMsg = errMsg;
         }
 
+        public void SetLogSql(string commandText, params object[] parameterValues)
+        {
+            LogSql(commandText, parameterValues);
+        }
+
+        public void SetLogSql(string commandText, params SqlParameter[] commandParameters)
+        {
+            LogSql(commandText, commandParameters);
+        }
+
         #endregion
+
     }
 }

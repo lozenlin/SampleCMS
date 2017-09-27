@@ -11,8 +11,8 @@ namespace Common.DataAccess.EmployeeAuthority
     public class spEmployee_GetList : IDataAccessCommandInfo, IModifyCommandParametersBeforeExecute
     {
         // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // Output parameter needs attribute [OutputPara]
         public int DeptId;
         public string SearchName;
@@ -58,8 +58,8 @@ namespace Common.DataAccess.EmployeeAuthority
     public class spEmployee_GetDataToLogin : IDataAccessCommandInfo
     {
         // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
         public int defValue = 123;

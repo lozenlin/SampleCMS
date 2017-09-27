@@ -80,6 +80,14 @@ namespace Common.DataAccess
         /// 設定錯誤訊息
         /// </summary>
         void SetErrMsg(string errMsg);
+        /// <summary>
+        /// 記錄送去資料庫的指令和參數值
+        /// </summary>
+        void SetLogSql(string commandText, params object[] parameterValues);
+        /// <summary>
+        /// 記錄送去資料庫的指令和參數值
+        /// </summary>
+        void SetLogSql(string commandText, params SqlParameter[] commandParameters);
     }
 
     /// <summary>
