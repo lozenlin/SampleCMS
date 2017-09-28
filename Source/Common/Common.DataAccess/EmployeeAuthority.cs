@@ -115,6 +115,32 @@ namespace Common.DataAccess.EmployeeAuthority
 
     #endregion
 
+    #region 網頁後端作業選項相關
+
+    /// <summary>
+    /// 用共用元件類別名稱取得後端作業選項資訊
+    /// </summary>
+    public class spOperations_GetOpInfoByCommonClass : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string CommonClass;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "spOperations_GetOpInfoByCommonClass";
+        }
+    }
+
+    #endregion
+
     #region 員工角色後端作業授權相關
 
     /// <summary>
@@ -140,5 +166,8 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    #endregion
+
+    #region emptyTail
     #endregion
 }

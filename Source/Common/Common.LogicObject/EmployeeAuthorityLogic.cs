@@ -13,8 +13,6 @@ namespace Common.LogicObject
     /// </summary>
     public class EmployeeAuthorityLogic
     {
-        #region 授權屬性 Authorizations
-
         /// <summary>
         /// 目標資料的擁有者帳號
         /// </summary>
@@ -35,117 +33,8 @@ namespace Common.LogicObject
         }
         protected int ownerDeptIdOfDataExamined = 0;
 
-        /// <summary>
-        /// 可閱讀該項目
-        /// </summary>
-        public bool CanRead
-        {
-            get { return canRead; }
-        }
-        protected bool canRead = false;
-
-        /// <summary>
-        /// 可修改該項目
-        /// </summary>
-        public bool CanEdit
-        {
-            get { return canEdit; }
-        }
-        protected bool canEdit = false;
-
-        /// <summary>
-        /// 可閱讀自己的子項目
-        /// </summary>
-        public bool CanReadSubItemOfSelf
-        {
-            get { return canReadSubItemOfSelf; }
-        }
-        protected bool canReadSubItemOfSelf = false;
-
-        /// <summary>
-        /// 可修改自己的子項目
-        /// </summary>
-        public bool CanEditSubItemOfSelf
-        {
-            get { return canEditSubItemOfSelf; }
-        }
-        protected bool canEditSubItemOfSelf = false;
-
-        /// <summary>
-        /// 可新增自己的子項目
-        /// </summary>
-        public bool CanAddSubItemOfSelf
-        {
-            get { return canAddSubItemOfSelf; }
-        }
-        protected bool canAddSubItemOfSelf = false;
-
-        /// <summary>
-        /// 可刪除自己的子項目
-        /// </summary>
-        public bool CanDelSubItemOfSelf
-        {
-            get { return canDelSubItemOfSelf; }
-        }
-        protected bool canDelSubItemOfSelf = false;
-
-        /// <summary>
-        /// 可閱讀同部門的子項目
-        /// </summary>
-        public bool CanReadSubItemOfCrew
-        {
-            get { return canReadSubItemOfCrew; }
-        }
-        protected bool canReadSubItemOfCrew = false;
-
-        /// <summary>
-        /// 可修改同部門的子項目
-        /// </summary>
-        public bool CanEditSubItemOfCrew
-        {
-            get { return canEditSubItemOfCrew; }
-        }
-        protected bool canEditSubItemOfCrew = false;
-
-        /// <summary>
-        /// 可刪除同部門的子項目
-        /// </summary>
-        public bool CanDelSubItemOfCrew
-        {
-            get { return canDelSubItemOfCrew; }
-        }
-        protected bool canDelSubItemOfCrew = false;
-
-        /// <summary>
-        /// 可閱讀任何人的子項目
-        /// </summary>
-        public bool CanReadSubItemOfOthers
-        {
-            get { return canReadSubItemOfOthers; }
-        }
-        protected bool canReadSubItemOfOthers = false;
-
-        /// <summary>
-        /// 可修改任何人的子項目
-        /// </summary>
-        public bool CanEditSubItemOfOthers
-        {
-            get { return canEditSubItemOfOthers; }
-        }
-        protected bool canEditSubItemOfOthers = false;
-
-        /// <summary>
-        /// 可刪除任何人的子項目
-        /// </summary>
-        public bool CanDelSubItemOfOthers
-        {
-            get { return canDelSubItemOfOthers; }
-        }
-        protected bool canDelSubItemOfOthers = false;
-
-        #endregion
-
-        protected IDataAccessSource db;
+        protected IAuthenticationConditionProvider authCondition;
+        protected EmployeeAuthorizations authorizations = null;
         /// <summary>
         /// 為作業項目中的最上層頁面
         /// </summary>
@@ -159,8 +48,10 @@ namespace Common.LogicObject
         /// <summary>
         /// 帳號與權限
         /// </summary>
-        public EmployeeAuthorityLogic(IAuthenticationConditionProvider authCondition, IDataAccessSource db)
+        public EmployeeAuthorityLogic(IAuthenticationConditionProvider authCondition)
         {
+            this.authCondition = authCondition;
+            this.authorizations = new EmployeeAuthorizations();
             opIdOfPage = authCondition.GetOpIdOfPage();
             empAccount = authCondition.GetEmpAccount();
             roleName = authCondition.GetRoleName();
@@ -191,8 +82,18 @@ namespace Common.LogicObject
         {
             this.isTopPageOfOperation = isTopPageOfOperation;
 
+            if (authCondition is ICustomEmployeeAuthorizationResult)
+            {
+                //自訂帳號授權結果
+                EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = ((ICustomEmployeeAuthorizationResult)authCondition).InitialAuthorizationResult(isTopPageOfOperation);
+                ownerAccountOfDataExamined = authAndOwner.OwnerAccountOfDataExamined;
+                ownerDeptIdOfDataExamined = authAndOwner.OwnerDeptIdOfDataExamined;
+                this.authorizations = authAndOwner;
+                return;
+            }
+
             //取得指定作業代碼的後端角色可使用權限
-            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(db);
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployeeRoleOperationsDesc_GetDataOfOp cmdInfo = new spEmployeeRoleOperationsDesc_GetDataOfOp()
             {
                 OpId = opIdOfPage,
@@ -213,21 +114,21 @@ namespace Common.LogicObject
             if (isRoleAdmin)
             {
                 //管理者,權限最大
-                canRead = true;
-                canEdit = true;
+                authorizations.CanRead = true;
+                authorizations.CanEdit = true;
 
-                canReadSubItemOfSelf = true;
-                canEditSubItemOfSelf = true;
-                canAddSubItemOfSelf = true;
-                canDelSubItemOfSelf = true;
+                authorizations.CanReadSubItemOfSelf = true;
+                authorizations.CanEditSubItemOfSelf = true;
+                authorizations.CanAddSubItemOfSelf = true;
+                authorizations.CanDelSubItemOfSelf = true;
 
-                canReadSubItemOfCrew = true;
-                canEditSubItemOfCrew = true;
-                canDelSubItemOfCrew = true;
+                authorizations.CanReadSubItemOfCrew = true;
+                authorizations.CanEditSubItemOfCrew = true;
+                authorizations.CanDelSubItemOfCrew = true;
 
-                canReadSubItemOfOthers = true;
-                canEditSubItemOfOthers = true;
-                canDelSubItemOfOthers = true;
+                authorizations.CanReadSubItemOfOthers = true;
+                authorizations.CanEditSubItemOfOthers = true;
+                authorizations.CanDelSubItemOfOthers = true;
             }
             else
             {
@@ -237,21 +138,21 @@ namespace Common.LogicObject
                 DataRow drRoleOp = dsRoleOp.Tables[0].Rows[0];
 
                 //載入設定
-                canRead = Convert.ToBoolean(drRoleOp["CanRead"]);
-                canEdit = Convert.ToBoolean(drRoleOp["CanEdit"]);
+                authorizations.CanRead = Convert.ToBoolean(drRoleOp["CanRead"]);
+                authorizations.CanEdit = Convert.ToBoolean(drRoleOp["CanEdit"]);
 
-                canReadSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanReadSubItemOfSelf"]);
-                canEditSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanEditSubItemOfSelf"]);
-                canAddSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanAddSubItemOfSelf"]);
-                canDelSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanDelSubItemOfSelf"]);
+                authorizations.CanReadSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanReadSubItemOfSelf"]);
+                authorizations.CanEditSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanEditSubItemOfSelf"]);
+                authorizations.CanAddSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanAddSubItemOfSelf"]);
+                authorizations.CanDelSubItemOfSelf = Convert.ToBoolean(drRoleOp["CanDelSubItemOfSelf"]);
 
-                canReadSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanReadSubItemOfCrew"]);
-                canEditSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanEditSubItemOfCrew"]);
-                canDelSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanDelSubItemOfCrew"]);
+                authorizations.CanReadSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanReadSubItemOfCrew"]);
+                authorizations.CanEditSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanEditSubItemOfCrew"]);
+                authorizations.CanDelSubItemOfCrew = Convert.ToBoolean(drRoleOp["CanDelSubItemOfCrew"]);
 
-                canReadSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanReadSubItemOfOthers"]);
-                canEditSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanEditSubItemOfOthers"]);
-                canDelSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanDelSubItemOfOthers"]);
+                authorizations.CanReadSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanReadSubItemOfOthers"]);
+                authorizations.CanEditSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanEditSubItemOfOthers"]);
+                authorizations.CanDelSubItemOfOthers = Convert.ToBoolean(drRoleOp["CanDelSubItemOfOthers"]);
             }
 
             return true;
@@ -266,21 +167,21 @@ namespace Common.LogicObject
 
             if (isTopPageOfOperation)
             {
-                result = canRead;
+                result = authorizations.CanRead;
             }
             else
             {
-                if (canReadSubItemOfOthers)
+                if (authorizations.CanReadSubItemOfOthers)
                 {
                     result = true;
                 }
-                else if (CanReadSubItemOfCrew
+                else if (authorizations.CanReadSubItemOfCrew
                     && deptId > 0
                     && deptId == ownerDeptIdOfDataExamined)
                 {
                     result = true;
                 }
-                else if (canReadSubItemOfSelf 
+                else if (authorizations.CanReadSubItemOfSelf 
                     && empAccount != "" 
                     && empAccount == ownerAccountOfDataExamined)
                 {
@@ -308,21 +209,21 @@ namespace Common.LogicObject
 
             if (useTopRule)
             {
-                result = CanEdit;
+                result = authorizations.CanEdit;
             }
             else
             {
-                if (CanEditSubItemOfOthers)
+                if (authorizations.CanEditSubItemOfOthers)
                 {
                     result = true;
                 }
-                else if (CanEditSubItemOfCrew
+                else if (authorizations.CanEditSubItemOfCrew
                     && deptId > 0
                     && deptId == ownerDeptIdOfDataExamined)
                 {
                     result = true;
                 }
-                else if (CanEditSubItemOfSelf
+                else if (authorizations.CanEditSubItemOfSelf
                     && empAccount != ""
                     && empAccount == ownerAccountOfDataExamined)
                 {
@@ -340,17 +241,17 @@ namespace Common.LogicObject
         {
             bool result = false;
 
-            if (CanDelSubItemOfOthers)
+            if (authorizations.CanDelSubItemOfOthers)
             {
                 result = true;
             }
-            else if (CanDelSubItemOfCrew
+            else if (authorizations.CanDelSubItemOfCrew
                 && deptId > 0
                 && deptId == ownerDeptIdOfDataExamined)
             {
                 result = true;
             }
-            else if (CanDelSubItemOfSelf
+            else if (authorizations.CanDelSubItemOfSelf
                 && empAccount != ""
                 && empAccount == ownerAccountOfDataExamined)
             {
@@ -360,5 +261,12 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 檢查是否可在此頁面新增子項目
+        /// </summary>
+        public virtual bool CanAddSubItemInThisPage()
+        {
+            return authorizations.CanAddSubItemOfSelf;
+        }
     }
 }

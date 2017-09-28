@@ -31,4 +31,12 @@ namespace Common.LogicObject
         /// </summary>
         int GetDeptId();
     }
+
+    /// <summary>
+    /// 自訂帳號授權結果
+    /// </summary>
+    public interface ICustomEmployeeAuthorizationResult
+    {
+        EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation);
+    }
 }

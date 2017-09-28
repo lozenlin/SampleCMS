@@ -1,6 +1,7 @@
 /Source/Root/Web.config
 /Source/Management/Web.config
 *.suo
+*.user
 /Source/Common/Microsoft.ApplicationBlocks.Data/bin
 /Source/Common/Microsoft.ApplicationBlocks.Data/doc
 /Source/Common/Microsoft.ApplicationBlocks.Data/obj
@@ -13,5 +14,6 @@
 /Source/Management/Bin/Common.DataAccess.pdb
 /Source/Management/Bin/Common.DataAccess.XML
 /Source/Management/Bin/Common.DataAccess.dll
-*.user
+/Source/Management/Bin/Common.LogicObject.dll
+/Source/Management/Bin/Common.LogicObject.pdb
 /Source/Logs

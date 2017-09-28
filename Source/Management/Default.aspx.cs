@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Common.DataAccess;
 using Common.DataAccess.EmployeeAuthority;
 using System.Data;
+using Common.LogicObject;
 
 public partial class _Default : System.Web.UI.Page
 {

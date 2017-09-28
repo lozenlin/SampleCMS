@@ -218,6 +218,31 @@ end
 go
 
 ----------------------------------------------------------------------------
+-- 網頁後端作業選項相關
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/09/28>
+-- Description: <用共用元件類別名稱取得後端作業選項資訊>
+-- Test:
+/*
+exec dbo.spOperations_GetOpInfoByCommonClass ''
+*/
+-- =============================================
+create procedure dbo.spOperations_GetOpInfoByCommonClass
+@CommonClass varchar(100)
+as
+begin
+	select top 1
+		o.OpId
+	from dbo.Operations o
+	where o.CommonClass=@CommonClass
+end
+go
+
+----------------------------------------------------------------------------
 -- 員工角色後端作業授權相關
 ----------------------------------------------------------------------------
 go

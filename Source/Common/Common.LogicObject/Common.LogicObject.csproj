@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackendPageCommon.cs" />
+    <Compile Include="DBs.cs" />
     <Compile Include="EmployeeAuthorityLogic.cs" />
+    <Compile Include="EmployeeAuthorizations.cs" />
     <Compile Include="FrontendPageCommon.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="PageCommon.cs" />
