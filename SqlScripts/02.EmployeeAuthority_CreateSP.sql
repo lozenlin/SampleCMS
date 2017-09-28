@@ -217,6 +217,34 @@ begin
 end
 go
 
+----------------------------------------------------------------------------
+-- 員工角色後端作業授權相關
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/09/28>
+-- Description: <取得指定作業代碼的後端角色可使用權限>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRoleOperationsDesc_GetDataOfOp
+@RoleName nvarchar(20),
+@OpId int
+as
+begin
+	select 
+		ro.CanRead, ro.CanEdit, ro.CanReadSubItemOfSelf, 
+		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
+		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
+		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers
+	from dbo.EmployeeRoleOperationsDesc ro
+	where RoleName=@RoleName and OpId=@OpId
+end
+go
+
 
 
 /*
@@ -227,7 +255,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/09/25>
+-- Create date: <2017/09/28>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

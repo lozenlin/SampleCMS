@@ -51,6 +51,7 @@
     <Compile Include="BackendPageCommon.cs" />
     <Compile Include="EmployeeAuthorityLogic.cs" />
     <Compile Include="FrontendPageCommon.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="PageCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
