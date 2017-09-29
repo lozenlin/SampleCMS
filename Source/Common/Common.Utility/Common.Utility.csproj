@@ -51,9 +51,11 @@
     <Compile Include="AesUtility.cs" />
     <Compile Include="DesUtility.cs" />
     <Compile Include="HashUtility.cs" />
+    <Compile Include="HtmlTextHandler.cs" />
     <Compile Include="LangUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RNG.cs" />
+    <Compile Include="StringUtility.cs" />
     <Compile Include="XmlUtility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
