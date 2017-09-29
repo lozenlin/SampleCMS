@@ -39,6 +39,7 @@
       <HintPath>..\log4net-1.2.10\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +55,7 @@
     <Compile Include="EmployeeAuthorizations.cs" />
     <Compile Include="FrontendPageCommon.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="LangManager.cs" />
     <Compile Include="PageCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
