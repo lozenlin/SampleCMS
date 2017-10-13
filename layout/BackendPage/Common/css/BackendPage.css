@@ -1,0 +1,71 @@
+﻿.bgtx-main {
+    background-color:transparent !important;
+    background-image:url('../../BPimages/pxs_aplpha90diamond.png');
+}
+
+.bgtx-glass {
+    background-color:transparent !important;
+    background-image:url('../../BPimages/pxs_alpha90mix.png');
+}
+
+.bgtx-glass-snow {
+    background-color:transparent !important;
+    background-image:url('../../BPimages/pxs_alpha90snow.png');
+}
+
+/* Login Page */
+.login-body {
+    /* 漸層桌面 */
+    background-color:#4f7cb0;
+    background: linear-gradient(to bottom, rgba(11,88,170,1) 38%,rgba(149,192,219,1) 100%);
+    background-attachment: fixed;
+    
+    /* 材質桌面
+    background-color:gray;
+    background-image:url('../../BPimages/charcoal_gray.jpg');
+     */
+    
+    /* 固定桌面圖
+    background-color:#4f7cb0;
+    background-image: url('../../BPimages/PsJeremy_StarryNight_fhd_blur30.jpg');
+    background-size: 100% auto;
+    background-position: left top;
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+     */
+}
+
+    .login-body .photo-author {
+        position:absolute;
+        bottom:5px;
+        right:5px;
+        color:#ccc;
+        font: normal 10px verdana; 
+        -webkit-transform:scale(0.85) translateX(16px);
+        -moz-transform:scale(0.90) translateX(13px);
+    }
+
+.LoginFormContainer {
+    max-width:600px;
+}
+
+.LoginWell {
+}
+
+.Signboard {
+}
+
+.SignboardText {
+    font-weight:normal;
+    text-shadow:2px 2px #ccc;
+}
+
+.SignboardLine {
+    border-top-color:#6fa49e;
+    border-bottom-color:#eee;
+}
+
+.LoginForm {
+    box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    font-size:87.5%;
+}
