@@ -112,6 +112,22 @@
     padding: 0.333rem;
 }
 
+.content-divider {
+    margin:10px 0;
+    border-top-color:#6fa49e;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-subject {
+    color:#999;
+    font-weight:bold;
+}
+
+.footer-container {
+    text-align:right;
+    text-shadow:0 1px 0 #fff;
+}
+
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */
     .main-body {
