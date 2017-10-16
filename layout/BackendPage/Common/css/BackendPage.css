@@ -13,6 +13,16 @@
     background-image:url('../../BPimages/pxs_alpha90snow.png');
 }
 
+.text-smaller80 {
+    font-size:0.8em;
+}
+
+.content-divider {
+    margin:10px 0;
+    border-top-color:#6fa49e;
+    border-bottom: 1px solid #eee;
+}
+
 /* Login Page */
 .login-body {
     /* 漸層桌面 */
@@ -112,17 +122,59 @@
     padding: 0.333rem;
 }
 
-.content-divider {
-    margin:10px 0;
-    border-top-color:#6fa49e;
-    border-bottom: 1px solid #eee;
-}
-
+/* Sidebar */
 .panel-subject {
     color:#999;
     font-weight:bold;
 }
 
+.sidebar-menu {
+}
+
+    .sidebar-menu .items-group {
+        margin-bottom: 2px;
+        padding: 15px;
+        text-shadow:0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    .sidebar-menu .item-header {
+        padding:3px 0;
+        font-weight:bold;
+        border-bottom:1px solid #6fa49e;
+        border-radius:0;
+    }
+
+        .sidebar-menu .item-header.active, .sidebar-menu .item-header.active:hover {
+            color:#0056b3;
+            background-color:#def5f2;
+            border-top-left-radius:5px;
+            border-top-right-radius:5px;
+        }
+
+    .sidebar-menu .item {
+        padding-top:3px;
+        padding-bottom:3px;
+        border-radius:0;
+    }
+
+        .sidebar-menu .item-header:hover, .sidebar-menu .item:hover, .sidebar-menu .branch:hover {
+            background-color:#eee;
+        }
+
+        .sidebar-menu .item.active:hover, .sidebar-menu .branch.active:hover {
+            background-color:#007bff;
+        }
+
+    .sidebar-menu .branch-list {
+        padding-left:15px;
+    }
+
+    .sidebar-menu .branch {
+        padding:3px 1rem;
+        border-radius:0;
+    }
+
+/* Footer */
 .footer-container {
     text-align:right;
     text-shadow:0 1px 0 #fff;
