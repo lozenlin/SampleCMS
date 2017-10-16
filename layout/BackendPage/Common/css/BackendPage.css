@@ -80,7 +80,7 @@
     font-size:87.5%;
 }
 
-/* Main page */
+/* Main frame */
 .main-body {
     font-size:87.5%;
     margin-top:4rem;
@@ -119,7 +119,7 @@
 }
 
 .sidebar-container, .content-container {
-    padding: 0.333rem;
+    padding: 6px;
 }
 
 /* Sidebar */
@@ -173,6 +173,15 @@
         padding:3px 1rem;
         border-radius:0;
     }
+
+/* Main content */
+.sys-subtitle {
+    padding:5px 5px 5px 15px;
+    background-color:#fff;
+    border-left: 5px solid #6fa49e;
+    margin-bottom:5px;
+    border-radius: 0 .25rem .25rem 0;
+}
 
 /* Footer */
 .footer-container {
