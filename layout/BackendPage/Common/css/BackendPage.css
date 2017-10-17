@@ -1,8 +1,4 @@
-﻿html {
-    font-size:87.5%;
-}
-
-.bgtx-main {
+﻿.bgtx-main {
     background-color:transparent !important;
     background-image:url('../../BPimages/pxs_aplpha90diamond.png');
 }
@@ -180,10 +176,11 @@
 .sys-subtitle {
     padding:5px 5px 5px 15px;
     background-color:#fff;
-    border:1px solid rgba(0, 0, 0, 0.125);
+    /*border:1px solid rgba(0, 0, 0, 0.125);*/
     border-left: 5px solid #6fa49e;
     margin-bottom:5px;
     border-radius: 0 .25rem .25rem 0;
+    font-size:0.95rem;
 }
 
 .main-subject {
@@ -193,7 +190,7 @@
 }
 
 .sys-info {
-    border:1px solid rgba(0, 0, 0, 0.125);
+    /*border:1px solid rgba(0, 0, 0, 0.125);*/
     border-radius:0.25rem;
     padding:2px 5px;
     text-align:right;
@@ -207,8 +204,11 @@
 
 .sys-conditions {
     padding:5px;
-    font-size:0.8em;
 }
+
+    .sys-conditions .form-row {
+        margin-bottom:5px;
+    }
 
 /* Footer */
 .footer-container {

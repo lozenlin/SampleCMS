@@ -164,16 +164,16 @@
                         <hr class="content-divider" />
                         <ul class="sys-info list-inline">
                             <li class="list-inline-item">
-                                <span class="badge badge-secondary">有效日期: 2010-07-26 ~ 2020-07-26</span>
+                                <span class="badge badge-secondary font-weight-normal">有效日期: 2010-07-26 ~ 2020-07-26</span>
                             </li>
                             <li class="list-inline-item">
-                                <span class="badge badge-secondary">更新人員: 管理者</span>
+                                <span class="badge badge-secondary font-weight-normal">更新人員: 管理者</span>
                             </li>
                             <li class="list-inline-item">
-                                <span class="badge badge-secondary">更新日期: 2014-12-29</span>
+                                <span class="badge badge-secondary font-weight-normal">更新日期: 2014-12-29</span>
                             </li>
                             <li class="list-inline-item">
-                                <span class="badge badge-secondary">頁面屬性: <a href="#">超連結</a></span>
+                                <span class="badge badge-secondary font-weight-normal">頁面屬性: <a href="#">超連結</a></span>
                             </li>
                         </ul>
                         <div class="sys-subtitle">
@@ -181,19 +181,42 @@
                         </div>
                         <div class="sys-subtitle">
                             搜尋條件
-                            <div class="card">
-                                <div class="card-body sys-conditions">
+                            <div class="card bg-light">
+                                <div class="card-body sys-conditions pr-md-5">
                                     <div class="form-group form-row">
                                         <label for="txtKw" class="col-md-2 col-form-label text-md-right">名稱</label>
                                         <div class="col-md-4">
                                             <input id="txtKw" type="text" class="form-control" />
                                         </div>
-                                        <label for="Text1" class="col-md-2 col-form-label text-md-right">名稱</label>
+                                        <label class="col-md-2 col-form-label text-md-right">名稱</label>
                                         <div class="col-md-4">
                                             <input id="Text1" type="text" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group form-row">
+                                        <label class="col-md-2 col-form-label text-md-right">商品編號</label>
+                                        <div class="col-md-4">
+                                            <input id="Text2" type="text" class="form-control" />
+                                        </div>
+                                        <label class="col-md-2 col-form-label text-md-right">標題</label>
+                                        <div class="col-md-4">
+                                            <input id="Text3" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-4">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" id="chk" type="checkbox" name="chk"/> 已確認
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">
+                                            <a id="btnSearch" href="#" class="btn btn-outline-secondary text-dark"><i class="fa fa-search"></i> 查詢</a>
+                                            <a id="btnClear" href="#" class="btn btn-link btn-sm">清除條件</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
