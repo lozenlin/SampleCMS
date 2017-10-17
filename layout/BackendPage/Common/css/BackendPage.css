@@ -1,4 +1,8 @@
-﻿.bgtx-main {
+﻿html {
+    font-size:87.5%;
+}
+
+.bgtx-main {
     background-color:transparent !important;
     background-image:url('../../BPimages/pxs_aplpha90diamond.png');
 }
@@ -77,12 +81,10 @@
 
 .LoginForm {
     box-shadow: 0 3px 7px rgba(0,0,0,0.3);
-    font-size:87.5%;
 }
 
 /* Main frame */
 .main-body {
-    font-size:87.5%;
     margin-top:4rem;
 
     /* 漸層桌面 */
@@ -178,6 +180,7 @@
 .sys-subtitle {
     padding:5px 5px 5px 15px;
     background-color:#fff;
+    border:1px solid rgba(0, 0, 0, 0.125);
     border-left: 5px solid #6fa49e;
     margin-bottom:5px;
     border-radius: 0 .25rem .25rem 0;
@@ -187,6 +190,24 @@
     padding:9px;
     font-weight:bold;
     flex-direction:row;
+}
+
+.sys-info {
+    border:1px solid rgba(0, 0, 0, 0.125);
+    border-radius:0.25rem;
+    padding:2px 5px;
+    text-align:right;
+    background-color:#fff;
+    margin: 5px 0;
+}
+
+        .sys-info a, .sys-info a:hover {
+            color: skyblue;
+        }
+
+.sys-conditions {
+    padding:5px;
+    font-size:0.8em;
 }
 
 /* Footer */
