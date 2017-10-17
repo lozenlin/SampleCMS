@@ -35,7 +35,7 @@
             </ul>
         </header>
         <div class="container-fluid">
-            <div id="ErrorMsgArea" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div id="ErrorMsgArea" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -141,35 +141,28 @@
                 </div>
                 <div class="col-md-9">
                     <div class="content-container rounded bgtx-main">
-                        <div class="sys-subtitle">
-                            <i class="fa fa-info-circle"></i> 訊息 Information
+                        <nav class="breadcrumb">
+                            <a href="#" class="breadcrumb-item">首頁</a>
+                            <span class="breadcrumb-item active">主要資料</span>
+                            <a href="#" class="breadcrumb-item">網站管理</a>
+                            <span class="breadcrumb-item active">主要資料 ( 2 )</span>
+                        </nav>
+                        <h5 class="card main-subject text-info">
+                            <img src="BPimages/icon/data.gif" id="imgHead" border="0" align="absMiddle" alt="帳號管理" style="width:24px; height:24px;"/> 主要資料 ( 2 )
+                        </h5>
+                        <div class="sys-controllers">
+                            <a href="#" class="btn btn-sm btn-info"><i class="fa fa-level-up fa-flip-horizontal"></i> 回上層</a>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                                <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 新增</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-light"><i class="fa fa-eye"></i> 預覽(中)</a>
+                                <a href="#" class="btn btn-sm btn-light"><i class="fa fa-eye"></i> (Eng)</a>
+                            </div>
                         </div>
-                        <div>
-                            <h6 class="text-info font-weight-bold my-3">您已成功登入後端管理系統！</h6>
-                            登入資訊:
-                            <table class="table table-bordered table-sm bg-white">
-                                <tbody>
-                                    <tr>
-                                        <th class="w-25">帳　號</th>
-                                        <td>
-                                            Account name
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>日　期</th>
-                                        <td>
-                                            2017-10-16 21:23
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>IP 位置</th>
-                                        <td>
-                                            127.0.0.1
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <hr class="content-divider" />
+
                     </div>
                 </div>
             </div>

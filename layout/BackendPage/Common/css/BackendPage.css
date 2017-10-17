@@ -183,6 +183,12 @@
     border-radius: 0 .25rem .25rem 0;
 }
 
+.main-subject {
+    padding:9px;
+    font-weight:bold;
+    flex-direction:row;
+}
+
 /* Footer */
 .footer-container {
     text-align:right;
