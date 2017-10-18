@@ -214,13 +214,275 @@
                                     <div class="form-group form-row">
                                         <div class="col-md-2"></div>
                                         <div class="col-md-10">
-                                            <a id="btnSearch" href="#" class="btn btn-outline-secondary text-dark"><i class="fa fa-search"></i> 查詢</a>
+                                            <a id="btnSearch" href="#" class="btn btn-light border-secondary"><i class="fa fa-search"></i> 查詢</a>
                                             <a id="btnClear" href="#" class="btn btn-link btn-sm">清除條件</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!--子項目清單-->
+                        <table class="table table-responsive table-bordered table-sm table-striped table-hover bg-white subitem-list">
+                            <thead>
+                                <tr>
+                                    <th title="序號" style="width:3%">&nbsp;</th>
+                                    <th title="調整順序" style="width:6%" colspan="2">順序</th>
+                                    <th title="名稱">
+                                        <a href="#">名稱<span class="fa fa-chevron-up text-dark"></span></a>
+                                    </th>
+                                    <th title="語言" style="width:14%">語言</th>
+                                    <th title="排序編號" style="width:10%">
+                                        <a href="#">排序編號</a>
+                                    </th>
+                                    <th title="狀態" style="width:4%">狀態</th>
+                                    <th title="上架日期" style="width:13%">
+                                        <a href="#">上架日期</a>
+                                    </th>
+                                    <th title="部門" style="width:9%">
+                                        <a href="#">部門</a>
+                                    </th>
+                                    <th title="管理功能" style="width:20%">管理功能</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                                <tr class="table-danger">
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-ban fa-lg text-danger" title="offline"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-hourglass-start fa-lg text-info" title="on schedule"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-ban fa-lg text-danger" title="offline"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="#" title="往下">
+                                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="往上">
+                                            <span class="fa fa-arrow-up fa-lg text-primary"></span></a>
+                                    </td>
+                                    <td>
+                                        <a href="#">子項目</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">中</span>
+                                        <span class="badge badge-info">Eng</span>
+                                        <span class="badge badge-secondary">日</span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>
+                                        <span class="fa fa-hourglass-start fa-lg text-info" title="on schedule"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="small">2017-10-18</a>
+                                    </td>
+                                    <td>
+                                        <span class="small">部門名稱</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o fa-lg"></i> 修改</a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o fa-lg"></i> 刪除</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <ul class="pagination justify-content-center">
+                                <li class="">
+                                    共 10 筆
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">第一頁</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link" title="上一頁">«</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">1</a>
+                                </li>
+                                <li class="page-item active">
+                                    <a href="#" class="page-link">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">4</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">5</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link" title="下一頁">»</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">最後頁</a>
+                                </li>
+                                <li>
+                                    <a href="#">最後頁</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr class="content-divider" />
 
                     </div>
                 </div>
