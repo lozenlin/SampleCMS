@@ -51,3 +51,8 @@ input[type="checkbox"] {
     .form-check-label > .form-check-input {
         vertical-align:top;
     }
+
+.page-link {
+    min-width:3rem;
+    text-align:center;
+}

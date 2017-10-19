@@ -210,6 +210,10 @@
         margin-bottom:5px;
     }
 
+.PageArea .text {
+    padding:0.5rem 0.5rem 0.5rem 0;
+}
+
 /* Footer */
 .footer-container {
     text-align:right;

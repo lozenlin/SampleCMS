@@ -214,7 +214,7 @@
                                     <div class="form-group form-row">
                                         <div class="col-md-2"></div>
                                         <div class="col-md-10">
-                                            <a id="btnSearch" href="#" class="btn btn-light border-secondary"><i class="fa fa-search"></i> 查詢</a>
+                                            <a id="btnSearch" href="#" class="btn btn-primary"><i class="fa fa-search"></i> 查詢</a>
                                             <a id="btnClear" href="#" class="btn btn-link btn-sm">清除條件</a>
                                         </div>
                                     </div>
@@ -445,14 +445,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div>
-                            <ul class="pagination justify-content-center">
-                                <li class="">
-                                    共 10 筆
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">第一頁</a>
-                                </li>
+                        <div class="PageArea d-flex flex-md-row flex-column justify-content-center">
+                            <div class="text">
+                                共 10 筆 | <a href="#">第一頁</a> |
+                            </div>
+                            <ul class="pagination">
                                 <li class="page-item">
                                     <a href="#" class="page-link" title="上一頁">«</a>
                                 </li>
@@ -474,15 +471,34 @@
                                 <li class="page-item disabled">
                                     <a href="#" class="page-link" title="下一頁">»</a>
                                 </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">最後頁</a>
-                                </li>
-                                <li>
-                                    <a href="#">最後頁</a>
-                                </li>
                             </ul>
+                            <div class="text pl-md-2">
+                                | <a href="#">最後頁</a> | 頁次 : 1/5 頁
+                            </div>
+                            <div class="text">
+                                | 跳至
+                                <select>
+                                    <option>- 1 -</option>
+                                    <option>- 2 -</option>
+                                    <option>- 3 -</option>
+                                </select>
+                                <span class="d-none">
+                                    <input id="txtPageCode" type="text" style="width:3rem;" title="輸入頁碼後可按 Enter 送出" />
+                                    <a href="#" class="btn btn-sm btn-success">執行跳頁</a>
+                                </span>
+                            </div>
                         </div>
+
                         <hr class="content-divider" />
+                        <div class="sys-subtitle container-fluid">
+                            <div class="row">
+                                <div class="col-sm-2">附件檔案</div>
+                                <div class="col-sm-2">
+                                    <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-upload"></i> 上傳</a>
+                                </div>
+                            </div>
+                            
+                        </div>
 
                     </div>
                 </div>
@@ -501,6 +517,7 @@
     <script src="Common/js/BackendPage.js"></script>
     <script>
         $(".main-navbar").tooltip();
+        $("#txtPageCode").tooltip();
     </script>
 </body>
 </html>
