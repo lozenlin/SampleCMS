@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title></title>
+    <link href="Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
+    <link href="Common/css/BpBootstrapChanged.css" rel="stylesheet" />
+    <link href="Common/css/BackendPage.css" rel="stylesheet" />
+    <link href="Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/themes/south-street/jquery-ui.min.css" rel="stylesheet" />
+</head>
+<body class="config-body">
+    <form id="form1">
+        <div class="config-area bgtx-main">
+            <div class="sys-subtitle">
+                基本資料
+            </div>
+            <table class="table table-responsive-md table-bordered table-striped table-hover table-sm bg-white config-list">
+                <tbody>
+                    <tr>
+                        <th style="width:15%;"><span class="required-symbol">排序編號</span></th>
+                        <td colspan="3">
+                            <input type="text" style="width:5rem;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="required-symbol">有效日期</span></th>
+                        <td colspan="3">
+                            <input type="text" class="datepicker" value="2017-10-23" />
+                            &nbsp;~&nbsp;
+                            <input type="text" class="datepicker" value="2018-10-23" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="required-symbol">姓名</span></th>
+                        <td>
+                            <input type="text" style="width:90%;" />
+                        </td>
+                        <th><span class="required-symbol">帳號</span></th>
+                        <td>
+                            <input type="text" style="width:90%;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="required-symbol">密碼</span></th>
+                        <td colspan="3">
+                            <input type="password" style="width:15rem;" /> <a href="#" class="btn btn-sm btn-info"><i class="fa fa-refresh"></i> 重新產生亂數密碼</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>部門</th>
+                        <td colspan="3">
+                            <select>
+                                <option value="">(無)</option>
+                                <option value="1">第一部門</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>選擇圖檔</th>
+                        <td colspan="3">
+                            <input type="text" style="width:15rem;" /> <a href="#" class="btn btn-sm btn-secondary"><i class="fa fa-folder-open"></i> 瀏覽</a>
+                            <div>(請將圖檔放至網站目錄[ images/(語言編號) ]中)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>語言版本</th>
+                        <td colspan="3">
+                            <input type="checkbox" id="isZhTw" checked="checked" /><label for="isZhTw">中</label>&nbsp;
+                            <input type="checkbox" id="isEn" checked="checked" /><label for="isEn">Eng</label>&nbsp;
+                            <input type="checkbox" id="isJa" /><label for="isJa">日</label>&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr class="content-divider" />
+            <div class="sys-subtitle">
+                頁面設定
+            </div>
+            <table class="table table-responsive-md table-bordered table-striped table-hover table-sm bg-white config-list">
+                <tbody>
+                    <tr>
+                        <th style="width:15%;"><span class="">版面設定</span></th>
+                        <td colspan="3">
+                            <span id="rdolLayout" class="">
+                                <input id="rdolLayout_0" type="radio" name="rdolLayout" value="1" checked="checked" /><label for="rdolLayout_0">全版　</label>
+                                <input id="rdolLayout_1" type="radio" name="rdolLayout" value="2" /><label for="rdolLayout_1">兩欄式　</label>
+                                <input id="rdolLayout_2" type="radio" name="rdolLayout" value="3"/><label for="rdolLayout_2">三欄式　</label>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="table-warning">
+                        <th>禁止刪除</th>
+                        <td colspan="3">
+                            <input type="checkbox" id="chkDontDelete" /><label for="chkDontDelete">隱藏刪除鈕</label>&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr class="content-divider" />
+            <div class="sys-subtitle">
+                內文編輯
+            </div>
+
+        </div>
+        <div class="config-actions">
+            <a href="#" class="btn btn-success"><i class="fa fa-check-circle"></i> 儲 存</a>
+            <a href="#" class="btn btn-light">取 消</a>
+        </div>
+    </form>
+
+    <script src="Common/js/jquery-3.2.1.min.js"></script>
+    <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+    <script src="Common/js/popper.min.js"></script>
+    <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="Common/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js"></script>
+    <script>
+        //設定所有日期選擇小工具
+        $(".datepicker").datepicker({
+            showOn: 'both',
+            buttonImage: 'BPimages/icon/calendar.png',
+            buttonImageOnly: true,
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: false,
+            showButtonPanel: true
+        });
+
+    </script>
+</body>
+</html>
