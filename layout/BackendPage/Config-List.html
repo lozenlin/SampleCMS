@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title></title>
+    <link href="Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
+    <link href="Common/css/BpBootstrapChanged.css" rel="stylesheet" />
+    <link href="Common/css/BackendPage.css" rel="stylesheet" />
+    <link href="Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/themes/south-street/jquery-ui.min.css" rel="stylesheet" />
+</head>
+<body class="config-body">
+    <form id="form1">
+        <div class="config-area bgtx-main">
+            <div class="sys-subtitle">
+                搜尋條件
+                <div class="card bg-light">
+                    <div class="card-body sys-conditions pr-md-5">
+                        <div class="form-group form-row">
+                            <label for="txtKw" class="col-md-2 col-form-label text-md-right">關鍵字</label>
+                            <div class="col-md-4">
+                                <input id="txtKw" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <a id="btnSearch" href="#" class="btn btn-secondary"><i class="fa fa-search"></i> 查詢</a>
+                                <a id="btnClear" href="#" class="btn btn-link btn-sm">清除條件</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sys-subtitle container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">照片集</div>
+                    <div class="col-sm-2">
+                        <a href="#" class="btn btn-sm btn-secondary"><i class="fa fa-upload"></i> 上傳</a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-responsive-md table-bordered table-sm table-striped table-hover bg-white subitem-list">
+                <thead>
+                    <tr>
+                        <th title="序號" style="width:3%">&nbsp;</th>
+                        <th title="照片" style="width:20%">照片</th>
+                        <th title="代碼" style="width:8%">代碼</th>
+                        <th title="名稱">
+                            <a href="#">名稱<span class="fa fa-chevron-up text-dark"></span></a>
+                        </th>
+                        <th title="語言" style="width:10%">語言</th>
+                        <th title="管理功能" style="width:20%">管理功能</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <a href="#"><img src="BPimages/SamplePic/1.JPG" alt="*" style="height:90px;" /></a>
+                        </td>
+                        <td>
+                            19
+                        </td>
+                        <td>
+                            <a href="#">照片名稱</a>
+                        </td>
+                        <td>
+                            <span class="badge badge-light text-info border border-info">中</span>
+                            <span class="badge badge-light text-info border border-info">Eng</span>
+                            <span class="badge badge-light text-secondary">日</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <a href="#"><img src="BPimages/SamplePic/2.JPG" alt="*" style="height:90px;" /></a>
+                        </td>
+                        <td>
+                            18
+                        </td>
+                        <td>
+                            <a href="#">照片名稱</a>
+                        </td>
+                        <td>
+                            <span class="badge badge-light text-info border border-info">中</span>
+                            <span class="badge badge-light text-info border border-info">Eng</span>
+                            <span class="badge badge-light text-secondary">日</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <a href="#"><img src="BPimages/SamplePic/3.JPG" alt="*" style="height:90px;" /></a>
+                        </td>
+                        <td>
+                            17
+                        </td>
+                        <td>
+                            <a href="#">照片名稱</a>
+                        </td>
+                        <td>
+                            <span class="badge badge-light text-info border border-info">中</span>
+                            <span class="badge badge-light text-info border border-info">Eng</span>
+                            <span class="badge badge-light text-secondary">日</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="PageArea d-flex flex-md-row flex-column justify-content-center">
+                <div class="text">
+                    共 10 筆 | <a href="#">第一頁</a> |
+                </div>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a href="#" class="page-link" title="上一頁">«</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">1</a>
+                    </li>
+                    <li class="page-item active">
+                        <a href="#" class="page-link">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">5</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a href="#" class="page-link" title="下一頁">»</a>
+                    </li>
+                </ul>
+                <div class="text pl-md-2">
+                    | <a href="#">最後頁</a> | 頁次 : 1/5 頁
+                </div>
+                <div class="text">
+                    | 跳至
+                    <select>
+                        <option>- 1 -</option>
+                        <option>- 2 -</option>
+                        <option>- 3 -</option>
+                    </select>
+                    <span class="d-none">
+                        <input id="txtPageCode" type="text" style="width:3rem;" title="輸入頁碼後可按 Enter 送出" />
+                        <a href="#" class="btn btn-sm btn-success">執行跳頁</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="config-actions">
+            <a href="#" class="btn btn-light">關 閉</a>
+        </div>
+    </form>
+
+    <script src="Common/js/jquery-3.2.1.min.js"></script>
+    <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+    <script src="Common/js/popper.min.js"></script>
+    <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+</body>
+</html>
