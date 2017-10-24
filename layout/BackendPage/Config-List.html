@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="sys-subtitle container-fluid">
-                <div class="row">
+                <div class="form-row">
                     <div class="col-sm-2">照片集</div>
                     <div class="col-sm-2">
                         <a href="#" class="btn btn-sm btn-secondary"><i class="fa fa-upload"></i> 上傳</a>
@@ -175,5 +175,37 @@
     <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
     <script src="Common/js/popper.min.js"></script>
     <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script>
+        var isMobile = false;
+        if (navigator) {
+            isMobile = navigator.userAgent.match(/Mobile/i) != null;
+        }
+
+        // modify height of config-area with clientHeight
+        function modifyConfigAreaHeight() {
+            if (isMobile) {
+                return;
+            }
+
+            var newHeight = document.documentElement.clientHeight - 90;
+            if (newHeight < 0) {
+                newHeight = 0;
+            }
+            var $configArea = $(".config-area");
+            if ($configArea.length > 0) {
+                $configArea.eq(0).css("overflow", "auto");
+                $configArea.eq(0).height(newHeight + "px");
+            }
+        }
+
+        $(window).on("load", function () {
+            modifyConfigAreaHeight();
+        });
+
+        $(window).resize(function () {
+            modifyConfigAreaHeight();
+        });
+
+    </script>
 </body>
 </html>

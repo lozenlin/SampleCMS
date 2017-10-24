@@ -136,6 +136,11 @@
     <script src="Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js"></script>
     <script src="ckeditor/ckeditor.js"></script>
     <script>
+        var isMobile = false;
+        if (navigator) {
+            isMobile = navigator.userAgent.match(/Mobile/i) != null;
+        }
+
         //設定所有日期選擇小工具
         $(".datepicker").datepicker({
             showOn: 'both',
@@ -155,6 +160,31 @@
         CKEDITOR.replace("txtCheContentEn", {
             allowedContent: true,
             width: "90%"
+        });
+
+        // modify height of config-area with clientHeight
+        function modifyConfigAreaHeight() {
+            if (isMobile) {
+                return;
+            }
+
+            var newHeight = document.documentElement.clientHeight - 90;
+            if (newHeight < 0) {
+                newHeight = 0;
+            }
+            var $configArea = $(".config-area");
+            if ($configArea.length > 0) {
+                $configArea.eq(0).css("overflow", "auto");
+                $configArea.eq(0).height(newHeight + "px");
+            }
+        }
+
+        $(window).on("load", function () {
+            modifyConfigAreaHeight();
+        });
+
+        $(window).resize(function () {
+            modifyConfigAreaHeight();
         });
 
     </script>
