@@ -104,6 +104,22 @@
             <div class="sys-subtitle">
                 內文編輯
             </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#pnlZhTw">正體中文</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#pnlEn">English</a>
+                </li>
+            </ul>
+            <div class="tab-content bg-white p-3 border border-top-0">
+                <div class="tab-pane fade show active" id="pnlZhTw">
+                    <textarea id="txtCkeContentZhTw" rows="5" style="width:90%;">正體中文正體中文</textarea>
+                </div>
+                <div class="tab-pane fade" id="pnlEn">
+                    <textarea id="txtCheContentEn" rows="5" style="width:90%;">English English</textarea>
+                </div>
+            </div>
 
         </div>
         <div class="config-actions">
@@ -118,6 +134,7 @@
     <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="Common/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script src="Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js"></script>
+    <script src="ckeditor/ckeditor.js"></script>
     <script>
         //設定所有日期選擇小工具
         $(".datepicker").datepicker({
@@ -128,6 +145,16 @@
             changeYear: true,
             changeMonth: false,
             showButtonPanel: true
+        });
+
+        CKEDITOR.replace("txtCkeContentZhTw", {
+            allowedContent: true,
+            width: "90%"
+        });
+
+        CKEDITOR.replace("txtCheContentEn", {
+            allowedContent: true,
+            width: "90%"
         });
 
     </script>
