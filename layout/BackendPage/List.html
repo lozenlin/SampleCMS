@@ -9,6 +9,17 @@
     <link href="Common/css/BpBootstrapChanged.css" rel="stylesheet" />
     <link href="Common/css/BackendPage.css" rel="stylesheet" />
     <link href="Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link href="Common/jquery-ui-1.12.1/themes/south-street/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-widget-header .ui-icon {
+            background-image: url("Common/jquery-ui-1.12.1/themes/south-street/images/ui-icons_eeeeee_256x240.png")
+        }
+        a.ui-dialog-titlebar-maximize, a.ui-dialog-titlebar-restore {
+            width:20px !important;
+            height:20px !important;
+        }
+    </style>
 </head>
 <body class="main-body">
     <form id="form1">
@@ -153,8 +164,8 @@
                         <div class="sys-controllers">
                             <a href="#" class="btn btn-info"><i class="fa fa-level-up fa-flip-horizontal"></i> 回上層</a>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                                <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> 新增</a>
+                                <a href="javascript:popWin('Config-Form.html', 700, 630);" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                                <a href="javascript:popWin('Config-Form.html', 700, 630);" class="btn btn-primary"><i class="fa fa-plus"></i> 新增</a>
                             </div>
                             <div class="btn-group">
                                 <a href="#" class="btn btn-light"><i class="fa fa-eye"></i> 預覽(中)</a>
@@ -857,15 +868,80 @@
             </footer>
         </div>
     </form>
+    <div id="dialog" title="&nbsp;">
+        <div class="msg" style="display:none;">載入中...</div>
+        <iframe id="popupContainer" frameborder="0"></iframe>
+    </div>
 
     <script src="Common/js/jquery-3.2.1.min.js"></script>
-    <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+    <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script> -->
     <script src="Common/js/popper.min.js"></script>
     <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="Common/jquery-ui-1.12.1.Dialog/jquery-ui.min.js"></script>
+    <script src="Common/js/jquery.dialogextend.min.js"></script><!-- -->
     <script src="Common/js/BackendPage.js"></script>
     <script>
+        var removedNavFix = false;
+        var isMobile = false;
+        if (navigator) {
+            isMobile = navigator.userAgent.match(/Mobile/i) != null;
+        }
+
         $(".main-navbar").tooltip();
         $("#txtPageCode").tooltip();
+
+        $("#popupContainer").on("load", function () {
+            if ($(this).is(':hidden')) {
+                $(this).fadeIn(500);
+                $('#dialog>.msg').hide();
+            }
+        });
+
+        if (useIframeDialog) {
+            $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                draggable: false,
+                show: "fade",
+                hide: "fade",
+                resize: function (event, ui) {
+                    applyDialogHeight(ui.size.height);
+                },
+                open: function (event, ui) {
+                    if ($(".main-navbar").hasClass("fixed-top")) {
+                        $(".main-navbar").removeClass("fixed-top");
+                        removedNavFix = true;
+                    }
+
+                    /*
+                    switch ($(this).dialogExtend("state")) {
+                        case "maximized":
+                            $(this).dialogExtend("maximize");   //fix bug that if dialog opens with normal state but closes with maximized state.
+                            break;
+                    }
+                    */
+                },
+                close: function (event, ui) {
+                    if (removedNavFix) {
+                        $(".main-navbar").addClass("fixed-top");
+                    }
+                }
+            })
+            .dialogExtend({
+                "maximizable": true,
+                //"icons": {
+                //    "maximize": "ui-icon-arrow-4-diag"
+                //},
+                "maximize": function (evt) {
+                    var parentHeight = $(this).parent().height();
+                    applyDialogHeight(parentHeight);
+                },
+                "restore": function (evt) {
+                    var parentHeight = $(this).parent().height();
+                    applyDialogHeight(parentHeight);
+                }
+            });
+        }
     </script>
 </body>
 </html>
