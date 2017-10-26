@@ -2,6 +2,7 @@
 using Common.DataAccess.EmployeeAuthority;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace Common.LogicObject
         {
             get
             {
-                return Convert.ToString(Session["EmpAccount"]);
+                return Convert.ToString(Session["seEmpAccount"]);
             }
         }
 
@@ -40,7 +41,7 @@ namespace Common.LogicObject
         {
             get
             {
-                return Convert.ToString(Session["RoleName"]);
+                return Convert.ToString(Session["seRoleName"]);
             }
         }
 
@@ -51,7 +52,7 @@ namespace Common.LogicObject
         {
             get
             {
-                object obj = Session["DeptId"];
+                object obj = Session["seDeptId"];
                 int result;
 
                 if (obj != null && int.TryParse(obj.ToString(), out result))
@@ -62,6 +63,15 @@ namespace Common.LogicObject
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// CAPTCH 驗證碼
+        /// </summary>
+        public string seCaptchCode
+        {
+            get { return Convert.ToString(Session["seCaptchCode"]); }
+            set { Session["seCaptchCode"] = value; }
         }
 
         #endregion
@@ -158,6 +168,19 @@ namespace Common.LogicObject
         }
 
         #endregion
+
+    }
+
+    /// <summary>
+    /// 後台登入頁的共用元件
+    /// </summary>
+    [Description("後台登入頁的共用元件")]
+    public class LoginCommonOfBackend : BackendPageCommon
+    {
+        public LoginCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
 
     }
 }

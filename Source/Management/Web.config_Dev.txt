@@ -6,8 +6,36 @@
   <connectionStrings>
     <add name="DBConnString" connectionString="Data Source=.\sqlexpress2012;User ID=cmsDev;PWD=yourpassword;Initial Catalog=SampleCMS;Application Name=SampleCMSBackEnd;"/>
   </connectionStrings>
+  <!--驗證碼圖片不用驗證-->
+  <location path="captcha.ashx">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
   <system.web>
-    <compilation debug="true" targetFramework="4.0"/>
+    <compilation debug="true" targetFramework="4.5"/>
+    <!--
+        <customErrors mode="RemoteOnly" defaultRedirect="GenericErrPage.htm">
+            <error statusCode="403" redirect="NoAccess.htm" />
+            <error statusCode="404" redirect="FileNotFound.htm" />
+        </customErrors>
+        -->
+    <customErrors mode="Off" defaultRedirect="ErrorPage.aspx">
+      <error statusCode="404" redirect="ErrorPage.aspx"/>
+      <error statusCode="500" redirect="ErrorPage.aspx"/>
+    </customErrors>
+    <sessionState timeout="10"/>
+    <!--<sessionState mode="StateServer" stateConnectionString="tcpip=localhost:42424" cookieless="false" timeout="10" />-->
+    <authentication mode="Forms">
+      <forms loginUrl="Login.aspx" defaultUrl="Dashboard.aspx" timeout="10" name=".BACKENDAUTH"/>
+    </authentication>
+    <authorization>
+      <deny users="?"/>
+    </authorization>
+    <!-- maxRequestLength: The maximum request size in kilobytes. The default size is 4096 KB (4 MB). requestValidationMode: default "4.5" -->
+    <httpRuntime maxRequestLength="4096" executionTimeout="600"/>
   </system.web>
   <log4net>
     <appender name="TraceAppender" type="log4net.Appender.TraceAppender">

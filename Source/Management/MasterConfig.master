@@ -1,0 +1,23 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterConfig.master.cs" Inherits="MasterConfig" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <asp:ContentPlaceHolder id="cphHead" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder id="cphContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+
+    <asp:ContentPlaceHolder ID="cphBeforeBodyTail" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Common.Utility
 {
@@ -130,5 +131,50 @@ namespace Common.Utility
             return result;
         }
 
+        public static string GenerateCaptchaCodeNum(int length)
+        {
+            int number;
+            StringBuilder sbCaptchaCode = new StringBuilder(length);
+
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            for (int i = 0; i < length; i++)
+            {
+                number = random.Next();
+
+                sbCaptchaCode.Append((number % 10).ToString());
+            }
+
+            return sbCaptchaCode.ToString();
+        }
+
+        public static string GenerateCaptchaCode(int length)
+        {
+            int number;
+            char tempCode;
+            StringBuilder sbCaptchaCode = new StringBuilder(length);
+
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            for (int i = 0; i < length; i++)
+            {
+                number = random.Next();
+
+                if (random.Next() % 2 == 0)
+                {
+                    //number
+                    tempCode = (char)('0' + (char)(number % 10));
+                }
+                else
+                {
+                    //letter
+                    tempCode = (char)('A' + (char)(number % 26));
+                }
+
+                sbCaptchaCode.Append(tempCode);
+            }
+
+            return sbCaptchaCode.ToString();
+        }
     }
 }
