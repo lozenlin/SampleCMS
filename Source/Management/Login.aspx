@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <img id="imgCaptcha" src="captcha.ashx" alt="*" style="height:33px;" />
-                                            <a id="btnRefreshCodePic" href="#" class="btn btn-link">Refresh</a>
+                                            <a id="btnRefreshCodePic" href="#" class="">Refresh</a>
                                         </div>
                                     </div>
                                     <div class="form-group form-row align-items-end">

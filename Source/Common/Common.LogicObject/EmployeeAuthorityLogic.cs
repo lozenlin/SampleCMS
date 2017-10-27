@@ -311,5 +311,47 @@ namespace Common.LogicObject
 
             return ds;
         }
+
+        /// <summary>
+        /// 新增後端操作記錄
+        /// </summary>
+        public bool InsertBackEndLogData(BackEndLogData data)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spBackEndLog_InsertData cmdInfo = new spBackEndLog_InsertData()
+            {
+                EmpAccount = data.EmpAccount,
+                Description = data.Description,
+                IP = data.IP
+            };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得後端使用者角色名稱
+        /// </summary>
+        public string GetRoleNameOfEmp(string empAccount)
+        {
+            string roleName = "";
+
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetRoleName cmdInfo = new spEmployee_GetRoleName()
+            {
+                EmpAccount = empAccount
+            };
+            roleName = cmd.ExecuteScalar<string>(cmdInfo, "-1");
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (roleName == "-1")
+            {
+                roleName = "";
+            }
+
+            return roleName;
+        }
     }
 }

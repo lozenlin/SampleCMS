@@ -192,6 +192,27 @@ order by RowNum'
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/10/27>
+-- Description: <取得後端使用者角色名稱>
+-- Test:
+/*
+exec dbo.spEmployee_GetRoleName 'admin'
+*/
+-- =============================================
+create procedure dbo.spEmployee_GetRoleName
+@EmpAccount varchar(20)
+as
+begin
+	select
+		r.RoleName
+	from dbo.Employee e
+		join dbo.EmployeeRole r on e.RoleId=r.RoleId
+	where e.EmpAccount=@EmpAccount
+end
+go
+
 ----------------------------------------------------------------------------
 -- 後端操作記錄
 ----------------------------------------------------------------------------
@@ -280,7 +301,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/09/28>
+-- Create date: <2017/10/27>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -44,6 +44,8 @@ public partial class Login : System.Web.UI.Page
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
+        txtCheckCode.Text = "";
+
         if (!IsValid)
             return;
 
@@ -57,6 +59,13 @@ public partial class Login : System.Web.UI.Page
         {
             //異常錯誤
             ShowErrorMsg(string.Format("{0}: {1}", "異常錯誤", empAuth.GetDbErrMsg()));
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = string.Format("．帳號登入驗證時發生異常錯誤，帳號[{0}]", txtAccount.Text),
+                IP = c.GetClientIP()
+            });
             //檢查登入失敗次數,是否顯示驗證圖
             CheckLoginFailedCountToShowCaptcha(true);
             return;
@@ -67,6 +76,13 @@ public partial class Login : System.Web.UI.Page
         {
             //沒資料
             ShowErrorMsg("帳號或密碼錯誤");
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = string.Format("．帳號不存在，輸入帳號[{0}]", txtAccount.Text),
+                IP = c.GetClientIP()
+            });
             //檢查登入失敗次數,是否顯示驗證圖
             CheckLoginFailedCountToShowCaptcha(true);
             return;
@@ -92,6 +108,13 @@ public partial class Login : System.Web.UI.Page
         if (!isPasswordCorrect)
         {
             ShowErrorMsg("帳號或密碼錯誤");
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = string.Format("．帳號密碼錯誤，帳號[{0}]", txtAccount.Text),
+                IP = c.GetClientIP()
+            });
             //檢查登入失敗次數,是否顯示驗證圖
             CheckLoginFailedCountToShowCaptcha(true);
             return;
@@ -101,6 +124,13 @@ public partial class Login : System.Web.UI.Page
         if (Convert.ToBoolean(drEmpVerify["IsAccessDenied"]))
         {
             ShowErrorMsg("此帳號已被停權");
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = string.Format("．帳號停用，帳號[{0}]", txtAccount.Text),
+                IP = c.GetClientIP()
+            });
             //檢查登入失敗次數,是否顯示驗證圖
             CheckLoginFailedCountToShowCaptcha(true);
             return;
@@ -116,6 +146,13 @@ public partial class Login : System.Web.UI.Page
             if (today < startDate || endDate < today)
             {
                 ShowErrorMsg("此帳號已被停權");
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = "",
+                    Description = string.Format("．帳號超出有效範圍，帳號[{0}]", txtAccount.Text),
+                    IP = c.GetClientIP()
+                });
                 //檢查登入失敗次數,是否顯示驗證圖
                 CheckLoginFailedCountToShowCaptcha(true);
                 return;
@@ -129,6 +166,13 @@ public partial class Login : System.Web.UI.Page
         {
             //異常錯誤
             ShowErrorMsg(string.Format("{0}: {1}", "異常錯誤", empAuth.GetDbErrMsg()));
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = string.Format("．帳號登入取得使用者資料時發生異常錯誤，帳號[{0}]", txtAccount.Text),
+                IP = c.GetClientIP()
+            });
             //檢查登入失敗次數,是否顯示驗證圖
             CheckLoginFailedCountToShowCaptcha(true);
             return;
@@ -154,11 +198,16 @@ public partial class Login : System.Web.UI.Page
         };
         c.SaveLoginEmployeeDataIntoSession(loginEmpData);
 
-        //後端操作記錄
+        //新增後端操作記錄
+        empAuth.InsertBackEndLogData(new BackEndLogData()
+        {
+            EmpAccount = "",
+            Description = "．登入系統！",
+            IP = c.GetClientIP()
+        });
 
         //設定已登入
         FormsAuthentication.RedirectFromLoginPage(c.seLoginEmpData.EmpAccount, false);
-
     }
 
     private void ShowErrorMsg(string value)
