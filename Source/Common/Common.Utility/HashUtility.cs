@@ -57,5 +57,16 @@ namespace Common.Utility
             return GetHashOf("MD5", value);
         }
 
+        /// <summary>
+        /// 取得密碼用雜湊結果
+        /// </summary>
+        public static string GetPasswordHash(string value)
+        {
+            string salt1 = "c";
+            string salt2 = "ms";
+
+            return HashUtility.GetHashOfSHA256(salt1 + value + salt2);
+        }
+
     }
 }

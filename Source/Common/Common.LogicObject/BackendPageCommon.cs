@@ -24,54 +24,23 @@ namespace Common.LogicObject
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
-        /// 帳號
+        /// 登入者資料
         /// </summary>
-        public string seEmpAccount
+        public LoginEmployeeData seLoginEmpData
         {
             get
             {
-                return Convert.ToString(Session["seEmpAccount"]);
-            }
-        }
-
-        /// <summary>
-        /// 角色識別
-        /// </summary>
-        public string seRoleName
-        {
-            get
-            {
-                return Convert.ToString(Session["seRoleName"]);
-            }
-        }
-
-        /// <summary>
-        /// 部門代碼
-        /// </summary>
-        public int seDeptId
-        {
-            get
-            {
-                object obj = Session["seDeptId"];
-                int result;
-
-                if (obj != null && int.TryParse(obj.ToString(), out result))
-                {
-                }
-                else
-                    return 0;
-
-                return result;
+                return (LoginEmployeeData)Session["seLoginEmpData"];
             }
         }
 
         /// <summary>
         /// CAPTCH 驗證碼
         /// </summary>
-        public string seCaptchCode
+        public string seCaptchaCode
         {
-            get { return Convert.ToString(Session["seCaptchCode"]); }
-            set { Session["seCaptchCode"] = value; }
+            get { return Convert.ToString(Session["seCaptchaCode"]); }
+            set { Session["seCaptchaCode"] = value; }
         }
 
         #endregion
@@ -87,6 +56,10 @@ namespace Common.LogicObject
         public BackendPageCommon(HttpContext context, StateBag viewState)
             : base(context, viewState)
         {
+            if (seLoginEmpData == null)
+            {
+                SaveLoginEmployeeDataIntoSession(new LoginEmployeeData());
+            }
         }
 
         /// <summary>
@@ -97,7 +70,7 @@ namespace Common.LogicObject
             if (UseFormsAuthentication)
                 return User.Identity.IsAuthenticated;
             else
-                return seRoleName != "";    //角色識別不為空白時,代表已驗證
+                return seLoginEmpData.RoleName != "";    //角色識別不為空白時,代表已驗證
         }
 
         /// <summary>
@@ -125,6 +98,11 @@ namespace Common.LogicObject
             return opId;
         }
 
+        public void SaveLoginEmployeeDataIntoSession(LoginEmployeeData loginEmpData)
+        {
+            Session["seLoginEmpData"] = loginEmpData;
+        }
+
         #region IAuthenticationConditionProvider
 
         /// <summary>
@@ -146,12 +124,12 @@ namespace Common.LogicObject
             if (UseFormsAuthentication)
                 return User.Identity.Name;
             else
-                return seEmpAccount;
+                return seLoginEmpData.EmpAccount;
         }
 
         public string GetRoleName()
         {
-            return seRoleName;
+            return seLoginEmpData.RoleName;
         }
 
         public bool IsInRole(string roleName)
@@ -159,12 +137,12 @@ namespace Common.LogicObject
             if (UseFormsAuthentication)
                 return User.IsInRole(roleName);
             else
-                return seRoleName == roleName;
+                return seLoginEmpData.RoleName == roleName;
         }
 
         public int GetDeptId()
         {
-            return seDeptId;
+            return seLoginEmpData.DeptId;
         }
 
         #endregion
@@ -181,6 +159,31 @@ namespace Common.LogicObject
             : base(context, viewState)
         {
         }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 登入失敗次數
+        /// </summary>
+        public int seLoginFailedCount
+        {
+            get
+            {
+                object obj = Session["seLoginFailedCount"];
+                int nResult = 0;
+                if (obj != null)
+                {
+                    if (!int.TryParse(obj.ToString(), out nResult))
+                        nResult = 999999999;
+                }
+
+                return nResult;
+            }
+
+            set { Session["seLoginFailedCount"] = value; }
+        }
+
+        #endregion
 
     }
 }

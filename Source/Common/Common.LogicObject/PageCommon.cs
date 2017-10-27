@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
@@ -15,6 +16,15 @@ namespace Common.LogicObject
     /// </summary>
     public class PageCommon
     {
+        /// <summary>
+        /// UI 程式(Page, UserControl, HttpHandler)的記錄工具
+        /// </summary>
+        public ILog LoggerOfUI
+        {
+            get;
+            private set;
+        }
+
         protected HttpContext context;
         protected StateBag viewState;
         protected ILog logger = null;
@@ -66,6 +76,81 @@ namespace Common.LogicObject
             this.context = context;
             this.viewState = viewState;
             logger = LogManager.GetLogger(this.GetType());
+        }
+
+        /// <summary>
+        /// 初始化 LoggerOfUI
+        /// </summary>
+        public ILog InitialLoggerOfUI(Type typeUiComponent)
+        {
+            LoggerOfUI = LogManager.GetLogger(typeUiComponent);
+
+            return LoggerOfUI;
+        }
+
+        /// <summary>
+        /// 取得客戶端主機位址
+        /// </summary>
+        /// <remarks>
+        /// reference:http://www.dotblogs.com.tw/hunterpo/archive/2011/03/21/21991.aspx
+        /// </remarks>
+        public string GetClientIP()
+        {
+            string result = Request.ServerVariables["REMOTE_ADDR"] ?? "";
+
+            if (null != Request.ServerVariables["HTTP_VIA"])
+            {
+                string forwardIP = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? "";
+
+                if (forwardIP != "" && forwardIP.ToLower() != "unknown")
+                    result = forwardIP;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得客戶端主機 IPv4 位址
+        /// </summary>
+        /// <remarks>
+        /// reference:http://www.dotblogs.com.tw/hunterpo/archive/2011/03/21/21991.aspx
+        /// </remarks>
+        public string GetClientIPv4()
+        {
+            string result = "";
+
+            foreach (IPAddress ip in Dns.GetHostAddresses(GetClientIP()))
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    result = ip.ToString();
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得客戶端主機 IPv6 位址
+        /// </summary>
+        /// <remarks>
+        /// reference:http://www.dotblogs.com.tw/hunterpo/archive/2011/03/21/21991.aspx
+        /// </remarks>
+        public string GetClientIPv6()
+        {
+            string result = "";
+
+            foreach (IPAddress ip in Dns.GetHostAddresses(GetClientIP()))
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                {
+                    result = ip.ToString();
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="FrontendPageCommon.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="LangManager.cs" />
+    <Compile Include="LoginEmployeeData.cs" />
     <Compile Include="PageCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomImage.cs" />

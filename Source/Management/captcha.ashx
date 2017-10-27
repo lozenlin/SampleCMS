@@ -19,7 +19,7 @@ public class captch : IHttpHandler, IRequiresSessionState
 
         string captchaCode = Common.Utility.StringUtility.GenerateCaptchaCode(5);
         // save into session
-        c.seCaptchCode = captchaCode;
+        c.seCaptchaCode = captchaCode;
 
         RandomImage rndImg = new RandomImage(captchaCode, 320, 70);
 

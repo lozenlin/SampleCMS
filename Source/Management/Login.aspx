@@ -61,6 +61,8 @@
                                                 placeholder="Check code" autocomplete="off"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="rfvCheckCode" runat="server" ControlToValidate="txtCheckCode" CssClass="text-danger"
                                                 Display="Dynamic" ErrorMessage="*" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                                            <asp:CustomValidator ID="cuvCheckCode" runat="server" ControlToValidate="txtCheckCode" CssClass="text-danger"
+                                                Display="Dynamic" ErrorMessage="*錯誤" SetFocusOnError="true" ValidationGroup="g" OnServerValidate="cuvCheckCode_ServerValidate"></asp:CustomValidator>
                                         </div>
                                         <div class="col-md-5">
                                             <img id="imgCaptcha" src="captcha.ashx" alt="*" style="height:33px;" />

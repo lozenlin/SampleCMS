@@ -37,8 +37,7 @@ namespace Common.DataAccess.EmployeeAuthority
         // 輸出參數請加上屬性 [OutputPara]
         // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // Output parameter needs attribute [OutputPara]
-        public int pa1;
-        public string pa2;
+        public string EmpAccount;
 
         public CommandType GetCommandType()
         {

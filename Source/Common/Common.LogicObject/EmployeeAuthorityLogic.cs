@@ -44,6 +44,7 @@ namespace Common.LogicObject
         protected string roleName = "";
         protected bool isRoleAdmin = false;
         protected int deptId = 0;
+        protected string dbErrMsg = "";
 
         /// <summary>
         /// 帳號與權限
@@ -267,6 +268,48 @@ namespace Common.LogicObject
         public virtual bool CanAddSubItemInThisPage()
         {
             return authorizations.CanAddSubItemOfSelf;
+        }
+
+        /// <summary>
+        /// DB command 執行後的錯誤訊息
+        /// </summary>
+        public string GetDbErrMsg()
+        {
+            return dbErrMsg;
+        }
+
+        /// <summary>
+        /// 取得後端使用者登入用資料
+        /// </summary>
+        public DataSet GetEmpDataToLogin(string empAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetDataToLogin cmdInfo = new spEmployee_GetDataToLogin()
+            {
+                EmpAccount = empAccount
+            };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得後端使用者資料
+        /// </summary>
+        public DataSet GetEmpData(string empAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetData cmdInfo = new spEmployee_GetData()
+            {
+                EmpAccount = empAccount
+            };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
         }
     }
 }
