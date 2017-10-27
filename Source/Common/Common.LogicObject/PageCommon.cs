@@ -25,6 +25,71 @@ namespace Common.LogicObject
             private set;
         }
 
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 語言號碼(l或lang,l優先)
+        /// </summary>
+        public string qsLangNo
+        {
+            get
+            {
+                object obj = Request.QueryString["l"];
+                if (obj == null)
+                    obj = Request.QueryString["lang"];
+
+                int nResult;
+                string langNo = "";
+
+                if (obj == null)
+                {
+                    //未指定,抓瀏覽器的
+                    string resultCultureName = "";
+
+                    if (Request.UserLanguages != null)
+                    {
+                        foreach (string userLang in Request.UserLanguages)
+                        {
+                            string tempCultureName = userLang;
+
+                            if (tempCultureName.Contains(";"))
+                                tempCultureName = tempCultureName.Split(';')[0];
+
+                            if (tempCultureName.StartsWith("zh-") || tempCultureName == "zh")
+                            {
+                                resultCultureName = LangManager.CultureNameZHTW;
+                                break;
+                            }
+                            else if (tempCultureName.StartsWith("en-") || tempCultureName == "en")
+                            {
+                                resultCultureName = LangManager.CultureNameEN;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (resultCultureName == "")
+                        resultCultureName = LangManager.CultureNameZHTW;
+
+                    langNo = new LangManager().GetLangNo(resultCultureName);
+                }
+                else if (int.TryParse(obj.ToString(), out nResult))
+                {
+                    //有指定, 限制範圍
+                    if (nResult < 1)
+                        nResult = 1;
+                    else if (nResult > 2)
+                        nResult = 1;
+
+                    langNo = nResult.ToString();
+                }
+
+                return langNo;
+            }
+        }
+
+        #endregion
+
         protected HttpContext context;
         protected StateBag viewState;
         protected ILog logger = null;

@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0"?>
 <configuration>
+  <appSettings>
+    <!-- 定義語言文化名稱(for db) -->
+    <add key="CultureNameZHTW" value="zh-TW"/>
+    <add key="CultureNameEN" value="en"/>
+
+    <!-- 定義語言號碼(for pic dir, queryString) -->
+    <add key="LangNoZHTW" value="1"/>
+    <add key="LangNoEN" value="2"/>
+  </appSettings>
   <system.web>
-    <compilation debug="true" targetFramework="4.0"/>
+    <compilation debug="true" targetFramework="4.5"/>
+    <globalization uiCulture="auto" enableClientBasedCulture="true" />
   </system.web>
 </configuration>

@@ -82,5 +82,35 @@
             Context.User = new System.Security.Principal.GenericPrincipal(objIdentity, aryRoles);
         }
     }
-       
+
+    protected void Application_BeginRequest(object sender, EventArgs e)
+    {
+        log4net.ILog logger = log4net.LogManager.GetLogger(this.GetType());
+
+        try
+        {
+            PageCommon c = new PageCommon(Context, null);
+
+            //一律用 qsLangNo 處理後的值來重設語系
+            string cultureName = new LangManager().GetCultureName(c.qsLangNo);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
+        }
+        catch (Exception ex)
+        {
+            logger.Error("", ex);
+        }
+    }
+
+    protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+    {
+        log4net.ILog logger = log4net.LogManager.GetLogger(this.GetType());
+
+        if (Context.Session == null)
+        {
+            logger.Info("Context.Session is null. skip this time.");
+            return;
+        }
+
+    }
+    
 </script>

@@ -112,6 +112,8 @@ namespace Common.LogicObject
 
         private void InitialLangInfos()
         {
+            langInfos = new List<LangInfo>();
+
             langInfos.Add(new LangInfo()
             {
                 CultureNameKey = "CultureNameZHTW",
