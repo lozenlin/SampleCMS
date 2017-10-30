@@ -228,7 +228,16 @@ public partial class Login : System.Web.UI.Page
         });
 
         //設定已登入
-        FormsAuthentication.RedirectFromLoginPage(c.seLoginEmpData.EmpAccount, false);
+        if (string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+        {
+            FormsAuthentication.SetAuthCookie(c.seLoginEmpData.EmpAccount, false);
+            Response.Redirect(FormsAuthentication.DefaultUrl + "?l=" + c.qsLangNo);
+        }
+        else
+        {
+            // to ReturnUrl
+            FormsAuthentication.RedirectFromLoginPage(c.seLoginEmpData.EmpAccount, false);
+        }
     }
 
     private void ShowErrorMsg(string value)

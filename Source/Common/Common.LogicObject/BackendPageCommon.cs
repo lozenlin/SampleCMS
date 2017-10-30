@@ -30,6 +30,11 @@ namespace Common.LogicObject
         {
             get
             {
+                if (Session["seLoginEmpData"] == null)
+                {
+                    SaveLoginEmployeeDataIntoSession(new LoginEmployeeData());
+                }
+
                 return (LoginEmployeeData)Session["seLoginEmpData"];
             }
         }
@@ -56,10 +61,6 @@ namespace Common.LogicObject
         public BackendPageCommon(HttpContext context, StateBag viewState)
             : base(context, viewState)
         {
-            if (seLoginEmpData == null)
-            {
-                SaveLoginEmployeeDataIntoSession(new LoginEmployeeData());
-            }
         }
 
         /// <summary>
@@ -101,6 +102,25 @@ namespace Common.LogicObject
         public void SaveLoginEmployeeDataIntoSession(LoginEmployeeData loginEmpData)
         {
             Session["seLoginEmpData"] = loginEmpData;
+        }
+
+        public void LogOutWhenSessionMissed(Page webPage, string notice)
+        {
+            if (seLoginEmpData.EmpAccount == null)
+            {
+                if (UseFormsAuthentication)
+                {
+                    System.Web.Security.FormsAuthentication.SignOut();
+                }
+
+                StringBuilder sbScript = new StringBuilder(200);
+                sbScript
+                    .AppendFormat("window.alert('{0}');", notice)
+                    .AppendLine()
+                    .AppendLine("window.open('Logout.ashx?l=" + qsLangNo + "', '_top');");
+
+                webPage.ClientScript.RegisterStartupScript(webPage.GetType(), "toLogout", sbScript.ToString(), true);
+            }
         }
 
         #region IAuthenticationConditionProvider
@@ -146,7 +166,6 @@ namespace Common.LogicObject
         }
 
         #endregion
-
     }
 
     /// <summary>

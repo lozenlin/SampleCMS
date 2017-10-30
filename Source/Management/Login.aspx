@@ -4,8 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title></title>
     <link href="/management/Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
@@ -90,18 +90,18 @@
                 </div>
             </div>
         </div>
+
+        <script src="Common/js/jquery-3.2.1.min.js"></script>
+        <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+        <script src="Common/js/popper.min.js"></script>
+        <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+        <script>
+            $("#btnRefreshCodePic").click(function () {
+                $("#imgCaptcha").attr("src", "captcha.ashx?" + (new Date()).valueOf());
+                return false;
+            });
+        </script>
     </form>
     <span class="photo-author d-none">Photo belongs to xxx on yyy.</span>
-
-    <script src="Common/js/jquery-3.2.1.min.js"></script>
-    <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
-    <script src="Common/js/popper.min.js"></script>
-    <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-    <script>
-        $("#btnRefreshCodePic").click(function () {
-            $("#imgCaptcha").attr("src", "captcha.ashx?" + (new Date()).valueOf());
-            return false;
-        });
-    </script>
 </body>
 </html>

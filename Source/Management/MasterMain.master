@@ -5,16 +5,160 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title></title>
+    <link href="/Management/Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
+    <link href="/Management/Common/css/BpBootstrapChanged.css" rel="stylesheet" />
+    <link href="/Management/Common/css/BackendPage.css" rel="stylesheet" />
+    <link href="/Management/Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <asp:ContentPlaceHolder id="cphHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body class="main-body">
     <form id="form1" runat="server">
-    <div>
-        <asp:ContentPlaceHolder id="cphContent" runat="server">
-        </asp:ContentPlaceHolder>
-    </div>
+        <header id="mainNavbar" class="main-navbar navbar navbar-expand flex-md-row flex-column navbar-dark bg-dark fixed-top" title="Top">
+            <a href="#" class="navbar-brand ci-logo">SampleCMS 後端管理</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <span class="navbar-text px-2"><i class="fa fa-user-circle-o NavIcon"></i> 身分: 系統管理員(admin)</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text px-2"><i class="fa fa-briefcase NavIcon"></i> 部門: 預設部門</span>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-md-auto">
+                <li class="nav-item dropdown">
+                    <a id="navMenuLink" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog NavIcon"></i> Hi, Your name(account)</a>
+                    <div class="dropdown-menu" aria-labelledby="navMenuLink">
+                        <a class="dropdown-item" href="#"><i class="fa fa-pencil-square-o fa-fw"></i> 帳號設定</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="Logout.ashx?l=<%= c.qsLangNo %>"><i class="fa fa-power-off fa-fw"></i> 登出</a>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <div class="container-fluid">
+            <div id="ErrorMsgArea" runat="server" class="alert alert-danger alert-dismissible fade show" role="alert" visible="false">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <asp:Literal ID="ltrErrMsg" runat="server"></asp:Literal>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-md-0">
+                    <div class="sidebar-container rounded bgtx-main">
+                        <div class="sidebar-menu">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 編輯</a>
+                            </div>
+                            <hr class="content-divider" />
+                            <div class="text-right" style="margin-top:-10px;">
+                                <a href="#" class="small">展開</a>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item card items-group">
+                                    <a href="#" class="nav-link item-header active">
+                                        <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 系統管理功能</a>
+                                    <ul class="nav nav-pills flex-column item-list">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 帳號管理</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item active">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 身份權限管理</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 部門管理</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item card items-group">
+                                    <a href="#" class="nav-link item-header">
+                                        <img src="BPimages/icon/vectory_mini/multimedia/071.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 網站內容管理</a>
+                                    <ul class="nav nav-pills flex-column item-list" style="display:none;">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 帳號管理</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 身份權限管理</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link item">
+                                                <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 部門管理</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item card items-group">
+                                    <a href="#" class="nav-link item-header">
+                                        <img src="BPimages/icon/vectory_mini/personnel/076.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 架構檢視</a>
+                                    <ul class="nav nav-pills flex-column tree-list">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link branch">
+                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
+                                            <ul class="nav nav-pills flex-column branch-list">
+                                                <li class="nav-item">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                    <ul class="nav nav-pills flex-column branch-list">
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link branch active">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folder.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link branch">
+                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div style="height:130px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="content-container rounded bgtx-main">
+                        <asp:ContentPlaceHolder id="cphContent" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+            <hr class="content-divider" />
+            <footer class="footer-container bgtx-main rounded-bottom px-3 pt-2 pb-3 mb-3">
+                <span class="text-secondary">© Company</span>
+            </footer>
+        </div>
+    
+        <script src="Common/js/jquery-3.2.1.min.js"></script>
+        <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+        <script src="Common/js/popper.min.js"></script>
+        <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+        <script src="Common/js/BackendPage.js"></script>
+        <script>
+            $(".main-navbar").tooltip();
+        </script>
     </form>
 
     <asp:ContentPlaceHolder ID="cphBeforeBodyTail" runat="server">
