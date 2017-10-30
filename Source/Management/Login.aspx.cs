@@ -19,20 +19,27 @@ public partial class Login : System.Web.UI.Page
     /// </summary>
     private const int MAX_FAILED_COUNT_TO_SHOW_CAPTCHA = 2;
 
+    private string ACCOUNT_FAILED_ERRMSG = "";
+
     protected void Page_PreInit(object sender, EventArgs e)
     {
         c = new LoginCommonOfBackend(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
         empAuth = new EmployeeAuthorityLogic(c);
 
+        ACCOUNT_FAILED_ERRMSG = Resources.Lang.ErrMsg_AccountFailed;
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        ltrBackStageName.Text = Resources.Lang.BackStageName;
+
         if (!IsPostBack)
         {
             LoadUIData();
         }
+
+        Title = ltrBackStageName.Text;
     }
 
     private void LoadUIData()
@@ -40,6 +47,20 @@ public partial class Login : System.Web.UI.Page
         ltrClientIP.Text = c.GetClientIP();
         CheckLoginFailedCountToShowCaptcha(false);
         txtAccount.Focus();
+
+        btnLogin.ToolTip = Resources.Lang.Login_btnLogin;
+        btnChangePsw.Title = Resources.Lang.Login_btnChangePsw;
+        btnDontRememberPsw.Title = Resources.Lang.Login_btnDontRememberPsw;
+        cuvCheckCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_WrongCheckCode;
+        btnRefreshCodePic.Title = Resources.Lang.CaptchaPic_Hint;
+
+        btnChangLang.HRef = Request.AppRelativeCurrentExecutionFilePath + "?l=2";
+
+        if (c.qsLangNo == "2")
+        {
+            btnChangLang.HRef = Request.AppRelativeCurrentExecutionFilePath + "?l=1";
+            btnChangLang.InnerHtml = "中文";
+        }
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)
@@ -58,7 +79,7 @@ public partial class Login : System.Web.UI.Page
         if (dsEmpVerify == null)
         {
             //異常錯誤
-            ShowErrorMsg(string.Format("{0}: {1}", "異常錯誤", empAuth.GetDbErrMsg()));
+            ShowErrorMsg(string.Format("{0}: {1}", Resources.Lang.ErrMsg_Exception, empAuth.GetDbErrMsg()));
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
@@ -75,7 +96,7 @@ public partial class Login : System.Web.UI.Page
         if (dsEmpVerify.Tables[0].Rows.Count == 0)
         {
             //沒資料
-            ShowErrorMsg("帳號或密碼錯誤");
+            ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
@@ -107,7 +128,7 @@ public partial class Login : System.Web.UI.Page
 
         if (!isPasswordCorrect)
         {
-            ShowErrorMsg("帳號或密碼錯誤");
+            ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
@@ -123,7 +144,7 @@ public partial class Login : System.Web.UI.Page
         //檢查是否停權
         if (Convert.ToBoolean(drEmpVerify["IsAccessDenied"]))
         {
-            ShowErrorMsg("此帳號已被停權");
+            ShowErrorMsg(Resources.Lang.ErrMsg_AccountUnavailable);
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
@@ -145,7 +166,7 @@ public partial class Login : System.Web.UI.Page
 
             if (today < startDate || endDate < today)
             {
-                ShowErrorMsg("此帳號已被停權");
+                ShowErrorMsg(Resources.Lang.ErrMsg_AccountUnavailable);
                 //新增後端操作記錄
                 empAuth.InsertBackEndLogData(new BackEndLogData()
                 {
@@ -165,7 +186,7 @@ public partial class Login : System.Web.UI.Page
         if (dsEmp == null)
         {
             //異常錯誤
-            ShowErrorMsg(string.Format("{0}: {1}", "異常錯誤", empAuth.GetDbErrMsg()));
+            ShowErrorMsg(string.Format("{0}: {1}", Resources.Lang.ErrMsg_Exception, empAuth.GetDbErrMsg()));
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {

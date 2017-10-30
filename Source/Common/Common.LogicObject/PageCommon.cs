@@ -44,32 +44,7 @@ namespace Common.LogicObject
                 if (obj == null)
                 {
                     //未指定,抓瀏覽器的
-                    string resultCultureName = "";
-
-                    if (Request.UserLanguages != null)
-                    {
-                        foreach (string userLang in Request.UserLanguages)
-                        {
-                            string tempCultureName = userLang;
-
-                            if (tempCultureName.Contains(";"))
-                                tempCultureName = tempCultureName.Split(';')[0];
-
-                            if (tempCultureName.StartsWith("zh-") || tempCultureName == "zh")
-                            {
-                                resultCultureName = LangManager.CultureNameZHTW;
-                                break;
-                            }
-                            else if (tempCultureName.StartsWith("en-") || tempCultureName == "en")
-                            {
-                                resultCultureName = LangManager.CultureNameEN;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (resultCultureName == "")
-                        resultCultureName = LangManager.CultureNameZHTW;
+                    string resultCultureName = GetAllowedUserCultureName();
 
                     langNo = new LangManager().GetLangNo(resultCultureName);
                 }
@@ -216,6 +191,41 @@ namespace Common.LogicObject
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 取得本系統允許的瀏覽器指定語系名稱
+        /// </summary>
+        public string GetAllowedUserCultureName()
+        {
+            string resultCultureName = "";
+
+            if (Request.UserLanguages != null)
+            {
+                foreach (string userLang in Request.UserLanguages)
+                {
+                    string tempCultureName = userLang;
+
+                    if (tempCultureName.Contains(";"))
+                        tempCultureName = tempCultureName.Split(';')[0];
+
+                    if (tempCultureName.StartsWith("zh-") || tempCultureName == "zh")
+                    {
+                        resultCultureName = LangManager.CultureNameZHTW;
+                        break;
+                    }
+                    else if (tempCultureName.StartsWith("en-") || tempCultureName == "en")
+                    {
+                        resultCultureName = LangManager.CultureNameEN;
+                        break;
+                    }
+                }
+            }
+
+            if (resultCultureName == "")
+                resultCultureName = LangManager.CultureNameZHTW;
+
+            return resultCultureName;
         }
     }
 }

@@ -21,7 +21,7 @@
                     <div class="card bgtx-main px-md-4 pb-md-3 LoginWell">
                         <div class="card-body">
                             <div class="Signboard">
-                                <h1 class="SignboardText"><span class="text-nowrap">SampleCMS</span> 後端管理</h1>
+                                <h1 class="SignboardText"><asp:Literal ID="ltrBackStageName" runat="server"></asp:Literal></h1>
                             </div>
                             <hr class="SignboardLine" />
                             <div id="ErrorMsgArea" runat="server" visible="false" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -32,12 +32,12 @@
                             </div>
                             <div class="card LoginForm border border-secondary ">
                                 <div class="card-header bg-white">
-                                    使用者登入
-                                    <a id="btnChangLang" runat="server" visible="false" href="#" class="float-right">English</a>
+                                    <%= Resources.Lang.Login_Subtitle %>
+                                    <a id="btnChangLang" runat="server" href="#" class="float-right">English</a>
                                 </div>
                                 <div class="card-body pr-md-5">
                                     <div class="form-group form-row">
-                                        <label for="txtAccount" class="col-md-3 col-form-label text-md-right">帳　號</label>
+                                        <label for="txtAccount" class="col-md-3 col-form-label text-md-right"><%= Resources.Lang.Login_AccountTitle %></label>
                                         <div class="col-md-9">
                                             <asp:TextBox ID="txtAccount" runat="server" ClientIDMode="Static" CssClass="form-control" 
                                                 placeholder="Your account" autocomplete="off" ></asp:TextBox>
@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-row">
-                                        <label for="txtPassword" class="col-md-3 col-form-label text-md-right">密　碼</label>
+                                        <label for="txtPassword" class="col-md-3 col-form-label text-md-right"><%= Resources.Lang.Login_PasswordTitle %></label>
                                         <div class="col-md-9">
                                             <asp:TextBox ID="txtPassword" runat="server" ClientIDMode="Static" TextMode="Password" 
                                                 CssClass="form-control" placeholder="Password" autocomplete="off"></asp:TextBox>
@@ -54,11 +54,11 @@
                                                 Display="Dynamic" ErrorMessage="*" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
-                                    <div id="CheckCodeArea" runat="server" class="form-group form-row">
-                                        <label for="txtCheckCode" class="col-md-3 col-form-label text-md-right">驗證碼</label>
+                                    <div id="CheckCodeArea" runat="server" class="form-group form-row" visible="false">
+                                        <label for="txtCheckCode" class="col-md-3 col-form-label text-md-right"><%= Resources.Lang.Login_CheckCodeTitle %></label>
                                         <div class="col-md-4">
                                             <asp:TextBox ID="txtCheckCode" runat="server" ClientIDMode="Static" CssClass="form-control"
-                                                placeholder="Check code" autocomplete="off"></asp:TextBox>
+                                                placeholder="Verification code" autocomplete="off"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="rfvCheckCode" runat="server" ControlToValidate="txtCheckCode" CssClass="text-danger"
                                                 Display="Dynamic" ErrorMessage="*" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                                             <asp:CustomValidator ID="cuvCheckCode" runat="server" ControlToValidate="txtCheckCode" CssClass="text-danger"
@@ -66,23 +66,23 @@
                                         </div>
                                         <div class="col-md-5">
                                             <img id="imgCaptcha" src="captcha.ashx" alt="*" style="height:33px;" />
-                                            <a id="btnRefreshCodePic" href="#" class="">Refresh</a>
+                                            <a id="btnRefreshCodePic" runat="server" href="#" >Refresh</a>
                                         </div>
                                     </div>
                                     <div class="form-group form-row align-items-end">
                                         <div class="col-md-3"></div>
                                         <div class="col-md-3 col-5">
                                             <asp:LinkButton ID="btnLogin" runat="server" CssClass="btn btn-primary" ValidationGroup="g"
-                                                OnClick="btnLogin_Click"><i class="fa fa-check-circle" aria-hidden="true"></i> 登入</asp:LinkButton>
+                                                OnClick="btnLogin_Click"><i class="fa fa-check-circle" aria-hidden="true"></i> <%= Resources.Lang.Login_btnLogin %></asp:LinkButton>
                                         </div>
                                         <div class="col-md-6 col-7">
-                                            <a id="btnChangePsw" runat="server" visible="false" href="#" class="btn btn-secondary btn-sm">變更密碼</a>
-                                            <a id="btnDontRememberPsw" runat="server" visible="false" href="#" class="btn btn-info btn-sm">忘記密碼</a>
+                                            <a id="btnChangePsw" runat="server" visible="false" href="#" class="btn btn-secondary btn-sm"><%= Resources.Lang.Login_btnChangePsw %></a>
+                                            <a id="btnDontRememberPsw" runat="server" visible="false" href="#" class="btn btn-info btn-sm"><%= Resources.Lang.Login_btnDontRememberPsw %></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">
-                                    <small class="text-success">您的網路位址: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
+                                    <small class="text-success"><%= Resources.Lang.Login_YourIpTitle %>: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
                                 </div>
                             </div>
                         </div>

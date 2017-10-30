@@ -117,8 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="test" xml:space="preserve">
-    <value>測試</value>
-    <comment>測試</comment>
+  <data name="BackStageName" xml:space="preserve">
+    <value>SampleCMS 後端管理</value>
+    <comment>SampleCMS 後端管理</comment>
+  </data>
+  <data name="BackStageNameShort" xml:space="preserve">
+    <value>SampleCMS</value>
+    <comment>SampleCMS</comment>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>使用者登入</value>
+    <comment>使用者登入</comment>
+  </data>
+  <data name="Login_AccountTitle" xml:space="preserve">
+    <value>帳　號</value>
+    <comment>帳　號</comment>
+  </data>
+  <data name="Login_PasswordTitle" xml:space="preserve">
+    <value>密　碼</value>
+    <comment>密　碼</comment>
+  </data>
+  <data name="Login_CheckCodeTitle" xml:space="preserve">
+    <value>驗證碼</value>
+    <comment>驗證碼</comment>
+  </data>
+  <data name="Login_btnLogin" xml:space="preserve">
+    <value>登 入</value>
+    <comment>登 入</comment>
+  </data>
+  <data name="Login_btnChangePsw" xml:space="preserve">
+    <value>變更密碼</value>
+    <comment>變更密碼</comment>
+  </data>
+  <data name="Login_btnDontRememberPsw" xml:space="preserve">
+    <value>忘記密碼</value>
+    <comment>忘記密碼</comment>
+  </data>
+  <data name="Login_YourIpTitle" xml:space="preserve">
+    <value>您的網路位址</value>
+    <comment>您的網路位址</comment>
+  </data>
+  <data name="ErrMsg_AccountFailed" xml:space="preserve">
+    <value>帳號或密碼錯誤</value>
+    <comment>帳號或密碼錯誤</comment>
+  </data>
+  <data name="ErrMsg_IPDenied" xml:space="preserve">
+    <value>系統暫時停止對目前所在位址的服務</value>
+    <comment>系統暫時停止對目前所在位址的服務</comment>
+  </data>
+  <data name="ErrMsg_Exception" xml:space="preserve">
+    <value>異常錯誤</value>
+    <comment>異常錯誤</comment>
+  </data>
+  <data name="ErrMsg_AccountUnavailable" xml:space="preserve">
+    <value>此帳號已被停權</value>
+    <comment>此帳號已被停權</comment>
+  </data>
+  <data name="ErrMsg_GetDataException" xml:space="preserve">
+    <value>取得資料時發生異常錯誤</value>
+    <comment>取得資料時發生異常錯誤</comment>
+  </data>
+  <data name="ErrMsg_WrongCheckCode" xml:space="preserve">
+    <value>驗證碼錯誤</value>
+    <comment>驗證碼錯誤</comment>
+  </data>
+  <data name="CaptchaPic_Hint" xml:space="preserve">
+    <value>如驗證圖無法辨識，請點擊這裡重新產生</value>
+    <comment>如驗證圖無法辨識，請點擊這裡重新產生</comment>
+  </data>
+  <data name="xxxxx" xml:space="preserve">
+    <value>xxxxx</value>
+    <comment>xxxxx</comment>
   </data>
 </root>
