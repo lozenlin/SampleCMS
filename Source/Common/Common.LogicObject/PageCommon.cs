@@ -227,5 +227,26 @@ namespace Common.LogicObject
 
             return resultCultureName;
         }
+
+        /// <summary>
+        /// Finds a Control recursively. Note finds the first match and exists
+        /// </summary>
+        /// <remarks>
+        /// reference: http://www.west-wind.com/weblog/posts/2006/Apr/09/ASPNET-20-MasterPages-and-FindControl
+        /// </remarks>
+        public Control FindControlRecursive(Control Root, string Id)
+        {
+            if (Root.ID == Id)
+                return Root;
+
+            foreach (Control Ctl in Root.Controls)
+            {
+                Control FoundCtl = FindControlRecursive(Ctl, Id);
+                if (FoundCtl != null)
+                    return FoundCtl;
+            }
+
+            return null;
+        }
     }
 }

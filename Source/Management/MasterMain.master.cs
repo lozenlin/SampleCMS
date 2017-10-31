@@ -159,6 +159,60 @@ public partial class MasterMain : System.Web.UI.MasterPage
         if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
             return;
 
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        int opId = Convert.ToInt32(drvTemp["OpId"]);
+        string opSubject = drvTemp["OpSubject"].ToString();
+        bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
+        string encodedUrl = drvTemp["LinkUrl"].ToString();
+        string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
+
+        HtmlGenericControl OpItemArea = (HtmlGenericControl)e.Item.FindControl("OpItemArea");
+        OpItemArea.Attributes.Add("opId", opId.ToString());
+
+        HtmlAnchor btnOpItem = (HtmlAnchor)e.Item.FindControl("btnOpItem");
+        btnOpItem.Title = opSubject;
+
+        if (isNewWindow)
+        {
+            btnOpItem.Target = "_blank";
+            btnOpItem.Title += "(另開新視窗)";
+        }
+
+        if (linkUrl != "")
+        {
+            if (linkUrl.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase)
+                    || linkUrl.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
+            {
+                //外部網址
+                if (!isNewWindow)
+                    linkUrl = "~/Embedded-Content.aspx?url=" + Server.UrlEncode(encodedUrl);
+            }
+            else
+            {
+                linkUrl = "~/" + linkUrl;
+            }
+
+            btnOpItem.HRef = linkUrl;
+        }
+
+        HtmlImage imgOpItem = (HtmlImage)e.Item.FindControl("imgOpItem");
+        imgOpItem.Alt = opSubject;
+        imgOpItem.Src = "~/BPimages/icon/data.gif";
+        object objIconImageFile = drvTemp["IconImageFile"];
+        if (!Convert.IsDBNull(objIconImageFile))
+            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", objIconImageFile);
+
+        Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
+        ltrOpItemSubject.Text = opSubject;
+
+        //檢查授權
+        bool canRead = false;
+
+        if (!Convert.IsDBNull(drvTemp["CanRead"]))
+            canRead = Convert.ToBoolean(drvTemp["CanRead"]);
+
+        OpItemArea.Visible = canRead;
     }
 
     #region Public Methods
