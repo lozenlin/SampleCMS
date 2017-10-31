@@ -270,6 +270,8 @@ namespace Common.LogicObject
             return authorizations.CanAddSubItemOfSelf;
         }
 
+        #region DataAccess functions
+
         /// <summary>
         /// DB command 執行後的錯誤訊息
         /// </summary>
@@ -370,5 +372,39 @@ namespace Common.LogicObject
 
             return result;
         }
+
+        /// <summary>
+        /// 取得後端作業選項第一層清單和角色授權
+        /// </summary>
+        public DataSet GetOperationsTopListWithRoleAuth(string roleName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetTopListWithRoleAuth cmdInfo = new spOperations_GetTopListWithRoleAuth()
+            {
+                RoleName = roleName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得後端作業選項子清單和角色授權
+        /// </summary>
+        public DataSet GetOperationsSubListWithRoleAuth(string roleName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetSubListWithRoleAuth cmdInfo = new spOperations_GetSubListWithRoleAuth()
+            {
+                RoleName = roleName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        #endregion
     }
 }

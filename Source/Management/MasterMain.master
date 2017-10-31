@@ -56,11 +56,34 @@
                             <div class="form-group">
                                 <a id="btnEditOperations" runat="server" href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEdit %></a>
                             </div>
-                            <hr class="content-divider" />
+                            <hr id="LineOfCtrl" runat="server" class="content-divider" />
                             <div class="text-right" style="margin-top:-10px;">
-                                <a id="btnExpand" href="#" class="small"><%= Resources.Lang.Main_btnExpand %></a>
+                                <a id="btnExpand" href="#" class="small" title='<%= Resources.Lang.Main_btnExpand_Hint %>'><%= Resources.Lang.Main_btnExpand %></a>
                             </div>
                             <ul class="nav nav-pills flex-column">
+                            <asp:Repeater ID="rptOpMenu" runat="server" OnItemDataBound="rptOpMenu_ItemDataBound">
+                            <ItemTemplate>
+                                <li id="OpHeaderArea" runat="server" class="nav-item card items-group">
+                                    <a id="btnOpHeader" runat="server" href="#" class="nav-link item-header">
+                                        <img id="imgOpHeader" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                        <asp:Literal ID="ltrOpHeaderSubject" runat="server"></asp:Literal>
+                                    </a>
+                                    <ul class="nav nav-pills flex-column item-list">
+                                    <asp:Repeater ID="rptOpItems" runat="server" OnItemDataBound="rptOpItems_ItemDataBound">
+                                    <ItemTemplate>
+                                        <li class="nav-item">
+                                            <a id="btnOpItem" runat="server" href="#" class="nav-link item">
+                                                <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                                <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
+                                            </a>
+                                        </li>
+                                    </ItemTemplate>
+                                    </asp:Repeater>
+                                    </ul>
+                                </li>
+                            </ItemTemplate>
+                            </asp:Repeater>
+
                                 <li class="nav-item card items-group">
                                     <a href="#" class="nav-link item-header active">
                                         <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 系統管理功能</a>
@@ -82,7 +105,7 @@
                                 <li class="nav-item card items-group">
                                     <a href="#" class="nav-link item-header">
                                         <img src="BPimages/icon/vectory_mini/multimedia/071.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 網站內容管理</a>
-                                    <ul class="nav nav-pills flex-column item-list" style="display:none;">
+                                    <ul class="nav nav-pills flex-column item-list">
                                         <li class="nav-item">
                                             <a href="#" class="nav-link item">
                                                 <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 帳號管理</a>
@@ -94,44 +117,6 @@
                                         <li class="nav-item">
                                             <a href="#" class="nav-link item">
                                                 <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 部門管理</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item card items-group">
-                                    <a href="#" class="nav-link item-header">
-                                        <img src="BPimages/icon/vectory_mini/personnel/076.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 架構檢視</a>
-                                    <ul class="nav nav-pills flex-column tree-list">
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link branch">
-                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
-                                            <ul class="nav nav-pills flex-column branch-list">
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link branch">
-                                                        <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
-                                                    <ul class="nav nav-pills flex-column branch-list">
-                                                        <li class="nav-item">
-                                                            <a href="#" class="nav-link branch active">
-                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a href="#" class="nav-link branch">
-                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a href="#" class="nav-link branch">
-                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link branch">
-                                                        <img src="BPimages/icon/folder.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link branch">
-                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
                                         </li>
                                     </ul>
                                 </li>

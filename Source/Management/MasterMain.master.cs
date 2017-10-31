@@ -1,9 +1,11 @@
 ﻿using Common.LogicObject;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class MasterMain : System.Web.UI.MasterPage
@@ -25,14 +27,16 @@ public partial class MasterMain : System.Web.UI.MasterPage
     {
         if (c.seLoginEmpData.EmpAccount == null)
         {
-            ShowErrorMsg("Session 遺失 (lost session state)");
-            c.LogOutWhenSessionMissed(this.Page, "Session 遺失 (lost session state)");
+            ShowErrorMsg(Resources.Lang.ErrMsg_LostSessionState);
+            c.LogOutWhenSessionMissed(this.Page, Resources.Lang.ErrMsg_LostSessionState);
         }
         
         if (!IsPostBack)
         {
             LoadUIData();
         }
+
+        DisplayOpMenu();
     }
 
     private void LoadUIData()
@@ -49,6 +53,112 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
             btnEditOperations.Title = Resources.Lang.btnEditOperations_Hint;
         }
+
+        //只有管理者能編輯後端作業選項
+        btnEditOperations.Visible = c.IsInRole("admin");
+        LineOfCtrl.Visible = btnEditOperations.Visible;
+    }
+
+    private void DisplayOpMenu()
+    {
+        DataSet dsTopList = empAuth.GetOperationsTopListWithRoleAuth(c.GetRoleName());
+        DataSet dsSubList = empAuth.GetOperationsSubListWithRoleAuth(c.GetRoleName());
+
+        if (c.IsInRole("admin"))
+        {
+            //管理者可以看到全部
+            foreach (DataRow dr in dsTopList.Tables[0].Rows)
+                dr["CanRead"] = true;
+
+            foreach (DataRow dr in dsSubList.Tables[0].Rows)
+                dr["CanRead"] = true;
+        }
+
+        // move sub list table into dsTopList to join
+        DataTable dtSubList = dsSubList.Tables[0];
+        dtSubList.TableName = "SubList";
+        dsSubList.Tables.Remove(dtSubList);
+        dsSubList.Dispose();
+        dsTopList.Tables.Add(dtSubList);
+
+        DataRelation dataRel = dsTopList.Relations.Add("JoinTopSub", dsTopList.Tables[0].Columns["OpId"], dtSubList.Columns["ParentId"]);
+        dataRel.Nested = true;
+
+        rptOpMenu.DataSource = dsTopList.Tables[0];
+        rptOpMenu.DataBind();
+    }
+
+    protected void rptOpMenu_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        int opId = Convert.ToInt32(drvTemp["OpId"]);
+        string opSubject = drvTemp["OpSubject"].ToString();
+        bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
+        string encodedUrl = drvTemp["LinkUrl"].ToString();
+        string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
+
+        HtmlGenericControl OpHeaderArea = (HtmlGenericControl)e.Item.FindControl("OpHeaderArea");
+        OpHeaderArea.Attributes.Add("opId", opId.ToString());
+
+        HtmlAnchor btnOpHeader = (HtmlAnchor)e.Item.FindControl("btnOpHeader");
+        btnOpHeader.Title = opSubject;
+
+        if (isNewWindow)
+        {
+            btnOpHeader.Target = "_blank";
+            btnOpHeader.Title += "(另開新視窗)";
+        }
+
+        if (linkUrl != "")
+        {
+            if (linkUrl.StartsWith("http://", StringComparison.CurrentCultureIgnoreCase)
+                    || linkUrl.StartsWith("https://", StringComparison.CurrentCultureIgnoreCase))
+            {
+                //外部網址
+                if (!isNewWindow)
+                    linkUrl = "~/Embedded-Content.aspx?url=" + Server.UrlEncode(encodedUrl);
+            }
+            else
+            {
+                linkUrl = "~/" + linkUrl;
+            }
+
+            btnOpHeader.HRef = linkUrl;
+        }
+
+        HtmlImage imgOpHeader = (HtmlImage)e.Item.FindControl("imgOpHeader");
+        imgOpHeader.Alt = opSubject;
+        imgOpHeader.Src = "~/BPimages/icon/data.gif";
+        object objIconImageFile = drvTemp["IconImageFile"];
+        if (!Convert.IsDBNull(objIconImageFile))
+            imgOpHeader.Src = string.Format("~/BPimages/icon/{0}", objIconImageFile);
+
+        Literal ltrOpHeaderSubject = (Literal)e.Item.FindControl("ltrOpHeaderSubject");
+        ltrOpHeaderSubject.Text = opSubject;
+
+        //檢查授權
+        bool canRead = false;
+
+        if (!Convert.IsDBNull(drvTemp["CanRead"]))
+            canRead = Convert.ToBoolean(drvTemp["CanRead"]);
+
+        OpHeaderArea.Visible = canRead;
+
+        DataView dvSubList = drvTemp.CreateChildView("JoinTopSub");
+        Repeater rptOpItems = (Repeater)e.Item.FindControl("rptOpItems");
+        rptOpItems.DataSource = dvSubList;
+        rptOpItems.DataBind();
+    }
+
+    protected void rptOpItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
     }
 
     #region Public Methods

@@ -292,6 +292,61 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/10/31>
+-- Description: <取得後端作業選項第一層清單和角色授權>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_GetTopListWithRoleAuth
+@RoleName nvarchar(20)
+as
+begin
+	select
+		o.OpId, o.OpSubject, o.LinkUrl, 
+		o.IsNewWindow, o.IconImageFile, 
+		ro.CanRead, ro.CanEdit, ro.CanReadSubItemOfSelf, 
+		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
+		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
+		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers
+	from dbo.Operations o
+		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId
+	where o.ParentId is null
+		and o.IsHideSelf=0
+	order by o.SortNo
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/10/31>
+-- Description: <取得後端作業選項子清單和角色授權>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_GetSubListWithRoleAuth
+@RoleName nvarchar(20)
+as
+begin
+	select
+		o.OpId, o.ParentId, o.OpSubject, 
+		o.LinkUrl, o.IsNewWindow, o.IconImageFile, 
+		ro.CanRead, ro.CanEdit, ro.CanReadSubItemOfSelf, 
+		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
+		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
+		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers
+	from dbo.Operations o
+		join dbo.Operations parent on o.ParentId=parent.OpId and parent.IsHideSelf=0
+		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId
+	where o.ParentId is not null
+		and o.IsHideSelf=0
+	order by o.ParentId, o.SortNo
+end
+go
+
 ----------------------------------------------------------------------------
 -- 員工角色後端作業授權相關
 ----------------------------------------------------------------------------

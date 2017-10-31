@@ -3,6 +3,7 @@ using Common.DataAccess.EmployeeAuthority;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -121,6 +122,23 @@ namespace Common.LogicObject
 
                 webPage.ClientScript.RegisterStartupScript(webPage.GetType(), "toLogout", sbScript.ToString(), true);
             }
+        }
+
+        /// <summary>
+        /// 解碼選單網址
+        /// </summary>
+        public string DecodeUrlOfMenu(string linkUrl)
+        {
+            if (linkUrl.Contains("{website_url}"))
+            {
+                linkUrl = linkUrl.Replace("{website_url}", ConfigurationManager.AppSettings["WebsiteUrl"]);
+            }
+            else if (linkUrl.Contains("{backend_url}"))
+            {
+                linkUrl = linkUrl.Replace("{backend_url}", ConfigurationManager.AppSettings["BackendUrl"]);
+            }
+
+            return linkUrl;
         }
 
         #region IAuthenticationConditionProvider

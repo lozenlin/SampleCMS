@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mt-md-5 no-gutters">
                 <div class="col-md-8 mx-auto LoginFormContainer">
-                    <div class="card bgtx-main px-md-4 pb-md-3 LoginWell">
+                    <div class="card bgtx-glass-diamond px-md-4 pb-md-3 LoginWell">
                         <div class="card-body">
                             <div class="Signboard">
                                 <h1 class="SignboardText"><asp:Literal ID="ltrBackStageName" runat="server"></asp:Literal></h1>

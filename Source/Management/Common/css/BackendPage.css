@@ -1,11 +1,16 @@
 ﻿.bgtx-main {
     background-color:transparent !important;
-    background-image:url('../../BPimages/pxs_aplpha90diamond.png');
+    background-image:url('../../BPimages/pxs_alpha90mix.png');
 }
 
 .bgtx-glass {
     background-color:transparent !important;
     background-image:url('../../BPimages/pxs_alpha90mix.png');
+}
+
+.bgtx-glass-diamond {
+    background-color:transparent !important;
+    background-image:url('../../BPimages/pxs_aplpha90diamond.png');
 }
 
 .bgtx-glass-snow {

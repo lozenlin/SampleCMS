@@ -166,6 +166,17 @@ create index IX_Operations_CommonClass on dbo.Operations(CommonClass)
 go
 
 --預設內容 (todo by lozen)
+set identity_insert dbo.Operations on
+insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
+ values (1, null, N'系統管理功能', N'', 0, N'vectory_mini/basic/028.png', 10, 0, '', 'admin', getdate(), null, null)
+insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
+ values (2, 1, N'帳號管理', N'Account-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'AccountCommonOfBackend', 'admin', getdate(), null, null)
+insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
+ values (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'RoleCommonOfBackend', 'admin', getdate(), null, null)
+insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
+ values (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), null, null)
+
+set identity_insert dbo.Operations off
 go
 
 ----------------------------------------------------------------------------

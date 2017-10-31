@@ -213,6 +213,10 @@
     <value>展開</value>
     <comment>展開</comment>
   </data>
+  <data name="Main_btnExpand_Hint" xml:space="preserve">
+    <value>展開所有功能</value>
+    <comment>展開所有功能</comment>
+  </data>
   <data name="Footer_CompanyInfo" xml:space="preserve">
     <value>© Company</value>
     <comment>© Company</comment>
@@ -244,6 +248,10 @@
   <data name="Dashboard_IpTitle" xml:space="preserve">
     <value>IP 位置</value>
     <comment>IP 位置</comment>
+  </data>
+  <data name="ErrMsg_LostSessionState" xml:space="preserve">
+    <value>Session 遺失 (lost session state)</value>
+    <comment>Session 遺失 (lost session state)</comment>
   </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
