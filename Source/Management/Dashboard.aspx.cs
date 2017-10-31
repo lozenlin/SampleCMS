@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.LogicObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,8 +8,42 @@ using System.Web.UI.WebControls;
 
 public partial class Dashboard : System.Web.UI.Page
 {
+    protected BackendPageCommon c;
+
+    protected void Page_PreInit(object sender, EventArgs e)
+    {
+        c = new BackendPageCommon(this.Context, this.ViewState);
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            LoadUIData();
+        }
+    }
 
+    private void LoadUIData()
+    {
+        if (c.IsAuthenticated())
+        {
+            LoginEmployeeData d = c.seLoginEmpData;
+            ltrEmpAccount.Text = d.EmpAccount;
+
+            if (d.ThisLoginTime != DateTime.MinValue)
+            {
+                ltrThisLoginTime.Text = string.Format("{0:yyyy-MM-dd HH:mm}", d.ThisLoginTime);
+                ltrThisLoginIP.Text = d.ThisLoginIP;
+            }
+
+            if (d.LastLoginTime != DateTime.MinValue)
+            {
+                ltrLastLoginTime.Text = string.Format("{0:yyyy-MM-dd HH:mm}", d.LastLoginTime);
+                ltrLastLoginIP.Text = d.LastLoginIP;
+            }
+        }
+        else
+        {
+        }
     }
 }

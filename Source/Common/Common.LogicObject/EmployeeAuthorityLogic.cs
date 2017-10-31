@@ -353,5 +353,22 @@ namespace Common.LogicObject
 
             return roleName;
         }
+
+        /// <summary>
+        /// 更新後端使用者本次登入資訊
+        /// </summary>
+        public bool UpdateEmpLoginInfo(string empAccount, string thisLoginIP)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_UpdateLoginInfo cmdInfo = new spEmployee_UpdateLoginInfo()
+            {
+                EmpAccount = empAccount,
+                ThisLoginIP = thisLoginIP
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
     }
 }

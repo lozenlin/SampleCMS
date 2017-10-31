@@ -32,13 +32,15 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/09/13>
+-- History:
+--	2017/10/31, lozen_lin, modify, 新增欄位「本次登入時間,本次登入IP,上次登入時間,上次登入IP」
 -- Description: <取得後端使用者資料>
 -- Test:
 /*
 exec dbo.spEmployee_GetData 'admin'
 */
 -- =============================================
-create procedure dbo.spEmployee_GetData
+alter procedure dbo.spEmployee_GetData
 @EmpAccount varchar(20)
 as
 begin
@@ -48,7 +50,9 @@ begin
 		e.DeptId, d.DeptName, e.RoleId, 
 		r.RoleName, r.RoleDisplayName, e.IsAccessDenied, 
 		e.PostAccount, e.PostDate, e.MdfAccount, 
-		e.MdfDate, e.StartDate, e.EndDate
+		e.MdfDate, e.StartDate, e.EndDate, 
+		e.ThisLoginTime, e.ThisLoginIP, e.LastLoginTime,
+		e.LastLoginIP
 	from dbo.Employee e
 		join dbo.EmployeeRole r on e.RoleId=r.RoleId
 		left join dbo.Department d on e.DeptId=d.DeptId
@@ -213,6 +217,31 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/10/31>
+-- Description: <更新後端使用者本次登入資訊>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_UpdateLoginInfo
+@EmpAccount varchar(20)
+,@ThisLoginIP	varchar(50)
+as
+begin
+	declare @ThisLoginTime	datetime = getdate()
+
+	--備份上次的登入資訊,記錄這次的
+	update dbo.Employee
+	set LastLoginTime=ThisLoginTime
+		,LastLoginIP=ThisLoginIP
+		,ThisLoginTime=@ThisLoginTime
+		,ThisLoginIP=@ThisLoginIP
+	where EmpAccount=@EmpAccount
+end
+go
+
 ----------------------------------------------------------------------------
 -- 後端操作記錄
 ----------------------------------------------------------------------------
@@ -301,7 +330,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/10/27>
+-- Create date: <2017/10/31>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

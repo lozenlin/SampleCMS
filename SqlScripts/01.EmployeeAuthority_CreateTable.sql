@@ -93,6 +93,13 @@ create table dbo.Employee(
 )
 go
 
+--	2017/10/31, lozen_lin, modify, 新增欄位「本次登入時間,本次登入IP,上次登入時間,上次登入IP」
+alter table dbo.Employee add ThisLoginTime	datetime
+alter table dbo.Employee add ThisLoginIP	varchar(50)
+alter table dbo.Employee add LastLoginTime	datetime
+alter table dbo.Employee add LastLoginIP	varchar(50)
+go
+
 -- foreign key
 alter table dbo.Employee  with check add constraint FK_Employee_Department foreign key(DeptId)
 references dbo.Department(DeptId)

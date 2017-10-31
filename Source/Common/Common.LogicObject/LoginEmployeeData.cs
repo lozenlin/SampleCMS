@@ -22,5 +22,9 @@ namespace Common.LogicObject
         public DateTime StartDate;
         public DateTime EndDate;
         public string EmpAccount;
+        public DateTime ThisLoginTime;
+        public string ThisLoginIP;
+        public DateTime LastLoginTime;
+        public string LastLoginIP;
     }
 }

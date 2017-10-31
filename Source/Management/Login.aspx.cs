@@ -180,6 +180,9 @@ public partial class Login : System.Web.UI.Page
             }
         }
 
+        //記錄登入時間與IP
+        empAuth.UpdateEmpLoginInfo(txtAccount.Text, c.GetClientIP());
+
         //確認可登入後,取得使用者資料
         DataSet dsEmp = empAuth.GetEmpData(txtAccount.Text);
 
@@ -203,6 +206,17 @@ public partial class Login : System.Web.UI.Page
         c.seLoginFailedCount = 0;
 
         DataRow drEmp = dsEmp.Tables[0].Rows[0];
+
+        DateTime 
+            thisLoginTime = DateTime.MinValue,
+            lastLoginTime = DateTime.MinValue;
+
+        if (!Convert.IsDBNull(drEmp["ThisLoginTime"]))
+            thisLoginTime = Convert.ToDateTime(drEmp["ThisLoginTime"]);
+
+        if (!Convert.IsDBNull(drEmp["LastLoginTime"]))
+            lastLoginTime = Convert.ToDateTime(drEmp["LastLoginTime"]);
+
         LoginEmployeeData loginEmpData = new LoginEmployeeData()
         {
             EmpId = Convert.ToInt32(drEmp["EmpId"]),
@@ -215,7 +229,11 @@ public partial class Login : System.Web.UI.Page
             RoleDisplayName = drEmp["RoleDisplayName"].ToString(),
             StartDate = Convert.ToDateTime(drEmp["StartDate"]),
             EndDate = Convert.ToDateTime(drEmp["EndDate"]),
-            EmpAccount = drEmp["EmpAccount"].ToString()
+            EmpAccount = drEmp["EmpAccount"].ToString(),
+            ThisLoginTime = thisLoginTime,
+            ThisLoginIP = drEmp["ThisLoginIP"].ToString(),
+            LastLoginTime = lastLoginTime,
+            LastLoginIP = drEmp["LastLoginIP"].ToString()
         };
         c.SaveLoginEmployeeDataIntoSession(loginEmpData);
 

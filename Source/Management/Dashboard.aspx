@@ -4,29 +4,37 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
-        <i class="fa fa-info-circle"></i> 訊息 Information
+        <i class="fa fa-info-circle"></i> <%= Resources.Lang.Dashboard_Subtitle %>
     </div>
     <div>
-        <h6 class="text-info font-weight-bold my-3">您已成功登入後端管理系統！</h6>
-        登入資訊:
+        <h6 class="text-info font-weight-bold my-3"><%= Resources.Lang.Dashboard_Greeting %></h6>
+        <%= Resources.Lang.Dashboard_LoginInfoTitle %>:
         <table class="table table-bordered table-sm bg-white">
             <tbody>
                 <tr>
-                    <th class="w-25">帳　號</th>
-                    <td>
-                        Account name
+                    <th style="width:20%;"><%= Resources.Lang.Dashboard_AccountTitle %></th>
+                    <td colspan="3">
+                        <asp:Literal ID="ltrEmpAccount" runat="server"></asp:Literal>
                     </td>
                 </tr>
                 <tr>
-                    <th>日　期</th>
-                    <td>
-                        2017-10-16 21:23
+                    <th style="width:20%;"><%= Resources.Lang.Dashboard_ThisLoginTimeTitle %></th>
+                    <td style="width:30%;">
+                        <asp:Literal ID="ltrThisLoginTime" runat="server"></asp:Literal>
+                    </td>
+                    <th style="width:20%;"><%= Resources.Lang.Dashboard_IpTitle %></th>
+                    <td style="width:30%;">
+                        <asp:Literal ID="ltrThisLoginIP" runat="server"></asp:Literal>
                     </td>
                 </tr>
                 <tr>
-                    <th>IP 位置</th>
+                    <th><%= Resources.Lang.Dashboard_LastLoginTimeTitle %></th>
                     <td>
-                        127.0.0.1
+                        <asp:Literal ID="ltrLastLoginTime" runat="server"></asp:Literal>
+                    </td>
+                    <th><%= Resources.Lang.Dashboard_IpTitle %></th>
+                    <td>
+                        <asp:Literal ID="ltrLastLoginIP" runat="server"></asp:Literal>
                     </td>
                 </tr>
             </tbody>

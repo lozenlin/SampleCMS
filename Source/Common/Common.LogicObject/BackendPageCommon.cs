@@ -71,7 +71,7 @@ namespace Common.LogicObject
             if (UseFormsAuthentication)
                 return User.Identity.IsAuthenticated;
             else
-                return seLoginEmpData.RoleName != "";    //角色識別不為空白時,代表已驗證
+                return !string.IsNullOrEmpty(seLoginEmpData.RoleName);    //角色識別不為null與空白時,代表已驗證
         }
 
         /// <summary>

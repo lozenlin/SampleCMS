@@ -122,7 +122,7 @@
     <comment>SampleCMS 後端管理</comment>
   </data>
   <data name="BackStageNameShort" xml:space="preserve">
-    <value>SampleCMS</value>
+    <value>SampleCMS 後端管理</value>
     <comment>SampleCMS</comment>
   </data>
   <data name="Login_Subtitle" xml:space="preserve">
@@ -184,6 +184,66 @@
   <data name="CaptchaPic_Hint" xml:space="preserve">
     <value>如驗證圖無法辨識，請點擊這裡重新產生</value>
     <comment>如驗證圖無法辨識，請點擊這裡重新產生</comment>
+  </data>
+  <data name="Main_RoleTitle" xml:space="preserve">
+    <value>身分</value>
+    <comment>身分</comment>
+  </data>
+  <data name="Main_DeptTitle" xml:space="preserve">
+    <value>部門</value>
+    <comment>部門</comment>
+  </data>
+  <data name="Main_btnAccountSettings" xml:space="preserve">
+    <value>帳號設定</value>
+    <comment>帳號設定</comment>
+  </data>
+  <data name="Main_btnLogout" xml:space="preserve">
+    <value>登出</value>
+    <comment>登出</comment>
+  </data>
+  <data name="btnEdit" xml:space="preserve">
+    <value>編輯</value>
+    <comment>編輯</comment>
+  </data>
+  <data name="btnEditOperations_Hint" xml:space="preserve">
+    <value>編輯後端作業選項</value>
+    <comment>編輯後端作業選項</comment>
+  </data>
+  <data name="Main_btnExpand" xml:space="preserve">
+    <value>展開</value>
+    <comment>展開</comment>
+  </data>
+  <data name="Footer_CompanyInfo" xml:space="preserve">
+    <value>© Company</value>
+    <comment>© Company</comment>
+  </data>
+  <data name="Dashboard_Subtitle" xml:space="preserve">
+    <value>訊息</value>
+    <comment>訊息</comment>
+  </data>
+  <data name="Dashboard_Greeting" xml:space="preserve">
+    <value>您已成功登入後端管理系統！</value>
+    <comment>您已成功登入後端管理系統！</comment>
+  </data>
+  <data name="Dashboard_LoginInfoTitle" xml:space="preserve">
+    <value>登入資訊</value>
+    <comment>登入資訊</comment>
+  </data>
+  <data name="Dashboard_AccountTitle" xml:space="preserve">
+    <value>帳　號</value>
+    <comment>帳　號</comment>
+  </data>
+  <data name="Dashboard_ThisLoginTimeTitle" xml:space="preserve">
+    <value>本次登入時間</value>
+    <comment>本次登入時間</comment>
+  </data>
+  <data name="Dashboard_LastLoginTimeTitle" xml:space="preserve">
+    <value>上次登入時間</value>
+    <comment>上次登入時間</comment>
+  </data>
+  <data name="Dashboard_IpTitle" xml:space="preserve">
+    <value>IP 位置</value>
+    <comment>IP 位置</comment>
   </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>

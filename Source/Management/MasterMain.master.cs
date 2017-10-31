@@ -31,6 +31,23 @@ public partial class MasterMain : System.Web.UI.MasterPage
         
         if (!IsPostBack)
         {
+            LoadUIData();
+        }
+    }
+
+    private void LoadUIData()
+    {
+        if (c.seLoginEmpData.EmpAccount != null)
+        {
+            LoginEmployeeData d = c.seLoginEmpData;
+            ltrRoleDisplayName.Text = string.Format("{0}({1})", d.RoleDisplayName, d.RoleName);
+            ltrDeptName.Text = d.DeptName;
+            ltrAccountInfo.Text = string.Format("Hi, {0}({1})", d.EmpName, d.EmpAccount);
+            btnAccountSettings.Title = Resources.Lang.Main_btnAccountSettings;
+            btnLogout.Title = Resources.Lang.Main_btnLogout;
+            btnLogout.HRef = string.Format("Logout.ashx?l={0}", c.qsLangNo);
+
+            btnEditOperations.Title = Resources.Lang.btnEditOperations_Hint;
         }
     }
 
