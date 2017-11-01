@@ -123,3 +123,43 @@ $("#btnExpand").click(function () {
     return false;
 });
 
+// switch sidebar menu area
+var $sidebarMenu = $(".sidebar-menu");
+var $sidebarMenuCtrlArea = $("#SidebarMenuCtrlArea");
+var sidebarMenuMode = "";
+
+function initSidebarMenu(mode) {
+    if (mode == "desktop") {
+        $sidebarMenu.show();
+        $sidebarMenuCtrlArea.hide();
+        sidebarMenuMode = mode;
+    } else if (mode == "mobile") {
+        $sidebarMenu.hide();
+        $sidebarMenuCtrlArea.show();
+        sidebarMenuMode = mode;
+    }
+}
+
+function updateSidebarMenuStatus(w) {
+    if (w >= 768) {
+        if (sidebarMenuMode != "desktop") {
+            initSidebarMenu("desktop");
+        }
+    } else {
+        if (sidebarMenuMode != "mobile") {
+            initSidebarMenu("mobile");
+        }
+    }
+}
+
+$(window).resize(function () {
+    var w = window.innerWidth;
+    updateSidebarMenuStatus(w);
+});
+
+$("#btnToggleSidebarMenu").click(function () {
+    $sidebarMenu.slideToggle("fast");
+    return false;
+});
+
+updateSidebarMenuStatus(window.innerWidth);

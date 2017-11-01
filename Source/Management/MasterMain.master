@@ -52,6 +52,9 @@
             <div class="row">
                 <div class="col-md-3 pr-md-0">
                     <div class="sidebar-container rounded bgtx-main">
+                        <div id="SidebarMenuCtrlArea" class="mb-1 text-right" style="display:none;">
+                            <a id="btnToggleSidebarMenu" href="#" class="btn btn-light border-secondary text-secondary"><i class="fa fa-bars fa-lg"></i></a>
+                        </div>
                         <div class="sidebar-menu">
                             <div class="form-group">
                                 <a id="btnEditOperations" runat="server" href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEdit %></a>
