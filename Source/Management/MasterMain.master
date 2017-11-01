@@ -68,7 +68,7 @@
                                         <img id="imgOpHeader" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
                                         <asp:Literal ID="ltrOpHeaderSubject" runat="server"></asp:Literal>
                                     </a>
-                                    <ul class="nav nav-pills flex-column item-list">
+                                    <ul class="nav nav-pills flex-column flex-nowrap item-list">
                                     <asp:Repeater ID="rptOpItems" runat="server" OnItemDataBound="rptOpItems_ItemDataBound">
                                     <ItemTemplate>
                                         <li id="OpItemArea" runat="server" class="nav-item item-area">
@@ -87,7 +87,7 @@
                                 <li class="nav-item card items-group">
                                     <a href="#" class="nav-link item-header">
                                         <img src="BPimages/icon/vectory_mini/multimedia/071.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 網站內容管理</a>
-                                    <ul class="nav nav-pills flex-column item-list">
+                                    <ul class="nav nav-pills flex-column flex-nowrap item-list">
                                         <li class="nav-item item-area">
                                             <a href="#" class="nav-link item">
                                                 <img src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 帳號管理</a>
@@ -102,39 +102,57 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item card items-group">
+                                <li class="nav-item card items-group" opId="77">
                                     <a href="#" class="nav-link item-header">
                                         <img src="BPimages/icon/vectory_mini/personnel/076.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 架構檢視</a>
-                                    <ul class="nav nav-pills flex-column tree-list">
-                                        <li class="nav-item">
+                                    <ul class="nav nav-pills flex-column flex-nowrap tree-list">
+                                        <li class="nav-item branch-area" articleId="a01">
                                             <a href="#" class="nav-link branch">
                                                 <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
-                                            <ul class="nav nav-pills flex-column branch-list">
-                                                <li class="nav-item">
+                                            <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                <li class="nav-item branch-area" articleId="a03">
                                                     <a href="#" class="nav-link branch">
                                                         <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
-                                                    <ul class="nav nav-pills flex-column branch-list">
-                                                        <li class="nav-item">
+                                                    <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                        <li class="nav-item branch-area" articleId="a05">
                                                             <a href="#" class="nav-link branch">
                                                                 <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
                                                         </li>
-                                                        <li class="nav-item">
+                                                        <li class="nav-item branch-area" articleId="a06">
                                                             <a href="#" class="nav-link branch">
                                                                 <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
                                                         </li>
-                                                        <li class="nav-item">
+                                                        <li class="nav-item branch-area" articleId="a07">
                                                             <a href="#" class="nav-link branch">
                                                                 <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="nav-item">
+                                                <li class="nav-item branch-area" articleId="a04">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                    <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                        <li class="nav-item branch-area" articleId="a08">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a09">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a10">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item branch-area" articleId="a20">
                                                     <a href="#" class="nav-link branch">
                                                         <img src="BPimages/icon/folder.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item branch-area" articleId="a02">
                                             <a href="#" class="nav-link branch">
                                                 <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
                                         </li>
@@ -160,7 +178,7 @@
         </div>
     
         <script src="Common/js/jquery-3.2.1.min.js"></script>
-        <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+        <%--<script src="Common/js/jquery-migrate-3.0.0.js"></script>--%>
         <script src="Common/js/popper.min.js"></script>
         <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
         <script src="Common/js/BackendPage.js"></script>
@@ -173,9 +191,10 @@
 
             $(".main-navbar").tooltip();
         </script>
+        <script src="Common/js/jquery.hoverIntent.min.js"></script>
         <script src="Common/js/Sidebar-menu.js"></script>
         <script>
-            ToggleInitialOperation("2", "");
+            opMenu.initialize("2", "");
         </script>
     </form>
 
