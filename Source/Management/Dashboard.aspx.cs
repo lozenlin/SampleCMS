@@ -25,6 +25,9 @@ public partial class Dashboard : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        Master.SetHeadUpDisplayVisible(false);
+        IHeadUpDisplay hud = Master.GetHeadUpDisplay();
+
         if (c.IsAuthenticated())
         {
             LoginEmployeeData d = c.seLoginEmpData;

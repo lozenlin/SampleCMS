@@ -217,6 +217,16 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
     #region Public Methods
 
+    public void SetHeadUpDisplayVisible(bool visible)
+    {
+        ucHeadUpDisplay.Visible = visible;
+    }
+
+    public IHeadUpDisplay GetHeadUpDisplay()
+    {
+        return ucHeadUpDisplay;
+    }
+
     /// <summary>
     /// 顯示錯誤訊息
     /// </summary>
