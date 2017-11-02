@@ -34,21 +34,21 @@ namespace Common.LogicObject
         {
             get
             {
-                object obj = Request.QueryString["l"];
-                if (obj == null)
-                    obj = Request.QueryString["lang"];
+                string str = Request.QueryString["l"];
+                if (str == null)
+                    str = Request.QueryString["lang"];
 
                 int nResult;
                 string langNo = "";
 
-                if (obj == null)
+                if (str == null)
                 {
                     //未指定,抓瀏覽器的
                     string resultCultureName = GetAllowedUserCultureName();
 
                     langNo = new LangManager().GetLangNo(resultCultureName);
                 }
-                else if (int.TryParse(obj.ToString(), out nResult))
+                else if (int.TryParse(str, out nResult))
                 {
                     //有指定, 限制範圍
                     if (nResult < 1)
@@ -60,6 +60,26 @@ namespace Common.LogicObject
                 }
 
                 return langNo;
+            }
+        }
+
+        /// <summary>
+        /// 頁碼
+        /// </summary>
+        public int qsPageCode
+        {
+            get
+            {
+                int nResult;
+                string str = Request.QueryString["p"];
+
+                if (str != null && int.TryParse(str, out nResult) && nResult >= 1)
+                {
+                }
+                else
+                    nResult = 1;
+
+                return nResult;
             }
         }
 

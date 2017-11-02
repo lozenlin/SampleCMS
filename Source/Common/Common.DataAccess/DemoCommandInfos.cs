@@ -26,7 +26,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_WoPara";
+            return "dbo.spDemo_WoPara";
         }
     }
 
@@ -49,7 +49,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_WithPara";
+            return "dbo.spDemo_WithPara";
         }
     }
 
@@ -79,7 +79,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_WithOutputPara";
+            return "dbo.spDemo_WithOutputPara";
         }
     }
 
@@ -114,7 +114,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_WithOutputParaAndAuthPara";
+            return "dbo.spDemo_WithOutputParaAndAuthPara";
         }
     }
 
@@ -142,7 +142,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_ModifyCommandParametersBeforeExecute";
+            return "dbo.spDemo_ModifyCommandParametersBeforeExecute";
         }
 
         public void ModifyCommandParametersBeforeExecute(SqlParameter[] commandParameters)
@@ -181,7 +181,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteDataset";
+            return "dbo.spDemo_CustomExecuteDataset";
         }
 
         public DataSet ExecuteDataset(IDataAccessCommandInnerTools innerTools)
@@ -239,7 +239,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteDatasetWithOutputPara";
+            return "dbo.spDemo_CustomExecuteDatasetWithOutputPara";
         }
 
         public DataSet ExecuteDataset(IDataAccessCommandInnerTools innerTools)
@@ -314,7 +314,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteNonQuery";
+            return "dbo.spDemo_CustomExecuteNonQuery";
         }
 
         public bool ExecuteNonQuery(IDataAccessCommandInnerTools innerTools)
@@ -366,7 +366,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteNonQueryWithOutputPara";
+            return "dbo.spDemo_CustomExecuteNonQueryWithOutputPara";
         }
 
         public bool ExecuteNonQuery(IDataAccessCommandInnerTools innerTools)
@@ -433,7 +433,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteScalar";
+            return "dbo.spDemo_CustomExecuteScalar";
         }
 
         public T ExecuteScalar<T>(IDataAccessCommandInnerTools innerTools, T errCode)
@@ -485,7 +485,7 @@ namespace Common.DataAccess.DemoCommandInfos
 
         public string GetCommandText()
         {
-            return "spDemo_CustomExecuteReader";
+            return "dbo.spDemo_CustomExecuteReader";
         }
 
         public IDataReader ExecuteReader(IDataAccessCommandInnerTools innerTools, out SqlConnection connOut)

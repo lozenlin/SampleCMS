@@ -22,6 +22,11 @@ namespace Common.LogicObject
         /// </summary>
         public static bool UseFormsAuthentication = true;
 
+        /// <summary>
+        /// 後台首頁連結位置
+        /// </summary>
+        public string BACK_END_HOME = "/Management/Dashboard.aspx";
+
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
@@ -221,6 +226,23 @@ namespace Common.LogicObject
         }
 
         #endregion
+
+    }
+
+    /// <summary>
+    /// 後台帳號管理頁的共用元件
+    /// </summary>
+    [Description("後台帳號管理頁的共用元件")]
+    public class AccountCommonOfBackend : BackendPageCommon
+    {
+        public AccountCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
 
     }
 }

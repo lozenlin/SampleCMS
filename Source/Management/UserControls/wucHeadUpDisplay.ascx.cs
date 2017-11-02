@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.LogicObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,42 @@ using System.Web.UI.WebControls;
 
 public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, IHeadUpDisplay
 {
+    protected BackendPageCommon c;
+    protected EmployeeAuthorityLogic empAuth;
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        c = new BackendPageCommon(this.Context, this.ViewState);
+        c.InitialLoggerOfUI(this.GetType());
+        empAuth = new EmployeeAuthorityLogic(c);
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            LoadUIData();
+        }
 
+        if (c.seLoginEmpData.EmpAccount != null
+            && Request.AppRelativeCurrentExecutionFilePath != "~/Back-End-Log.aspx")
+        {
+            //新增後端操作記錄
+            string description = string.Format("．{0}　．頁碼[{1}]　．路徑[{2}]　．IsPostBack[{3}]",
+                ltrHead.Text, c.qsPageCode, Common.Utility.StringUtility.RemoveHtmlTag(ltrBreadcrumb.Text.Replace("</", "/</")), IsPostBack);
+
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = description,
+                IP = c.GetClientIP()
+            });
+        }
+    }
+
+    private void LoadUIData()
+    {
+        btnBackToParent.HRef = "~/Dashboard.aspx?l=" + c.qsLangNo;
     }
 
     private HtmlAnchor GetButton(HudButtonNameEnum buttonName)
@@ -164,6 +198,52 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         btn.Visible = visible;
     }
 
-    #endregion
+    /// <summary>
+    /// e.g., Home / textAfterHomeNode
+    /// </summary>
+    public void RebuildBreadcrumb(string textAfterHomeNode, bool textIsHtml)
+    {
+        ltrBreadcrumb.Text = "";
 
+        //add home node
+        ltrBreadcrumb.Text += string.Format("<a href='/Management/Dashboard.aspx?l={0}' class='breadcrumb-item' title={1}>{1}</a>", 
+            c.qsLangNo, Resources.Lang.Main_Home);
+
+        //add text
+        if (textIsHtml)
+        {
+            ltrBreadcrumb.Text += textAfterHomeNode;
+        }
+        else
+        {
+            ltrBreadcrumb.Text += string.Format("<span class='breadcrumb-item active'>{0}</span>", textAfterHomeNode);
+        }
+    }
+
+    /// <summary>
+    /// e.g., Home / OpSubject
+    /// </summary>
+    public bool RebuildBreadcrumbAndUpdateHead(int opId)
+    {
+        OperationHtmlAnchorData anchorData = empAuth.GetOperationHtmlAnchorData(opId);
+
+        if (anchorData == null)
+            return false;
+
+        if (anchorData.IconImageFileUrl != "")
+        {
+            imgHead.Src = "~/BPimages/icon/" + anchorData.IconImageFileUrl;
+        }
+
+        if (ltrHead.Text == "default_head")
+        {
+            ltrHead.Text = anchorData.Subject;
+        }
+
+        RebuildBreadcrumb(ltrHead.Text, false);
+
+        return true;
+    }
+
+    #endregion
 }

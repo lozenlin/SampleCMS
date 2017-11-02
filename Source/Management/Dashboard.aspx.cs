@@ -27,6 +27,7 @@ public partial class Dashboard : System.Web.UI.Page
     {
         Master.SetHeadUpDisplayVisible(false);
         IHeadUpDisplay hud = Master.GetHeadUpDisplay();
+        hud.SetHeadText("Dashboard");
 
         if (c.IsAuthenticated())
         {

@@ -405,6 +405,44 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得後端作業選項資料
+        /// </summary>
+        public DataSet GetOperationData(int opId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetData cmdInfo = new spOperations_GetData()
+            {
+                OpId = opId
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得用來組成麵包屑節點連結的後端作業選項資料
+        /// </summary>
+        public OperationHtmlAnchorData GetOperationHtmlAnchorData(int opId)
+        {
+            OperationHtmlAnchorData result = null;
+            DataSet dsOp = GetOperationData(opId);
+
+            if (dsOp != null && dsOp.Tables[0].Rows.Count > 0)
+            {
+                DataRow drFirst = dsOp.Tables[0].Rows[0];
+
+                result = new OperationHtmlAnchorData();
+                result.Subject = drFirst["OpSubject"].ToString();
+                result.LinkUrl = drFirst["LinkUrl"].ToString();
+                result.IconImageFileUrl = drFirst["IconImageFile"].ToString();
+                result.Html = string.Format("<a href=\"{0}\">{1}</a>", result.LinkUrl, result.Subject);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

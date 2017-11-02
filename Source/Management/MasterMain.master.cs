@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,6 +49,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
             ltrDeptName.Text = d.DeptName;
             ltrAccountInfo.Text = string.Format("Hi, {0}({1})", d.EmpName, d.EmpAccount);
             btnAccountSettings.Title = Resources.Lang.Main_btnAccountSettings;
+            btnAccountSettings.HRef = string.Format("Account-List.aspx?l={0}", c.qsLangNo);
             btnLogout.Title = Resources.Lang.Main_btnLogout;
             btnLogout.HRef = string.Format("Logout.ashx?l={0}", c.qsLangNo);
 
@@ -125,6 +127,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
             else
             {
                 linkUrl = "~/" + linkUrl;
+                linkUrl = StringUtility.SetParaValueInUrl(linkUrl, "l", c.qsLangNo);
             }
 
             btnOpHeader.HRef = linkUrl;
@@ -191,6 +194,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
             else
             {
                 linkUrl = "~/" + linkUrl;
+                linkUrl = StringUtility.SetParaValueInUrl(linkUrl, "l", c.qsLangNo);
             }
 
             btnOpItem.HRef = linkUrl;

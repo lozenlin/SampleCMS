@@ -347,6 +347,30 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/02>
+-- Description: <取得後端作業選項資料>
+-- Test:
+/*
+exec dbo.spOperations_GetData 2
+*/
+-- =============================================
+create procedure dbo.spOperations_GetData
+@OpId int
+as
+begin
+	select
+		o.OpId, o.OpSubject, o.LinkUrl, 
+		o.IconImageFile, o.PostAccount, o.PostDate, o.MdfAccount, o.MdfDate, 
+		e.EmpName as PostName, d.DeptName as PostDeptName
+	from dbo.Operations o
+		left join dbo.Employee e on o.PostAccount=e.EmpAccount
+		left join dbo.Department d on e.DeptId=d.DeptId
+	where OpId=@OpId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 員工角色後端作業授權相關
 ----------------------------------------------------------------------------
@@ -385,7 +409,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/10/31>
+-- Create date: <2017/11/02>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

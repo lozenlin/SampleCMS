@@ -24,7 +24,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spEmployee_GetDataToLogin";
+            return "dbo.spEmployee_GetDataToLogin";
         }
     }
 
@@ -46,7 +46,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spEmployee_GetData";
+            return "dbo.spEmployee_GetData";
         }
     }
 
@@ -80,7 +80,7 @@ namespace Common.DataAccess.EmployeeAuthority
         
         public string GetCommandText()
         {
-            return "spEmployee_GetList";
+            return "dbo.spEmployee_GetList";
         }
     }
 
@@ -102,7 +102,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spEmployee_GetRoleName";
+            return "dbo.spEmployee_GetRoleName";
         }
     }
 
@@ -125,7 +125,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spEmployee_UpdateLoginInfo";
+            return "dbo.spEmployee_UpdateLoginInfo";
         }
     }
 
@@ -153,7 +153,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spBackEndLog_InsertData";
+            return "dbo.spBackEndLog_InsertData";
         }
     }
 
@@ -179,7 +179,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spOperations_GetOpInfoByCommonClass";
+            return "dbo.spOperations_GetOpInfoByCommonClass";
         }
     }
 
@@ -201,7 +201,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spOperations_GetTopListWithRoleAuth";
+            return "dbo.spOperations_GetTopListWithRoleAuth";
         }
     }
 
@@ -223,7 +223,29 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spOperations_GetSubListWithRoleAuth";
+            return "dbo.spOperations_GetSubListWithRoleAuth";
+        }
+    }
+
+    /// <summary>
+    /// 取得後端作業選項資料
+    /// </summary>
+    public class spOperations_GetData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int OpId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_GetData";
         }
     }
 
@@ -250,7 +272,7 @@ namespace Common.DataAccess.EmployeeAuthority
 
         public string GetCommandText()
         {
-            return "spEmployeeRoleOperationsDesc_GetDataOfOp";
+            return "dbo.spEmployeeRoleOperationsDesc_GetDataOfOp";
         }
     }
 

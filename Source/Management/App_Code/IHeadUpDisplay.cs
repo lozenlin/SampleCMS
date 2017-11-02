@@ -16,6 +16,14 @@ public interface IHeadUpDisplay
     void SetButtonAttribute(HudButtonNameEnum buttonName, HudButtonAttributeEnum buttonAttr, string value);
     bool GetButtonVisible(HudButtonNameEnum buttonName);
     void SetButtonVisible(HudButtonNameEnum buttonName, bool visible);
+    /// <summary>
+    /// e.g., Home / textAfterHomeNode
+    /// </summary>
+    void RebuildBreadcrumb(string textAfterHomeNode, bool textIsHtml);
+    /// <summary>
+    /// e.g., Home / OpSubject
+    /// </summary>
+    bool RebuildBreadcrumbAndUpdateHead(int opId);
 }
 
 public enum HudButtonNameEnum

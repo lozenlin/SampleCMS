@@ -217,6 +217,10 @@
     <value>Expand to see all functions</value>
     <comment>展開所有功能</comment>
   </data>
+  <data name="Main_Home" xml:space="preserve">
+    <value>Home</value>
+    <comment>首頁</comment>
+  </data>
   <data name="Footer_CompanyInfo" xml:space="preserve">
     <value>© Company</value>
     <comment>© Company</comment>
