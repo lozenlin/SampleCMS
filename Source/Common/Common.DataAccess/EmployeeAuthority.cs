@@ -51,7 +51,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端使用者清單(test)
+    /// 取得後端使用者清單
     /// </summary>
     public class spEmployee_GetList : IDataAccessCommandInfo
     {
@@ -59,9 +59,9 @@ namespace Common.DataAccess.EmployeeAuthority
         // 輸出參數請加上屬性 [OutputPara]
         // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // Output parameter needs attribute [OutputPara]
-        public int DeptId;
+        public int DeptId;  //0:all, -1:null
         public string SearchName;
-        public int ListMode;
+        public int ListMode;    //清單內容模式(0:正常, 1:已停權, 2:全部)
         public int BeginNum;
         public int EndNum;
         public string SortField;

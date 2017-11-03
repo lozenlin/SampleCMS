@@ -26,6 +26,10 @@ public partial class Account_List : System.Web.UI.Page
 
     protected void Page_Init(object sender, EventArgs e)
     {
+        ucDataPager.MaxItemCountOfPage = 20;
+        ucDataPager.MaxDisplayCountInPageCodeArea = 5;
+        ucDataPager.LinkUrlToReload = string.Concat(Request.AppRelativeCurrentExecutionFilePath, "?", Request.QueryString);
+        ucDataPager.Initialize(0, 0);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -41,6 +45,7 @@ public partial class Account_List : System.Web.UI.Page
             }
 
             LoadUIData();
+            DisplayAccounts();
         }
     }
 
@@ -52,5 +57,10 @@ public partial class Account_List : System.Web.UI.Page
             hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
         }
 
+    }
+
+    private void DisplayAccounts()
+    {
+        
     }
 }

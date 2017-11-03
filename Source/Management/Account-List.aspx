@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterMain.master" AutoEventWireup="true" CodeFile="Account-List.aspx.cs" Inherits="Account_List" %>
 <%@ MasterType TypeName="MasterMain" %>
+<%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
 </asp:Content>
@@ -95,7 +96,7 @@
             </tr>
         </tbody>
     </table>
-
+    <uc1:wucDataPager ID="ucDataPager" runat="server" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
 </asp:Content>

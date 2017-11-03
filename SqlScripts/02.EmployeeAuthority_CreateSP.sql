@@ -62,8 +62,8 @@ go
 
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/09/25>
--- Description: <取得後端使用者清單(test)>
+-- Create date: <2017/11/03>
+-- Description: <取得後端使用者清單>
 -- Test:
 /*
 declare @RowCount int
@@ -72,14 +72,14 @@ select @RowCount
 */
 -- =============================================
 create procedure dbo.spEmployee_GetList
-@DeptId int=0,
-@SearchName nvarchar(50)='',
-@ListMode int=2,--清單內容模式(0:正常, 1:已停權, 2:全部)
-@BeginNum int,
-@EndNum int,
-@SortField nvarchar(20)='',
-@IsSortDesc bit=0,
-@RowCount int output
+@DeptId int=0	-- 0:all, -1:null
+,@SearchName nvarchar(50)=''
+,@ListMode int=2	--清單內容模式(0:正常, 1:已停權, 2:全部)
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@RowCount int output
 as
 begin
 	declare @sql nvarchar(4000)
@@ -138,10 +138,10 @@ where 1=1 ' + @conditions
 	set @SearchName = N'%'+@SearchName+N'%'
 
 	exec sp_executesql @sql, @parmDefForTotal, 
-		@DeptId=@DeptId, 
-		@SearchName=@SearchName, 
-		@ListMode=@ListMode, 
-		@RowCount=@RowCount output
+		@DeptId
+		,@SearchName
+		,@ListMode
+		,@RowCount output
 
 	--取得指定排序和範圍的結果
 
@@ -149,7 +149,7 @@ where 1=1 ' + @conditions
 	declare @SortExp nvarchar(200)
 	set @SortExp=N' order by '
 
-	if @SortField in ('RoleId')
+	if @SortField in (N'RoleId')
 	begin
 		--允許的欄位
 		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
@@ -167,9 +167,8 @@ from (
 	from (
 		select
 			d.DeptName, e.DeptId, e.EmpId, 
-			e.EmpAccount, e.EmpName, 
-			e.Email, e.Remarks, e.RoleId, 
-			r.SortNo as RoleSortNo, 
+			e.EmpAccount, e.EmpName, e.Email, 
+			e.Remarks, e.RoleId, r.SortNo as RoleSortNo, 
 			r.RoleName, r.RoleDisplayName, e.IsAccessDenied, 
 			oe.EmpName as OwnerName, e.OwnerAccount, e.PostDate, 
 			e.MdfAccount, e.MdfDate, oe.DeptId as OwnerDeptId, 
@@ -178,7 +177,8 @@ from (
 			join dbo.EmployeeRole r on e.RoleId=r.RoleId
 			left join dbo.Department d on e.DeptId=d.DeptId
 			left join dbo.Employee oe on e.OwnerAccount=oe.EmpAccount
-		where 1=1' + @conditions + N' ) main 
+		where 1=1' + @conditions + N'
+	) main 
 ) result 
 where RowNum between @BeginNum and @EndNum 
 order by RowNum'
@@ -188,11 +188,11 @@ order by RowNum'
 ,@EndNum int
 '
 	exec sp_executesql @sql, @parmDef, 
-		@DeptId=@DeptId, 
-		@SearchName=@SearchName, 
-		@ListMode=@ListMode, 
-		@BeginNum=@BeginNum,
-		@EndNum=@EndNum
+		@DeptId
+		,@SearchName
+		,@ListMode
+		,@BeginNum
+		,@EndNum
 end
 go
 

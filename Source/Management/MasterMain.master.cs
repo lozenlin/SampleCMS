@@ -14,6 +14,15 @@ public partial class MasterMain : System.Web.UI.MasterPage
     protected BackendPageCommon c;
     protected EmployeeAuthorityLogic empAuth;
 
+    #region Public properties
+
+    public HtmlInputHidden TxtFlag
+    {
+        get { return txtFlag; }
+    }
+
+    #endregion
+
     protected void Page_Init(object sender, EventArgs e)
     {
         c = new LoginCommonOfBackend(this.Context, this.ViewState);
