@@ -15,6 +15,9 @@ public partial class Account_List : System.Web.UI.Page
     protected void Page_PreInit(object sender, EventArgs e)
     {
         c = new AccountCommonOfBackend(this.Context, this.ViewState);
+        c.InitialLoggerOfUI(this.GetType());
+        c.SelectMenuItemToThisPage();
+
         empAuth = new EmployeeAuthorityLogic(c);
         empAuth.InitialAuthorizationResultOfTopPage();
 

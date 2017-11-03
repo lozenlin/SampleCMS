@@ -29,7 +29,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
         if (c.seLoginEmpData.EmpAccount == null)
         {
             ShowErrorMsg(Resources.Lang.ErrMsg_LostSessionState);
-            c.LogOutWhenSessionMissed(this.Page, Resources.Lang.ErrMsg_LostSessionState);
+            c.LogOutWhenSessionMissed(Resources.Lang.ErrMsg_LostSessionState);
         }
         
         if (!IsPostBack)

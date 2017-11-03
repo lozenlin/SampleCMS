@@ -27,6 +27,8 @@ namespace Common.LogicObject
         /// </summary>
         public string BACK_END_HOME = "/Management/Dashboard.aspx";
 
+        private string errMsg_MethodNeedsPage = "This method needs to be called in Page.";
+
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
@@ -110,8 +112,13 @@ namespace Common.LogicObject
             Session["seLoginEmpData"] = loginEmpData;
         }
 
-        public void LogOutWhenSessionMissed(Page webPage, string notice)
+        public void LogOutWhenSessionMissed(string notice)
         {
+            Page page = context.CurrentHandler as Page;
+
+            if (page == null)
+                throw new Exception(errMsg_MethodNeedsPage);
+
             if (seLoginEmpData.EmpAccount == null)
             {
                 if (UseFormsAuthentication)
@@ -125,7 +132,7 @@ namespace Common.LogicObject
                     .AppendLine()
                     .AppendLine("window.open('Logout.ashx?l=" + qsLangNo + "', '_top');");
 
-                webPage.ClientScript.RegisterStartupScript(webPage.GetType(), "toLogout", sbScript.ToString(), true);
+                page.ClientScript.RegisterStartupScript(page.GetType(), "toLogout", sbScript.ToString(), true);
             }
         }
 
@@ -144,6 +151,32 @@ namespace Common.LogicObject
             }
 
             return linkUrl;
+        }
+
+        /// <summary>
+        /// 展開選單到指定的功能項目
+        /// </summary>
+        public void SelectMenuItem(string menuOpId, string menuArticleId)
+        {
+            Page page = context.CurrentHandler as Page;
+
+            if (page == null)
+                throw new Exception(errMsg_MethodNeedsPage);
+
+            page.ClientScript.RegisterStartupScript(this.GetType(), "SelectMenuItem",
+                string.Format("$(function(){{ opMenu.initialize('{0}', '{1}'); }});", menuOpId, menuArticleId),
+                true);
+        }
+
+        /// <summary>
+        /// 展開選單到目前頁面的功能項目
+        /// </summary>
+        public virtual void SelectMenuItemToThisPage()
+        {
+            string menuOpId = this.GetOpIdOfPage().ToString();
+            string menuArticleId = "";
+
+            SelectMenuItem(menuOpId, menuArticleId);
         }
 
         #region IAuthenticationConditionProvider
