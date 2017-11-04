@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Common.LogicObject
 {
     /// <summary>
@@ -30,13 +26,5 @@ namespace Common.LogicObject
         /// 取得部門代碼
         /// </summary>
         int GetDeptId();
-    }
-
-    /// <summary>
-    /// 自訂帳號授權結果
-    /// </summary>
-    public interface ICustomEmployeeAuthorizationResult
-    {
-        EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation);
     }
 }
