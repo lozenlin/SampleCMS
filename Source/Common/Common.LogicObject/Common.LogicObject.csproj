@@ -57,6 +57,9 @@
     <Compile Include="DataClass\OperationHtmlAnchorData.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
+    <Compile Include="QueryParam\AccountListQueryParams.cs" />
+    <Compile Include="QueryParam\AuthenticationQueryParams.cs" />
+    <Compile Include="QueryParam\PagedListQueryParams.cs" />
     <Compile Include="Widget\DataPagerLogic.cs" />
     <Compile Include="DBs.cs" />
     <Compile Include="Widget\EmailSender.cs" />

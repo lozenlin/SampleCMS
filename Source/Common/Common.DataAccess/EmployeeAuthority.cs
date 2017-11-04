@@ -59,9 +59,9 @@ namespace Common.DataAccess.EmployeeAuthority
         // 輸出參數請加上屬性 [OutputPara]
         // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
         // Output parameter needs attribute [OutputPara]
-        public int DeptId;  //0:all, -1:null
-        public string SearchName;
-        public int ListMode;    //清單內容模式(0:正常, 1:已停權, 2:全部)
+        public int DeptId;  //0:all
+        public string Kw;
+        public int ListMode;    //清單內容模式(0:all, 1:normal, 2:access denied)
         public int BeginNum;
         public int EndNum;
         public string SortField;
@@ -273,6 +273,26 @@ namespace Common.DataAccess.EmployeeAuthority
         public string GetCommandText()
         {
             return "dbo.spEmployeeRoleOperationsDesc_GetDataOfOp";
+        }
+    }
+
+    #endregion
+
+    #region 部門資料
+
+    /// <summary>
+    /// 取得選擇用部門清單
+    /// </summary>
+    public class spDepartment_GetListToSelect : IDataAccessCommandInfo
+    {
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_GetListToSelect";
         }
     }
 

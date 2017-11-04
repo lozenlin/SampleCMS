@@ -62,7 +62,7 @@ go
 
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/03>
+-- Create date: <2017/11/04>
 -- Description: <取得後端使用者清單>
 -- Test:
 /*
@@ -72,9 +72,9 @@ select @RowCount
 */
 -- =============================================
 create procedure dbo.spEmployee_GetList
-@DeptId int=0	-- 0:all, -1:null
-,@SearchName nvarchar(50)=''
-,@ListMode int=2	--清單內容模式(0:正常, 1:已停權, 2:全部)
+@DeptId int=0	-- 0:all
+,@Kw nvarchar(52)=''
+,@ListMode int=0	--清單內容模式(0:all, 1:normal, 2:access denied)
 ,@BeginNum int
 ,@EndNum int
 ,@SortField nvarchar(20)=''
@@ -92,28 +92,21 @@ begin
 	
 	if @DeptId<>0
 	begin
-		if @DeptId=-1
-		begin
-			set @conditions += N' and e.DeptId is null '
-		end
-		else
-		begin
-			set @conditions += N' and e.DeptId=@DeptId '
-		end
+		set @conditions += N' and e.DeptId=@DeptId '
 	end
 	
-	if @SearchName<>N''
+	if @Kw<>N''
 	begin
-		set @conditions += N' and (e.EmpAccount like @SearchName or e.EmpName like @SearchName) '
+		set @conditions += N' and (e.EmpAccount like @Kw or e.EmpName like @Kw) '
 	end
 	
-	if @ListMode<>2
+	if @ListMode<>0
 	begin
-		if @ListMode=0
+		if @ListMode=1
 		begin
 			set @conditions += N' and e.IsAccessDenied=0 '
 		end
-		else if @ListMode=1
+		else if @ListMode=2
 		begin
 			set @conditions += N' and e.IsAccessDenied=1 '
 		end
@@ -129,17 +122,17 @@ where 1=1 ' + @conditions
 	--參數定義
 	set @parmDef=N'
 @DeptId int
-,@SearchName nvarchar(50)
+,@Kw nvarchar(52)
 ,@ListMode int
 '
 
 	set @parmDefForTotal = @parmDef + N',@RowCount int output'
 
-	set @SearchName = N'%'+@SearchName+N'%'
+	set @Kw = N'%'+@Kw+N'%'
 
 	exec sp_executesql @sql, @parmDefForTotal, 
 		@DeptId
-		,@SearchName
+		,@Kw
 		,@ListMode
 		,@RowCount output
 
@@ -149,7 +142,7 @@ where 1=1 ' + @conditions
 	declare @SortExp nvarchar(200)
 	set @SortExp=N' order by '
 
-	if @SortField in (N'RoleId')
+	if @SortField in (N'DeptName', N'RoleSortNo', N'EmpName', N'EmpAccount', N'StartDate')
 	begin
 		--允許的欄位
 		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
@@ -157,7 +150,7 @@ where 1=1 ' + @conditions
 	else
 	begin
 		--預設
-		set @SortExp=N' order by case when DeptId is null then 2 else 1 end, DeptId, RoleSortNo, EmpName'
+		set @SortExp=N' order by DeptId, RoleSortNo, EmpName'
 	end
 	
 	set @sql=N'
@@ -189,7 +182,7 @@ order by RowNum'
 '
 	exec sp_executesql @sql, @parmDef, 
 		@DeptId
-		,@SearchName
+		,@Kw
 		,@ListMode
 		,@BeginNum
 		,@EndNum
@@ -399,6 +392,29 @@ begin
 end
 go
 
+----------------------------------------------------------------------------
+-- 部門資料
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/04>
+-- Description: <取得選擇用部門清單>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spDepartment_GetListToSelect
+as
+begin
+	select
+		DeptId, DeptName
+	from dbo.Department
+	order by SortNo
+end
+go
+
 
 
 /*
@@ -409,7 +425,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/02>
+-- Create date: <2017/11/04>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Common.LogicObject
 {
@@ -30,6 +31,42 @@ namespace Common.LogicObject
         private string errMsg_MethodNeedsPage = "This method needs to be called in Page.";
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// Keyword
+        /// </summary>
+        public string qsKw
+        {
+            get { return Request.QueryString["kw"] ?? ""; }
+        }
+
+        /// <summary>
+        /// 排序欄位名
+        /// </summary>
+        public string qsSortField
+        {
+            get { return Request.QueryString["sortfield"] ?? ""; }
+        }
+
+        /// <summary>
+        /// 為反向排序
+        /// </summary>
+        public bool qsIsSortDesc
+        {
+            get
+            {
+                string str = Request.QueryString["isSortDesc"];
+                bool bResult = false;
+
+                if (str != null && bool.TryParse(str, out bResult))
+                {
+                }
+                else
+                    return false;
+
+                return bResult;
+            }
+        }
 
         /// <summary>
         /// 登入者資料
@@ -179,6 +216,55 @@ namespace Common.LogicObject
             SelectMenuItem(menuOpId, menuArticleId);
         }
 
+        /// <summary>
+        /// 變更至下一個排序狀態
+        /// </summary>
+        public void ChangeSortStateToNext(ref string sortField, out bool isSortDesc)
+        {
+            isSortDesc = false;
+
+            if (sortField == qsSortField)
+            {
+                // default(empty)->asc->desc->default
+
+                if (qsIsSortDesc)
+                    sortField = "";
+                else
+                    isSortDesc = true;
+            }
+        }
+
+        /// <summary>
+        /// 載入可排序欄位標題區
+        /// </summary>
+        public void LoadSortCols(string[] colNames)
+        {
+            if (qsSortField == "")
+                return;
+
+            Control root = context.CurrentHandler as Control;
+            string arrowHtml = "";
+
+            if (root == null)
+                throw new Exception(errMsg_MethodNeedsPage);
+
+            if (qsIsSortDesc)
+                arrowHtml = " <span class='fa fa-chevron-down text-dark'></span>";
+            else
+                arrowHtml = " <span class='fa fa-chevron-up text-dark'></span>";
+
+            foreach (string colName in colNames)
+            {
+                LinkButton btnSort = (LinkButton)FindControlRecursive(root, "btnSort" + colName);
+                Literal hidText = (Literal)FindControlRecursive(root, "hidSort" + colName);
+
+                if (btnSort.CommandArgument == qsSortField)
+                {
+                    btnSort.Text = hidText.Text + arrowHtml;
+                }
+            }
+        }
+
         #region IAuthenticationConditionProvider
 
         /// <summary>
@@ -274,8 +360,63 @@ namespace Common.LogicObject
         }
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 清單內容模式(0:all, 1:normal, 2:access denied)
+        /// </summary>
+        public int qsListMode
+        {
+            get
+            {
+                int nResult;
+                string str = Request.QueryString["listmode"];
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                    if (nResult < 0)
+                        nResult = 0;
+                    else if (nResult > 2)
+                        nResult = 2;
+                }
+                else
+                    return 0;
+
+                return nResult;
+            }
+        }
+
+        /// <summary>
+        /// 部門代碼
+        /// </summary>
+        public int qsDeptId
+        {
+            get
+            {
+                string str = Request.QueryString["deptid"];
+                int nResult = 0;
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                }
+                else
+                    return 0;
+
+                return nResult;
+            }
+        }
+
         #endregion
 
+        public string BuildUrlOfListPage(int listmode, int deptid, string kw, 
+            string sortfield, bool isSortDesc, int p)
+        {
+            return string.Format("Account-List.aspx?l={0}" +
+                "&listmode={1}&deptid={2}&kw={3}" +
+                "&sortfield={4}&isSortDesc={5}&p={6}",
+                qsLangNo,
+                listmode, deptid, kw,
+                sortfield, isSortDesc, p);
+        }
 
     }
 }

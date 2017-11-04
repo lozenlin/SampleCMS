@@ -270,7 +270,7 @@ namespace Common.LogicObject
             return authorizations.CanAddSubItemOfSelf;
         }
 
-        #region DataAccess functions
+        // DataAccess functions
 
         /// <summary>
         /// DB command 執行後的錯誤訊息
@@ -279,6 +279,31 @@ namespace Common.LogicObject
         {
             return dbErrMsg;
         }
+
+        #region BackEndLog DataAccess functions
+
+        /// <summary>
+        /// 新增後端操作記錄
+        /// </summary>
+        public bool InsertBackEndLogData(BackEndLogData data)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spBackEndLog_InsertData cmdInfo = new spBackEndLog_InsertData()
+            {
+                EmpAccount = data.EmpAccount,
+                Description = data.Description,
+                IP = data.IP
+            };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
+        #region Employee DataAccess functions
 
         /// <summary>
         /// 取得後端使用者登入用資料
@@ -312,25 +337,6 @@ namespace Common.LogicObject
             dbErrMsg = cmd.GetErrMsg();
 
             return ds;
-        }
-
-        /// <summary>
-        /// 新增後端操作記錄
-        /// </summary>
-        public bool InsertBackEndLogData(BackEndLogData data)
-        {
-            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
-            spBackEndLog_InsertData cmdInfo = new spBackEndLog_InsertData()
-            {
-                EmpAccount = data.EmpAccount,
-                Description = data.Description,
-                IP = data.IP
-            };
-
-            bool result = cmd.ExecuteNonQuery(cmdInfo);
-            dbErrMsg = cmd.GetErrMsg();
-
-            return result;
         }
 
         /// <summary>
@@ -372,6 +378,33 @@ namespace Common.LogicObject
 
             return result;
         }
+
+        /// <summary>
+        /// 取得帳號名單
+        /// </summary>
+        public DataSet GetAccountList(AccountListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetList cmdInfo = new spEmployee_GetList()
+            {
+                DeptId = param.DeptId,
+                Kw = param.Kw,
+                ListMode = param.ListMode,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc,
+                RowCount = param.PagedParams.RowCount
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        #endregion
+
+        #region Operation DataAccess functions
 
         /// <summary>
         /// 取得後端作業選項第一層清單和角色授權
@@ -441,6 +474,24 @@ namespace Common.LogicObject
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region Department DataAccess functions
+
+        /// <summary>
+        /// 取得選擇用部門清單
+        /// </summary>
+        public DataSet GetDepartmentListToSelect()
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_GetListToSelect cmdInfo = new spDepartment_GetListToSelect();
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
         }
 
         #endregion
