@@ -120,10 +120,21 @@ go
 --預設內容
 set identity_insert dbo.Employee on
 insert into dbo.Employee(
-	EmpId, EmpAccount, EmpPassword, EmpName, DeptId, RoleId)
+	EmpId, EmpAccount, EmpPassword, 
+	EmpName, DeptId, RoleId)
 values(
-	1, 'admin', 'admin', '管理者', 1, 1)
-
+	1, 'admin', 'admin', 
+	N'管理者', 1, 1)
+go
+insert into dbo.Employee(
+	EmpId, EmpAccount, EmpPassword, 
+	EmpName, DeptId, RoleId, 
+	StartDate, EndDate, OwnerAccount)
+values(
+	2, 'tester', 'tester', 
+	N'測試人員', 1, 2, 
+	'2017-11-05', '2017-11-05', 'admin')
+go
 set identity_insert dbo.Employee off
 go
 

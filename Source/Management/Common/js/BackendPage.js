@@ -79,3 +79,30 @@ function popWinOut(link, w, h) {
     useIframeDialog = false;
     popWinCore(link, w, h);
 }
+
+// SearchPanel
+var $searchPanel = $(".search-panel");
+var $btnCollapseSearchPanel= $("#btnCollapseSearchPanel");
+var $btnExpandSearchPanel = $("#btnExpandSearchPanel");
+
+$("#btnCollapseSearchPanel").click(function () {
+    $searchPanel.slideUp("fast");
+    $btnExpandSearchPanel.show();
+    return false;
+});
+
+$("#btnExpandSearchPanel").click(function () {
+    $searchPanel.slideDown("fast");
+    $btnExpandSearchPanel.hide();
+    return false;
+});
+
+// initial SearchPanel state
+var isSearchPanelCollapsingAtBeginning = false;
+
+$(function () {
+    if (isSearchPanelCollapsingAtBeginning) {
+        $searchPanel.hide();
+        $btnExpandSearchPanel.show();
+    }
+});

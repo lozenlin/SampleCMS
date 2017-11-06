@@ -220,13 +220,13 @@ namespace Common.LogicObject
                 }
                 else if (authorizations.CanEditSubItemOfCrew
                     && deptId > 0
-                    && deptId == ownerDeptIdOfDataExamined)
+                    && deptId == ownerDeptId)
                 {
                     result = true;
                 }
                 else if (authorizations.CanEditSubItemOfSelf
                     && empAccount != ""
-                    && empAccount == ownerAccountOfDataExamined)
+                    && empAccount == ownerAccount)
                 {
                     result = true;
                 }
@@ -248,13 +248,13 @@ namespace Common.LogicObject
             }
             else if (authorizations.CanDelSubItemOfCrew
                 && deptId > 0
-                && deptId == ownerDeptIdOfDataExamined)
+                && deptId == ownerDeptId)
             {
                 result = true;
             }
             else if (authorizations.CanDelSubItemOfSelf
                 && empAccount != ""
-                && empAccount == ownerAccountOfDataExamined)
+                && empAccount == ownerAccount)
             {
                 result = true;
             }
@@ -398,8 +398,25 @@ namespace Common.LogicObject
             };
             DataSet ds = cmd.ExecuteDataset(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();
+            param.PagedParams.RowCount = cmdInfo.RowCount;
 
             return ds;
+        }
+
+        /// <summary>
+        /// 刪除後端使用者資料
+        /// </summary>
+        public bool DeleteEmployeeData(int empId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_DeleteData cmdInfo = new spEmployee_DeleteData()
+            {
+                EmpId = empId
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
         }
 
         #endregion

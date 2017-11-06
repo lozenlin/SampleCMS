@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class Account_List : System.Web.UI.Page
@@ -57,29 +58,31 @@ public partial class Account_List : System.Web.UI.Page
         if (empAuth.CanAddSubItemInThisPage())
         {
             hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
+            hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl, 
+                string.Format("popWin('Account-Config.aspx?l={0}&act=add', 700, 600);", c.qsLangNo));
         }
 
         //conditions UI
-        LoadListModeUIData();
+        LoadEmpRangeUIData();
         LoadDeptUIData();
 
         //condition vlaues
-        ddlListMode.SelectedValue = c.qsListMode.ToString();
+        ddlEmpRange.SelectedValue = c.qsEmpRange.ToString();
         ddlDept.SelectedValue = c.qsDeptId.ToString();
         txtKw.Text = c.qsKw;
 
-        c.LoadSortCols(new string[] { 
+        c.DisplySortableCols(new string[] { 
             "DeptName", "RoleSortNo", "EmpName", 
             "EmpAccount", "StartDate"
         });
     }
 
-    private void LoadListModeUIData()
+    private void LoadEmpRangeUIData()
     {
-        ddlListMode.Items.Clear();
-        ddlListMode.Items.Add(new ListItem("(全部)", "0"));
-        ddlListMode.Items.Add(new ListItem("正常", "1"));
-        ddlListMode.Items.Add(new ListItem("已停權", "2"));
+        ddlEmpRange.Items.Clear();
+        ddlEmpRange.Items.Add(new ListItem("(全部)", "0"));
+        ddlEmpRange.Items.Add(new ListItem("正常", "1"));
+        ddlEmpRange.Items.Add(new ListItem("已停權", "2"));
     }
 
     private void LoadDeptUIData()
@@ -100,7 +103,168 @@ public partial class Account_List : System.Web.UI.Page
 
     private void DisplayAccounts()
     {
-        
+        AccountListQueryParams accountParams = new AccountListQueryParams()
+        {
+            ListMode = c.qsEmpRange,
+            DeptId = c.qsDeptId,
+            Kw = c.qsKw
+        };
+
+        accountParams.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 0,
+            EndNum = 0,
+            SortField = c.qsSortField,
+            IsSortDesc = c.qsIsSortDesc
+        };
+
+        // get total of items
+        empAuth.GetAccountList(accountParams);
+
+        // update pager and get begin end of item numbers
+        int itemTotalCount = accountParams.PagedParams.RowCount;
+        ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
+
+        accountParams.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = ucDataPager.BeginItemNumberOfPage,
+            EndNum = ucDataPager.EndItemNumberOfPage,
+            SortField = c.qsSortField,
+            IsSortDesc = c.qsIsSortDesc
+        };
+
+        DataSet dsAccounts = empAuth.GetAccountList(accountParams);
+
+        if (dsAccounts != null)
+        {
+            rptAccounts.DataSource = dsAccounts.Tables[0];
+            rptAccounts.DataBind();
+        }
+
+        if (c.qsPageCode > 1)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "isSearchPanelCollapsingAtBeginning", "isSearchPanelCollapsingAtBeginning = true;", true);
+        }
+    }
+
+    protected void rptAccounts_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        int empId = Convert.ToInt32(drvTemp["EmpId"]);
+        string empAccount = drvTemp["EmpAccount"].ToString();
+        string roleName = drvTemp["RoleName"].ToString();
+        bool isAccessDenied = Convert.ToBoolean(drvTemp["IsAccessDenied"]);
+        DateTime startDate = Convert.ToDateTime(drvTemp["StartDate"]);
+        DateTime endDate = Convert.ToDateTime(drvTemp["EndDate"]);
+        string remarks = drvTemp["Remarks"].ToString().Trim();
+
+        HtmlGenericControl ctlRoleDisplayName = (HtmlGenericControl)e.Item.FindControl("ctlRoleDisplayName");
+        ctlRoleDisplayName.InnerHtml = drvTemp["RoleDisplayName"].ToString();
+        ctlRoleDisplayName.Attributes["class"] = "RoleDisplay-" + roleName;
+
+        HtmlTableRow EmpArea = (HtmlTableRow)e.Item.FindControl("EmpArea");
+
+        if (isAccessDenied)
+        {
+            HtmlGenericControl ctlIsAccessDenied = (HtmlGenericControl)e.Item.FindControl("ctlIsAccessDenied");
+            ctlIsAccessDenied.Visible = true;
+
+            EmpArea.Attributes["class"] = "table-danger";
+        }
+
+        HtmlGenericControl ctlAccountState = (HtmlGenericControl)e.Item.FindControl("ctlAccountState");
+
+        if (DateTime.Today < startDate && roleName != "admin")
+        {
+            // on schedule
+            ctlAccountState.Attributes["class"] = "fa fa-hourglass-start fa-lg text-info";
+            ctlAccountState.Attributes["title"] = "排程中";
+        }
+        else if (endDate < DateTime.Today && roleName != "admin" || isAccessDenied)
+        {
+            // offline
+            ctlAccountState.Attributes["class"] = "fa fa-ban fa-lg text-danger";
+            ctlAccountState.Attributes["title"] = "已停權或過期";
+            EmpArea.Attributes["class"] = "table-danger";
+        }
+        else
+        {
+            // online
+            ctlAccountState.Attributes["title"] = "正常";
+        }
+
+        Literal ltrValidDateRange = (Literal)e.Item.FindControl("ltrValidDateRange");
+        ltrValidDateRange.Text = string.Format("{0:yyyy-MM-dd} ~ {1:yyyy-MM-dd}", startDate, endDate);
+
+        if (remarks != "")
+        {
+            HtmlGenericControl ctlRemarks = (HtmlGenericControl)e.Item.FindControl("ctlRemarks");
+            ctlRemarks.Attributes["title"] = remarks;
+            ctlRemarks.Visible = true;
+        }
+
+        HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?l={0}&act=edit&empid={1}', 700, 600); return false;", c.qsLangNo, c.qsEmpId);
+        btnEdit.Title = "修改";
+
+        Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
+        ltrEdit.Text = "修改";
+
+        LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
+        btnDelete.CommandArgument = string.Join(",", empId.ToString(), empAccount);
+        btnDelete.ToolTip = "刪除";
+        btnDelete.OnClientClick = string.Format("return confirm('確定刪除[{0}][{1}]?');",
+            drvTemp["EmpName"], drvTemp["EmpAccount"]);
+
+        Literal ltrDelete = (Literal)e.Item.FindControl("ltrDelete");
+        ltrDelete.Text = "刪除";
+
+        string ownerAccount = drvTemp["OwnerAccount"].ToString();
+        int ownerDeptId = Convert.ToInt32(drvTemp["OwnerDeptId"]);
+
+        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+
+        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId) 
+            || empAccount == "admin")
+        {
+            btnDelete.Visible = false;
+        }
+    }
+
+    protected void rptAccounts_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                int empId = Convert.ToInt32(args[0]);
+                string empAccount = args[1];
+
+                bool result = empAuth.DeleteEmployeeData(empId);
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．刪除帳號　．代碼[{0}]　帳號[{1}]　結果[{2}]", empId, empAccount, result),
+                    IP = c.GetClientIP()
+                });
+
+                // log to file
+                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "Emp-" + empId.ToString() + "-" + empAccount, result);
+
+                if (result)
+                {
+                    DisplayAccounts();
+                }
+                else
+                {
+                    Master.ShowErrorMsg("刪除帳號失敗");
+                }
+
+                break;
+        }
     }
 
     protected void btnSort_Click(object sender, EventArgs e)
@@ -111,7 +275,7 @@ public partial class Account_List : System.Web.UI.Page
         c.ChangeSortStateToNext(ref sortField, out isSortDesc);
 
         //重新載入頁面
-        Response.Redirect(c.BuildUrlOfListPage(c.qsListMode, c.qsDeptId, c.qsKw,
+        Response.Redirect(c.BuildUrlOfListPage(c.qsEmpRange, c.qsDeptId, c.qsKw,
             sortField, isSortDesc, c.qsPageCode));
     }
 
@@ -119,7 +283,7 @@ public partial class Account_List : System.Web.UI.Page
     {
         txtKw.Text = txtKw.Text.Trim();
 
-        Response.Redirect(c.BuildUrlOfListPage(Convert.ToInt32(ddlListMode.SelectedValue), Convert.ToInt32(ddlDept.SelectedValue), txtKw.Text,
+        Response.Redirect(c.BuildUrlOfListPage(Convert.ToInt32(ddlEmpRange.SelectedValue), Convert.ToInt32(ddlDept.SelectedValue), txtKw.Text,
             "", false, 1));
     }
 

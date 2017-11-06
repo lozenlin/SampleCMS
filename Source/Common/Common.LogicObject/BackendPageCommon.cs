@@ -235,9 +235,9 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 載入可排序欄位標題區
+        /// 顯示可排序欄位標題區
         /// </summary>
-        public void LoadSortCols(string[] colNames)
+        public void DisplySortableCols(string[] colNames)
         {
             if (qsSortField == "")
                 return;
@@ -261,6 +261,14 @@ namespace Common.LogicObject
                 if (btnSort.CommandArgument == qsSortField)
                 {
                     btnSort.Text = hidText.Text + arrowHtml;
+                    string sortHintText = "";
+
+                    if (qsIsSortDesc)
+                        sortHintText = "Descending";
+                    else
+                        sortHintText = "Ascending";
+
+                    btnSort.ToolTip = string.Format("{0} ({1})", hidText.Text, sortHintText);
                 }
             }
         }
@@ -362,14 +370,14 @@ namespace Common.LogicObject
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
-        /// 清單內容模式(0:all, 1:normal, 2:access denied)
+        /// 帳號狀態(0:all, 1:normal, 2:access denied)
         /// </summary>
-        public int qsListMode
+        public int qsEmpRange
         {
             get
             {
                 int nResult;
-                string str = Request.QueryString["listmode"];
+                string str = Request.QueryString["emprange"];
 
                 if (str != null && int.TryParse(str, out nResult))
                 {
@@ -379,7 +387,7 @@ namespace Common.LogicObject
                         nResult = 2;
                 }
                 else
-                    return 0;
+                    nResult = 0;
 
                 return nResult;
             }
@@ -399,7 +407,27 @@ namespace Common.LogicObject
                 {
                 }
                 else
-                    return 0;
+                    nResult = 0;
+
+                return nResult;
+            }
+        }
+
+        /// <summary>
+        /// 員工代碼
+        /// </summary>
+        public int qsEmpId
+        {
+            get
+            {
+                string str = Request.QueryString["empid"];
+                int nResult = 0;
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                }
+                else
+                    nResult = 0;
 
                 return nResult;
             }
@@ -407,14 +435,14 @@ namespace Common.LogicObject
 
         #endregion
 
-        public string BuildUrlOfListPage(int listmode, int deptid, string kw, 
+        public string BuildUrlOfListPage(int emprange, int deptid, string kw, 
             string sortfield, bool isSortDesc, int p)
         {
             return string.Format("Account-List.aspx?l={0}" +
-                "&listmode={1}&deptid={2}&kw={3}" +
+                "&emprange={1}&deptid={2}&kw={3}" +
                 "&sortfield={4}&isSortDesc={5}&p={6}",
                 qsLangNo,
-                listmode, deptid, kw,
+                emprange, deptid, kw,
                 sortfield, isSortDesc, p);
         }
 

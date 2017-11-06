@@ -67,11 +67,11 @@ go
 -- Test:
 /*
 declare @RowCount int
-exec dbo.spEmployee_GetList 0, '', 2, 1, 99999, '', 0, @RowCount output
+exec dbo.spEmployee_GetList 0, '', 0, 1, 99999, '', 0, @RowCount output
 select @RowCount
 */
 -- =============================================
-create procedure dbo.spEmployee_GetList
+alter procedure dbo.spEmployee_GetList
 @DeptId int=0	-- 0:all
 ,@Kw nvarchar(52)=''
 ,@ListMode int=0	--清單內容模式(0:all, 1:normal, 2:access denied)
@@ -104,11 +104,11 @@ begin
 	begin
 		if @ListMode=1
 		begin
-			set @conditions += N' and e.IsAccessDenied=0 '
+			set @conditions += N' and e.IsAccessDenied=0 and (r.RoleName=''admin'' or getdate() between e.StartDate and e.EndDate)'
 		end
 		else if @ListMode=2
 		begin
-			set @conditions += N' and e.IsAccessDenied=1 '
+			set @conditions += N' and e.IsAccessDenied=1 or not (r.RoleName=''admin'' or getdate() between e.StartDate and e.EndDate)'
 		end
 	end
 	
@@ -164,7 +164,7 @@ from (
 			e.Remarks, e.RoleId, r.SortNo as RoleSortNo, 
 			r.RoleName, r.RoleDisplayName, e.IsAccessDenied, 
 			oe.EmpName as OwnerName, e.OwnerAccount, e.PostDate, 
-			e.MdfAccount, e.MdfDate, oe.DeptId as OwnerDeptId, 
+			e.MdfAccount, e.MdfDate, isnull(oe.DeptId, 0) as OwnerDeptId, 
 			e.StartDate, e.EndDate
 		from dbo.Employee e
 			join dbo.EmployeeRole r on e.RoleId=r.RoleId
@@ -232,6 +232,23 @@ begin
 		,ThisLoginTime=@ThisLoginTime
 		,ThisLoginIP=@ThisLoginIP
 	where EmpAccount=@EmpAccount
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/06>
+-- Description: <刪除後端使用者資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_DeleteData
+@EmpId int
+as
+begin
+	delete from dbo.Employee
+	where EmpId=@EmpId
 end
 go
 
@@ -425,7 +442,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/04>
+-- Create date: <2017/11/06>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

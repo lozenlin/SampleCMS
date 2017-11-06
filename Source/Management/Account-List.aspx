@@ -3,6 +3,12 @@
 <%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
+    <style type="text/css">
+        .RoleDisplay-admin {
+            color:#ffb400;
+            text-shadow:2px 1px 1px #ccc;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
@@ -14,7 +20,7 @@
                 <div class="form-group form-row">
                     <label for="txtKw" class="col-md-2 col-form-label text-md-right">帳號狀態</label>
                     <div class="col-md-4">
-                        <asp:DropDownList ID="ddlListMode" runat="server" CssClass="form-control"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlEmpRange" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                     <label class="col-md-2 col-form-label text-md-right">部門</label>
                     <div class="col-md-4">
@@ -34,7 +40,7 @@
                             <i class="fa fa-search"></i> 查詢</asp:LinkButton>
                         <asp:LinkButton ID="btnClear" runat="server" CssClass="btn btn-link btn-sm" OnClick="btnClear_Click">
                             清除條件</asp:LinkButton>
-                        <a id="btnCollapseSearchPanel" runat="server" href="#" 
+                        <a id="btnCollapseSearchPanel" href="#" 
                             class="btn btn-sm btn-light border-secondary float-right mt-1"><i class="fa fa-compress"></i> 收合</a>
                     </div>
                 </div>
@@ -56,7 +62,6 @@
                 <th title="姓名">
                     <asp:LinkButton ID="btnSortEmpName" runat="server" CommandArgument="EmpName" Text="姓名" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpName" runat="server" Visible="false" Text="姓名"></asp:Literal>
-                    <%--<a href="#">姓名<span class="fa fa-chevron-up text-dark"></span></a>--%>
                 </th>
                 <th title="帳號" style="width:9%">
                     <asp:LinkButton ID="btnSortEmpAccount" runat="server" CommandArgument="EmpAccount" Text="帳號" OnClick="btnSort_Click"></asp:LinkButton>
@@ -73,41 +78,50 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>
-                    <span class="small">部門名稱</span>
-                </td>
-                <td>
-                    身分
-                </td>
-                <td>
-                    姓名
-                </td>
-                <td>
-                    帳號
-                </td>
-                <td>
-                    <span class="badge badge-danger" title="已停權"><i class="fa fa-ban"></i></span>
-                </td>
-                <td>
-                    <span class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
-                </td>
-                <td>
-                    <a href="#" class="small">2017-10-18</a>
-                </td>
-                <td>
-                    <span class="badge badge-info"><i class="fa fa-comment"></i></span>
-                </td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                    <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                </td>
-            </tr>
+            <asp:Repeater ID="rptAccounts" runat="server" OnItemDataBound="rptAccounts_ItemDataBound" OnItemCommand="rptAccounts_ItemCommand">
+            <ItemTemplate>
+                <tr id="EmpArea" runat="server">
+                    <td><%# Eval("RowNum") %></td>
+                    <td>
+                        <span class="small"><%# Eval("DeptName") %></span>
+                    </td>
+                    <td>
+                        <span id="ctlRoleDisplayName" runat="server"></span>
+                    </td>
+                    <td>
+                        <%# Eval("EmpName") %>
+                    </td>
+                    <td>
+                        <%# Eval("EmpAccount") %>
+                    </td>
+                    <td>
+                        <span id="ctlIsAccessDenied" runat="server" class="badge badge-danger" title="已停權" visible="false"><i class="fa fa-ban"></i></span>
+                    </td>
+                    <td>
+                        <span id="ctlAccountState" runat="server" class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
+                    </td>
+                    <td>
+                        <span class="small"><asp:Literal ID="ltrValidDateRange" runat="server"></asp:Literal></span>
+                    </td>
+                    <td>
+                        <span id="ctlRemarks" runat="server" class="badge badge-info emp-comment" visible="false"><i class="fa fa-comment"></i></span>
+                    </td>
+                    <td>
+                        <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
+                            <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal></a>
+                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
+                            <i class="fa fa-trash-o"></i> <asp:Literal ID="ltrDelete" runat="server" Text="刪除"></asp:Literal></asp:LinkButton>
+                    </td>
+                </tr>
+            </ItemTemplate>
+            </asp:Repeater>
         </tbody>
     </table>
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
+    <script>
+        $(".emp-comment").tooltip();
+    </script>
 </asp:Content>
 
