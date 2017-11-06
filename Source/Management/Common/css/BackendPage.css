@@ -272,6 +272,12 @@
         border-bottom-right-radius:.25rem;
     }
 
+    .config-body .url-info {
+        position: absolute;
+        top:0;
+        right:2rem;
+    }
+
 .required-symbol:before {
     content:"* ";
     color:red;

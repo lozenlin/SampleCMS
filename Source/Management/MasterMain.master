@@ -5,7 +5,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -193,6 +192,31 @@
                         applyDialogHeight(parentHeight);
                     }
                 });
+            }
+
+            function closeDialog() {
+                $("#dialog").dialog("close");
+            }
+
+            function setDialogTitle(value) {
+                $("#dialog").dialog("option", "title", value);
+            }
+
+            function resizeDialog(w, h) {
+                if ($("#dialog").dialogExtend("state") != "normal")
+                    return;
+
+                var mainHeight = $(window).height() - 30;
+
+                if (h > mainHeight) {
+                    h = mainHeight;
+                }
+
+                $("#dialog")
+                    .dialog("option", "width", w)
+                    .dialog("option", "height", h);
+
+                applyDialogHeight(h);
             }
         </script>
         <script src="Common/js/jquery.hoverIntent.min.js"></script>

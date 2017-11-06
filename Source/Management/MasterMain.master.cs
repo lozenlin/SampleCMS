@@ -25,7 +25,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
     protected void Page_Init(object sender, EventArgs e)
     {
-        c = new LoginCommonOfBackend(this.Context, this.ViewState);
+        c = new BackendPageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
         empAuth = new EmployeeAuthorityLogic(c);
 
