@@ -93,6 +93,30 @@ namespace Common.LogicObject
             set { Session["seCaptchaCode"] = value; }
         }
 
+        /// <summary>
+        /// 後端語言號碼
+        /// </summary>
+        public int seLangNoOfBackend
+        {
+            get
+            {
+                object obj = Session["seLangNoOfBackend"];
+                int nResult = 1;
+
+                if (obj is int)
+                {
+                    nResult = (int)obj;
+
+                    if (nResult < 1 || nResult > 2)
+                        nResult = 1;
+                }
+
+                return nResult;
+            }
+
+            set { Session["seLangNoOfBackend"] = value; }
+        }
+
         #endregion
 
         /// <summary>
@@ -167,7 +191,7 @@ namespace Common.LogicObject
                 sbScript
                     .AppendFormat("window.alert('{0}');", notice)
                     .AppendLine()
-                    .AppendLine("window.open('Logout.ashx?l=" + qsLangNo + "', '_top');");
+                    .AppendLine("window.open('Logout.ashx', '_top');");
 
                 page.ClientScript.RegisterStartupScript(page.GetType(), "toLogout", sbScript.ToString(), true);
             }
@@ -438,10 +462,8 @@ namespace Common.LogicObject
         public string BuildUrlOfListPage(int emprange, int deptid, string kw, 
             string sortfield, bool isSortDesc, int p)
         {
-            return string.Format("Account-List.aspx?l={0}" +
-                "&emprange={1}&deptid={2}&kw={3}" +
-                "&sortfield={4}&isSortDesc={5}&p={6}",
-                qsLangNo,
+            return string.Format("Account-List.aspx?emprange={0}&deptid={1}&kw={2}" +
+                "&sortfield={3}&isSortDesc={4}&p={5}",
                 emprange, deptid, kw,
                 sortfield, isSortDesc, p);
         }

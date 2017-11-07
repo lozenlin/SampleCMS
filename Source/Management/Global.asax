@@ -85,20 +85,6 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(this.GetType());
-
-        try
-        {
-            PageCommon c = new PageCommon(Context, null);
-
-            //一律用 qsLangNo 處理後的值來重設語系
-            string cultureName = new LangManager().GetCultureName(c.qsLangNo);
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
-        }
-        catch (Exception ex)
-        {
-            logger.Error("", ex);
-        }
     }
 
     protected void Application_PostAcquireRequestState(object sender, EventArgs e)
@@ -109,6 +95,30 @@
         {
             logger.Info("Context.Session is null. skip this time.");
             return;
+        }
+
+        try
+        {
+            BackendPageCommon c = new BackendPageCommon(Context, null);
+            int langNo = 1;
+
+            if (Context.Session["seLangNoOfBackend"] == null)
+            {
+                //登入前,用 qsLangNo 處理後的值來重設語系
+                langNo = c.qsLangNo;
+            }
+            else
+            {
+                //登入後,用 Session 值
+                langNo = c.seLangNoOfBackend;
+            }
+            
+            string cultureName = new LangManager().GetCultureName(langNo.ToString());
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
+        }
+        catch (Exception ex)
+        {
+            logger.Error("", ex);
         }
 
     }

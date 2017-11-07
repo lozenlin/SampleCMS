@@ -36,7 +36,7 @@
 <body class="main-body">
     <form id="form1" runat="server">
         <header id="mainNavbar" class="main-navbar navbar navbar-expand flex-md-row flex-column navbar-dark bg-dark fixed-top" title="Top">
-            <a href="Dashboard.aspx?l=<%= c.qsLangNo %>" class="navbar-brand ci-logo"><%= Resources.Lang.BackStageNameShort %></a>
+            <a href="Dashboard.aspx" class="navbar-brand ci-logo"><%= Resources.Lang.BackStageNameShort %></a>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <span class="navbar-text px-2"><i class="fa fa-user-circle-o NavIcon"></i> 

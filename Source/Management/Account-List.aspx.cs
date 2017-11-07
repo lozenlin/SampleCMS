@@ -58,8 +58,8 @@ public partial class Account_List : System.Web.UI.Page
         if (empAuth.CanAddSubItemInThisPage())
         {
             hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
-            hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl, 
-                string.Format("popWin('Account-Config.aspx?l={0}&act=add', 700, 600);", c.qsLangNo));
+            hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
+                "popWin('Account-Config.aspx?act=add', 700, 600);");
         }
 
         //conditions UI
@@ -205,7 +205,7 @@ public partial class Account_List : System.Web.UI.Page
         }
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
-        btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?l={0}&act=edit&empid={1}', 700, 600); return false;", c.qsLangNo, c.qsEmpId);
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?act=edit&empid={0}', 700, 600); return false;", c.qsEmpId);
         btnEdit.Title = "修改";
 
         Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
@@ -289,6 +289,6 @@ public partial class Account_List : System.Web.UI.Page
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
-        Response.Redirect(StringUtility.SetParaValueInUrl(Request.AppRelativeCurrentExecutionFilePath, "l", c.qsLangNo));
+        Response.Redirect(Request.AppRelativeCurrentExecutionFilePath);
     }
 }

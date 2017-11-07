@@ -58,9 +58,9 @@ public partial class MasterMain : System.Web.UI.MasterPage
             ltrDeptName.Text = d.DeptName;
             ltrAccountInfo.Text = string.Format("Hi, {0}({1})", d.EmpName, d.EmpAccount);
             btnAccountSettings.Title = Resources.Lang.Main_btnAccountSettings;
-            btnAccountSettings.HRef = string.Format("Account-List.aspx?l={0}", c.qsLangNo);
+            btnAccountSettings.HRef = "Account-List.aspx";
             btnLogout.Title = Resources.Lang.Main_btnLogout;
-            btnLogout.HRef = string.Format("Logout.ashx?l={0}", c.qsLangNo);
+            btnLogout.HRef = "Logout.ashx";
 
             btnEditOperations.Title = Resources.Lang.btnEditOperations_Hint;
         }
@@ -136,7 +136,6 @@ public partial class MasterMain : System.Web.UI.MasterPage
             else
             {
                 linkUrl = "~/" + linkUrl;
-                linkUrl = StringUtility.SetParaValueInUrl(linkUrl, "l", c.qsLangNo);
             }
 
             btnOpHeader.HRef = linkUrl;
@@ -203,7 +202,6 @@ public partial class MasterMain : System.Web.UI.MasterPage
             else
             {
                 linkUrl = "~/" + linkUrl;
-                linkUrl = StringUtility.SetParaValueInUrl(linkUrl, "l", c.qsLangNo);
             }
 
             btnOpItem.HRef = linkUrl;

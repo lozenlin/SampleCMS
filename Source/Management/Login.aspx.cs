@@ -56,7 +56,7 @@ public partial class Login : System.Web.UI.Page
 
         btnChangLang.HRef = Request.AppRelativeCurrentExecutionFilePath + "?l=2";
 
-        if (c.qsLangNo == "2")
+        if (c.qsLangNo == 2)
         {
             btnChangLang.HRef = Request.AppRelativeCurrentExecutionFilePath + "?l=1";
             btnChangLang.InnerHtml = "中文";
@@ -245,17 +245,19 @@ public partial class Login : System.Web.UI.Page
             IP = c.GetClientIP()
         });
 
+        //記錄指定語系
+        c.seLangNoOfBackend = c.qsLangNo;
+
         //設定已登入
+        FormsAuthentication.RedirectFromLoginPage(c.seLoginEmpData.EmpAccount, false);
+
+        /* 需要帶入額外參數時使用
         if (string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
         {
             FormsAuthentication.SetAuthCookie(c.seLoginEmpData.EmpAccount, false);
-            Response.Redirect(FormsAuthentication.DefaultUrl + "?l=" + c.qsLangNo);
+            Response.Redirect(FormsAuthentication.DefaultUrl + "?l=" + c.qsLangNo.ToString());
         }
-        else
-        {
-            // to ReturnUrl
-            FormsAuthentication.RedirectFromLoginPage(c.seLoginEmpData.EmpAccount, false);
-        }
+         */
     }
 
     private void ShowErrorMsg(string value)

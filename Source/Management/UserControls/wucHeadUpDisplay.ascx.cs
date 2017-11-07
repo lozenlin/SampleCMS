@@ -44,7 +44,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
 
     private void LoadUIData()
     {
-        btnBackToParent.HRef = "~/Dashboard.aspx?l=" + c.qsLangNo;
+        btnBackToParent.HRef = "~/Dashboard.aspx";
     }
 
     private HtmlAnchor GetButton(HudButtonNameEnum buttonName)
@@ -206,8 +206,8 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         ltrBreadcrumb.Text = "";
 
         //add home node
-        ltrBreadcrumb.Text += string.Format("<a href='/Management/Dashboard.aspx?l={0}' class='breadcrumb-item' title={1}>{1}</a>", 
-            c.qsLangNo, Resources.Lang.Main_Home);
+        ltrBreadcrumb.Text += string.Format("<a href='/Management/Dashboard.aspx' class='breadcrumb-item' title={0}>{0}</a>", 
+            Resources.Lang.Main_Home);
 
         //add text
         if (textIsHtml)

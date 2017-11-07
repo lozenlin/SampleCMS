@@ -22,10 +22,10 @@ public class Logout : IHttpHandler, System.Web.SessionState.IRequiresSessionStat
         });
         
         //登出
+        string urlSuffix = "?l=" + c.seLangNoOfBackend.ToString();
         context.Session.Clear();
         FormsAuthentication.SignOut();
         //回到登入頁
-        string urlSuffix = "?l=" + c.qsLangNo;
         context.Response.Redirect(FormsAuthentication.LoginUrl + urlSuffix);
     }
 

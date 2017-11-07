@@ -30,7 +30,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 語言號碼(l或lang,l優先)
         /// </summary>
-        public string qsLangNo
+        public int qsLangNo
         {
             get
             {
@@ -39,27 +39,43 @@ namespace Common.LogicObject
                     str = Request.QueryString["lang"];
 
                 int nResult;
-                string langNo = "";
 
                 if (str == null)
                 {
                     //未指定,抓瀏覽器的
                     string resultCultureName = GetAllowedUserCultureName();
 
-                    langNo = new LangManager().GetLangNo(resultCultureName);
+                    nResult = Convert.ToInt32(new LangManager().GetLangNo(resultCultureName));
                 }
                 else if (int.TryParse(str, out nResult))
                 {
                     //有指定, 限制範圍
-                    if (nResult < 1)
+                    if (nResult < 1 || nResult > 2)
                         nResult = 1;
-                    else if (nResult > 2)
-                        nResult = 1;
-
-                    langNo = nResult.ToString();
                 }
 
-                return langNo;
+                return nResult;
+            }
+        }
+
+        /// <summary>
+        /// 語言代碼(l或lang,l優先)
+        /// </summary>
+        public string qsLang
+        {
+            get
+            {
+                string str = Request.QueryString["l"];
+                if (str == null)
+                    str = Request.QueryString["lang"];
+
+                if (str == null)
+                {
+                    //未指定,抓瀏覽器的
+                    str = GetAllowedUserCultureName();
+                }
+
+                return str;
             }
         }
 
