@@ -340,6 +340,30 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 取得後端使用者資料
+        /// </summary>
+        public DataSet GetEmpData(int empId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetAccountOfId cmdInfo = new spEmployee_GetAccountOfId()
+            {
+                EmpId = empId
+            };
+
+            string errCode = "-1";
+            string empAccount = cmd.ExecuteScalar<string>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            DataSet ds = null;
+            if (empAccount != errCode)
+            {
+                ds = GetEmpData(empAccount);
+            }
+
+            return ds;
+        }
+
+        /// <summary>
         /// 取得後端使用者角色名稱
         /// </summary>
         public string GetRoleNameOfEmp(string empAccount)
@@ -491,6 +515,24 @@ namespace Common.LogicObject
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region EmployeeRole DataAccess functions
+
+        /// <summary>
+        /// 取得選擇用員工角色清單
+        /// </summary>
+        public DataSet GetEmployeeRoleListToSelect()
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_GetListToSelect cmdInfo = new spEmployeeRole_GetListToSelect();
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
         }
 
         #endregion

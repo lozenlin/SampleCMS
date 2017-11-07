@@ -18,6 +18,15 @@ public partial class MasterConfig : System.Web.UI.MasterPage
         get { return txtFlag; }
     }
 
+    /// <summary>
+    /// 啟用小日曆的中文模式
+    /// </summary>
+    public bool EnableDatepickerTW
+    {
+        get { return ltrDatepickerJsTW.Visible; }
+        set { ltrDatepickerJsTW.Visible = value; }
+    }
+
     #endregion
 
     protected void Page_Init(object sender, EventArgs e)

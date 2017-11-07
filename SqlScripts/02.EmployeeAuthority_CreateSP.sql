@@ -52,11 +52,31 @@ begin
 		e.PostAccount, e.PostDate, e.MdfAccount, 
 		e.MdfDate, e.StartDate, e.EndDate, 
 		e.ThisLoginTime, e.ThisLoginIP, e.LastLoginTime,
-		e.LastLoginIP
+		e.LastLoginIP, e.OwnerAccount, e.PasswordHashed, 
+		e.DefaultRandomPassword
 	from dbo.Employee e
 		join dbo.EmployeeRole r on e.RoleId=r.RoleId
 		left join dbo.Department d on e.DeptId=d.DeptId
 	where e.EmpAccount=@EmpAccount
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/07>
+-- Description: <取得員工代碼的帳號>
+-- Test:
+/*
+exec dbo.spEmployee_GetAccountOfId 1
+*/
+-- =============================================
+create procedure dbo.spEmployee_GetAccountOfId
+@EmpId int
+as
+begin
+	select EmpAccount
+	from dbo.Employee
+	where EmpId=@EmpId
 end
 go
 
@@ -410,6 +430,30 @@ end
 go
 
 ----------------------------------------------------------------------------
+-- 員工角色
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/07>
+-- Description: <取得選擇用員工角色清單>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRole_GetListToSelect
+as
+begin
+	select
+		RoleId, RoleName, RoleDisplayName,
+		isnull(RoleDisplayName, N'') + N' ('+isnull(RoleName, N'')+N')' as DisplayText
+	from dbo.EmployeeRole
+	order by SortNo
+end
+go
+
+----------------------------------------------------------------------------
 -- 部門資料
 ----------------------------------------------------------------------------
 go
@@ -442,7 +486,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/06>
+-- Create date: <2017/11/07>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

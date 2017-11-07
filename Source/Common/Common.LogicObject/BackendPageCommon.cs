@@ -69,6 +69,14 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// Action of config-form
+        /// </summary>
+        public string qsAct
+        {
+            get { return Request.QueryString["act"] ?? ""; }
+        }
+
+        /// <summary>
         /// 登入者資料
         /// </summary>
         public LoginEmployeeData seLoginEmpData

@@ -59,7 +59,7 @@ public partial class Account_List : System.Web.UI.Page
         {
             hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
             hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
-                "popWin('Account-Config.aspx?act=add', 700, 600);");
+                string.Format("popWin('Account-Config.aspx?act={0}', 700, 600);", ConfigFormAction.add));
         }
 
         //conditions UI
@@ -205,7 +205,7 @@ public partial class Account_List : System.Web.UI.Page
         }
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
-        btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?act=edit&empid={0}', 700, 600); return false;", c.qsEmpId);
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?act={0}&empid={1}', 700, 600); return false;", ConfigFormAction.edit, empId);
         btnEdit.Title = "修改";
 
         Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");

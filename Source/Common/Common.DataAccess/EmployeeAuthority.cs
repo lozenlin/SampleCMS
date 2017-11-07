@@ -51,6 +51,28 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
+    /// 取得員工代碼的帳號
+    /// </summary>
+    public class spEmployee_GetAccountOfId : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int EmpId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployee_GetAccountOfId";
+        }
+    }
+
+    /// <summary>
     /// 取得後端使用者清單
     /// </summary>
     public class spEmployee_GetList : IDataAccessCommandInfo
@@ -295,6 +317,26 @@ namespace Common.DataAccess.EmployeeAuthority
         public string GetCommandText()
         {
             return "dbo.spEmployeeRoleOperationsDesc_GetDataOfOp";
+        }
+    }
+
+    #endregion
+
+    #region 員工角色
+
+    /// <summary>
+    /// 取得選擇用員工角色清單
+    /// </summary>
+    public class spEmployeeRole_GetListToSelect : IDataAccessCommandInfo
+    {
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployeeRole_GetListToSelect";
         }
     }
 

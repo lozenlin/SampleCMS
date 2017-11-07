@@ -206,7 +206,7 @@
                 if ($("#dialog").dialogExtend("state") != "normal")
                     return;
 
-                var mainHeight = $(window).height() - 30;
+                var mainHeight = $(window).height() - 80;
 
                 if (h > mainHeight) {
                     h = mainHeight;

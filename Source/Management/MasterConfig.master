@@ -29,7 +29,7 @@
             <div class="url-info">
                 <a href="#" class="btn btn-sm btn-secondary py-0 subject" title="本頁標題">標題</a>
                 <a href="#" class="btn btn-sm btn-secondary py-0 url" title="開啟本頁網址">網址</a>
-                <a href="#" class="btn btn-sm btn-success py-0 external" title="另開至外部視窗"><i class="fa fa-external-link"></i> 另開</a>
+                <a href="#" class="btn btn-sm btn-success py-0 external" title="另開至外部視窗"><i class="fa fa-level-up"></i> 另開</a>
             </div>
             <asp:ContentPlaceHolder id="cphContent" runat="server">
             </asp:ContentPlaceHolder>
@@ -45,7 +45,7 @@
         <script src="Common/js/popper.min.js"></script>
         <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
         <script src="Common/jquery-ui-1.12.1.Datepicker/jquery-ui.min.js"></script>
-        <script src="Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js"></script>
+        <asp:Literal ID="ltrDatepickerJsTW" runat="server" Text="<script src='Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js'></script>"></asp:Literal>
         <script src="Common/js/BackendPage.js"></script>
         <script src="ckeditor/ckeditor.js"></script>
         <script>
