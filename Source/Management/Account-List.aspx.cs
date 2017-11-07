@@ -50,6 +50,21 @@ public partial class Account_List : System.Web.UI.Page
             LoadUIData();
             DisplayAccounts();
         }
+        else
+        {
+            //PostBack
+            if (Master.FlagValue != "")
+            {
+                // message from config-form
+
+                if (Master.FlagValue == "Config")
+                {
+                    DisplayAccounts();
+                }
+
+                Master.FlagValue = "";
+            }
+        }
     }
 
     private void LoadUIData()

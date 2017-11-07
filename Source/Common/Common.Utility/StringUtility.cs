@@ -176,5 +176,73 @@ namespace Common.Utility
 
             return sbCaptchaCode.ToString();
         }
+
+        /// <summary>
+        /// 取得改寫上一層變數值用的js
+        /// </summary>
+        public static string GetWriteValueOfOpenerJs(string paraId, string value)
+        {
+            StringBuilder sbScript = new StringBuilder(300);
+
+            if (value == "")
+                value = " ";    //給上層判斷「未選擇」與「選擇到空字串」用
+
+            sbScript.AppendLine("var myOpener;");
+            sbScript.AppendLine("if(window.opener){ myOpener=window.opener; }");
+            sbScript.AppendLine("  else if(window.parent){ myOpener=window.parent; }");
+            sbScript.AppendLine("if(myOpener){");
+            sbScript.AppendLine("  myOpener.document.getElementById('" + paraId + "').value='" + value + "';");
+            sbScript.AppendLine("}");
+
+            return sbScript.ToString();
+        }
+
+        /// <summary>
+        /// 取得通知上一層用的js
+        /// </summary>
+        public static string GetNoticeOpenerJs(string flagValue)
+        {
+            string openderFormId = "form1";
+            string flagId = "txtFlag";
+
+            return GetNoticeOpenerJs(openderFormId, flagId, flagValue);
+        }
+
+        /// <summary>
+        /// 取得通知上一層用的js
+        /// </summary>
+        public static string GetNoticeOpenerJs(string openderFormId, string flagId, string flagValue)
+        {
+            StringBuilder sbScript = new StringBuilder(300);
+
+            sbScript.AppendLine("var myOpener;");
+            sbScript.AppendLine("if(window.opener){ myOpener=window.opener; }");
+            sbScript.AppendLine("  else if(window.parent){ myOpener=window.parent; }");
+            sbScript.AppendLine("if(myOpener){");
+            sbScript.AppendLine("  myOpener.document.getElementById('" + flagId + "').value='" + flagValue + "';");
+            // 2017/11/07, lozen_lin, add, 修正上一個按鈕PostBack沒清掉事件造成submit()重覆呼叫上次事件的問題
+            sbScript.AppendLine("if(myOpener.theForm){ var prForm = myOpener.theForm; prForm.__EVENTTARGET.value=''; prForm.__EVENTARGUMENT.value='' } ");
+            // --
+            sbScript.AppendLine("  myOpener.document.forms['" + openderFormId + "'].submit();");
+            sbScript.AppendLine("  if(window.opener){ window.close(); }");
+            sbScript.AppendLine("}");
+
+            return sbScript.ToString();
+        }
+
+        public static string GetFormResizeJs(int w, int h)
+        {
+            StringBuilder sbScriptResize = new StringBuilder(200);
+
+            sbScriptResize.AppendLine("$(function() {");
+            sbScriptResize.AppendLine("  if(window.opener){");
+            sbScriptResize.AppendFormat("  window.resizeTo({0}, {1});", w, h).AppendLine();
+            sbScriptResize.AppendLine("  } else if(window.parent){");
+            sbScriptResize.AppendFormat("  window.parent.resizeDialog({0}, {1});", w, h).AppendLine();
+            sbScriptResize.AppendLine("  }");
+            sbScriptResize.AppendLine("})");
+
+            return sbScriptResize.ToString();
+        }
     }
 }

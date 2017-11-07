@@ -45,6 +45,8 @@ namespace Common.DataAccess
         protected bool hasParameters = false;
         protected bool hasOutputParameters = false;
         protected string errMsg = "";
+        protected int sqlErrNumber = 0;
+        protected int sqlErrState = 0;
 
         private SqlConnection conn = null;
 
@@ -60,6 +62,16 @@ namespace Common.DataAccess
         public string GetErrMsg()
         {
             return errMsg;
+        }
+
+        public int GetSqlErrNumber()
+        {
+            return sqlErrNumber;
+        }
+
+        public int GetSqlErrState()
+        {
+            return sqlErrState;
         }
 
         #region LogSql
@@ -213,6 +225,14 @@ namespace Common.DataAccess
 
                 //回傳錯誤訊息
                 errMsg = ex.Message;
+
+                if (ex is SqlException)
+                {
+                    SqlException sqlex = (SqlException)ex;
+                    sqlErrNumber = sqlex.Number;
+                    sqlErrState = sqlex.State;
+                }
+
                 return null;
             }
             finally
@@ -282,6 +302,14 @@ namespace Common.DataAccess
 
                 //回傳錯誤訊息
                 errMsg = ex.Message;
+
+                if (ex is SqlException)
+                {
+                    SqlException sqlex = (SqlException)ex;
+                    sqlErrNumber = sqlex.Number;
+                    sqlErrState = sqlex.State;
+                }
+
                 return false;
             }
             finally
@@ -353,6 +381,14 @@ namespace Common.DataAccess
 
                 //回傳錯誤訊息
                 errMsg = ex.Message;
+
+                if (ex is SqlException)
+                {
+                    SqlException sqlex = (SqlException)ex;
+                    sqlErrNumber = sqlex.Number;
+                    sqlErrState = sqlex.State;
+                }
+
                 return errCode;
             }
             finally
@@ -426,6 +462,14 @@ namespace Common.DataAccess
 
                 //回傳錯誤訊息
                 errMsg = ex.Message;
+
+                if (ex is SqlException)
+                {
+                    SqlException sqlex = (SqlException)ex;
+                    sqlErrNumber = sqlex.Number;
+                    sqlErrState = sqlex.State;
+                }
+
                 //失敗時關閉連線
                 db.CloseConnection(conn);
                 connOut = null;

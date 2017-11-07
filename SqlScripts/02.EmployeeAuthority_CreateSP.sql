@@ -272,6 +272,104 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/07>
+-- Description: <新增後端使用者資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_InsertData
+@EmpAccount	varchar(20)
+,@EmpPassword	varchar(128)
+,@EmpName	nvarchar(50)
+,@Email	varchar(100)
+,@Remarks	nvarchar(200)
+,@DeptId	int
+,@RoleId	int
+,@IsAccessDenied	bit
+,@StartDate	datetime
+,@EndDate	datetime
+,@OwnerAccount	varchar(20)
+,@PasswordHashed	bit
+,@DefaultRandomPassword	varchar(50)
+,@PostAccount	varchar(20)
+,@EmpId	int output
+as
+begin
+	if exists(select * from dbo.Employee where EmpAccount=@EmpAccount)
+	begin
+		raiserror(N'EmpAccount has been used.', 11, 2)
+		return
+	end
+
+	insert into dbo.Employee(
+		EmpAccount, EmpPassword
+		,EmpName, Email, Remarks
+		,DeptId, RoleId, IsAccessDenied
+		,StartDate, EndDate, OwnerAccount
+		,PasswordHashed, DefaultRandomPassword, PostAccount
+		,PostDate
+		)
+	values(
+		@EmpAccount, @EmpPassword
+		,@EmpName, @Email, @Remarks
+		,@DeptId, @RoleId, @IsAccessDenied
+		,@StartDate, @EndDate, @OwnerAccount
+		,@PasswordHashed, @DefaultRandomPassword, @PostAccount
+		,getdate()
+		)
+
+	set @EmpId=scope_identity()
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/07>
+-- Description: <更新後端使用者資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_UpdateData
+@EmpId	int
+,@EmpPassword	varchar(128)
+,@EmpName	nvarchar(50)
+,@Email	varchar(100)
+,@Remarks	nvarchar(200)
+,@DeptId	int
+,@RoleId	int
+,@IsAccessDenied	bit
+,@StartDate	datetime
+,@EndDate	datetime
+,@OwnerAccount	varchar(20)
+,@PasswordHashed	bit
+,@DefaultRandomPassword	varchar(50)
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.Employee
+	set
+		EmpPassword=@EmpPassword
+		,EmpName=@EmpName
+		,Email=@Email
+		,Remarks=@Remarks
+		,DeptId=@DeptId
+		,RoleId=@RoleId
+		,IsAccessDenied=@IsAccessDenied
+		,StartDate=@StartDate
+		,EndDate=@EndDate
+		,OwnerAccount=@OwnerAccount
+		,PasswordHashed=@PasswordHashed
+		,DefaultRandomPassword=@DefaultRandomPassword
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where EmpId=@EmpId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 後端操作記錄
 ----------------------------------------------------------------------------

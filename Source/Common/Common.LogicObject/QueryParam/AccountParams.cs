@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Common.LogicObject
 {
-    public class AccountVM
+    public class AccountParams
     {
         public int EmpId;
         public string EmpAccount;
@@ -22,5 +22,9 @@ namespace Common.LogicObject
         public bool PasswordHashed = true;
         public string DefaultRandomPassword;
         public string PostAccount;
+        /// <summary>
+        /// 取回帳號是否重覆
+        /// </summary>
+        public bool HasAccountBeenUsed = false;
     }
 }

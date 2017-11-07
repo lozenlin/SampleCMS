@@ -308,7 +308,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得後端使用者登入用資料
         /// </summary>
-        public DataSet GetEmpDataToLogin(string empAccount)
+        public DataSet GetEmployeeDataToLogin(string empAccount)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployee_GetDataToLogin cmdInfo = new spEmployee_GetDataToLogin()
@@ -325,7 +325,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得後端使用者資料
         /// </summary>
-        public DataSet GetEmpData(string empAccount)
+        public DataSet GetEmployeeData(string empAccount)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployee_GetData cmdInfo = new spEmployee_GetData()
@@ -342,7 +342,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得後端使用者資料
         /// </summary>
-        public DataSet GetEmpData(int empId)
+        public DataSet GetEmployeeData(int empId)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployee_GetAccountOfId cmdInfo = new spEmployee_GetAccountOfId()
@@ -357,7 +357,7 @@ namespace Common.LogicObject
             DataSet ds = null;
             if (empAccount != errCode)
             {
-                ds = GetEmpData(empAccount);
+                ds = GetEmployeeData(empAccount);
             }
 
             return ds;
@@ -389,7 +389,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 更新後端使用者本次登入資訊
         /// </summary>
-        public bool UpdateEmpLoginInfo(string empAccount, string thisLoginIP)
+        public bool UpdateEmployeeLoginInfo(string empAccount, string thisLoginIP)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployee_UpdateLoginInfo cmdInfo = new spEmployee_UpdateLoginInfo()
@@ -436,6 +436,73 @@ namespace Common.LogicObject
             spEmployee_DeleteData cmdInfo = new spEmployee_DeleteData()
             {
                 EmpId = empId
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增後端使用者資料
+        /// </summary>
+        public bool InsertEmployeeData(AccountParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_InsertData cmdInfo = new spEmployee_InsertData()
+            {
+                EmpAccount = param.EmpAccount,
+                EmpPassword = param.EmpPassword,
+                EmpName = param.EmpName,
+                Email = param.Email,
+                Remarks = param.Remarks,
+                DeptId = param.DeptId,
+                RoleId = param.RoleId,
+                IsAccessDenied = param.IsAccessDenied,
+                StartDate = param.StartDate,
+                EndDate = param.EndDate,
+                OwnerAccount = param.OwnerAccount,
+                PasswordHashed = param.PasswordHashed,
+                DefaultRandomPassword = param.DefaultRandomPassword,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result)
+            {
+                param.EmpId = cmdInfo.EmpId;
+            }
+            else if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.HasAccountBeenUsed = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新後端使用者資料
+        /// </summary>
+        public bool UpdateEmployeeData(AccountParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_UpdateData cmdInfo = new spEmployee_UpdateData()
+            {
+                EmpId = param.EmpId,
+                EmpPassword = param.EmpPassword,
+                EmpName = param.EmpName,
+                Email = param.Email,
+                Remarks = param.Remarks,
+                DeptId = param.DeptId,
+                RoleId = param.RoleId,
+                IsAccessDenied = param.IsAccessDenied,
+                StartDate = param.StartDate,
+                EndDate = param.EndDate,
+                OwnerAccount = param.OwnerAccount,
+                PasswordHashed = param.PasswordHashed,
+                DefaultRandomPassword = param.DefaultRandomPassword,
+                MdfAccount = param.PostAccount
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();

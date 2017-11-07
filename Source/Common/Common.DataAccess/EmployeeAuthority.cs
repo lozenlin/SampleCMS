@@ -173,6 +173,78 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 新增後端使用者資料
+    /// </summary>
+    public class spEmployee_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string EmpAccount;
+        public string EmpPassword;
+        public string EmpName;
+        public string Email;
+        public string Remarks;
+        public int DeptId;
+        public int RoleId;
+        public bool IsAccessDenied;
+        public DateTime StartDate;
+        public DateTime EndDate;
+        public string OwnerAccount;
+        public bool PasswordHashed;
+        public string DefaultRandomPassword;
+        public string PostAccount;
+        [OutputPara]
+        public int EmpId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployee_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 更新後端使用者資料
+    /// </summary>
+    public class spEmployee_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int EmpId;
+        public string EmpPassword;
+        public string EmpName;
+        public string Email;
+        public string Remarks;
+        public int DeptId;
+        public int RoleId;
+        public bool IsAccessDenied;
+        public DateTime StartDate;
+        public DateTime EndDate;
+        public string OwnerAccount;
+        public bool PasswordHashed;
+        public string DefaultRandomPassword;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployee_UpdateData";
+        }
+    }
+
     #endregion
 
     #region 後端操作記錄

@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -100,7 +101,7 @@ public partial class Account_Config : System.Web.UI.Page
     {
         if (c.qsAct == ConfigFormAction.edit)
         {
-            DataSet dsAccount = empAuth.GetEmpData(c.qsEmpId);
+            DataSet dsAccount = empAuth.GetEmployeeData(c.qsEmpId);
 
             if (dsAccount != null && dsAccount.Tables[0].Rows.Count > 0)
             {
@@ -109,6 +110,7 @@ public partial class Account_Config : System.Web.UI.Page
 
                 //account
                 txtEmpAccount.Text = drFirst["EmpAccount"].ToString();
+                txtEmpAccount.Enabled = false;
 
                 //name
                 txtEmpName.Text = drFirst["EmpName"].ToString();
@@ -175,11 +177,80 @@ public partial class Account_Config : System.Web.UI.Page
             IP = c.GetClientIP()
         });
 
-        if (c.qsAct == ConfigFormAction.add)
+        try
         {
+            txtEmpAccount.Text = txtEmpAccount.Text.Trim();
+            txtPsw.Text = txtPsw.Text.Trim();
+            string passwordValue = hidEmpPasswordOri.Text;
+            bool passwordHashed = Convert.ToBoolean(hidPasswordHashed.Text);
+
+            if (txtPsw.Text != "")
+            {
+                passwordValue = HashUtility.GetPasswordHash(txtPsw.Text);
+                passwordHashed = true;
+            }
+
+            txtEmpName.Text = txtEmpName.Text.Trim();
+            txtEmail.Text = txtEmail.Text.Trim();
+            txtRemarks.Text = txtRemarks.Text.Trim();
+            txtOwnerAccount.Text = txtOwnerAccount.Text.Trim();
+
+            AccountParams param = new AccountParams()
+            {
+                EmpAccount = txtEmpAccount.Text,
+                EmpPassword = passwordValue,
+                EmpName = txtEmpName.Text,
+                Email = txtEmail.Text,
+                Remarks = txtRemarks.Text,
+                DeptId = Convert.ToInt32(ddlDept.SelectedValue),
+                RoleId = Convert.ToInt32(ddlRoles.SelectedValue),
+                IsAccessDenied = chkIsAccessDenied.Checked,
+                StartDate = Convert.ToDateTime(txtStartDate.Text),
+                EndDate = Convert.ToDateTime(txtEndDate.Text),
+                OwnerAccount = txtOwnerAccount.Text,
+                PasswordHashed = passwordHashed,
+                DefaultRandomPassword = hidDefaultRandomPassword.Text,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            bool result = false;
+
+            if (c.qsAct == ConfigFormAction.add)
+            {
+                result = empAuth.InsertEmployeeData(param);
+
+                if(!result)
+                {
+                    if (param.HasAccountBeenUsed)
+                    {
+                        Master.ShowErrorMsg("帳號已被使用，請更換");
+                    }
+                    else
+                    {
+                        Master.ShowErrorMsg("新增失敗");
+                    }
+                }
+            }
+            else if (c.qsAct == ConfigFormAction.edit)
+            {
+                param.EmpId = c.qsEmpId;
+                result = empAuth.UpdateEmployeeData(param);
+
+                if (!result)
+                {
+                    Master.ShowErrorMsg("更新失敗");
+                }
+            }
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
+            }
         }
-        else if (c.qsAct == ConfigFormAction.edit)
+        catch (Exception ex)
         {
+            c.LoggerOfUI.Error("", ex);
+            Master.ShowErrorMsg(ex.Message);
         }
     }
 }

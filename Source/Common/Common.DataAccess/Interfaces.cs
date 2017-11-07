@@ -61,6 +61,14 @@ namespace Common.DataAccess
         /// 執行後的錯誤訊息
         /// </summary>
         string GetErrMsg();
+        /// <summary>
+        /// 執行後 SqlServer 回傳的 error number
+        /// </summary>
+        int GetSqlErrNumber();
+        /// <summary>
+        /// 執行後 SqlServer 回傳的 error state
+        /// </summary>
+        int GetSqlErrState();
     }
 
     /// <summary>

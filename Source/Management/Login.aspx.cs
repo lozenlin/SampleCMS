@@ -74,7 +74,7 @@ public partial class Login : System.Web.UI.Page
         txtPassword.Text = txtPassword.Text.Trim();
 
         //登入驗證
-        DataSet dsEmpVerify = empAuth.GetEmpDataToLogin(txtAccount.Text);
+        DataSet dsEmpVerify = empAuth.GetEmployeeDataToLogin(txtAccount.Text);
 
         if (dsEmpVerify == null)
         {
@@ -181,10 +181,10 @@ public partial class Login : System.Web.UI.Page
         }
 
         //記錄登入時間與IP
-        empAuth.UpdateEmpLoginInfo(txtAccount.Text, c.GetClientIP());
+        empAuth.UpdateEmployeeLoginInfo(txtAccount.Text, c.GetClientIP());
 
         //確認可登入後,取得使用者資料
-        DataSet dsEmp = empAuth.GetEmpData(txtAccount.Text);
+        DataSet dsEmp = empAuth.GetEmployeeData(txtAccount.Text);
 
         if (dsEmp == null)
         {

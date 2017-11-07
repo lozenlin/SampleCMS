@@ -59,7 +59,7 @@
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
     <Compile Include="MagicNumbersAndStrings.cs" />
     <Compile Include="QueryParam\AccountListQueryParams.cs" />
-    <Compile Include="QueryParam\AccountVM.cs" />
+    <Compile Include="QueryParam\AccountParams.cs" />
     <Compile Include="QueryParam\AuthenticationQueryParams.cs" />
     <Compile Include="QueryParam\PagedListQueryParams.cs" />
     <Compile Include="Widget\DataPagerLogic.cs" />

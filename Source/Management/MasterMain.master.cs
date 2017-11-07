@@ -16,9 +16,10 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
     #region Public properties
 
-    public HtmlInputHidden TxtFlag
+    public string FlagValue
     {
-        get { return txtFlag; }
+        get { return txtFlag.Value; }
+        set { txtFlag.Value = value; }
     }
 
     #endregion

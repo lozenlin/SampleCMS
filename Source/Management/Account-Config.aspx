@@ -31,7 +31,7 @@
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                     <asp:LinkButton ID="btnGenPsw" runat="server" CssClass="btn btn-sm btn-info"><i class="fa fa-refresh"></i> 重新產生亂數密碼</asp:LinkButton>
                     <asp:Literal ID="hidEmpPasswordOri" runat="server" Visible="false"></asp:Literal>
-                    <asp:Literal ID="hidPasswordHashed" runat="server" Visible="false"></asp:Literal>
+                    <asp:Literal ID="hidPasswordHashed" runat="server" Text="True" Visible="false"></asp:Literal>
                     <asp:Literal ID="hidDefaultRandomPassword" runat="server" Visible="false"></asp:Literal>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" Enabled="false"></asp:RequiredFieldValidator>
                 </td>
             </tr>
-            <tr class="table-danger">
+            <tr id="IsAccessDeniedArea" runat="server" class="table-danger">
                 <th>停權</th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsAccessDenied" runat="server" Text="設定為停權" />
