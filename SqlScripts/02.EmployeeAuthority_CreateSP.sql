@@ -53,7 +53,7 @@ begin
 		e.MdfDate, e.StartDate, e.EndDate, 
 		e.ThisLoginTime, e.ThisLoginIP, e.LastLoginTime,
 		e.LastLoginIP, e.OwnerAccount, isnull(oe.DeptId, 0) as OwnerDeptId,
-		e.PasswordHashed, e.DefaultRandomPassword
+		e.PasswordHashed, e.DefaultRandomPassword, isnull(r.RoleDisplayName, N'') + N' (' + isnull(r.RoleName, N'') + N')' as RoleDisplayText
 	from dbo.Employee e
 		join dbo.EmployeeRole r on e.RoleId=r.RoleId
 		left join dbo.Department d on e.DeptId=d.DeptId
@@ -84,11 +84,17 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/04>
+-- History:
+--	2017/11/08, lozen_lin, modify, 增加權限判斷用的參數
 -- Description: <取得後端使用者清單>
 -- Test:
 /*
 declare @RowCount int
-exec dbo.spEmployee_GetList 0, '', 0, 1, 99999, '', 0, @RowCount output
+exec dbo.spEmployee_GetList 0, '', 0, 1, 99999, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
+
+declare @RowCount int
+exec dbo.spEmployee_GetList 0, '', 0, 1, 99999, '', 0, 0, 0, 1, 'tester', 0, @RowCount output
 select @RowCount
 */
 -- =============================================
@@ -100,6 +106,11 @@ alter procedure dbo.spEmployee_GetList
 ,@EndNum int
 ,@SortField nvarchar(20)=''
 ,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
 ,@RowCount int output
 as
 begin
@@ -110,7 +121,13 @@ begin
 
 	--條件定義
 	set @conditions=N''
-	
+
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and e.OwnerAccount=@MyAccount
+	or e.EmpAccount=@MyAccount) '
+
 	if @DeptId<>0
 	begin
 		set @conditions += N' and e.DeptId=@DeptId '
@@ -145,6 +162,11 @@ where 1=1 ' + @conditions
 @DeptId int
 ,@Kw nvarchar(52)
 ,@ListMode int
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
 '
 
 	set @parmDefForTotal = @parmDef + N',@RowCount int output'
@@ -155,6 +177,11 @@ where 1=1 ' + @conditions
 		@DeptId
 		,@Kw
 		,@ListMode
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
 		,@RowCount output
 
 	--取得指定排序和範圍的結果
@@ -205,6 +232,11 @@ order by RowNum'
 		@DeptId
 		,@Kw
 		,@ListMode
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
 		,@BeginNum
 		,@EndNum
 end

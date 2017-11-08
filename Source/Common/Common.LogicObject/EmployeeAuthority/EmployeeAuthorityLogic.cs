@@ -276,6 +276,30 @@ namespace Common.LogicObject
             return authorizations.CanAddSubItemOfSelf;
         }
 
+        /// <summary>
+        /// 可閱讀任何人的子項目
+        /// </summary>
+        public bool CanReadSubItemOfOthers()
+        {
+            return authorizations.CanReadSubItemOfOthers;
+        }
+
+        /// <summary>
+        /// 可閱讀同部門的子項目
+        /// </summary>
+        public bool CanReadSubItemOfCrew()
+        {
+            return authorizations.CanReadSubItemOfCrew;
+        }
+
+        /// <summary>
+        /// 可閱讀自己的子項目
+        /// </summary>
+        public bool CanReadSubItemOfSelf()
+        {
+            return authorizations.CanReadSubItemOfSelf;
+        }
+
         // DataAccess functions
 
         /// <summary>
@@ -424,6 +448,11 @@ namespace Common.LogicObject
                 EndNum = param.PagedParams.EndNum,
                 SortField = param.PagedParams.SortField,
                 IsSortDesc = param.PagedParams.IsSortDesc,
+                CanReadSubItemOfOthers = param.AuthParams.CanReadSubItemOfOthers,
+                CanReadSubItemOfCrew = param.AuthParams.CanReadSubItemOfCrew,
+                CanReadSubItemOfSelf = param.AuthParams.CanReadSubItemOfSelf,
+                MyAccount = param.AuthParams.MyAccount,
+                MyDeptId = param.AuthParams.MyDeptId,
                 RowCount = param.PagedParams.RowCount
             };
             DataSet ds = cmd.ExecuteDataset(cmdInfo);

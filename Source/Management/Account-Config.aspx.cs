@@ -99,6 +99,9 @@ public partial class Account_Config : System.Web.UI.Page
 
     private void DisplayAccountData()
     {
+        bool isOwner = false;
+        int curRoleId = 0;
+
         if (c.qsAct == ConfigFormAction.edit)
         {
             DataSet dsAccount = empAuth.GetEmployeeData(c.qsEmpId);
@@ -147,30 +150,15 @@ public partial class Account_Config : System.Web.UI.Page
                     ltrDept.Text = ddlDept.SelectedItem.Text;
 
                 //role
-                ddlRoles.SelectedValue = drFirst["RoleId"].ToString();
-                if (ddlRoles.SelectedItem != null)
-                    ltrRoles.Text = ddlRoles.SelectedItem.Text;
-
-                // owner privilege
-                if(empAuth.CanEditThisPage(false, drFirst["OwnerAccount"].ToString(), Convert.ToInt32(drFirst["OwnerDeptId"])))
-                {
-                    chkIsAccessDenied.Visible = true;
-                    ltrIsAccessDenied.Visible = false;
-
-                    DateRangeEditCtrl.Visible = true;
-                    ltrDateRange.Visible = false;
-
-                    ddlDept.Visible = true;
-                    ltrDept.Visible = false;
-
-                    ddlRoles.Visible = true;
-                    ltrRoles.Visible = false;
-                }
+                curRoleId = Convert.ToInt32(drFirst["RoleId"]);
+                ddlRoles.SelectedValue = curRoleId.ToString();
+                ltrRoles.Text = drFirst["RoleDisplayText"].ToString();
 
                 //owner
                 txtOwnerAccount.Text = drFirst["OwnerAccount"].ToString();
                 ltrOwnerAccount.Text = txtOwnerAccount.Text;
 
+                isOwner = empAuth.CanEditThisPage(false, drFirst["OwnerAccount"].ToString(), Convert.ToInt32(drFirst["OwnerDeptId"]));
                 btnSave.Visible = true; 
             }
         }
@@ -184,7 +172,25 @@ public partial class Account_Config : System.Web.UI.Page
 
             txtOwnerAccount.Text = c.GetEmpAccount();
             ltrOwnerAccount.Text = txtOwnerAccount.Text;
+
+            isOwner = true;
             btnSave.Visible = true;
+        }
+
+        // owner privilege
+        if (isOwner)
+        {
+            chkIsAccessDenied.Visible = true;
+            ltrIsAccessDenied.Visible = false;
+
+            DateRangeEditCtrl.Visible = true;
+            ltrDateRange.Visible = false;
+
+            ddlDept.Visible = true;
+            ltrDept.Visible = false;
+
+            ddlRoles.Visible = true;
+            ltrRoles.Visible = false;
         }
 
         // role-admin privilege
@@ -193,6 +199,18 @@ public partial class Account_Config : System.Web.UI.Page
             //owner
             txtOwnerAccount.Visible = true;
             ltrOwnerAccount.Visible = false;
+        }
+        else
+        {
+            // only role-admin can assigns role-admin to another (但是,保留已經是role-admin的選項)
+            if (curRoleId != 1)
+            {
+                ListItem liAdmin = ddlRoles.Items.FindByValue("1");
+                if (liAdmin != null)
+                {
+                    ddlRoles.Items.Remove(liAdmin);
+                }
+            }
         }
     }
 

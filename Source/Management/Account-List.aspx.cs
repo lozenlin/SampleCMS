@@ -133,6 +133,15 @@ public partial class Account_List : System.Web.UI.Page
             IsSortDesc = c.qsIsSortDesc
         };
 
+        accountParams.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
         // get total of items
         empAuth.GetAccountList(accountParams);
 
@@ -240,8 +249,9 @@ public partial class Account_List : System.Web.UI.Page
 
         btnEdit.Visible = (empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId) || c.IsMyAccount(empAccount));
 
-        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId) 
-            || empAccount == "admin")
+        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId)
+            || empAccount == "admin"
+            || empAccount == c.GetEmpAccount())
         {
             btnDelete.Visible = false;
         }
