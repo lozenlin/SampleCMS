@@ -190,13 +190,13 @@ public partial class Account_List : System.Web.UI.Page
 
         HtmlGenericControl ctlAccountState = (HtmlGenericControl)e.Item.FindControl("ctlAccountState");
 
-        if (DateTime.Today < startDate && roleName != "admin")
+        if (DateTime.Today < startDate && empAccount != "admin")
         {
             // on schedule
             ctlAccountState.Attributes["class"] = "fa fa-hourglass-start fa-lg text-info";
             ctlAccountState.Attributes["title"] = "排程中";
         }
-        else if (endDate < DateTime.Today && roleName != "admin" || isAccessDenied)
+        else if (endDate < DateTime.Today && empAccount != "admin" || isAccessDenied)
         {
             // offline
             ctlAccountState.Attributes["class"] = "fa fa-ban fa-lg text-danger";
@@ -238,7 +238,7 @@ public partial class Account_List : System.Web.UI.Page
         string ownerAccount = drvTemp["OwnerAccount"].ToString();
         int ownerDeptId = Convert.ToInt32(drvTemp["OwnerDeptId"]);
 
-        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+        btnEdit.Visible = (empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId) || c.IsMyAccount(empAccount));
 
         if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId) 
             || empAccount == "admin")

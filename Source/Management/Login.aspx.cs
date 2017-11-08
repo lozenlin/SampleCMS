@@ -158,7 +158,7 @@ public partial class Login : System.Web.UI.Page
         }
 
         //檢查上架日期
-        if (string.Compare(txtAccount.Text, "admin", true) != 0)    // 不檢查admin
+        if (string.Compare(txtAccount.Text, "admin", true) != 0)    // 不檢查帳號 admin
         {
             DateTime startDate = Convert.ToDateTime(drEmpVerify["StartDate"]).Date;
             DateTime endDate = Convert.ToDateTime(drEmpVerify["EndDate"]).Date;

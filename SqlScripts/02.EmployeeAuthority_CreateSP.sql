@@ -52,11 +52,12 @@ begin
 		e.PostAccount, e.PostDate, e.MdfAccount, 
 		e.MdfDate, e.StartDate, e.EndDate, 
 		e.ThisLoginTime, e.ThisLoginIP, e.LastLoginTime,
-		e.LastLoginIP, e.OwnerAccount, e.PasswordHashed, 
-		e.DefaultRandomPassword
+		e.LastLoginIP, e.OwnerAccount, isnull(oe.DeptId, 0) as OwnerDeptId,
+		e.PasswordHashed, e.DefaultRandomPassword
 	from dbo.Employee e
 		join dbo.EmployeeRole r on e.RoleId=r.RoleId
 		left join dbo.Department d on e.DeptId=d.DeptId
+		left join dbo.Employee oe on e.OwnerAccount=oe.EmpAccount
 	where e.EmpAccount=@EmpAccount
 end
 go

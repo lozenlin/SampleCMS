@@ -55,6 +55,7 @@
     <Compile Include="DataClass\EmployeeAuthorizations.cs" />
     <Compile Include="DataClass\LoginEmployeeData.cs" />
     <Compile Include="DataClass\OperationHtmlAnchorData.cs" />
+    <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
     <Compile Include="MagicNumbersAndStrings.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Widget\DataPagerLogic.cs" />
     <Compile Include="DBs.cs" />
     <Compile Include="Widget\EmailSender.cs" />
-    <Compile Include="EmployeeAuthorityLogic.cs" />
     <Compile Include="FrontendPageCommon.cs" />
     <Compile Include="Widget\LangManager.cs" />
     <Compile Include="PageCommon.cs" />
@@ -78,9 +78,7 @@
       <Name>Common.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EmployeeAuthority\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

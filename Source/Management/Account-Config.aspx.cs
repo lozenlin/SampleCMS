@@ -27,7 +27,7 @@ public partial class Account_Config : System.Web.UI.Page
         if (!IsPostBack)
         {
             // Authenticate
-            if (c.qsAct == ConfigFormAction.edit && !empAuth.CanEditThisPage()
+            if (c.qsAct == ConfigFormAction.edit && !(empAuth.CanEditThisPage() || c.IsMyAccount())
                 || c.qsAct == ConfigFormAction.add && !empAuth.CanAddSubItemInThisPage())
             {
                 string jsClose = "closeThisForm();";
@@ -121,32 +121,55 @@ public partial class Account_Config : System.Web.UI.Page
                 hidPasswordHashed.Text = drFirst["PasswordHashed"].ToString();
                 hidDefaultRandomPassword.Text = drFirst["DefaultRandomPassword"].ToString();
 
+                //email
+                txtEmail.Text = drFirst["Email"].ToString();
+
+                //remarks
+                txtRemarks.Text = drFirst["Remarks"].ToString();
+
                 // is access denied
                 chkIsAccessDenied.Checked = Convert.ToBoolean(drFirst["IsAccessDenied"]);
+                ltrIsAccessDenied.Text = chkIsAccessDenied.Checked ? "已停權" : "未勾選";
 
                 //valid date
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["StartDate"]);
                 txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["EndDate"]);
+                ltrDateRange.Text = txtStartDate.Text + " ~ " + txtEndDate.Text;
 
                 if (empAccount == "admin")
                 {
                     DateRangeArea.Visible = false;
                 }
 
-                //email
-                txtEmail.Text = drFirst["Email"].ToString();
-
                 //department
                 ddlDept.SelectedValue = drFirst["DeptId"].ToString();
+                if (ddlDept.SelectedItem != null)
+                    ltrDept.Text = ddlDept.SelectedItem.Text;
 
                 //role
                 ddlRoles.SelectedValue = drFirst["RoleId"].ToString();
+                if (ddlRoles.SelectedItem != null)
+                    ltrRoles.Text = ddlRoles.SelectedItem.Text;
 
-                //remarks
-                txtRemarks.Text = drFirst["Remarks"].ToString();
+                // owner privilege
+                if(empAuth.CanEditThisPage(false, drFirst["OwnerAccount"].ToString(), Convert.ToInt32(drFirst["OwnerDeptId"])))
+                {
+                    chkIsAccessDenied.Visible = true;
+                    ltrIsAccessDenied.Visible = false;
+
+                    DateRangeEditCtrl.Visible = true;
+                    ltrDateRange.Visible = false;
+
+                    ddlDept.Visible = true;
+                    ltrDept.Visible = false;
+
+                    ddlRoles.Visible = true;
+                    ltrRoles.Visible = false;
+                }
 
                 //owner
                 txtOwnerAccount.Text = drFirst["OwnerAccount"].ToString();
+                ltrOwnerAccount.Text = txtOwnerAccount.Text;
 
                 btnSave.Visible = true; 
             }
@@ -160,7 +183,16 @@ public partial class Account_Config : System.Web.UI.Page
             txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", endDate);
 
             txtOwnerAccount.Text = c.GetEmpAccount();
+            ltrOwnerAccount.Text = txtOwnerAccount.Text;
             btnSave.Visible = true;
+        }
+
+        // role-admin privilege
+        if (c.IsInRole("admin"))
+        {
+            //owner
+            txtOwnerAccount.Visible = true;
+            ltrOwnerAccount.Visible = false;
         }
     }
 

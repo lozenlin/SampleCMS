@@ -43,24 +43,6 @@
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" Enabled="false"></asp:RequiredFieldValidator>
                 </td>
             </tr>
-            <tr id="IsAccessDeniedArea" runat="server" class="table-danger">
-                <th>停權</th>
-                <td colspan="3">
-                    <asp:CheckBox ID="chkIsAccessDenied" runat="server" Text="設定為停權" />
-                </td>
-            </tr>
-            <tr id="DateRangeArea" runat="server">
-                <th><span class="required-symbol">有效日期</span></th>
-                <td colspan="3">
-                    <asp:TextBox ID="txtStartDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ControlToValidate="txtStartDate" CssClass="text-danger"
-                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                    &nbsp;~&nbsp;
-                    <asp:TextBox ID="txtEndDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvEndDate" runat="server" ControlToValidate="txtEndDate" CssClass="text-danger"
-                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                </td>
-            </tr>
             <tr>
                 <th><span class="required-symbol">Email</span></th>
                 <td colspan="3">
@@ -70,31 +52,72 @@
                 </td>
             </tr>
             <tr>
-                <th>部門</th>
-                <td colspan="3">
-                    <asp:DropDownList ID="ddlDept" runat="server"></asp:DropDownList>
-                    <asp:RequiredFieldValidator ID="rfvDept" runat="server" ControlToValidate="ddlDept" CssClass="text-danger"
-                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                </td>
-            </tr>
-            <tr>
-                <th>身分</th>
-                <td colspan="3">
-                    <asp:DropDownList ID="ddlRoles" runat="server"></asp:DropDownList>
-                    <asp:RequiredFieldValidator ID="rfvRoles" runat="server" ControlToValidate="ddlRoles" CssClass="text-danger"
-                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                </td>
-            </tr>
-            <tr>
                 <th>備註</th>
                 <td colspan="3">
                     <asp:TextBox ID="txtRemarks" runat="server" Width="90%"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
-                <th>擁有者帳號<br />(管理者專用)</th>
+        </tbody>
+    </table>
+    <hr class="content-divider" />
+    <div class="sys-subtitle">
+        進階資料
+    </div>
+    <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
+        <tbody>
+            <tr id="IsAccessDeniedArea" runat="server" class="table-danger">
+                <th style="width:15%;">停權</th>
                 <td colspan="3">
-                    <asp:TextBox ID="txtOwnerAccount" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="chkIsAccessDenied" runat="server" Text="設定為停權" Visible="false" />
+                    <asp:Literal ID="ltrIsAccessDenied" runat="server"></asp:Literal>
+                </td>
+            </tr>
+            <tr id="DateRangeArea" runat="server">
+                <th><span class="required-symbol">有效日期</span></th>
+                <td colspan="3">
+                    <asp:PlaceHolder ID="DateRangeEditCtrl" runat="server" Visible="false">
+                        <asp:TextBox ID="txtStartDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ControlToValidate="txtStartDate" CssClass="text-danger"
+                            Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                        &nbsp;~&nbsp;
+                        <asp:TextBox ID="txtEndDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvEndDate" runat="server" ControlToValidate="txtEndDate" CssClass="text-danger"
+                            Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                    </asp:PlaceHolder>
+                    <asp:Literal ID="ltrDateRange" runat="server"></asp:Literal>
+                </td>
+            </tr>
+            <tr>
+                <th>部門</th>
+                <td colspan="3">
+                    <asp:DropDownList ID="ddlDept" runat="server" Visible="false"></asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="rfvDept" runat="server" ControlToValidate="ddlDept" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g"></asp:RequiredFieldValidator>
+                    <asp:Literal ID="ltrDept" runat="server"></asp:Literal>
+                </td>
+            </tr>
+            <tr>
+                <th>身分</th>
+                <td colspan="3">
+                    <asp:DropDownList ID="ddlRoles" runat="server" Visible="false"></asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="rfvRoles" runat="server" ControlToValidate="ddlRoles" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g"></asp:RequiredFieldValidator>
+                    <asp:Literal ID="ltrRoles" runat="server"></asp:Literal>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr class="content-divider" />
+    <div class="sys-subtitle">
+        管理者專用
+    </div>
+    <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
+        <tbody>
+            <tr>
+                <th style="width:15%;">擁有者帳號</th>
+                <td colspan="3">
+                    <asp:TextBox ID="txtOwnerAccount" runat="server" Visible="false"></asp:TextBox>
+                    <asp:Literal ID="ltrOwnerAccount" runat="server"></asp:Literal>
                 </td>
             </tr>
         </tbody>

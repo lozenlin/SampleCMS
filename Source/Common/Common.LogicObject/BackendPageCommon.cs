@@ -467,6 +467,13 @@ namespace Common.LogicObject
 
         #endregion
 
+        private string accountOfData = "";
+
+        public string GetAccountOfData()
+        {
+            return accountOfData;
+        }
+
         public string BuildUrlOfListPage(int emprange, int deptid, string kw, 
             string sortfield, bool isSortDesc, int p)
         {
@@ -474,6 +481,16 @@ namespace Common.LogicObject
                 "&sortfield={3}&isSortDesc={4}&p={5}",
                 emprange, deptid, kw,
                 sortfield, isSortDesc, p);
+        }
+
+        public bool IsMyAccount()
+        {
+            return IsMyAccount(accountOfData);
+        }
+
+        public bool IsMyAccount(string accountOfData)
+        {
+            return GetEmpAccount() == accountOfData;
         }
 
         #region ICustomEmployeeAuthorizationResult
@@ -498,6 +515,7 @@ namespace Common.LogicObject
                 DataSet ds = null;
                 if (empAccount != errCode)
                 {
+                    accountOfData = empAccount;
                     spEmployee_GetData cmdInfoGetData = new spEmployee_GetData()
                     {
                         EmpAccount = empAccount
