@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,6 +13,11 @@ public partial class Account_Config : System.Web.UI.Page
 {
     protected AccountCommonOfBackend c;
     protected EmployeeAuthorityLogic empAuth;
+
+    /// <summary>
+    /// 使用嚴格的密碼規則
+    /// </summary>
+    private bool useStrictPasswordRule = false;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -57,8 +63,22 @@ public partial class Account_Config : System.Web.UI.Page
             Master.EnableDatepickerTW = false;
         }
 
+        InitPasswordRule();
         LoadDeptUIData();
         LoadRolesUIData();
+    }
+
+    private void InitPasswordRule()
+    {
+        if (useStrictPasswordRule)
+        {
+            cuvPsw.Enabled = true;
+        }
+        else
+        {
+            revPsw.Enabled = true;
+            revPsw.ValidationExpression = StringUtility.GetPswSimpleRuleValidationExpression();
+        }
     }
 
     private void LoadDeptUIData()
@@ -302,5 +322,59 @@ public partial class Account_Config : System.Web.UI.Page
             c.LoggerOfUI.Error("", ex);
             Master.ShowErrorMsg(ex.Message);
         }
+    }
+
+    protected void cuvPsw_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        bool isValidPsw = true;
+
+        //內文至少包含下列種類
+
+        //特殊符號
+        if (!Regex.IsMatch(args.Value, @"[~`!@#$%^&*()\-_=+,\.<>;':""\[\]{}\\|?/]{1,1}"))
+        {
+            isValidPsw = false;
+        }
+
+        //英文字母大寫
+        if (!Regex.IsMatch(args.Value, @"[A-Z]+"))
+        {
+            isValidPsw = false;
+        }
+
+        //及小寫
+        if (!Regex.IsMatch(args.Value, @"[a-z]+"))
+        {
+            isValidPsw = false;
+        }
+
+        //數字
+        if (!Regex.IsMatch(args.Value, @"[0-9]+"))
+        {
+            isValidPsw = false;
+        }
+
+        //最少12字
+        if (args.Value.Length < 12)
+        {
+            isValidPsw = false;
+        }
+
+        args.IsValid = isValidPsw;
+    }
+
+    protected void btnGenPsw_Click(object sender, EventArgs e)
+    {
+        txtPsw.TextMode = TextBoxMode.SingleLine;
+        txtPswConfirm.TextMode = TextBoxMode.SingleLine;
+        txtPsw.Text = txtPswConfirm.Text = StringUtility.GeneratePasswordValue(12);
+        txtPsw.ReadOnly = true;
+        PswConfirmArea.Visible = false;
+
+        //密碼暫時另存一份在備註
+        string remarkWoOldPsw = Regex.Replace(txtRemarks.Text, @"預設密碼: [!@#$%^&*0-9A-Za-z]+", "");
+        txtRemarks.Text = "預設密碼: " + txtPsw.Text + remarkWoOldPsw;
+
+        hidDefaultRandomPassword.Text = txtPsw.Text;
     }
 }

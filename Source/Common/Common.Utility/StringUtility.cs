@@ -163,7 +163,7 @@ namespace Common.Utility
                 if (random.Next() % 2 == 0)
                 {
                     //number
-                    tempCode = (char)('0' + (char)(number % 10));
+                    tempCode = (char)('1' + (char)(number % 9));
                 }
                 else
                 {
@@ -173,6 +173,43 @@ namespace Common.Utility
 
                 sbCaptchaCode.Append(tempCode);
             }
+
+            return sbCaptchaCode.ToString();
+        }
+
+        public static string GeneratePasswordValue(int length)
+        {
+            string symbols = "!@#$%^&*";
+            int number;
+            char tempCode;
+            StringBuilder sbCaptchaCode = new StringBuilder(length);
+
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            for (int i = 0; i < length; i++)
+            {
+                number = random.Next();
+
+                if (random.Next() % 2 == 0)
+                {
+                    //number
+                    tempCode = (char)('1' + (char)(number % 9));
+                }
+                else
+                {
+                    //letter
+                    tempCode = (char)('A' + (char)(number % 26));
+                }
+
+                sbCaptchaCode.Append(tempCode);
+            }
+
+            int symbolIndex = random.Next() % symbols.Length;
+            char symbol = symbols[symbolIndex];
+            char lowerCaseLetter = (char)('a' + (char)(random.Next() % 26));
+
+            sbCaptchaCode[0] = symbol;
+            sbCaptchaCode[sbCaptchaCode.Length - 1] = lowerCaseLetter;
 
             return sbCaptchaCode.ToString();
         }
@@ -243,6 +280,14 @@ namespace Common.Utility
             sbScriptResize.AppendLine("})");
 
             return sbScriptResize.ToString();
+        }
+
+        /// <summary>
+        /// 取得簡單密碼規則的規則運算式
+        /// </summary>
+        public static string GetPswSimpleRuleValidationExpression()
+        {
+            return @"[a-zA-Z0-9`~!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\\\|:;""'<>,\.\?/]{6,50}";
         }
     }
 }

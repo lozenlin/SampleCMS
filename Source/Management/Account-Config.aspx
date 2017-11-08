@@ -2,6 +2,36 @@
 <%@ MasterType TypeName="MasterConfig" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
+    <script>
+        function cuvPsw_Validate(obj, args) {
+            var isValidPsw = true;
+
+            //內文至少包含下列種類
+
+            //特殊符號
+            if (!/[~`!@#$%^&*()\-_=+,\.<>;':"\[\]{}\\|?/]{1,1}/g.test(args.Value)) {
+                isValidPsw = false;
+            }
+            //英文字母大寫
+            if (!/[A-Z]+/.test(args.Value)) {
+                isValidPsw = false;
+            }
+            //及小寫
+            if (!/[a-z]+/.test(args.Value)) {
+                isValidPsw = false;
+            }
+            //數字
+            if (!/[0-9]+/.test(args.Value)) {
+                isValidPsw = false;
+            }
+            //最少12字
+            if (args.Value.length < 12) {
+                isValidPsw = false;
+            }
+
+            args.IsValid = isValidPsw;
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
@@ -12,7 +42,7 @@
             <tr>
                 <th style="width:15%;"><span class="required-symbol">帳號</span></th>
                 <td style="width:35%;">
-                    <asp:TextBox ID="txtEmpAccount" runat="server" Width="90%"></asp:TextBox>
+                    <asp:TextBox ID="txtEmpAccount" runat="server" Width="90%" MaxLength="20"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvEmpAccount" runat="server" ControlToValidate="txtEmpAccount" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                 </td>
@@ -26,10 +56,18 @@
             <tr>
                 <th><span class="required-symbol">密碼</span></th>
                 <td colspan="3">
-                    <asp:TextBox ID="txtPsw" runat="server" TextMode="Password" style="width:15rem;"></asp:TextBox>
+                    <asp:TextBox ID="txtPsw" runat="server" TextMode="Password" style="width:15rem;" MaxLength="50"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvPsw" runat="server" ControlToValidate="txtPsw" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                    <asp:LinkButton ID="btnGenPsw" runat="server" CssClass="btn btn-sm btn-info"><i class="fa fa-refresh"></i> 重新產生亂數密碼</asp:LinkButton>
+                    <asp:RegularExpressionValidator ID="revPsw" runat="server" ControlToValidate="txtPsw" CssClass="text-danger" 
+                        Display="Dynamic" ErrorMessage="*限6個字元以上的英文字母、阿拉伯數字與特殊符號(!@#...) " SetFocusOnError="true" 
+                        ValidationGroup="g" Enabled="false"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cuvPsw" runat="server" ControlToValidate="txtPsw" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*12~15個字元，內容至少包含特殊符號、英文字母大寫及小寫、數字" SetFocusOnError="true"
+                        ValidationGroup="g" EnableClientScript="true" ClientValidationFunction="cuvPsw_Validate" OnServerValidate="cuvPsw_ServerValidate"
+                        Enabled="false"></asp:CustomValidator>
+                    <asp:Literal ID="ltrPswComment" runat="server" Text="(不變更密碼，請留空白)"/>
+                    <asp:LinkButton ID="btnGenPsw" runat="server" CssClass="btn btn-sm btn-info" OnClick="btnGenPsw_Click"><i class="fa fa-refresh"></i> 重新產生亂數密碼</asp:LinkButton>
                     <asp:Literal ID="hidEmpPasswordOri" runat="server" Visible="false"></asp:Literal>
                     <asp:Literal ID="hidPasswordHashed" runat="server" Text="True" Visible="false"></asp:Literal>
                     <asp:Literal ID="hidDefaultRandomPassword" runat="server" Visible="false"></asp:Literal>
@@ -38,9 +76,11 @@
             <tr id="PswConfirmArea" runat="server">
                 <th><span class="">再次確認密碼</span></th>
                 <td colspan="3">
-                    <asp:TextBox ID="txtPswConfirm" runat="server" TextMode="Password" style="width:15rem;"></asp:TextBox>
+                    <asp:TextBox ID="txtPswConfirm" runat="server" TextMode="Password" style="width:15rem;" MaxLength="50"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvPswConfirm" runat="server" ControlToValidate="txtPswConfirm" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" Enabled="false"></asp:RequiredFieldValidator>
+                    <asp:CompareValidator ID="covPswConfirm" runat="server" ControlToValidate="txtPswConfirm" ControlToCompare="txtPsw" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*輸入值與新密碼不符合" SetFocusOnError="true" ValidationGroup="g"></asp:CompareValidator>
                 </td>
             </tr>
             <tr>
