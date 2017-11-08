@@ -6,6 +6,6 @@ namespace Common.LogicObject
     /// </summary>
     public interface ICustomEmployeeAuthorizationResult
     {
-        EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation);
+        EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Common.DataAccess;
 using Common.DataAccess.EmployeeAuthority;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,6 +36,7 @@ namespace Common.LogicObject
 
         protected IAuthenticationConditionProvider authCondition;
         protected EmployeeAuthorizations authorizations = null;
+        protected ILog logger = null;
         /// <summary>
         /// 為作業項目中的最上層頁面
         /// </summary>
@@ -53,6 +55,7 @@ namespace Common.LogicObject
         {
             this.authCondition = authCondition;
             this.authorizations = new EmployeeAuthorizations();
+            logger = LogManager.GetLogger(this.GetType());
             opIdOfPage = authCondition.GetOpIdOfPage();
             empAccount = authCondition.GetEmpAccount();
             roleName = authCondition.GetRoleName();
@@ -83,16 +86,6 @@ namespace Common.LogicObject
         {
             this.isTopPageOfOperation = isTopPageOfOperation;
 
-            if (authCondition is ICustomEmployeeAuthorizationResult)
-            {
-                //自訂帳號授權結果
-                EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = ((ICustomEmployeeAuthorizationResult)authCondition).InitialAuthorizationResult(isTopPageOfOperation);
-                ownerAccountOfDataExamined = authAndOwner.OwnerAccountOfDataExamined;
-                ownerDeptIdOfDataExamined = authAndOwner.OwnerDeptIdOfDataExamined;
-                this.authorizations = authAndOwner;
-                return;
-            }
-
             //取得指定作業代碼的後端角色可使用權限
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployeeRoleOperationsDesc_GetDataOfOp cmdInfo = new spEmployeeRoleOperationsDesc_GetDataOfOp()
@@ -105,6 +98,16 @@ namespace Common.LogicObject
 
             //從資料集載入角色的授權設定
             LoadRoleAuthorizationsFrom(dsRoleOp);
+
+            if (authCondition is ICustomEmployeeAuthorizationResult)
+            {
+                //自訂帳號授權結果
+                EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = ((ICustomEmployeeAuthorizationResult)authCondition).InitialAuthorizationResult(isTopPageOfOperation, authorizations);
+                ownerAccountOfDataExamined = authAndOwner.OwnerAccountOfDataExamined;
+                ownerDeptIdOfDataExamined = authAndOwner.OwnerDeptIdOfDataExamined;
+                this.authorizations = authAndOwner;
+                return;
+            }
         }
 
         /// <summary>
@@ -134,7 +137,10 @@ namespace Common.LogicObject
             else
             {
                 if (dsRoleOp == null || dsRoleOp.Tables[0].Rows.Count == 0)
+                {
+                    logger.Info("parameter of LoadRoleAuthorizationsFrom() is empty.");
                     return false;
+                }
 
                 DataRow drRoleOp = dsRoleOp.Tables[0].Rows[0];
 

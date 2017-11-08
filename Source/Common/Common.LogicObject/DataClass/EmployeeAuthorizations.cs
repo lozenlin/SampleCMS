@@ -88,5 +88,25 @@ namespace Common.LogicObject
             : base()
         {
         }
+
+        /// <summary>
+        /// 授權項目與目標資料的擁有者資訊
+        /// </summary>
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined(EmployeeAuthorizations authorizations)
+            : base()
+        {
+            CanRead = authorizations.CanRead;
+            CanEdit = authorizations.CanEdit;
+            CanReadSubItemOfSelf = authorizations.CanReadSubItemOfSelf;
+            CanEditSubItemOfSelf = authorizations.CanEditSubItemOfSelf;
+            CanAddSubItemOfSelf = authorizations.CanAddSubItemOfSelf;
+            CanDelSubItemOfSelf = authorizations.CanDelSubItemOfSelf;
+            CanReadSubItemOfCrew = authorizations.CanReadSubItemOfCrew;
+            CanEditSubItemOfCrew = authorizations.CanEditSubItemOfCrew;
+            CanDelSubItemOfCrew = authorizations.CanDelSubItemOfCrew;
+            CanReadSubItemOfOthers = authorizations.CanReadSubItemOfOthers;
+            CanEditSubItemOfOthers = authorizations.CanEditSubItemOfOthers;
+            CanDelSubItemOfOthers = authorizations.CanDelSubItemOfOthers;
+        }
     }
 }

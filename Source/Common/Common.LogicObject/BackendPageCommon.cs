@@ -392,7 +392,7 @@ namespace Common.LogicObject
     /// 後台帳號管理頁的共用元件
     /// </summary>
     [Description("後台帳號管理頁的共用元件")]
-    public class AccountCommonOfBackend : BackendPageCommon
+    public class AccountCommonOfBackend : BackendPageCommon, ICustomEmployeeAuthorizationResult
     {
         public AccountCommonOfBackend(HttpContext context, StateBag viewState)
             : base(context, viewState)
@@ -476,5 +476,49 @@ namespace Common.LogicObject
                 sortfield, isSortDesc, p);
         }
 
+        #region ICustomEmployeeAuthorizationResult
+
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations)
+        {
+            EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
+
+            if (!isTopPageOfOperation)
+            {
+                // get owner info for config-form
+                IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+                spEmployee_GetAccountOfId cmdInfo = new spEmployee_GetAccountOfId()
+                {
+                    EmpId = qsEmpId
+                };
+
+                string errCode = "-1";
+                string empAccount = cmd.ExecuteScalar<string>(cmdInfo, errCode);
+                string dbErrMsg = cmd.GetErrMsg();
+
+                DataSet ds = null;
+                if (empAccount != errCode)
+                {
+                    spEmployee_GetData cmdInfoGetData = new spEmployee_GetData()
+                    {
+                        EmpAccount = empAccount
+                    };
+
+                    ds = cmd.ExecuteDataset(cmdInfoGetData);
+                    dbErrMsg = cmd.GetErrMsg();
+
+                    if (ds != null && ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow drFirst = ds.Tables[0].Rows[0];
+
+                        authAndOwner.OwnerAccountOfDataExamined = drFirst["OwnerAccount"].ToString();
+                        authAndOwner.OwnerDeptIdOfDataExamined = Convert.ToInt32(drFirst["OwnerDeptId"]);
+                    }
+                }
+            }
+
+            return authAndOwner;
+        }
+
+        #endregion
     }
 }
