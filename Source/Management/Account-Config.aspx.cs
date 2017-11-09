@@ -243,7 +243,7 @@ public partial class Account_Config : System.Web.UI.Page
         empAuth.InsertBackEndLogData(new BackEndLogData()
         {
             EmpAccount = c.GetEmpAccount(),
-            Description = string.Format("．{0}　．儲存帳號[{0}]", Title, txtEmpAccount.Text),
+            Description = string.Format("．{0}　．儲存帳號/Save account[{1}]", Title, txtEmpAccount.Text),
             IP = c.GetClientIP()
         });
 
@@ -367,7 +367,13 @@ public partial class Account_Config : System.Web.UI.Page
     {
         txtPsw.TextMode = TextBoxMode.SingleLine;
         txtPswConfirm.TextMode = TextBoxMode.SingleLine;
-        txtPsw.Text = txtPswConfirm.Text = StringUtility.GeneratePasswordValue(12);
+
+        if (useStrictPasswordRule)
+            txtPsw.Text = StringUtility.GenerateStrictPasswordValue(12);
+        else
+            txtPsw.Text = StringUtility.GenerateLoosePasswordValue(10);
+
+        txtPswConfirm.Text = txtPsw.Text;
         txtPsw.ReadOnly = true;
         PswConfirmArea.Visible = false;
 

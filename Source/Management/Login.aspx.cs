@@ -84,7 +84,7 @@ public partial class Login : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = "",
-                Description = string.Format("．帳號登入驗證時發生異常錯誤，帳號[{0}]", txtAccount.Text),
+                Description = string.Format("．帳號登入驗證時發生異常錯誤，帳號[{0}]　．An exception error occurred during login verification! Account[{0}]", txtAccount.Text),
                 IP = c.GetClientIP()
             });
             //檢查登入失敗次數,是否顯示驗證圖
@@ -101,7 +101,7 @@ public partial class Login : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = "",
-                Description = string.Format("．帳號不存在，輸入帳號[{0}]", txtAccount.Text),
+                Description = string.Format("．帳號不存在，輸入帳號[{0}]　．Account doesn't exist! Account[{0}]", txtAccount.Text),
                 IP = c.GetClientIP()
             });
             //檢查登入失敗次數,是否顯示驗證圖
@@ -133,7 +133,7 @@ public partial class Login : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = "",
-                Description = string.Format("．帳號密碼錯誤，帳號[{0}]", txtAccount.Text),
+                Description = string.Format("．密碼錯誤，帳號[{0}]　．Password is incorrect! Account[{0}]", txtAccount.Text),
                 IP = c.GetClientIP()
             });
             //檢查登入失敗次數,是否顯示驗證圖
@@ -149,7 +149,7 @@ public partial class Login : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = "",
-                Description = string.Format("．帳號停用，帳號[{0}]", txtAccount.Text),
+                Description = string.Format("．帳號停用，帳號[{0}]　．Account is denied! Account[{0}]", txtAccount.Text),
                 IP = c.GetClientIP()
             });
             //檢查登入失敗次數,是否顯示驗證圖
@@ -171,7 +171,7 @@ public partial class Login : System.Web.UI.Page
                 empAuth.InsertBackEndLogData(new BackEndLogData()
                 {
                     EmpAccount = "",
-                    Description = string.Format("．帳號超出有效範圍，帳號[{0}]", txtAccount.Text),
+                    Description = string.Format("．帳號超出有效範圍，帳號[{0}]　．Account validation date is out of range! Account[{0}]", txtAccount.Text),
                     IP = c.GetClientIP()
                 });
                 //檢查登入失敗次數,是否顯示驗證圖
@@ -194,7 +194,7 @@ public partial class Login : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = "",
-                Description = string.Format("．帳號登入取得使用者資料時發生異常錯誤，帳號[{0}]", txtAccount.Text),
+                Description = string.Format("．帳號登入取得使用者資料時發生異常錯誤，帳號[{0}]　．An exception error occurred during obtaining user profile! Account[{0}]", txtAccount.Text),
                 IP = c.GetClientIP()
             });
             //檢查登入失敗次數,是否顯示驗證圖
@@ -241,7 +241,7 @@ public partial class Login : System.Web.UI.Page
         empAuth.InsertBackEndLogData(new BackEndLogData()
         {
             EmpAccount = "",
-            Description = "．登入系統！",
+            Description = "．登入系統！　．Logged in!",
             IP = c.GetClientIP()
         });
 

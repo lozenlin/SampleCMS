@@ -30,7 +30,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
             && Request.AppRelativeCurrentExecutionFilePath != "~/Back-End-Log.aspx")
         {
             //新增後端操作記錄
-            string description = string.Format("．{0}　．頁碼[{1}]　．路徑[{2}]　．IsPostBack[{3}]",
+            string description = string.Format("．{0}　．頁碼/Page[{1}]　．路徑/Route[{2}]　．IsPostBack[{3}]",
                 ltrHead.Text, c.qsPageCode, Common.Utility.StringUtility.RemoveHtmlTag(ltrBreadcrumb.Text.Replace("</", "/</")), IsPostBack);
 
             empAuth.InsertBackEndLogData(new BackEndLogData()
@@ -45,6 +45,14 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
     private void LoadUIData()
     {
         btnBackToParent.HRef = "~/Dashboard.aspx";
+        btnBackToParent.Title = Resources.Lang.Main_btnBackToParent_Hint;
+        ltrEdit.Text = Resources.Lang.Main_btnEdit;
+        btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
+        ltrAddNew.Text = Resources.Lang.Main_btnAddNew;
+        btnAddNew.Title = Resources.Lang.Main_btnAddNew_Hint;
+        btnPreview.Title = Resources.Lang.Main_btnPreview_Hint;
+        btnPreviewZhTw.Title = Resources.Lang.Main_btnPreviewZhTw_Hint;
+        btnPreviewEn.Title = Resources.Lang.Main_btnPreviewEn_Hint;
     }
 
     private HtmlAnchor GetButton(HudButtonNameEnum buttonName)

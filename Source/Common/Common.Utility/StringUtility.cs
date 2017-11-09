@@ -177,7 +177,42 @@ namespace Common.Utility
             return sbCaptchaCode.ToString();
         }
 
-        public static string GeneratePasswordValue(int length)
+        /// <summary>
+        /// 產生寛鬆規則的密碼值
+        /// </summary>
+        public static string GenerateLoosePasswordValue(int length)
+        {
+            int number;
+            char tempCode;
+            StringBuilder sbCaptchaCode = new StringBuilder(length);
+
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            for (int i = 0; i < length; i++)
+            {
+                number = random.Next();
+
+                if (random.Next() % 2 == 0)
+                {
+                    //number
+                    tempCode = (char)('1' + (char)(number % 9));
+                }
+                else
+                {
+                    //letter
+                    tempCode = (char)('A' + (char)(number % 26));
+                }
+
+                sbCaptchaCode.Append(tempCode);
+            }
+
+            return sbCaptchaCode.ToString();
+        }
+
+        /// <summary>
+        /// 產生嚴格規則的密碼值
+        /// </summary>
+        public static string GenerateStrictPasswordValue(int length)
         {
             string symbols = "!@#$%^&*";
             int number;

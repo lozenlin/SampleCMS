@@ -7,7 +7,8 @@
     <asp:Literal ID="ltrHead" runat="server" Text="default_head"></asp:Literal>
 </h5>
 <div class="sys-controllers">
-    <a id="btnBackToParent" runat="server" href="#" class="btn btn-info"><i class="fa fa-level-up fa-flip-horizontal"></i> 回上層</a>
+    <a id="btnBackToParent" runat="server" href="#" class="btn btn-info">
+        <i class="fa fa-level-up fa-flip-horizontal"></i> <%= Resources.Lang.Main_btnBackToParent %></a>
     <div class="btn-group">
         <a id="btnEdit" runat="server" href="#" class="btn btn-primary" visible="false">
             <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal></a>
@@ -17,9 +18,9 @@
         <a id="btnCustomPrimary2" runat="server" href="#" class="btn btn-primary" visible="false">自訂主要2</a>
     </div>
     <div class="btn-group">
-        <a id="btnPreview" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> 預覽</a>
-        <a id="btnPreviewZhTw" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> 預覽(中)</a>
-        <a id="btnPreviewEn" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> (Eng)</a>
+        <a id="btnPreview" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreview %></a>
+        <a id="btnPreviewZhTw" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewZhTw %></a>
+        <a id="btnPreviewEn" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewEn %></a>
     </div>
 </div>
 <hr class="content-divider" />

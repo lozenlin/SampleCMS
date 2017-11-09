@@ -69,6 +69,9 @@ public partial class Account_List : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        btnSearch.ToolTip = Resources.Lang.SearchPanel_btnSearch_Hint;
+        btnClear.ToolTip = Resources.Lang.SearchPanel_btnClear_Hint;
+
         //HUD
         if (empAuth.CanAddSubItemInThisPage())
         {
@@ -272,7 +275,7 @@ public partial class Account_List : System.Web.UI.Page
                 empAuth.InsertBackEndLogData(new BackEndLogData()
                 {
                     EmpAccount = c.GetEmpAccount(),
-                    Description = string.Format("．刪除帳號　．代碼[{0}]　帳號[{1}]　結果[{2}]", empId, empAccount, result),
+                    Description = string.Format("．刪除帳號/Delete account　．代碼/id[{0}]　帳號/account[{1}]　結果/result[{2}]", empId, empAccount, result),
                     IP = c.GetClientIP()
                 });
 

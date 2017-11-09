@@ -221,6 +221,54 @@
     <value>首頁</value>
     <comment>首頁</comment>
   </data>
+  <data name="Main_btnBackToParent" xml:space="preserve">
+    <value>回上層</value>
+    <comment>回上層</comment>
+  </data>
+  <data name="Main_btnBackToParent_Hint" xml:space="preserve">
+    <value>回上層</value>
+    <comment>回上層</comment>
+  </data>
+  <data name="Main_btnEdit" xml:space="preserve">
+    <value>修改</value>
+    <comment>修改</comment>
+  </data>
+  <data name="Main_btnEdit_Hint" xml:space="preserve">
+    <value>修改本項目</value>
+    <comment>修改本項目</comment>
+  </data>
+  <data name="Main_btnAddNew" xml:space="preserve">
+    <value>新增</value>
+    <comment>新增</comment>
+  </data>
+  <data name="Main_btnAddNew_Hint" xml:space="preserve">
+    <value>新增子項目</value>
+    <comment>新增子項目</comment>
+  </data>
+  <data name="Main_btnPreview" xml:space="preserve">
+    <value>預覽</value>
+    <comment>預覽</comment>
+  </data>
+  <data name="Main_btnPreview_Hint" xml:space="preserve">
+    <value>預覽</value>
+    <comment>預覽</comment>
+  </data>
+  <data name="Main_btnPreviewZhTw" xml:space="preserve">
+    <value>預覽(中)</value>
+    <comment>預覽(中)</comment>
+  </data>
+  <data name="Main_btnPreviewZhTw_Hint" xml:space="preserve">
+    <value>預覽(正體中文版)</value>
+    <comment>預覽(正體中文版)</comment>
+  </data>
+  <data name="Main_btnPreviewEn" xml:space="preserve">
+    <value>(Eng)</value>
+    <comment>預覽(Eng)</comment>
+  </data>
+  <data name="Main_btnPreviewEn_Hint" xml:space="preserve">
+    <value>預覽(English)</value>
+    <comment>預覽(English)</comment>
+  </data>
   <data name="Footer_CompanyInfo" xml:space="preserve">
     <value>© Company</value>
     <comment>© Company</comment>
@@ -256,6 +304,42 @@
   <data name="ErrMsg_LostSessionState" xml:space="preserve">
     <value>Session 遺失 (lost session state)</value>
     <comment>Session 遺失 (lost session state)</comment>
+  </data>
+  <data name="SearchPanel_Title" xml:space="preserve">
+    <value>搜尋條件</value>
+    <comment>搜尋條件</comment>
+  </data>
+  <data name="SearchPanel_btnExpand" xml:space="preserve">
+    <value>變更搜尋條件</value>
+    <comment>變更搜尋條件</comment>
+  </data>
+  <data name="SearchPanel_btnExpand_Hint" xml:space="preserve">
+    <value>變更搜尋條件</value>
+    <comment>變更搜尋條件</comment>
+  </data>
+  <data name="SearchPanel_btnCollapse" xml:space="preserve">
+    <value>收合</value>
+    <comment>收合</comment>
+  </data>
+  <data name="SearchPanel_btnCollapse_Hint" xml:space="preserve">
+    <value>收合</value>
+    <comment>收合</comment>
+  </data>
+  <data name="SearchPanel_btnSearch" xml:space="preserve">
+    <value>查詢</value>
+    <comment>查詢</comment>
+  </data>
+  <data name="SearchPanel_btnSearch_Hint" xml:space="preserve">
+    <value>查詢</value>
+    <comment>查詢</comment>
+  </data>
+  <data name="SearchPanel_btnClear" xml:space="preserve">
+    <value>清除條件</value>
+    <comment>清除條件</comment>
+  </data>
+  <data name="SearchPanel_btnClear_Hint" xml:space="preserve">
+    <value>清除條件</value>
+    <comment>清除條件</comment>
   </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>

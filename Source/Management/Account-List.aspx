@@ -12,9 +12,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
-        搜尋條件
+        <%= Resources.Lang.SearchPanel_Title %>
         <a id="btnExpandSearchPanel" href="#" class="btn btn-sm btn-block btn-light border" 
-            style="display:none;"><i class="fa fa-expand"></i> 變更搜尋條件</a>
+            style="display:none;" title='<%= Resources.Lang.SearchPanel_btnExpand_Hint %>'><i class="fa fa-expand"></i> <%= Resources.Lang.SearchPanel_btnExpand %></a>
         <div class="card bg-light search-panel">
             <div class="card-body sys-conditions pr-md-5">
                 <div class="form-group form-row">
@@ -37,11 +37,11 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-10">
                         <asp:LinkButton ID="btnSearch" runat="server" CssClass="btn btn-secondary" OnClick="btnSearch_Click">
-                            <i class="fa fa-search"></i> 查詢</asp:LinkButton>
+                            <i class="fa fa-search"></i> <%= Resources.Lang.SearchPanel_btnSearch %></asp:LinkButton>
                         <asp:LinkButton ID="btnClear" runat="server" CssClass="btn btn-link btn-sm" OnClick="btnClear_Click">
-                            清除條件</asp:LinkButton>
-                        <a id="btnCollapseSearchPanel" href="#" 
-                            class="btn btn-sm btn-light border-secondary float-right mt-1"><i class="fa fa-compress"></i> 收合</a>
+                            <%= Resources.Lang.SearchPanel_btnClear %></asp:LinkButton>
+                        <a id="btnCollapseSearchPanel" href="#" class="btn btn-sm btn-light border-secondary float-right mt-1"
+                            title='<%= Resources.Lang.SearchPanel_btnCollapse_Hint %>'><i class="fa fa-compress"></i> <%= Resources.Lang.SearchPanel_btnCollapse %></a>
                     </div>
                 </div>
             </div>
