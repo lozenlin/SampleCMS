@@ -123,7 +123,7 @@
         </div>
         <input id="txtFlag" runat="server" type="hidden" value="N" />
         <div id="dialog" title="&nbsp;">
-            <div class="msg" style="display:none;">載入中...</div>
+            <div class="msg" style="display:none;"><%= Resources.Lang.ConfigForm_Loading %></div>
             <iframe id="popupContainer" frameborder="0"></iframe>
         </div>
     

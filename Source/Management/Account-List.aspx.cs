@@ -100,10 +100,12 @@ public partial class Account_List : System.Web.UI.Page
         hidSortEmpAccount.Text = btnSortEmpAccount.Text;
         btnSortStartDate.Text = Resources.Lang.Col_ValidationDate;
         hidSortStartDate.Text = btnSortStartDate.Text;
+        btnSortOwnerName.Text = Resources.Lang.Col_OwnerName;
+        hidSortOwnerName.Text = btnSortOwnerName.Text;
 
         c.DisplySortableCols(new string[] { 
             "DeptName", "RoleSortNo", "EmpName", 
-            "EmpAccount", "StartDate"
+            "EmpAccount", "StartDate", "OwnerName"
         });
     }
 
@@ -208,6 +210,7 @@ public partial class Account_List : System.Web.UI.Page
         if (isAccessDenied)
         {
             HtmlGenericControl ctlIsAccessDenied = (HtmlGenericControl)e.Item.FindControl("ctlIsAccessDenied");
+            ctlIsAccessDenied.Attributes["title"] = Resources.Lang.Status_AccessDenied;
             ctlIsAccessDenied.Visible = true;
 
             EmpArea.Attributes["class"] = "table-danger";
@@ -219,19 +222,19 @@ public partial class Account_List : System.Web.UI.Page
         {
             // on schedule
             ctlAccountState.Attributes["class"] = "fa fa-hourglass-start fa-lg text-info";
-            ctlAccountState.Attributes["title"] = "排程中";
+            ctlAccountState.Attributes["title"] = Resources.Lang.Status_OnSchedule;
         }
         else if (endDate < DateTime.Today && empAccount != "admin" || isAccessDenied)
         {
             // offline
             ctlAccountState.Attributes["class"] = "fa fa-ban fa-lg text-danger";
-            ctlAccountState.Attributes["title"] = "已停權或過期";
+            ctlAccountState.Attributes["title"] = Resources.Lang.Status_AccessDeniedOrExpired;
             EmpArea.Attributes["class"] = "table-danger";
         }
         else
         {
             // online
-            ctlAccountState.Attributes["title"] = "正常";
+            ctlAccountState.Attributes["title"] = Resources.Lang.Status_Normal;
         }
 
         Literal ltrValidDateRange = (Literal)e.Item.FindControl("ltrValidDateRange");
@@ -301,7 +304,7 @@ public partial class Account_List : System.Web.UI.Page
                 }
                 else
                 {
-                    Master.ShowErrorMsg("刪除帳號失敗");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteAccountFailed);
                 }
 
                 break;

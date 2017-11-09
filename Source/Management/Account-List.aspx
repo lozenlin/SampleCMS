@@ -55,7 +55,7 @@
                     <asp:LinkButton ID="btnSortDeptName" runat="server" CommandArgument="DeptName" Text="部門" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortDeptName" runat="server" Visible="false" Text="部門"></asp:Literal>
                 </th>
-                <th title="<%= Resources.Lang.Col_Role_Hint %>" style="width:13%">
+                <th title="<%= Resources.Lang.Col_Role_Hint %>" style="width:11%">
                     <asp:LinkButton ID="btnSortRoleSortNo" runat="server" CommandArgument="RoleSortNo" Text="身分" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortRoleSortNo" runat="server" Visible="false" Text="身分"></asp:Literal>
                 </th>
@@ -74,6 +74,10 @@
                     <asp:Literal ID="hidSortStartDate" runat="server" Visible="false" Text="上架日期"></asp:Literal>
                 </th>
                 <th title="<%= Resources.Lang.Col_Remark_Hint %>" style="width:6%;"><%= Resources.Lang.Col_Remark_Hint %></th>
+                <th title="<%= Resources.Lang.Col_OwnerName_Hint %>" style="width:9%">
+                    <asp:LinkButton ID="btnSortOwnerName" runat="server" CommandArgument="OwnerName" Text="擁有者" OnClick="btnSort_Click"></asp:LinkButton>
+                    <asp:Literal ID="hidSortOwnerName" runat="server" Visible="false" Text="擁有者"></asp:Literal>
+                </th>
                 <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management_Hint %></th>
             </tr>
         </thead>
@@ -105,6 +109,9 @@
                     </td>
                     <td>
                         <span id="ctlRemarks" runat="server" class="badge badge-info emp-comment" visible="false"><i class="fa fa-comment"></i></span>
+                    </td>
+                    <td>
+                        <%# Eval("OwnerName") %>
                     </td>
                     <td>
                         <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">

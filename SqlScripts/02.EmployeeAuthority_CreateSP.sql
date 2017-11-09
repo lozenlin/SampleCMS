@@ -190,7 +190,7 @@ where 1=1 ' + @conditions
 	declare @SortExp nvarchar(200)
 	set @SortExp=N' order by '
 
-	if @SortField in (N'DeptName', N'RoleSortNo', N'EmpName', N'EmpAccount', N'StartDate')
+	if @SortField in (N'DeptName', N'RoleSortNo', N'EmpName', N'EmpAccount', N'StartDate', N'OwnerName')
 	begin
 		--允許的欄位
 		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end

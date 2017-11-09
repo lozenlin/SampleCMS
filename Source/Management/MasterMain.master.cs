@@ -122,7 +122,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
         if (isNewWindow)
         {
             btnOpHeader.Target = "_blank";
-            btnOpHeader.Title += "(另開新視窗)";
+            btnOpHeader.Title += Resources.Lang.HintTail_OpenNewWindow;
         }
 
         if (linkUrl != "")
@@ -188,7 +188,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
         if (isNewWindow)
         {
             btnOpItem.Target = "_blank";
-            btnOpItem.Title += "(另開新視窗)";
+            btnOpItem.Title += Resources.Lang.HintTail_OpenNewWindow;
         }
 
         if (linkUrl != "")

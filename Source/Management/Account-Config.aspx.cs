@@ -58,6 +58,22 @@ public partial class Account_Config : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        rfvEmpAccount.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvEmpName.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPsw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        revPsw.ErrorMessage = "*" + Resources.Lang.ErrMsg_PswNotQualified;
+        ltrPswComment.Text = "(" + Resources.Lang.Account_PswComment + ")";
+        btnGenPsw.ToolTip = Resources.Lang.Account_btnGenPsw_Hint;
+        rfvPswConfirm.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covPswConfirm.ErrorMessage = "*" + Resources.Lang.ErrMsg_PswConfirmNotMatch;
+        rfvEmail.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        revEmail.ErrorMessage = "*" + Resources.Lang.ErrMsg_WrongFormat;
+        chkIsAccessDenied.Text = Resources.Lang.Account_chkIsAccessDenied;
+        rfvStartDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covStartDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
+        rfvEndDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covEndDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
+
         if (c.seLangNoOfBackend != 1)
         {
             Master.EnableDatepickerTW = false;
@@ -73,11 +89,13 @@ public partial class Account_Config : System.Web.UI.Page
         if (useStrictPasswordRule)
         {
             cuvPsw.Enabled = true;
+            PswRuleNotice.InnerHtml = Resources.Lang.PswRuleNotice_StrictRule;
         }
         else
         {
             revPsw.Enabled = true;
             revPsw.ValidationExpression = StringUtility.GetPswSimpleRuleValidationExpression();
+            PswRuleNotice.InnerHtml = Resources.Lang.PswRuleNotice_LooseRule;
         }
     }
 
@@ -106,15 +124,23 @@ public partial class Account_Config : System.Web.UI.Page
             ddlRoles.DataValueField = "RoleId";
             ddlRoles.DataSource = dsRoles.Tables[0];
             ddlRoles.DataBind();
+
+            // move admin to last
+            ListItem liAdmin = ddlRoles.Items.FindByValue("1");
+            if (liAdmin != null)
+            {
+                ddlRoles.Items.Remove(liAdmin);
+                ddlRoles.Items.Add(liAdmin);
+            }
         }
     }
 
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = "新增帳號";
+            Title = Resources.Lang.Account_Title_AddNew;
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = "修改帳號 - Id:" + c.qsEmpId.ToString();
+            Title = string.Format(Resources.Lang.Account_Title_Edit_Format, c.qsEmpId);
     }
 
     private void DisplayAccountData()
@@ -152,7 +178,7 @@ public partial class Account_Config : System.Web.UI.Page
 
                 // is access denied
                 chkIsAccessDenied.Checked = Convert.ToBoolean(drFirst["IsAccessDenied"]);
-                ltrIsAccessDenied.Text = chkIsAccessDenied.Checked ? "已停權" : "未勾選";
+                ltrIsAccessDenied.Text = chkIsAccessDenied.Checked ? Resources.Lang.Account_IsAccessDenied_Checked : Resources.Lang.Account_IsAccessDenied_Unchecked;
 
                 //valid date
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["StartDate"]);
@@ -293,11 +319,11 @@ public partial class Account_Config : System.Web.UI.Page
                 {
                     if (param.HasAccountBeenUsed)
                     {
-                        Master.ShowErrorMsg("帳號已被使用，請更換");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AccountHasBeenUsed);
                     }
                     else
                     {
-                        Master.ShowErrorMsg("新增失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddFailed);
                     }
                 }
             }
@@ -308,7 +334,7 @@ public partial class Account_Config : System.Web.UI.Page
 
                 if (!result)
                 {
-                    Master.ShowErrorMsg("更新失敗");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_UpdateFailed);
                 }
             }
 
@@ -378,8 +404,8 @@ public partial class Account_Config : System.Web.UI.Page
         PswConfirmArea.Visible = false;
 
         //密碼暫時另存一份在備註
-        string remarkWoOldPsw = Regex.Replace(txtRemarks.Text, @"預設密碼: [!@#$%^&*0-9A-Za-z]+", "");
-        txtRemarks.Text = "預設密碼: " + txtPsw.Text + remarkWoOldPsw;
+        string remarkWoOldPsw = Regex.Replace(txtRemarks.Text, Resources.Lang.Account_lblDefaultPsw + @"[!@#$%^&*0-9A-Za-z]+", "");
+        txtRemarks.Text = Resources.Lang.Account_lblDefaultPsw + txtPsw.Text + remarkWoOldPsw;
 
         hidDefaultRandomPassword.Text = txtPsw.Text;
     }

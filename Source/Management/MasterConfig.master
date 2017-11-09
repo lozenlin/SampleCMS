@@ -27,9 +27,14 @@
                 <asp:Literal ID="ltrErrMsg" runat="server"></asp:Literal>
             </div>
             <div class="url-info">
-                <a href="#" class="btn btn-sm btn-secondary py-0 subject" title="本頁標題">標題</a>
-                <a href="#" class="btn btn-sm btn-secondary py-0 url" title="開啟本頁網址">網址</a>
-                <a href="#" class="btn btn-sm btn-success py-0 external" title="另開至外部視窗"><i class="fa fa-level-up"></i> 另開</a>
+                <a href="#" class="btn btn-sm btn-secondary py-0 subject" title="<%= Resources.Lang.ConfigForm_btnSubject_Hint %>">
+                    <%= Resources.Lang.ConfigForm_btnSubject %>
+                </a>
+                <a href="#" class="btn btn-sm btn-secondary py-0 url" title="<%= Resources.Lang.ConfigForm_btnUrl_Hint %>">
+                    <%= Resources.Lang.ConfigForm_btnUrl %>
+                </a>
+                <a href="#" class="btn btn-sm btn-success py-0 external" title="<%= Resources.Lang.ConfigForm_btnOpenToNewWindow_Hint %>">
+                    <i class="fa fa-level-up"></i> <%= Resources.Lang.ConfigForm_btnOpenToNewWindow %></a>
             </div>
             <asp:ContentPlaceHolder id="cphContent" runat="server">
             </asp:ContentPlaceHolder>
@@ -100,19 +105,19 @@
 
                 $(".url-info .subject")
                     .click(function () {
-                        prompt("請按 Ctrl + C 複製文字", document.title);
+                        prompt('<%= Resources.Lang.ConfigForm_Notice_Copy %>', document.title);
                         return false;
                     });
 
                 $(".url-info .url")
                     .click(function () {
-                        prompt("請按 Ctrl + C 複製文字", document.location.href);
+                        prompt('<%= Resources.Lang.ConfigForm_Notice_Copy %>', document.location.href);
                         return false;
                     });
 
                 $(".url-info .external")
                     .click(function () {
-                        if (confirm("注意!系統將重新載入本頁內容，\n若繼續此動作會遺失編輯中的資料，是否繼續?")) {
+                        if (confirm('<%= Resources.Lang.ConfigForm_Notice_BeforeOpenToNewWindow %>')) {
                             if (window.parent) {
                                 window.parent.popWinOut(document.location.href, $(document).width(), $(document).height());
                                 closeThisForm();

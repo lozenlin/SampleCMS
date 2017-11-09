@@ -453,6 +453,26 @@
     <value>Management</value>
     <comment>管理功能</comment>
   </data>
+  <data name="Col_OwnerName" xml:space="preserve">
+    <value>Owner</value>
+    <comment>擁有者</comment>
+  </data>
+  <data name="Col_OwnerName_Hint" xml:space="preserve">
+    <value>Owner</value>
+    <comment>擁有者</comment>
+  </data>
+  <data name="Col_Psw" xml:space="preserve">
+    <value>Password</value>
+    <comment>密碼</comment>
+  </data>
+  <data name="Col_PswConfirm" xml:space="preserve">
+    <value>Confirm password</value>
+    <comment>再次確認密碼</comment>
+  </data>
+  <data name="Col_OwnerAccount" xml:space="preserve">
+    <value>Owner account</value>
+    <comment>擁有者帳號</comment>
+  </data>
   <data name="Pager_btnFirstPage" xml:space="preserve">
     <value>First</value>
     <comment>第一頁</comment>
@@ -528,5 +548,165 @@
   <data name="Account_ConfirmDelete_Format" xml:space="preserve">
     <value>delete data of [{0}][{1}]?</value>
     <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="ErrMsg_DeleteAccountFailed" xml:space="preserve">
+    <value>delete account failed.</value>
+    <comment>刪除帳號失敗</comment>
+  </data>
+  <data name="Status_Normal" xml:space="preserve">
+    <value>Normal</value>
+    <comment>正常</comment>
+  </data>
+  <data name="Status_OnSchedule" xml:space="preserve">
+    <value>On Schedule</value>
+    <comment>排程中</comment>
+  </data>
+  <data name="Status_AccessDeniedOrExpired" xml:space="preserve">
+    <value>Access denied or Expired</value>
+    <comment>已停權或過期</comment>
+  </data>
+  <data name="Status_AccessDenied" xml:space="preserve">
+    <value>Access denied</value>
+    <comment>已停權</comment>
+  </data>
+  <data name="Status_Online" xml:space="preserve">
+    <value>Online</value>
+    <comment>已上架</comment>
+  </data>
+  <data name="Status_Offline" xml:space="preserve">
+    <value>Offline</value>
+    <comment>已下架</comment>
+  </data>
+  <data name="GroupLabel_BasicInfo" xml:space="preserve">
+    <value>Basic information</value>
+    <comment>基本資料</comment>
+  </data>
+  <data name="GroupLabel_AdvancedInfo" xml:space="preserve">
+    <value>Advanced information</value>
+    <comment>進階資料</comment>
+  </data>
+  <data name="GroupLabel_AdminOnly" xml:space="preserve">
+    <value>Administrator-Only</value>
+    <comment>管理者專用</comment>
+  </data>
+  <data name="PswRuleNotice_LooseRule" xml:space="preserve">
+    <value>must be more than 6 digits long. Please use English letters, Arabic numerals or other special symbols (such as !@#...)</value>
+    <comment>限6個字元以上的英文字母、阿拉伯數字與特殊符號(!@#...)</comment>
+  </data>
+  <data name="PswRuleNotice_StrictRule" xml:space="preserve">
+    <value>must be more than 12 characters, containing at least special symbols, uppercase and lowercase letters and numbers</value>
+    <comment>12~15個字元，內容至少包含特殊符號、英文字母大寫及小寫、數字</comment>
+  </data>
+  <data name="ErrMsg_PswNotQualified" xml:space="preserve">
+    <value>Content does not match the rules</value>
+    <comment>密碼不符合規則</comment>
+  </data>
+  <data name="Account_PswComment" xml:space="preserve">
+    <value>If you wish to keep the present password, please leave this section in blank</value>
+    <comment>不變更密碼，請留空白</comment>
+  </data>
+  <data name="Account_btnGenPsw" xml:space="preserve">
+    <value>Regenerate random password</value>
+    <comment>重新產生亂數密碼</comment>
+  </data>
+  <data name="Account_btnGenPsw_Hint" xml:space="preserve">
+    <value>Regenerate random password</value>
+    <comment>重新產生亂數密碼</comment>
+  </data>
+  <data name="ErrMsg_PswConfirmNotMatch" xml:space="preserve">
+    <value>Please enter the same text</value>
+    <comment>請輸入相同的文字內容</comment>
+  </data>
+  <data name="ErrMsg_WrongFormat" xml:space="preserve">
+    <value>The format is incorrect</value>
+    <comment>格式不正確</comment>
+  </data>
+  <data name="Account_chkIsAccessDenied" xml:space="preserve">
+    <value>Set as Access denied</value>
+    <comment>設定為停權</comment>
+  </data>
+  <data name="ErrMsg_InvalidDate" xml:space="preserve">
+    <value>The date is incorrect</value>
+    <comment>日期不正確</comment>
+  </data>
+  <data name="Account_Title_AddNew" xml:space="preserve">
+    <value>Add an account</value>
+    <comment>新增帳號</comment>
+  </data>
+  <data name="Account_Title_Edit_Format" xml:space="preserve">
+    <value>Edit account - Id:{0}</value>
+    <comment>修改帳號 - Id:{0}</comment>
+  </data>
+  <data name="ConfigForm_btnSubject" xml:space="preserve">
+    <value>Title</value>
+    <comment>標題</comment>
+  </data>
+  <data name="ConfigForm_btnSubject_Hint" xml:space="preserve">
+    <value>Title of this page</value>
+    <comment>本頁標題</comment>
+  </data>
+  <data name="ConfigForm_btnUrl" xml:space="preserve">
+    <value>URL</value>
+    <comment>網址</comment>
+  </data>
+  <data name="ConfigForm_btnUrl_Hint" xml:space="preserve">
+    <value>URL of this page</value>
+    <comment>開啟本頁網址</comment>
+  </data>
+  <data name="ConfigForm_btnOpenToNewWindow" xml:space="preserve">
+    <value>Open to...</value>
+    <comment>另開</comment>
+  </data>
+  <data name="ConfigForm_btnOpenToNewWindow_Hint" xml:space="preserve">
+    <value>Open to the outside window</value>
+    <comment>另開至外部視窗</comment>
+  </data>
+  <data name="ConfigForm_Notice_Copy" xml:space="preserve">
+    <value>Press Ctrl + C to copy the text</value>
+    <comment>請按 Ctrl + C 複製文字</comment>
+  </data>
+  <data name="ConfigForm_Notice_BeforeOpenToNewWindow" xml:space="preserve">
+    <value>Notice! The system will reload the contents of this page,\nIf you continue the operation will lose the information in the editing, continue?</value>
+    <comment>注意!系統將重新載入本頁內容，\n若繼續此動作會遺失編輯中的資料，是否繼續?</comment>
+  </data>
+  <data name="ConfigForm_Loading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>載入中...</comment>
+  </data>
+  <data name="HintTail_OpenNewWindow" xml:space="preserve">
+    <value>(Open in a new window)</value>
+    <comment>(另開新視窗)</comment>
+  </data>
+  <data name="Account_IsAccessDenied_Checked" xml:space="preserve">
+    <value>Checked</value>
+    <comment>已停權</comment>
+  </data>
+  <data name="Account_IsAccessDenied_Unchecked" xml:space="preserve">
+    <value>Unchecked</value>
+    <comment>未勾選</comment>
+  </data>
+  <data name="ErrMsg_AccountHasBeenUsed" xml:space="preserve">
+    <value>Account has been used</value>
+    <comment>帳號已被使用，請更換</comment>
+  </data>
+  <data name="ErrMsg_AddFailed" xml:space="preserve">
+    <value>Add data failed</value>
+    <comment>新增失敗</comment>
+  </data>
+  <data name="ErrMsg_UpdateFailed" xml:space="preserve">
+    <value>Update data failed</value>
+    <comment>更新失敗</comment>
+  </data>
+  <data name="Account_lblDefaultPsw" xml:space="preserve">
+    <value>Default password: </value>
+    <comment>預設密碼: </comment>
+  </data>
+  <data name="ConfigForm_btnSave" xml:space="preserve">
+    <value>Save</value>
+    <comment>儲 存</comment>
+  </data>
+  <data name="ConfigForm_btnCancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>取 消</comment>
   </data>
 </root>
