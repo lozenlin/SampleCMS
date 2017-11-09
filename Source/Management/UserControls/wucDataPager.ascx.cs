@@ -149,7 +149,17 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
 
     private void LoadUIData()
     {
-        
+        btnFirstPage.InnerHtml = Resources.Lang.Pager_btnFirstPage;
+        btnFirstPage.Title = Resources.Lang.Pager_btnFirstPage_Hint;
+        btnPreviousPage.Title = Resources.Lang.Pager_btnPrevious_Hint;
+        btnNextPage.Title = Resources.Lang.Pager_btnNext_Hint;
+        btnLastPage.InnerHtml = Resources.Lang.Pager_btnLast;
+        btnLastPage.Title = Resources.Lang.Pager_btnLast_Hint;
+        txtPageCode.ToolTip = Resources.Lang.Pager_txtPageCode_Hint;
+        rfvPageCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rvPageCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidPageCode;
+        btnJumpToPage.Text = Resources.Lang.Pager_btnJumpToPage;
+        btnJumpToPage.ToolTip = Resources.Lang.Pager_btnJumpToPage_Hint;
     }
 
     #region Public methods
@@ -235,7 +245,7 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
             TextCtrlArea.Visible = true;
         }
 
-        ltrTotalCount.Text = string.Format("共 {0} 筆", dataPager.ItemTotalCount);
+        ltrTotalCount.Text = string.Format(Resources.Lang.Pager_TotalCount_Format, dataPager.ItemTotalCount);
         ltrLastPageCode.Text = dataPager.PageTotalCount.ToString();
         ltrCurrentPageCode.Text = dataPager.CurrentPageCode.ToString();
 

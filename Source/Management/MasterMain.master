@@ -74,7 +74,7 @@
                         </div>
                         <div class="sidebar-menu">
                             <div class="form-group">
-                                <a id="btnEditOperations" runat="server" href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEdit %></a>
+                                <a id="btnEditOperations" runat="server" href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEditOperations %></a>
                             </div>
                             <hr id="LineOfCtrl" runat="server" class="content-divider" />
                             <div class="text-right" style="margin-top:-10px;">

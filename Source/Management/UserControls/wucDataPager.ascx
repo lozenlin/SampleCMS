@@ -25,13 +25,19 @@
         | <a id="btnLastPage" runat="server" href="#">最後頁</a> |
     </div>
     <div class="text">
-        頁次 : <asp:Literal ID="ltrCurrentPageCode" runat="server"></asp:Literal>/<asp:Literal ID="ltrLastPageCode" runat="server"></asp:Literal> 頁 |
+        <%= Resources.Lang.Pager_PageInfo_Head %>
+        <asp:Literal ID="ltrCurrentPageCode" runat="server"></asp:Literal>
+        <%= Resources.Lang.Pager_PageInfo_Mid %>
+        <asp:Literal ID="ltrLastPageCode" runat="server"></asp:Literal>
+        <%= Resources.Lang.Pager_PageInfo_Tail %> |
     </div>
     <div class="text">
-        跳至
+        <%= Resources.Lang.Pager_JumpTo %>
         <asp:DropDownList ID="ddlPageSelect" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSelect_SelectedIndexChanged"></asp:DropDownList>
         <span id="TextCtrlArea" runat="server" visible="false">
             <asp:TextBox ID="txtPageCode" runat="server" Width="30px" MaxLength="9" autocomplete="off" ToolTip="輸入頁碼後可按 Enter 送出"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfvPageCode" runat="server" ControlToValidate="txtPageCode" CssClass="text-danger"
+                Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="P" ></asp:RequiredFieldValidator>
             <asp:RangeValidator ID="rvPageCode" runat="server" ControlToValidate="txtPageCode" CssClass="text-danger" Display="Dynamic"
                 ErrorMessage="*請輸入 1 以上的數字" SetFocusOnError="true" Type="Integer" ValidationGroup="P" MinimumValue="1" MaximumValue="999999999"></asp:RangeValidator>
             <asp:LinkButton ID="btnJumpToPage" runat="server" OnClick="btnJumpToPage_Click" ValidationGroup="P"

@@ -89,6 +89,18 @@ public partial class Account_List : System.Web.UI.Page
         ddlDept.SelectedValue = c.qsDeptId.ToString();
         txtKw.Text = c.qsKw;
 
+        //columns of list
+        btnSortDeptName.Text = Resources.Lang.Col_DeptName;
+        hidSortDeptName.Text = btnSortDeptName.Text;
+        btnSortRoleSortNo.Text = Resources.Lang.Col_Role;
+        hidSortRoleSortNo.Text = btnSortRoleSortNo.Text;
+        btnSortEmpName.Text = Resources.Lang.Col_EmpName;
+        hidSortEmpName.Text = btnSortEmpName.Text;
+        btnSortEmpAccount.Text = Resources.Lang.Col_EmpAccount;
+        hidSortEmpAccount.Text = btnSortEmpAccount.Text;
+        btnSortStartDate.Text = Resources.Lang.Col_ValidationDate;
+        hidSortStartDate.Text = btnSortStartDate.Text;
+
         c.DisplySortableCols(new string[] { 
             "DeptName", "RoleSortNo", "EmpName", 
             "EmpAccount", "StartDate"
@@ -98,9 +110,9 @@ public partial class Account_List : System.Web.UI.Page
     private void LoadEmpRangeUIData()
     {
         ddlEmpRange.Items.Clear();
-        ddlEmpRange.Items.Add(new ListItem("(全部)", "0"));
-        ddlEmpRange.Items.Add(new ListItem("正常", "1"));
-        ddlEmpRange.Items.Add(new ListItem("已停權", "2"));
+        ddlEmpRange.Items.Add(new ListItem(Resources.Lang.SearchOption_All, "0"));
+        ddlEmpRange.Items.Add(new ListItem(Resources.Lang.SearchOption_Normal, "1"));
+        ddlEmpRange.Items.Add(new ListItem(Resources.Lang.SearchOption_AccessDenied, "2"));
     }
 
     private void LoadDeptUIData()
@@ -116,7 +128,7 @@ public partial class Account_List : System.Web.UI.Page
             ddlDept.DataBind();
         }
 
-        ddlDept.Items.Insert(0, new ListItem("(全部)", "0"));
+        ddlDept.Items.Insert(0, new ListItem(Resources.Lang.SearchOption_All, "0"));
     }
 
     private void DisplayAccounts()
@@ -151,6 +163,7 @@ public partial class Account_List : System.Web.UI.Page
         // update pager and get begin end of item numbers
         int itemTotalCount = accountParams.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
+        ucDataPager.RefreshPagerAfterPostBack();
 
         accountParams.PagedParams = new PagedListQueryParams()
         {
@@ -233,19 +246,19 @@ public partial class Account_List : System.Web.UI.Page
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
         btnEdit.Attributes["onclick"] = string.Format("popWin('Account-Config.aspx?act={0}&empid={1}', 700, 600); return false;", ConfigFormAction.edit, empId);
-        btnEdit.Title = "修改";
+        btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
 
         Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
-        ltrEdit.Text = "修改";
+        ltrEdit.Text = Resources.Lang.Main_btnEdit;
 
         LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
         btnDelete.CommandArgument = string.Join(",", empId.ToString(), empAccount);
-        btnDelete.ToolTip = "刪除";
-        btnDelete.OnClientClick = string.Format("return confirm('確定刪除[{0}][{1}]?');",
+        btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Account_ConfirmDelete_Format + "');",
             drvTemp["EmpName"], drvTemp["EmpAccount"]);
 
         Literal ltrDelete = (Literal)e.Item.FindControl("ltrDelete");
-        ltrDelete.Text = "刪除";
+        ltrDelete.Text = Resources.Lang.Main_btnDelete;
 
         string ownerAccount = drvTemp["OwnerAccount"].ToString();
         int ownerDeptId = Convert.ToInt32(drvTemp["OwnerDeptId"]);

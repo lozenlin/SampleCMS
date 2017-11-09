@@ -18,17 +18,17 @@
         <div class="card bg-light search-panel">
             <div class="card-body sys-conditions pr-md-5">
                 <div class="form-group form-row">
-                    <label for="txtKw" class="col-md-2 col-form-label text-md-right">帳號狀態</label>
+                    <label for='<%= ddlEmpRange.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblEmpRange %></label>
                     <div class="col-md-4">
                         <asp:DropDownList ID="ddlEmpRange" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
-                    <label class="col-md-2 col-form-label text-md-right">部門</label>
+                    <label for='<%= ddlDept.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblDept %></label>
                     <div class="col-md-4">
                         <asp:DropDownList ID="ddlDept" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
                 <div class="form-group form-row">
-                    <label class="col-md-2 col-form-label text-md-right">關鍵字</label>
+                    <label for='<%= txtKw.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblKw %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtKw" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
@@ -50,31 +50,31 @@
     <table class="table table-responsive-md table-bordered table-sm table-striped table-hover bg-white subitem-list">
         <thead>
             <tr>
-                <th title="序號" style="width:3%">&nbsp;</th>
-                <th title="部門" style="width:6%">
+                <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
+                <th title="<%= Resources.Lang.Col_DeptName_Hint %>" style="width:6%">
                     <asp:LinkButton ID="btnSortDeptName" runat="server" CommandArgument="DeptName" Text="部門" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortDeptName" runat="server" Visible="false" Text="部門"></asp:Literal>
                 </th>
-                <th title="身分" style="width:13%">
+                <th title="<%= Resources.Lang.Col_Role_Hint %>" style="width:13%">
                     <asp:LinkButton ID="btnSortRoleSortNo" runat="server" CommandArgument="RoleSortNo" Text="身分" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortRoleSortNo" runat="server" Visible="false" Text="身分"></asp:Literal>
                 </th>
-                <th title="姓名">
+                <th title="<%= Resources.Lang.Col_EmpName_Hint %>">
                     <asp:LinkButton ID="btnSortEmpName" runat="server" CommandArgument="EmpName" Text="姓名" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpName" runat="server" Visible="false" Text="姓名"></asp:Literal>
                 </th>
-                <th title="帳號" style="width:9%">
+                <th title="<%= Resources.Lang.Col_EmpAccount_Hint %>" style="width:9%">
                     <asp:LinkButton ID="btnSortEmpAccount" runat="server" CommandArgument="EmpAccount" Text="帳號" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpAccount" runat="server" Visible="false" Text="帳號"></asp:Literal>
                 </th>
-                <th title="停權" style="width:6%">停權</th>
-                <th title="狀態" style="width:6%">狀態</th>
-                <th title="上架日期" style="width:13%">
+                <th title="<%= Resources.Lang.Col_AccessDenied_Hint %>" style="width:6%"><%= Resources.Lang.Col_AccessDenied_Hint %></th>
+                <th title="<%= Resources.Lang.Col_Status_Hint %>" style="width:6%"><%= Resources.Lang.Col_Status_Hint %></th>
+                <th title="<%= Resources.Lang.Col_ValidationDate_Hint %>" style="width:13%">
                     <asp:LinkButton ID="btnSortStartDate" runat="server" CommandArgument="StartDate" Text="上架日期" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortStartDate" runat="server" Visible="false" Text="上架日期"></asp:Literal>
                 </th>
-                <th title="備註" style="width:6%;">備註</th>
-                <th title="管理功能" style="width:20%">管理功能</th>
+                <th title="<%= Resources.Lang.Col_Remark_Hint %>" style="width:6%;"><%= Resources.Lang.Col_Remark_Hint %></th>
+                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management_Hint %></th>
             </tr>
         </thead>
         <tbody>

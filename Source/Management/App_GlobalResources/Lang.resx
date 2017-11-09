@@ -201,7 +201,7 @@
     <value>登出</value>
     <comment>登出</comment>
   </data>
-  <data name="btnEdit" xml:space="preserve">
+  <data name="btnEditOperations" xml:space="preserve">
     <value>編輯</value>
     <comment>編輯</comment>
   </data>
@@ -244,6 +244,14 @@
   <data name="Main_btnAddNew_Hint" xml:space="preserve">
     <value>新增子項目</value>
     <comment>新增子項目</comment>
+  </data>
+  <data name="Main_btnDelete" xml:space="preserve">
+    <value>刪除</value>
+    <comment>刪除</comment>
+  </data>
+  <data name="Main_btnDelete_Hint" xml:space="preserve">
+    <value>刪除本項目</value>
+    <comment>刪除本項目</comment>
   </data>
   <data name="Main_btnPreview" xml:space="preserve">
     <value>預覽</value>
@@ -340,6 +348,186 @@
   <data name="SearchPanel_btnClear_Hint" xml:space="preserve">
     <value>清除條件</value>
     <comment>清除條件</comment>
+  </data>
+  <data name="SearchPanel_lblEmpRange" xml:space="preserve">
+    <value>帳號狀態</value>
+    <comment>帳號狀態</comment>
+  </data>
+  <data name="SearchPanel_lblDept" xml:space="preserve">
+    <value>部門</value>
+    <comment>部門</comment>
+  </data>
+  <data name="SearchPanel_lblKw" xml:space="preserve">
+    <value>關鍵字</value>
+    <comment>關鍵字</comment>
+  </data>
+  <data name="SearchOption_All" xml:space="preserve">
+    <value>(全部)</value>
+    <comment>(全部)</comment>
+  </data>
+  <data name="SearchOption_Normal" xml:space="preserve">
+    <value>正常</value>
+    <comment>正常</comment>
+  </data>
+  <data name="SearchOption_AccessDenied" xml:space="preserve">
+    <value>已停權</value>
+    <comment>已停權</comment>
+  </data>
+  <data name="Col_Seqno" xml:space="preserve">
+    <value>序號</value>
+    <comment>序號</comment>
+  </data>
+  <data name="Col_Seqno_Hint" xml:space="preserve">
+    <value>序號</value>
+    <comment>序號</comment>
+  </data>
+  <data name="Col_DeptName" xml:space="preserve">
+    <value>部門</value>
+    <comment>部門</comment>
+  </data>
+  <data name="Col_DeptName_Hint" xml:space="preserve">
+    <value>部門</value>
+    <comment>部門</comment>
+  </data>
+  <data name="Col_Role" xml:space="preserve">
+    <value>身分</value>
+    <comment>身分</comment>
+  </data>
+  <data name="Col_Role_Hint" xml:space="preserve">
+    <value>身分</value>
+    <comment>身分</comment>
+  </data>
+  <data name="Col_EmpName" xml:space="preserve">
+    <value>姓名</value>
+    <comment>姓名</comment>
+  </data>
+  <data name="Col_EmpName_Hint" xml:space="preserve">
+    <value>姓名</value>
+    <comment>姓名</comment>
+  </data>
+  <data name="Col_EmpAccount" xml:space="preserve">
+    <value>帳號</value>
+    <comment>帳號</comment>
+  </data>
+  <data name="Col_EmpAccount_Hint" xml:space="preserve">
+    <value>帳號</value>
+    <comment>帳號</comment>
+  </data>
+  <data name="Col_AccessDenied" xml:space="preserve">
+    <value>停權</value>
+    <comment>停權</comment>
+  </data>
+  <data name="Col_AccessDenied_Hint" xml:space="preserve">
+    <value>停權</value>
+    <comment>停權</comment>
+  </data>
+  <data name="Col_Status" xml:space="preserve">
+    <value>狀態</value>
+    <comment>狀態</comment>
+  </data>
+  <data name="Col_Status_Hint" xml:space="preserve">
+    <value>狀態</value>
+    <comment>狀態</comment>
+  </data>
+  <data name="Col_ValidationDate" xml:space="preserve">
+    <value>上架日期</value>
+    <comment>上架日期</comment>
+  </data>
+  <data name="Col_ValidationDate_Hint" xml:space="preserve">
+    <value>上架日期</value>
+    <comment>上架日期</comment>
+  </data>
+  <data name="Col_Remark" xml:space="preserve">
+    <value>備註</value>
+    <comment>備註</comment>
+  </data>
+  <data name="Col_Remark_Hint" xml:space="preserve">
+    <value>備註</value>
+    <comment>備註</comment>
+  </data>
+  <data name="Col_Management" xml:space="preserve">
+    <value>管理功能</value>
+    <comment>管理功能</comment>
+  </data>
+  <data name="Col_Management_Hint" xml:space="preserve">
+    <value>管理功能</value>
+    <comment>管理功能</comment>
+  </data>
+  <data name="Pager_btnFirstPage" xml:space="preserve">
+    <value>第一頁</value>
+    <comment>第一頁</comment>
+  </data>
+  <data name="Pager_btnFirstPage_Hint" xml:space="preserve">
+    <value>第一頁</value>
+    <comment>第一頁</comment>
+  </data>
+  <data name="Pager_btnPrevious" xml:space="preserve">
+    <value>上一頁</value>
+    <comment>上一頁</comment>
+  </data>
+  <data name="Pager_btnPrevious_Hint" xml:space="preserve">
+    <value>上一頁</value>
+    <comment>上一頁</comment>
+  </data>
+  <data name="Pager_btnNext" xml:space="preserve">
+    <value>下一頁</value>
+    <comment>下一頁</comment>
+  </data>
+  <data name="Pager_btnNext_Hint" xml:space="preserve">
+    <value>下一頁</value>
+    <comment>下一頁</comment>
+  </data>
+  <data name="Pager_btnLast" xml:space="preserve">
+    <value>最後頁</value>
+    <comment>最後頁</comment>
+  </data>
+  <data name="Pager_btnLast_Hint" xml:space="preserve">
+    <value>最後頁</value>
+    <comment>最後頁</comment>
+  </data>
+  <data name="Pager_TotalCount_Format" xml:space="preserve">
+    <value>共 {0} 筆</value>
+    <comment>共 {0} 筆</comment>
+  </data>
+  <data name="Pager_PageInfo_Head" xml:space="preserve">
+    <value>頁次 : </value>
+    <comment>頁次 : </comment>
+  </data>
+  <data name="Pager_PageInfo_Mid" xml:space="preserve">
+    <value>/</value>
+    <comment>/</comment>
+  </data>
+  <data name="Pager_PageInfo_Tail" xml:space="preserve">
+    <value> 頁</value>
+    <comment> 頁</comment>
+  </data>
+  <data name="Pager_JumpTo" xml:space="preserve">
+    <value>跳至</value>
+    <comment>跳至</comment>
+  </data>
+  <data name="Pager_txtPageCode_Hint" xml:space="preserve">
+    <value>輸入頁碼後可按 Enter 送出</value>
+    <comment>輸入頁碼後可按 Enter 送出</comment>
+  </data>
+  <data name="Pager_btnJumpToPage" xml:space="preserve">
+    <value>執行跳頁</value>
+    <comment>執行跳頁</comment>
+  </data>
+  <data name="Pager_btnJumpToPage_Hint" xml:space="preserve">
+    <value>執行跳頁</value>
+    <comment>執行跳頁</comment>
+  </data>
+  <data name="ErrMsg_InvalidPageCode" xml:space="preserve">
+    <value>請輸入 1 以上的數字</value>
+    <comment>請輸入 1 以上的數字</comment>
+  </data>
+  <data name="ErrMsg_Required" xml:space="preserve">
+    <value>必填</value>
+    <comment>必填</comment>
+  </data>
+  <data name="Account_ConfirmDelete_Format" xml:space="preserve">
+    <value>確定刪除[{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
   </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
