@@ -257,12 +257,10 @@ public partial class Account_List : System.Web.UI.Page
 
         LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
         btnDelete.CommandArgument = string.Join(",", empId.ToString(), empAccount);
+        btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
         btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Account_ConfirmDelete_Format + "');",
             drvTemp["EmpName"], drvTemp["EmpAccount"]);
-
-        Literal ltrDelete = (Literal)e.Item.FindControl("ltrDelete");
-        ltrDelete.Text = Resources.Lang.Main_btnDelete;
 
         string ownerAccount = drvTemp["OwnerAccount"].ToString();
         int ownerDeptId = Convert.ToInt32(drvTemp["OwnerDeptId"]);

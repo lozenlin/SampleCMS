@@ -584,6 +584,155 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/10>
+-- Description: <取得員工身分清單>
+-- Test:
+/*
+declare @RowCount int
+exec dbo.spEmployeeRole_GetList N'', 1, 20, N'', 0, @RowCount output
+select @RowCount
+*/
+-- =============================================
+alter procedure dbo.spEmployeeRole_GetList
+@Kw nvarchar(52)=''
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N''
+	
+	if @Kw<>N''
+	begin
+		set @conditions += N' and (r.RoleName like @Kw or r.RoleDisplayName like @Kw) '
+	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.EmployeeRole r
+	left join dbo.Employee e on r.PostAccount=e.EmpAccount
+where 1=1 ' + @conditions
+
+	--參數定義
+	set @parmDef=N'
+@Kw nvarchar(52)
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	set @Kw = N'%'+@Kw+N'%'
+
+	exec sp_executesql @sql, @parmDefForTotal, 
+		@Kw
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'RoleName', N'RoleDisplayName', N'SortNo', N'EmpTotal')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by SortNo'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			r.RoleId, r.RoleName, r.RoleDisplayName,
+			r.SortNo, r.PostAccount, isnull(e.DeptId, 0) as PostDeptId,
+			(select count(*) from dbo.Employee where RoleId=r.RoleId) as EmpTotal
+		from dbo.EmployeeRole r
+			left join dbo.Employee e on r.PostAccount=e.EmpAccount
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+	exec sp_executesql @sql, @parmDef, 
+		@Kw
+		,@BeginNum
+		,@EndNum
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/10>
+-- Description: <刪除員工身分>
+-- Test:
+/*
+exec dbo.spEmployeeRole_DeleteData 2
+*/
+-- =============================================
+alter procedure dbo.spEmployeeRole_DeleteData
+@RoleId int
+as
+begin
+	-- 檢查帳號總數
+	if exists(select * from dbo.Employee where RoleId=@RoleId)
+	begin
+		raiserror(N'身分已有帳號使用,不允許刪除', 11, 2)
+		return
+	end
+
+	begin transaction
+	begin try
+		--先刪除授權設定
+		delete dbo.EmployeeRoleOperationsDesc
+		where RoleName=(select RoleName from dbo.EmployeeRole where RoleId=@RoleId)
+
+		delete dbo.EmployeeRole
+		where RoleId=@RoleId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
+end
+go
+
 ----------------------------------------------------------------------------
 -- 部門資料
 ----------------------------------------------------------------------------
@@ -617,7 +766,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/07>
+-- Create date: <2017/11/10>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

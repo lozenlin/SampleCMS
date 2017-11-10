@@ -3,12 +3,6 @@
 <%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
-    <style type="text/css">
-        .RoleDisplay-admin {
-            color:#ffb400;
-            text-shadow:2px 1px 1px #ccc;
-        }
-    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
@@ -30,7 +24,7 @@
                 <div class="form-group form-row">
                     <label for='<%= txtKw.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblKw %></label>
                     <div class="col-md-4">
-                        <asp:TextBox ID="txtKw" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtKw" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
                     </div>
                 </div>
                 <div class="form-group form-row">
@@ -115,9 +109,11 @@
                     </td>
                     <td>
                         <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
-                            <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal></a>
+                            <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
+                        </a>
                         <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
-                            <i class="fa fa-trash-o"></i> <asp:Literal ID="ltrDelete" runat="server" Text="刪除"></asp:Literal></asp:LinkButton>
+                            <i class="fa fa-trash-o"></i> 刪除
+                        </asp:LinkButton>
                     </td>
                 </tr>
             </ItemTemplate>

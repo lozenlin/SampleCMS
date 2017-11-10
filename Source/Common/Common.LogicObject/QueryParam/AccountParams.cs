@@ -23,7 +23,7 @@ namespace Common.LogicObject
         public string DefaultRandomPassword;
         public string PostAccount;
         /// <summary>
-        /// 取回帳號是否重覆
+        /// return:帳號是否重覆
         /// </summary>
         public bool HasAccountBeenUsed = false;
     }

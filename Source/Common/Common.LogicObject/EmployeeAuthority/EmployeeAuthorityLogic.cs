@@ -1,4 +1,15 @@
-﻿using Common.DataAccess;
+﻿// ===============================================================================
+// EmployeeAuthorityLogic of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// EmployeeAuthorityLogic.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using Common.DataAccess;
 using Common.DataAccess.EmployeeAuthority;
 using log4net;
 using System;
@@ -635,6 +646,48 @@ namespace Common.LogicObject
             dbErrMsg = cmd.GetErrMsg();
 
             return ds;
+        }
+
+        /// <summary>
+        /// 取得員工身分清單
+        /// </summary>
+        public DataSet GetEmployeeRoleList(RoleListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_GetList cmdInfo = new spEmployeeRole_GetList()
+            {
+                Kw = param.Kw,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+            param.PagedParams.RowCount = cmdInfo.RowCount;
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 刪除員工身分
+        /// </summary>
+        public bool DeleteEmployeeRoleData(RoleParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_DeleteData cmdInfo = new spEmployeeRole_DeleteData()
+            {
+                RoleId = param.RoleId
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result && cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.IsThereAccountsOfRole = true;
+            }
+
+            return result;
         }
 
         #endregion

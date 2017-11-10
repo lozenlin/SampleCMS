@@ -1,4 +1,15 @@
-﻿using System.Configuration;
+﻿// ===============================================================================
+// DataAccessSource of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// DataAccessSource.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 

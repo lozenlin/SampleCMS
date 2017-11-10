@@ -1,4 +1,16 @@
-﻿using Common.LogicObject;
+﻿// ===============================================================================
+// wucDataPager(UserControl) of EmployeeAuthority of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// wucDataPager.ascx
+// wucDataPager.ascx.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using Common.LogicObject;
 using Common.Utility;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,15 @@
-﻿using Common.DataAccess;
+﻿// ===============================================================================
+// BackendPageCommon of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// BackendPageCommon.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using Common.DataAccess;
 using Common.DataAccess.EmployeeAuthority;
 using System;
 using System.Collections.Generic;
@@ -550,5 +561,38 @@ namespace Common.LogicObject
             : base(context, viewState)
         {
         }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 身分代碼
+        /// </summary>
+        public int qsRoleId
+        {
+            get
+            {
+                string str = Request.QueryString["roleid"];
+                int nResult = 0;
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                }
+                else
+                    nResult = 0;
+
+                return nResult;
+            }
+        }
+        #endregion
+
+        public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc, 
+            int p)
+        {
+            return string.Format("Role-List.aspx?kw={0}&sortfield={1}&isSortDesc={2}" +
+                "&p={3}",
+                kw, sortfield, isSortDesc,
+                p);
+        }
+
     }
 }

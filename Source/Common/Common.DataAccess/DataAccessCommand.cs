@@ -1,4 +1,15 @@
-﻿using log4net;
+﻿// ===============================================================================
+// DataAccessCommand of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// DataAccessCommand.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using log4net;
 using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;

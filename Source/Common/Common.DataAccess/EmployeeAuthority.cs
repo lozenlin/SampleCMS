@@ -1,4 +1,15 @@
-﻿using System;
+﻿// ===============================================================================
+// DataAccessCommandInfo of EmployeeAuthority of SampleCMS
+// https://github.com/lozenlin/SampleCMS
+//
+// EmployeeAuthority.cs
+//
+// ===============================================================================
+// Copyright (c) 2017 lozenlin
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// ===============================================================================
+
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -414,6 +425,56 @@ namespace Common.DataAccess.EmployeeAuthority
         public string GetCommandText()
         {
             return "dbo.spEmployeeRole_GetListToSelect";
+        }
+    }
+
+    /// <summary>
+    /// 取得員工身分清單
+    /// </summary>
+    public class spEmployeeRole_GetList : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string Kw;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployeeRole_GetList";
+        }
+    }
+
+    /// <summary>
+    /// 刪除員工身分
+    /// </summary>
+    public class spEmployeeRole_DeleteData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int RoleId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployeeRole_DeleteData";
         }
     }
 

@@ -290,6 +290,12 @@
     border-radius: 0.25rem;
 }
 
+/* Role management */
+.RoleDisplay-admin {
+    color:#ffb400;
+    text-shadow:2px 1px 1px #ccc;
+}
+
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */
     .main-body {
