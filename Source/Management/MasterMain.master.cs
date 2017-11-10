@@ -108,9 +108,9 @@ public partial class MasterMain : System.Web.UI.MasterPage
         DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
         int opId = Convert.ToInt32(drvTemp["OpId"]);
-        string opSubject = drvTemp["OpSubject"].ToString();
+        string opSubject = drvTemp.ToSafeStr("OpSubject");
         bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
-        string encodedUrl = drvTemp["LinkUrl"].ToString();
+        string encodedUrl = drvTemp.ToSafeStr("LinkUrl");
         string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
 
         HtmlGenericControl OpHeaderArea = (HtmlGenericControl)e.Item.FindControl("OpHeaderArea");
@@ -147,7 +147,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
         imgOpHeader.Src = "~/BPimages/icon/data.gif";
         object objIconImageFile = drvTemp["IconImageFile"];
         if (!Convert.IsDBNull(objIconImageFile))
-            imgOpHeader.Src = string.Format("~/BPimages/icon/{0}", objIconImageFile);
+            imgOpHeader.Src = string.Format("~/BPimages/icon/{0}", drvTemp.ToSafeStr("IconImageFile"));
 
         Literal ltrOpHeaderSubject = (Literal)e.Item.FindControl("ltrOpHeaderSubject");
         ltrOpHeaderSubject.Text = opSubject;
@@ -174,9 +174,9 @@ public partial class MasterMain : System.Web.UI.MasterPage
         DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
         int opId = Convert.ToInt32(drvTemp["OpId"]);
-        string opSubject = drvTemp["OpSubject"].ToString();
+        string opSubject = drvTemp.ToSafeStr("OpSubject");
         bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
-        string encodedUrl = drvTemp["LinkUrl"].ToString();
+        string encodedUrl = drvTemp.ToSafeStr("LinkUrl");
         string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
 
         HtmlGenericControl OpItemArea = (HtmlGenericControl)e.Item.FindControl("OpItemArea");
@@ -213,7 +213,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
         imgOpItem.Src = "~/BPimages/icon/data.gif";
         object objIconImageFile = drvTemp["IconImageFile"];
         if (!Convert.IsDBNull(objIconImageFile))
-            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", objIconImageFile);
+            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", drvTemp.ToSafeStr("IconImageFile"));
 
         Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
         ltrOpItemSubject.Text = opSubject;

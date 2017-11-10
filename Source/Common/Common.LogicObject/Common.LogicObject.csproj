@@ -51,11 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackendPageCommon.cs" />
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="DataClass\BackEndLogData.cs" />
     <Compile Include="DataClass\EmployeeAuthorizations.cs" />
     <Compile Include="DataClass\LoginEmployeeData.cs" />
     <Compile Include="DataClass\OperationHtmlAnchorData.cs" />
     <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
+    <Compile Include="ExtensionMethods\GetSafeStringExtensions.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
     <Compile Include="MagicNumbersAndStrings.cs" />

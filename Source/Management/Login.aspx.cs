@@ -114,7 +114,7 @@ public partial class Login : System.Web.UI.Page
 
         //檢查密碼
         string passwordHash = HashUtility.GetPasswordHash(txtPassword.Text);
-        string empPassword = drEmpVerify["EmpPassword"].ToString();
+        string empPassword = drEmpVerify.ToSafeStr("EmpPassword");
         bool isPasswordCorrect = false;
 
         if (Convert.ToBoolean(drEmpVerify["PasswordHashed"]))
@@ -220,20 +220,20 @@ public partial class Login : System.Web.UI.Page
         LoginEmployeeData loginEmpData = new LoginEmployeeData()
         {
             EmpId = Convert.ToInt32(drEmp["EmpId"]),
-            EmpName = drEmp["EmpName"].ToString(),
-            Email = drEmp["Email"].ToString(),
+            EmpName = drEmp.ToSafeStr("EmpName"),
+            Email = drEmp.ToSafeStr("Email"),
             DeptId = Convert.ToInt32(drEmp["DeptId"]),
-            DeptName = drEmp["DeptName"].ToString(),
+            DeptName = drEmp.ToSafeStr("DeptName"),
             RoleId = Convert.ToInt32(drEmp["RoleId"]),
-            RoleName = drEmp["RoleName"].ToString(),
-            RoleDisplayName = drEmp["RoleDisplayName"].ToString(),
+            RoleName = drEmp.ToSafeStr("RoleName"),
+            RoleDisplayName = drEmp.ToSafeStr("RoleDisplayName"),
             StartDate = Convert.ToDateTime(drEmp["StartDate"]),
             EndDate = Convert.ToDateTime(drEmp["EndDate"]),
-            EmpAccount = drEmp["EmpAccount"].ToString(),
+            EmpAccount = drEmp.ToSafeStr("EmpAccount"),
             ThisLoginTime = thisLoginTime,
-            ThisLoginIP = drEmp["ThisLoginIP"].ToString(),
+            ThisLoginIP = drEmp.ToSafeStr("ThisLoginIP"),
             LastLoginTime = lastLoginTime,
-            LastLoginIP = drEmp["LastLoginIP"].ToString()
+            LastLoginIP = drEmp.ToSafeStr("LastLoginIP")
         };
         c.SaveLoginEmployeeDataIntoSession(loginEmpData);
 

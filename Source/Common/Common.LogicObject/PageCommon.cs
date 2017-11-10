@@ -45,9 +45,9 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["l"];
+                string str = QueryStringToSafeStr("l");
                 if (str == null)
-                    str = Request.QueryString["lang"];
+                    str = QueryStringToSafeStr("lang");
 
                 int nResult;
 
@@ -76,9 +76,9 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["l"];
+                string str = QueryStringToSafeStr("l");
                 if (str == null)
-                    str = Request.QueryString["lang"];
+                    str = QueryStringToSafeStr("lang");
 
                 if (str == null)
                 {
@@ -98,7 +98,7 @@ namespace Common.LogicObject
             get
             {
                 int nResult;
-                string str = Request.QueryString["p"];
+                string str = QueryStringToSafeStr("p");
 
                 if (str != null && int.TryParse(str, out nResult) && nResult >= 1)
                 {
@@ -173,6 +173,17 @@ namespace Common.LogicObject
             LoggerOfUI = LogManager.GetLogger(typeUiComponent);
 
             return LoggerOfUI;
+        }
+
+        public string QueryStringToSafeStr(string name)
+        {
+            string value = Request.QueryString[name];
+
+            if (value == null)
+                return null;
+
+            //return AntiXss.GetSafeHtmlFragment(value);
+            return value;
         }
 
         /// <summary>

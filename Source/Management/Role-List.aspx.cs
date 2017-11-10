@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-public partial class Role_List : System.Web.UI.Page
+public partial class Role_List : BasePage
 {
     protected RoleCommonOfBackend c;
     protected EmployeeAuthorityLogic empAuth;
@@ -126,8 +126,8 @@ public partial class Role_List : System.Web.UI.Page
         DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
         int roleId = Convert.ToInt32(drvTemp["RoleId"]);
-        string roleName = drvTemp["RoleName"].ToString();
-        string roleDisplayName = drvTemp["RoleDisplayName"].ToString();
+        string roleName = drvTemp.ToSafeStr("RoleName");
+        string roleDisplayName = drvTemp.ToSafeStr("RoleDisplayName");
         int empTotal = Convert.ToInt32(drvTemp["EmpTotal"]);
 
         HtmlGenericControl ctlRoleName = (HtmlGenericControl)e.Item.FindControl("ctlRoleName");
@@ -159,7 +159,7 @@ public partial class Role_List : System.Web.UI.Page
         btnDelete.OnClientClick = string.Format("return confirm('" + "確定刪除[{0}][{1}]?" + "');",
             roleName, roleDisplayName);
 
-        string ownerAccount = drvTemp["PostAccount"].ToString();
+        string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
 
         btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);

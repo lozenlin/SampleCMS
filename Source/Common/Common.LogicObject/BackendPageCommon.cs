@@ -48,7 +48,7 @@ namespace Common.LogicObject
         /// </summary>
         public string qsKw
         {
-            get { return Request.QueryString["kw"] ?? ""; }
+            get { return QueryStringToSafeStr("kw") ?? ""; }
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Common.LogicObject
         /// </summary>
         public string qsSortField
         {
-            get { return Request.QueryString["sortfield"] ?? ""; }
+            get { return QueryStringToSafeStr("sortfield") ?? ""; }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["isSortDesc"];
+                string str = QueryStringToSafeStr("isSortDesc");
                 bool bResult = false;
 
                 if (str != null && bool.TryParse(str, out bResult))
@@ -84,7 +84,7 @@ namespace Common.LogicObject
         /// </summary>
         public string qsAct
         {
-            get { return Request.QueryString["act"] ?? ""; }
+            get { return QueryStringToSafeStr("act") ?? ""; }
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace Common.LogicObject
             get
             {
                 int nResult;
-                string str = Request.QueryString["emprange"];
+                string str = QueryStringToSafeStr("emprange");
 
                 if (str != null && int.TryParse(str, out nResult))
                 {
@@ -443,7 +443,7 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["deptid"];
+                string str = QueryStringToSafeStr("deptid");
                 int nResult = 0;
 
                 if (str != null && int.TryParse(str, out nResult))
@@ -463,7 +463,7 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["empid"];
+                string str = QueryStringToSafeStr("empid");
                 int nResult = 0;
 
                 if (str != null && int.TryParse(str, out nResult))
@@ -539,7 +539,7 @@ namespace Common.LogicObject
                     {
                         DataRow drFirst = ds.Tables[0].Rows[0];
 
-                        authAndOwner.OwnerAccountOfDataExamined = drFirst["OwnerAccount"].ToString();
+                        authAndOwner.OwnerAccountOfDataExamined = drFirst.ToSafeStr("OwnerAccount");
                         authAndOwner.OwnerDeptIdOfDataExamined = Convert.ToInt32(drFirst["OwnerDeptId"]);
                     }
                 }
@@ -571,7 +571,7 @@ namespace Common.LogicObject
         {
             get
             {
-                string str = Request.QueryString["roleid"];
+                string str = QueryStringToSafeStr("roleid");
                 int nResult = 0;
 
                 if (str != null && int.TryParse(str, out nResult))

@@ -79,18 +79,18 @@
             <asp:Repeater ID="rptAccounts" runat="server" OnItemDataBound="rptAccounts_ItemDataBound" OnItemCommand="rptAccounts_ItemCommand">
             <ItemTemplate>
                 <tr id="EmpArea" runat="server">
-                    <td><%# Eval("RowNum") %></td>
+                    <td><%# EvalToSafeStr("RowNum") %></td>
                     <td>
-                        <span class="small"><%# Eval("DeptName") %></span>
+                        <span class="small"><%# EvalToSafeStr("DeptName") %></span>
                     </td>
                     <td>
                         <span id="ctlRoleDisplayName" runat="server"></span>
                     </td>
                     <td>
-                        <%# Eval("EmpName") %>
+                        <%# EvalToSafeStr("EmpName") %>
                     </td>
                     <td>
-                        <%# Eval("EmpAccount") %>
+                        <%# EvalToSafeStr("EmpAccount") %>
                     </td>
                     <td>
                         <span id="ctlIsAccessDenied" runat="server" class="badge badge-danger" title="已停權" visible="false"><i class="fa fa-ban"></i></span>
@@ -105,7 +105,7 @@
                         <span id="ctlRemarks" runat="server" class="badge badge-info emp-comment" visible="false"><i class="fa fa-comment"></i></span>
                     </td>
                     <td>
-                        <%# Eval("OwnerName") %>
+                        <%# EvalToSafeStr("OwnerName") %>
                     </td>
                     <td>
                         <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">

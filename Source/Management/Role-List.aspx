@@ -58,7 +58,7 @@
             <asp:Repeater ID="rptRoles" runat="server" OnItemDataBound="rptRoles_ItemDataBound" OnItemCommand="rptRoles_ItemCommand">
             <ItemTemplate>
                 <tr>
-                    <td><%# Eval("RowNum") %></td>
+                    <td><%# EvalToSafeStr("RowNum") %></td>
                     <td>
                         <span id="ctlRoleName" runat="server"></span>
                     </td>
@@ -66,10 +66,10 @@
                         <span id="ctlRoleDisplayName" runat="server"></span>
                     </td>
                     <td>
-                        <%# Eval("SortNo") %>
+                        <%# EvalToSafeStr("SortNo") %>
                     </td>
                     <td>
-                        <%# Eval("EmpTotal") %>
+                        <%# EvalToSafeStr("EmpTotal") %>
                     </td>
                     <td>
                         <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">

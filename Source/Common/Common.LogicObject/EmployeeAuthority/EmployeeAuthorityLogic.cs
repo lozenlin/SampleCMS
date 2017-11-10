@@ -621,9 +621,9 @@ namespace Common.LogicObject
                 DataRow drFirst = dsOp.Tables[0].Rows[0];
 
                 result = new OperationHtmlAnchorData();
-                result.Subject = drFirst["OpSubject"].ToString();
-                result.LinkUrl = drFirst["LinkUrl"].ToString();
-                result.IconImageFileUrl = drFirst["IconImageFile"].ToString();
+                result.Subject = drFirst.ToSafeStr("OpSubject");
+                result.LinkUrl = drFirst.ToSafeStr("LinkUrl");
+                result.IconImageFileUrl = drFirst.ToSafeStr("IconImageFile");
                 result.Html = string.Format("<a href=\"{0}\">{1}</a>", result.LinkUrl, result.Subject);
             }
 

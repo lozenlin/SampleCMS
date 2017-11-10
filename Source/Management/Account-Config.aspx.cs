@@ -155,26 +155,26 @@ public partial class Account_Config : System.Web.UI.Page
             if (dsAccount != null && dsAccount.Tables[0].Rows.Count > 0)
             {
                 DataRow drFirst = dsAccount.Tables[0].Rows[0];
-                string empAccount = drFirst["EmpAccount"].ToString();
+                string empAccount = drFirst.ToSafeStr("EmpAccount");
 
                 //account
-                txtEmpAccount.Text = drFirst["EmpAccount"].ToString();
+                txtEmpAccount.Text = drFirst.ToSafeStr("EmpAccount");
                 txtEmpAccount.Enabled = false;
 
                 //name
-                txtEmpName.Text = drFirst["EmpName"].ToString();
+                txtEmpName.Text = drFirst.ToSafeStr("EmpName");
 
                 //password
                 rfvPsw.Enabled = false;
-                hidEmpPasswordOri.Text = drFirst["EmpPassword"].ToString();
-                hidPasswordHashed.Text = drFirst["PasswordHashed"].ToString();
-                hidDefaultRandomPassword.Text = drFirst["DefaultRandomPassword"].ToString();
+                hidEmpPasswordOri.Text = drFirst.ToSafeStr("EmpPassword");
+                hidPasswordHashed.Text = drFirst.ToSafeStr("PasswordHashed");
+                hidDefaultRandomPassword.Text = drFirst.ToSafeStr("DefaultRandomPassword");
 
                 //email
-                txtEmail.Text = drFirst["Email"].ToString();
+                txtEmail.Text = drFirst.ToSafeStr("Email");
 
                 //remarks
-                txtRemarks.Text = drFirst["Remarks"].ToString();
+                txtRemarks.Text = drFirst.ToSafeStr("Remarks");
 
                 // is access denied
                 chkIsAccessDenied.Checked = Convert.ToBoolean(drFirst["IsAccessDenied"]);
@@ -191,20 +191,20 @@ public partial class Account_Config : System.Web.UI.Page
                 }
 
                 //department
-                ddlDept.SelectedValue = drFirst["DeptId"].ToString();
+                ddlDept.SelectedValue = drFirst.ToSafeStr("DeptId");
                 if (ddlDept.SelectedItem != null)
                     ltrDept.Text = ddlDept.SelectedItem.Text;
 
                 //role
                 curRoleId = Convert.ToInt32(drFirst["RoleId"]);
                 ddlRoles.SelectedValue = curRoleId.ToString();
-                ltrRoles.Text = drFirst["RoleDisplayText"].ToString();
+                ltrRoles.Text = drFirst.ToSafeStr("RoleDisplayText");
 
                 //owner
-                txtOwnerAccount.Text = drFirst["OwnerAccount"].ToString();
+                txtOwnerAccount.Text = drFirst.ToSafeStr("OwnerAccount");
                 ltrOwnerAccount.Text = txtOwnerAccount.Text;
 
-                isOwner = empAuth.CanEditThisPage(false, drFirst["OwnerAccount"].ToString(), Convert.ToInt32(drFirst["OwnerDeptId"]));
+                isOwner = empAuth.CanEditThisPage(false, drFirst.ToSafeStr("OwnerAccount"), Convert.ToInt32(drFirst["OwnerDeptId"]));
                 btnSave.Visible = true; 
             }
         }

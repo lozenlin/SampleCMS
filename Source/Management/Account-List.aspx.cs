@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-public partial class Account_List : System.Web.UI.Page
+public partial class Account_List : BasePage
 {
     protected AccountCommonOfBackend c;
     protected EmployeeAuthorityLogic empAuth;
@@ -195,15 +195,15 @@ public partial class Account_List : System.Web.UI.Page
         DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
         int empId = Convert.ToInt32(drvTemp["EmpId"]);
-        string empAccount = drvTemp["EmpAccount"].ToString();
-        string roleName = drvTemp["RoleName"].ToString();
+        string empAccount = drvTemp.ToSafeStr("EmpAccount");
+        string roleName = drvTemp.ToSafeStr("RoleName");
         bool isAccessDenied = Convert.ToBoolean(drvTemp["IsAccessDenied"]);
         DateTime startDate = Convert.ToDateTime(drvTemp["StartDate"]);
         DateTime endDate = Convert.ToDateTime(drvTemp["EndDate"]);
-        string remarks = drvTemp["Remarks"].ToString().Trim();
+        string remarks = drvTemp.ToSafeStr("Remarks").Trim();
 
         HtmlGenericControl ctlRoleDisplayName = (HtmlGenericControl)e.Item.FindControl("ctlRoleDisplayName");
-        ctlRoleDisplayName.InnerHtml = drvTemp["RoleDisplayName"].ToString();
+        ctlRoleDisplayName.InnerHtml = drvTemp.ToSafeStr("RoleDisplayName");
         ctlRoleDisplayName.Attributes["class"] = "RoleDisplay-" + roleName;
 
         HtmlTableRow EmpArea = (HtmlTableRow)e.Item.FindControl("EmpArea");
@@ -260,9 +260,9 @@ public partial class Account_List : System.Web.UI.Page
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
         btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Account_ConfirmDelete_Format + "');",
-            drvTemp["EmpName"], drvTemp["EmpAccount"]);
+            drvTemp.ToSafeStr("EmpName"), drvTemp.ToSafeStr("EmpAccount"));
 
-        string ownerAccount = drvTemp["OwnerAccount"].ToString();
+        string ownerAccount = drvTemp.ToSafeStr("OwnerAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["OwnerDeptId"]);
 
         btnEdit.Visible = (empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId) || c.IsMyAccount(empAccount));
