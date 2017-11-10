@@ -29,7 +29,7 @@ set identity_insert dbo.Department off
 go
 
 ----------------------------------------------------------------------------
--- dbo.EmployeeRole 員工角色
+-- dbo.EmployeeRole 員工身分
 ----------------------------------------------------------------------------
 create table dbo.EmployeeRole(
 	RoleId	int	Not Null	identity primary key
@@ -43,7 +43,7 @@ create table dbo.EmployeeRole(
 )
 go
 
---角色名稱設定唯一值
+--身分名稱設定唯一值
 create unique index IX_EmployeeRole on dbo.EmployeeRole(RoleName)
 go
 
@@ -191,7 +191,7 @@ set identity_insert dbo.Operations off
 go
 
 ----------------------------------------------------------------------------
--- dbo.EmployeeRoleOperationsDesc 員工角色後端作業授權關聯表
+-- dbo.EmployeeRoleOperationsDesc 員工身分後端作業授權關聯表
 ----------------------------------------------------------------------------
 create table dbo.EmployeeRoleOperationsDesc(
 	RoleName	nvarchar(20)	Not Null	

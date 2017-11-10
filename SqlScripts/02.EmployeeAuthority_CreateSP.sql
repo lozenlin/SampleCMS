@@ -3,7 +3,7 @@ use SampleCMS
 go
 
 ----------------------------------------------------------------------------
--- 後端使用者相關
+-- 員工資料
 ----------------------------------------------------------------------------
 go
 
@@ -11,7 +11,7 @@ go
 -- Author:      <lozen_lin>
 -- Create date: <2017/09/13>
 -- Test:
--- Description: <取得後端使用者登入用資料>
+-- Description: <取得員工登入用資料>
 /*
 exec dbo.spEmployee_GetDataToLogin 'admin'
 */
@@ -34,13 +34,13 @@ go
 -- Create date: <2017/09/13>
 -- History:
 --	2017/10/31, lozen_lin, modify, 新增欄位「本次登入時間,本次登入IP,上次登入時間,上次登入IP」
--- Description: <取得後端使用者資料>
+-- Description: <取得員工資料>
 -- Test:
 /*
 exec dbo.spEmployee_GetData 'admin'
 */
 -- =============================================
-alter procedure dbo.spEmployee_GetData
+create procedure dbo.spEmployee_GetData
 @EmpAccount varchar(20)
 as
 begin
@@ -86,7 +86,7 @@ go
 -- Create date: <2017/11/04>
 -- History:
 --	2017/11/08, lozen_lin, modify, 增加權限判斷用的參數
--- Description: <取得後端使用者清單>
+-- Description: <取得員工清單>
 -- Test:
 /*
 declare @RowCount int
@@ -245,7 +245,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/27>
--- Description: <取得後端使用者角色名稱>
+-- Description: <取得員工身分名稱>
 -- Test:
 /*
 exec dbo.spEmployee_GetRoleName 'admin'
@@ -266,7 +266,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
--- Description: <更新後端使用者本次登入資訊>
+-- Description: <更新員工本次登入資訊>
 -- Test:
 /*
 */
@@ -291,7 +291,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/06>
--- Description: <刪除後端使用者資料>
+-- Description: <刪除員工資料>
 -- Test:
 /*
 */
@@ -308,7 +308,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/07>
--- Description: <新增後端使用者資料>
+-- Description: <新增員工資料>
 -- Test:
 /*
 */
@@ -361,12 +361,12 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/07>
--- Description: <更新後端使用者資料>
+-- Description: <更新員工者資料>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spEmployee_UpdateData
+creaet procedure dbo.spEmployee_UpdateData
 @EmpId	int
 ,@EmpPassword	varchar(128)
 ,@EmpName	nvarchar(50)
@@ -456,7 +456,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
--- Description: <取得後端作業選項第一層清單和角色授權>
+-- Description: <取得後端作業選項第一層清單和身分授權>
 -- Test:
 /*
 */
@@ -483,7 +483,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
--- Description: <取得後端作業選項子清單和角色授權>
+-- Description: <取得後端作業選項子清單和身分授權>
 -- Test:
 /*
 */
@@ -533,14 +533,14 @@ end
 go
 
 ----------------------------------------------------------------------------
--- 員工角色後端作業授權相關
+-- 員工身分後端作業授權相關
 ----------------------------------------------------------------------------
 go
 
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/09/28>
--- Description: <取得指定作業代碼的後端角色可使用權限>
+-- Description: <取得指定作業代碼的後端身分可使用權限>
 -- Test:
 /*
 */
@@ -561,14 +561,14 @@ end
 go
 
 ----------------------------------------------------------------------------
--- 員工角色
+-- 員工身分
 ----------------------------------------------------------------------------
 go
 
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/07>
--- Description: <取得選擇用員工角色清單>
+-- Description: <取得選擇用員工身分清單>
 -- Test:
 /*
 */

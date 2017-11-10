@@ -165,7 +165,8 @@ public partial class Account_List : System.Web.UI.Page
         // update pager and get begin end of item numbers
         int itemTotalCount = accountParams.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
-        ucDataPager.RefreshPagerAfterPostBack();
+        if (IsPostBack)
+            ucDataPager.RefreshPagerAfterPostBack();
 
         accountParams.PagedParams = new PagedListQueryParams()
         {

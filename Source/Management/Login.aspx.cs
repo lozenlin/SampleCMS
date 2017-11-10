@@ -183,7 +183,7 @@ public partial class Login : System.Web.UI.Page
         //記錄登入時間與IP
         empAuth.UpdateEmployeeLoginInfo(txtAccount.Text, c.GetClientIP());
 
-        //確認可登入後,取得使用者資料
+        //確認可登入後,取得員工資料
         DataSet dsEmp = empAuth.GetEmployeeData(txtAccount.Text);
 
         if (dsEmp == null)

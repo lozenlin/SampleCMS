@@ -15,11 +15,11 @@ namespace Common.LogicObject
         /// </summary>
         string GetEmpAccount();
         /// <summary>
-        /// 取得角色識別
+        /// 取得身分識別
         /// </summary>
         string GetRoleName();
         /// <summary>
-        /// 判斷目前是否為指定的角色識別
+        /// 判斷目前是否為指定的身分識別
         /// </summary>
         bool IsInRole(string roleName);
         /// <summary>

@@ -4,10 +4,10 @@ using System.Data.SqlClient;
 
 namespace Common.DataAccess.EmployeeAuthority
 {
-    #region 後端使用者相關
+    #region 員工資料
 
     /// <summary>
-    /// 取得後端使用者登入用資料
+    /// 取得員工登入用資料
     /// </summary>
     public class spEmployee_GetDataToLogin : IDataAccessCommandInfo
     {
@@ -29,7 +29,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端使用者資料
+    /// 取得員工資料
     /// </summary>
     public class spEmployee_GetData : IDataAccessCommandInfo
     {
@@ -73,7 +73,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端使用者清單
+    /// 取得員工清單
     /// </summary>
     public class spEmployee_GetList : IDataAccessCommandInfo
     {
@@ -112,7 +112,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端使用者角色名稱
+    /// 取得員工身分名稱
     /// </summary>
     public class spEmployee_GetRoleName : IDataAccessCommandInfo
     {
@@ -134,7 +134,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 更新後端使用者本次登入資訊
+    /// 更新員工本次登入資訊
     /// </summary>
     public class spEmployee_UpdateLoginInfo : IDataAccessCommandInfo
     {
@@ -157,7 +157,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 刪除後端使用者資料
+    /// 刪除員工資料
     /// </summary>
     public class spEmployee_DeleteData : IDataAccessCommandInfo
     {
@@ -179,7 +179,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 新增後端使用者資料
+    /// 新增員工資料
     /// </summary>
     public class spEmployee_InsertData : IDataAccessCommandInfo
     {
@@ -216,7 +216,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 更新後端使用者資料
+    /// 更新員工資料
     /// </summary>
     public class spEmployee_UpdateData : IDataAccessCommandInfo
     {
@@ -305,7 +305,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端作業選項第一層清單和角色授權
+    /// 取得後端作業選項第一層清單和身分授權
     /// </summary>
     public class spOperations_GetTopListWithRoleAuth : IDataAccessCommandInfo
     {
@@ -327,7 +327,7 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
-    /// 取得後端作業選項子清單和角色授權
+    /// 取得後端作業選項子清單和身分授權
     /// </summary>
     public class spOperations_GetSubListWithRoleAuth : IDataAccessCommandInfo
     {
@@ -372,10 +372,10 @@ namespace Common.DataAccess.EmployeeAuthority
 
     #endregion
 
-    #region 員工角色後端作業授權相關
+    #region 員工身分後端作業授權相關
 
     /// <summary>
-    /// 取得指定作業代碼的後端角色可使用權限
+    /// 取得指定作業代碼的後端身分可使用權限
     /// </summary>
     public class spEmployeeRoleOperationsDesc_GetDataOfOp : IDataAccessCommandInfo
     {
@@ -399,10 +399,10 @@ namespace Common.DataAccess.EmployeeAuthority
 
     #endregion
 
-    #region 員工角色
+    #region 員工身分
 
     /// <summary>
-    /// 取得選擇用員工角色清單
+    /// 取得選擇用員工身分清單
     /// </summary>
     public class spEmployeeRole_GetListToSelect : IDataAccessCommandInfo
     {

@@ -13,7 +13,7 @@
         log4net.Config.XmlConfigurator.Configure();
 
         //不使用Forms驗證時的設定
-        //使用Forms驗證: 設定false時,「帳號」和「角色識別」使用Session值
+        //使用Forms驗證: 設定false時,「帳號」和「身分識別」使用Session值
         BackendPageCommon.UseFormsAuthentication = false;
 
     }
@@ -57,7 +57,7 @@
             //取得已登入的帳號
             string empAccount = User.Identity.Name;
 
-            //取得使用者角色
+            //取得員工身分
             string roleName = "";
 
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);

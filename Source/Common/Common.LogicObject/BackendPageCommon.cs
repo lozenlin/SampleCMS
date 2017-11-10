@@ -19,7 +19,7 @@ namespace Common.LogicObject
     public class BackendPageCommon : PageCommon, IAuthenticationConditionProvider
     {
         /// <summary>
-        /// 使用Forms驗證: 設定false時,「帳號」和「角色識別」使用Session值
+        /// 使用Forms驗證: 設定false時,「帳號」和「身分識別」使用Session值
         /// </summary>
         public static bool UseFormsAuthentication = true;
 
@@ -148,7 +148,7 @@ namespace Common.LogicObject
             if (UseFormsAuthentication)
                 return User.Identity.IsAuthenticated;
             else
-                return !string.IsNullOrEmpty(seLoginEmpData.RoleName);    //角色識別不為null與空白時,代表已驗證
+                return !string.IsNullOrEmpty(seLoginEmpData.RoleName);    //身分識別不為null與空白時,代表已驗證
         }
 
         /// <summary>
@@ -538,5 +538,17 @@ namespace Common.LogicObject
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// 後台身分管理頁的共用元件
+    /// </summary>
+    [Description("後台身分管理頁的共用元件")]
+    public class RoleCommonOfBackend : BackendPageCommon
+    {
+        public RoleCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
     }
 }

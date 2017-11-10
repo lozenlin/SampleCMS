@@ -86,7 +86,7 @@ namespace Common.LogicObject
         {
             this.isTopPageOfOperation = isTopPageOfOperation;
 
-            //取得指定作業代碼的後端角色可使用權限
+            //取得指定作業代碼的後端身分可使用權限
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spEmployeeRoleOperationsDesc_GetDataOfOp cmdInfo = new spEmployeeRoleOperationsDesc_GetDataOfOp()
             {
@@ -96,7 +96,7 @@ namespace Common.LogicObject
 
             DataSet dsRoleOp = cmd.ExecuteDataset(cmdInfo);
 
-            //從資料集載入角色的授權設定
+            //從資料集載入身分的授權設定
             LoadRoleAuthorizationsFrom(dsRoleOp);
 
             if (authCondition is ICustomEmployeeAuthorizationResult)
@@ -111,7 +111,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 從資料集載入角色的授權設定
+        /// 從資料集載入身分的授權設定
         /// </summary>
         public bool LoadRoleAuthorizationsFrom(DataSet dsRoleOp)
         {
@@ -336,7 +336,7 @@ namespace Common.LogicObject
         #region Employee DataAccess functions
 
         /// <summary>
-        /// 取得後端使用者登入用資料
+        /// 取得員工登入用資料
         /// </summary>
         public DataSet GetEmployeeDataToLogin(string empAccount)
         {
@@ -353,7 +353,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 取得後端使用者資料
+        /// 取得員工資料
         /// </summary>
         public DataSet GetEmployeeData(string empAccount)
         {
@@ -370,7 +370,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 取得後端使用者資料
+        /// 取得員工資料
         /// </summary>
         public DataSet GetEmployeeData(int empId)
         {
@@ -394,7 +394,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 取得後端使用者角色名稱
+        /// 取得員工身分名稱
         /// </summary>
         public string GetRoleNameOfEmp(string empAccount)
         {
@@ -417,7 +417,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 更新後端使用者本次登入資訊
+        /// 更新員工本次登入資訊
         /// </summary>
         public bool UpdateEmployeeLoginInfo(string empAccount, string thisLoginIP)
         {
@@ -463,7 +463,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 刪除後端使用者資料
+        /// 刪除員工資料
         /// </summary>
         public bool DeleteEmployeeData(int empId)
         {
@@ -479,7 +479,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 新增後端使用者資料
+        /// 新增員工資料
         /// </summary>
         public bool InsertEmployeeData(AccountParams param)
         {
@@ -517,7 +517,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 更新後端使用者資料
+        /// 更新員工資料
         /// </summary>
         public bool UpdateEmployeeData(AccountParams param)
         {
@@ -550,7 +550,7 @@ namespace Common.LogicObject
         #region Operation DataAccess functions
 
         /// <summary>
-        /// 取得後端作業選項第一層清單和角色授權
+        /// 取得後端作業選項第一層清單和身分授權
         /// </summary>
         public DataSet GetOperationsTopListWithRoleAuth(string roleName)
         {
@@ -566,7 +566,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 取得後端作業選項子清單和角色授權
+        /// 取得後端作業選項子清單和身分授權
         /// </summary>
         public DataSet GetOperationsSubListWithRoleAuth(string roleName)
         {
@@ -624,7 +624,7 @@ namespace Common.LogicObject
         #region EmployeeRole DataAccess functions
 
         /// <summary>
-        /// 取得選擇用員工角色清單
+        /// 取得選擇用員工身分清單
         /// </summary>
         public DataSet GetEmployeeRoleListToSelect()
         {
