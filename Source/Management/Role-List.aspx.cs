@@ -49,6 +49,21 @@ public partial class Role_List : BasePage
             LoadUIData();
             DisplayRoles();
         }
+        else
+        {
+            //PostBack
+            if (Master.FlagValue != "")
+            {
+                // message from config-form
+
+                if (Master.FlagValue == "Config")
+                {
+                    DisplayRoles();
+                }
+
+                Master.FlagValue = "";
+            }
+        }
     }
 
     private void LoadUIData()

@@ -690,6 +690,85 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得員工身分最大排序編號
+        /// </summary>
+        public int GetEmployeeRoleMaxSortNo()
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_GetMaxSortNo cmdInfo = new spEmployeeRole_GetMaxSortNo();
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得員工身分資料
+        /// </summary>
+        public DataSet GetEmployeeRoleData(int roleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_GetData cmdInfo = new spEmployeeRole_GetData()
+            {
+                RoleId = roleId
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 新增員工身分資料
+        /// </summary>
+        public bool InsertEmployeeRoleData(RoleParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_InsertData cmdInfo = new spEmployeeRole_InsertData()
+            {
+                RoleName = param.RoleName,
+                RoleDisplayName = param.RoleDisplayName,
+                SortNo = param.SortNo,
+                CopyPrivilegeFromRoleName = param.CopyPrivilegeFromRoleName,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result)
+            {
+                param.RoleId = cmdInfo.RoleId;
+            }
+            else if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.HasRoleBeenUsed = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新員工身分資料
+        /// </summary>
+        public bool UpdateEmployeeRoleData(RoleParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployeeRole_UpdateData cmdInfo = new spEmployeeRole_UpdateData()
+            {
+                RoleId = param.RoleId,
+                RoleDisplayName = param.RoleDisplayName,
+                SortNo = param.SortNo,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region Department DataAccess functions

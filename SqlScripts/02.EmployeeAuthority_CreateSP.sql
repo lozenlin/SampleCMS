@@ -733,6 +733,126 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/11>
+-- Description: <取得員工身分最大排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRole_GetMaxSortNo
+as
+begin
+	select isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.EmployeeRole
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/11>
+-- Description: <取得員工身分資料>
+-- Test:
+/*
+*/
+-- =============================================
+alter procedure dbo.spEmployeeRole_GetData
+@RoleId int
+as
+begin
+	select
+		r.RoleId, r.RoleName, r.RoleDisplayName
+		,r.SortNo, r.PostAccount, r.PostDate
+		,r.MdfAccount, r.MdfDate, isnull(e.DeptId, 0) as PostDeptId
+	from dbo.EmployeeRole r
+		left join dbo.Employee e on r.PostAccount=e.EmpAccount
+	where r.RoleId=@RoleId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/11>
+-- Description: <新增員工身分資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRole_InsertData
+@RoleName	nvarchar(20)
+,@RoleDisplayName	nvarchar(20)
+,@SortNo	int
+,@PostAccount	varchar(20)
+,@CopyPrivilegeFromRoleName nvarchar(20)
+,@RoleId	int output
+as
+begin
+	if exists(select * from dbo.EmployeeRole where RoleName=@RoleName)
+	begin
+		raiserror(N'身分名稱已存在', 11, 2)
+		return
+	end
+
+	insert into dbo.EmployeeRole(
+		RoleName, RoleDisplayName, SortNo, 
+		PostAccount, PostDate
+		)
+	values(
+		@RoleName, @RoleDisplayName, @SortNo, 
+		@PostAccount, getdate()
+		)
+
+	set @RoleId = scope_identity()
+
+	-- copy privilege
+	if @CopyPrivilegeFromRoleName<>''
+	begin
+		insert into dbo.EmployeeRoleOperationsDesc(
+			RoleName, OpId, CanRead, 
+			CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, 
+			CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, 
+			CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, 
+			CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, 
+			PostDate
+			)
+			select 
+				@RoleName, OpId, CanRead, 
+				CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, 
+				CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, 
+				CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, 
+				CanEditSubItemOfOthers, CanDelSubItemOfOthers, @PostAccount, 
+				getdate()
+			from dbo.EmployeeRoleOperationsDesc
+			where RoleName=@CopyPrivilegeFromRoleName
+	end
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/11>
+-- Description: <更新員工身分資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRole_UpdateData
+@RoleId	int
+,@RoleDisplayName	nvarchar(20)
+,@SortNo	int
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.EmployeeRole
+	set RoleDisplayName=@RoleDisplayName
+		,SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where RoleId=@RoleId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 部門資料
 ----------------------------------------------------------------------------
@@ -766,7 +886,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/10>
+-- Create date: <2017/11/11>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

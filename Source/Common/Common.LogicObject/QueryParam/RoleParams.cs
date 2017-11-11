@@ -11,6 +11,7 @@ namespace Common.LogicObject
         public string RoleName;
         public string RoleDisplayName;
         public int SortNo;
+        public string CopyPrivilegeFromRoleName;
         public string PostAccount;
         /// <summary>
         /// return:身分是否重覆

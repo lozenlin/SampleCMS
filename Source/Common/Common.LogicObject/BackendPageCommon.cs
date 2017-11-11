@@ -555,7 +555,7 @@ namespace Common.LogicObject
     /// 後台身分管理頁的共用元件
     /// </summary>
     [Description("後台身分管理頁的共用元件")]
-    public class RoleCommonOfBackend : BackendPageCommon
+    public class RoleCommonOfBackend : BackendPageCommon, ICustomEmployeeAuthorizationResult
     {
         public RoleCommonOfBackend(HttpContext context, StateBag viewState)
             : base(context, viewState)
@@ -594,5 +594,35 @@ namespace Common.LogicObject
                 p);
         }
 
+        #region ICustomEmployeeAuthorizationResult
+
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations)
+        {
+            EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
+
+            if (!isTopPageOfOperation)
+            {
+                // get owner info for config-form
+                IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+                spEmployeeRole_GetData cmdInfo = new spEmployeeRole_GetData()
+                {
+                    RoleId = qsRoleId
+                };
+                DataSet ds = cmd.ExecuteDataset(cmdInfo);
+                string dbErrMsg = cmd.GetErrMsg();
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drFirst = ds.Tables[0].Rows[0];
+
+                    authAndOwner.OwnerAccountOfDataExamined = drFirst.ToSafeStr("PostAccount");
+                    authAndOwner.OwnerDeptIdOfDataExamined = Convert.ToInt32(drFirst["PostDeptId"]);
+                }
+            }
+
+            return authAndOwner;
+        }
+
+        #endregion
     }
 }
