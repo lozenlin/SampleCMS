@@ -459,6 +459,7 @@ go
 -- Description: <取得後端作業選項第一層清單和身分授權>
 -- Test:
 /*
+exec dbo.spOperations_GetTopListWithRoleAuth 'user'
 */
 -- =============================================
 create procedure dbo.spOperations_GetTopListWithRoleAuth
@@ -486,6 +487,7 @@ go
 -- Description: <取得後端作業選項子清單和身分授權>
 -- Test:
 /*
+exec dbo.spOperations_GetSubListWithRoleAuth 'user'
 */
 -- =============================================
 create procedure dbo.spOperations_GetSubListWithRoleAuth

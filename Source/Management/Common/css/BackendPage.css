@@ -296,6 +296,63 @@
     text-shadow:2px 1px 1px #ccc;
 }
 
+/* Role privilege config */
+.privileges-header {
+    margin-bottom:0;
+}
+
+    .privileges-header th {
+        border-width:0;
+    }
+
+.privileges-body-container {
+    height:280px;
+    overflow-y:auto;
+}
+
+.privileges-body {
+}
+
+    .privileges-header .seqno {
+        width:3%;
+    }
+
+    .privileges-body .seqno {
+        width:6%;
+    }
+
+    .privileges-header .op-name, .privileges-body .op-name {
+        width:25%;
+    }
+
+    .privileges-header .item, .privileges-body .item {
+        width:15%;
+    }
+
+    .privileges-header .subitem-self, .privileges-body .subitem-self {
+        width:15%;
+    }
+
+    .privileges-header .subitem-dept, .privileges-body .subitem-dept {
+        width:15%;
+    }
+
+    .privileges-header .subitem-all, .privileges-body .subitem-all {
+        width:15%;
+    }
+
+    .privileges-header .status, .privileges-body .status {
+    }
+
+.privileges-body tr {
+    cursor:pointer;
+}
+
+.privileges-body tr.active>td, .privileges-body tr.active:hover>td {
+    color: #fff !important;
+    background-color: #007bff !important;
+}
+
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */
     .main-body {
