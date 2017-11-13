@@ -117,6 +117,9 @@
                 </label>
                 <div class="col-md-6 item slider-container">
                     <div id="ctlPvgOfItem" style="width:60%;"></div>
+                    <div class="d-inline-block" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
+                    <div class="d-inline-block"><span class='badge badge-success ' title='可修改'>可修改</span></div>
                 </div>
             </div>
             <div class="form-group form-row">
@@ -125,6 +128,10 @@
                 </label>
                 <div class="col-md-6 subitem-self slider-container">
                     <div id="ctlPvgOfSubitemSelf" style="width:90%;"></div>
+                    <div class="d-inline-block" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
+                    <div class="d-inline-block"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
                 </div>
                 <div class="col-md-2 subitem-self-ext py-md-3">
                     <input type="checkbox" id="chkAdd" /><label for="chkAdd" class="badge badge-info">可新增</label>
@@ -136,6 +143,10 @@
                 </label>
                 <div class="col-md-6 slider-container">
                     <div id="ctlPvgOfSubitemCrew" style="width:90%;"></div>
+                    <div class="d-inline-block" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
+                    <div class="d-inline-block"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
                 </div>
             </div>
             <div class="form-group form-row">
@@ -144,6 +155,10 @@
                 </label>
                 <div class="col-md-6 subitem-crew slider-container">
                     <div id="ctlPvgOfSubitemOthers" style="width:90%;"></div>
+                    <div class="d-inline-block" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
+                    <div class="d-inline-block" style="width:30%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
+                    <div class="d-inline-block"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
                 </div>
             </div>
         </div>
@@ -158,50 +173,6 @@
     <script src="Common/noUiSlider/nouislider.js"></script>
     <script>
         $(".pvg-badge").tooltip();
-        var ctlPvgOfItem = document.getElementById("ctlPvgOfItem");
-        noUiSlider.create(ctlPvgOfItem, {
-            start: 0,
-            step: 1,
-            connect: [true, false],
-            range: {
-                "min": 0,
-                "max": 2
-            }
-        });
-
-        var ctlPvgOfSubitemSelf = document.getElementById("ctlPvgOfSubitemSelf");
-        noUiSlider.create(ctlPvgOfSubitemSelf, {
-            start: 0,
-            step: 1,
-            connect: [true, false],
-            range: {
-                "min": 0,
-                "max": 3
-            }
-        });
-
-        var ctlPvgOfSubitemCrew = document.getElementById("ctlPvgOfSubitemCrew");
-        noUiSlider.create(ctlPvgOfSubitemCrew, {
-            start: 0,
-            step: 1,
-            connect: [true, false],
-            range: {
-                "min": 0,
-                "max": 3
-            }
-        });
-
-        var ctlPvgOfSubitemOthers = document.getElementById("ctlPvgOfSubitemOthers");
-        noUiSlider.create(ctlPvgOfSubitemOthers, {
-            start: 0,
-            step: 1,
-            connect: [true, false],
-            range: {
-                "min": 0,
-                "max": 3
-            }
-        });
-
     </script>
     <script src="Common/js/Role-Privilege.js"></script>
 </asp:Content>

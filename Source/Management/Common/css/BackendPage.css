@@ -350,7 +350,7 @@
 
 .privileges-body tr.active>td, .privileges-body tr.active:hover>td {
     color: #fff !important;
-    background-color: #007bff !important;
+    background-color: #0056b3 !important;
 }
 
 .privileges-body .op-area.lv1 {

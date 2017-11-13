@@ -146,7 +146,7 @@ public partial class Role_Privilege : System.Web.UI.Page
         string htmlRead = "<div><span class='badge badge-warning text-white pvg-badge' title='可閱讀'>可閱讀</span></div>";
         string htmlEdit = "<div><span class='badge badge-success pvg-badge' title='可修改'>可修改</span></div>";
         string htmlAdd = "<div><span class='badge badge-info pvg-badge' title='可新增'>可新增</span></div>";
-        string htmlDelete = "<div><span class='badge badge-danger pvg-badge' title='可刪除'>可刪除</span></div>";
+        string htmlDelete = "<div><span class='badge badge-primary pvg-badge' title='可刪除'>可刪除</span></div>";
 
         Literal ltrPvgOfItem = (Literal)e.Item.FindControl("ltrPvgOfItem");
         HtmlInputHidden hidPvgOfItem = (HtmlInputHidden)e.Item.FindControl("hidPvgOfItem");
