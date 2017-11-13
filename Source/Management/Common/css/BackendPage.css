@@ -306,7 +306,7 @@
     }
 
 .privileges-body-container {
-    height:280px;
+    height:230px;
     overflow-y:auto;
 }
 
@@ -333,11 +333,11 @@
         width:15%;
     }
 
-    .privileges-header .subitem-dept, .privileges-body .subitem-dept {
+    .privileges-header .subitem-crew, .privileges-body .subitem-crew {
         width:15%;
     }
 
-    .privileges-header .subitem-all, .privileges-body .subitem-all {
+    .privileges-header .subitem-others, .privileges-body .subitem-others {
         width:15%;
     }
 
@@ -352,6 +352,34 @@
     color: #fff !important;
     background-color: #007bff !important;
 }
+
+.privileges-body .op-area.lv1 {
+
+}
+
+.privileges-body .op-area.lv2 .op-name {
+    padding-left:1rem;
+}
+
+.privilege-config-panel {
+}
+
+    .privilege-config-panel .form-row {
+        margin-bottom:5px;
+    }
+
+        .privilege-config-panel .form-row > label {
+            padding:1rem 0;
+            padding-left:1rem;
+        }
+
+    .privilege-config-panel .slider-container {
+        padding:1rem 2rem;
+    }
+
+    .privilege-config-panel .subitem-self-ext {
+        padding-left:1rem;
+    }
 
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */

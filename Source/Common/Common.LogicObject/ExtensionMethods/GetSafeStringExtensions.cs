@@ -29,5 +29,28 @@ namespace Common.LogicObject
             //return AntiXss.GetSafeHtmlFragment(obj.ToString());
             return obj.ToString();
         }
+
+        public static T To<T>(this DataRowView drv, string property, T nullValue)
+        {
+            T result = default(T);
+
+            object obj = drv[property];
+
+            if (obj == null || Convert.IsDBNull(obj))
+            {
+                result = nullValue;
+            }
+            else
+            {
+                result = (T)obj;
+            }
+
+            if (obj is string && obj != null)
+            {
+                //result = (T)Convert.ChangeType(AntiXss.GetSafeHtmlFragment(obj.ToString()), typeof(T));
+            }
+
+            return result;
+        }
     }
 }
