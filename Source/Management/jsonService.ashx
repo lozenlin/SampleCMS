@@ -52,7 +52,7 @@ public class jsonService : IHttpHandler, IRequiresSessionState
             IJsonServiceHandler handler = JsonServiceHandlerFactory.GetHandler(context, serviceName);
 
             if (handler == null)
-                throw new Exception("Invalid service name.");
+                throw new Exception("service name is invalid");
                 
             clientResult = handler.ProcessRequest();
         }
@@ -60,7 +60,7 @@ public class jsonService : IHttpHandler, IRequiresSessionState
         {
             c.LoggerOfUI.Error("", ex);
 
-            clientResult = new ClientResult() { b = false, err = "Exception Error" };
+            clientResult = new ClientResult() { b = false, err = ex.Message };
         }
 
         string result = JsonConvert.SerializeObject(clientResult);

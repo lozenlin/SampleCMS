@@ -557,6 +557,8 @@ namespace Common.LogicObject
     [Description("後台身分管理頁的共用元件")]
     public class RoleCommonOfBackend : BackendPageCommon, ICustomEmployeeAuthorizationResult
     {
+        private object lockerOfPvgs = new object();
+
         public RoleCommonOfBackend(HttpContext context, StateBag viewState)
             : base(context, viewState)
         {
@@ -583,6 +585,37 @@ namespace Common.LogicObject
                 return nResult;
             }
         }
+
+        /// <summary>
+        /// list of role-operation privilege
+        /// </summary>
+        public List<RoleOpPvg> seRoleOpPvgs
+        {
+            get
+            {
+                List<RoleOpPvg> result = null;
+                object obj = Session["seRoleOpPvgs"];
+
+                if (obj == null)
+                {
+                    lock (lockerOfPvgs)
+                    {
+                        obj = Session["seRoleOpPvgs"];
+
+                        if (obj == null)
+                        {
+                            Session["seRoleOpPvgs"] = new List<RoleOpPvg>();
+                            obj = Session["seRoleOpPvgs"];
+                        }
+                    }
+                }
+
+                result = (List<RoleOpPvg>)obj;
+
+                return result;
+            }
+        }
+
         #endregion
 
         public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc, 

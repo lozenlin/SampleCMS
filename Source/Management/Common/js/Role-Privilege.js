@@ -1,5 +1,6 @@
 ﻿/// <reference path="jquery-3.2.1.js"/>
 /// <reference path="../noUiSlider/nouislider.js"/>
+/// <reference path="dao.js"/>
 
 // create sliders
 
@@ -274,28 +275,71 @@ function applyPvgLimitation(itemValue, selfValue, crewValue, othersValue, from) 
     }
 }
 
+function sendPvgsToServer() {
+    var roleName = $("#roleName").html();
+    var $activeOpArea = $(".op-area.active");
+    var $status = null;
+    //todo by lozen, 顯示變更後的標籤
+    var opId = 0;
+
+    if ($activeOpArea.length > 0) {
+        opId = $activeOpArea.eq(0).attr("opid");
+        $status = $activeOpArea.find(".status");
+    } else {
+        alert("get operation failed.");
+        return;
+    }
+
+    var itemVal = parseInt(ctlPvgOfItem.noUiSlider.get());
+    var selfVal = parseInt(ctlPvgOfSubitemSelf.noUiSlider.get());
+    var crewVal = parseInt(ctlPvgOfSubitemCrew.noUiSlider.get());
+    var othersVal = parseInt(ctlPvgOfSubitemOthers.noUiSlider.get());
+    var addval = $("#chkAdd")[0].checked;
+
+    if ($status != null) {
+        $status.html("暫存資料傳送中...");
+    }
+
+    dao.TempStoreRolePvg(roleName, opId, itemVal,
+        selfVal, crewVal, othersVal,
+        addval,
+        function (cr) {
+            if (cr.b) {
+                var pvg = cr.o;
+                $status.html("已暫存");
+            } else {
+                $status.html("傳送失敗");
+                alert(cr.err);
+            }
+        });
+}
+
 ctlPvgOfItem.noUiSlider.on("change", function () {
     var result = this.get();
     setConnectBarColor($(ctlPvgOfItem), result);
     applyPvgLimitation(result, -1, -1, -1, "item");
+    sendPvgsToServer();
 });
 
 ctlPvgOfSubitemSelf.noUiSlider.on("change", function () {
     var result = this.get();
     setConnectBarColor($(ctlPvgOfSubitemSelf), result);
     applyPvgLimitation(-1, result, -1, -1, "self");
+    sendPvgsToServer();
 });
 
 ctlPvgOfSubitemCrew.noUiSlider.on("change", function () {
     var result = this.get();
     setConnectBarColor($(ctlPvgOfSubitemCrew), result);
     applyPvgLimitation(-1, -1, result, -1, "crew");
+    sendPvgsToServer();
 });
 
 ctlPvgOfSubitemOthers.noUiSlider.on("change", function () {
     var result = this.get();
     setConnectBarColor($(ctlPvgOfSubitemOthers), result);
     applyPvgLimitation(-1, -1, -1, result, "others");
+    sendPvgsToServer();
 });
 
 $("#chkAdd").change(function () {
@@ -306,4 +350,6 @@ $("#chkAdd").change(function () {
             applyPvgLimitation(-1, newValueOfSelf, -1, -1, "add");
         }
     }
+
+    sendPvgsToServer();
 });

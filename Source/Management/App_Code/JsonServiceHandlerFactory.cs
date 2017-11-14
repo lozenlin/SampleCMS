@@ -12,7 +12,7 @@ public static class JsonServiceHandlerFactory
 
         switch (serviceName)
         {
-            case "RolePvg_TempStore":
+            case "TempStoreRolePvg":
                 handler = new TemporarilyStoreRolePrivilege(context);
                 break;
         }

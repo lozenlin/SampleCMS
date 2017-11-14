@@ -174,6 +174,11 @@
     <script>
         $(".pvg-badge").tooltip();
     </script>
+    <script src="Common/js/dao.js"></script>
+    <script>
+        langNo = '<%= c.seLangNoOfBackend %>';
+        serviceUrl = "jsonService.ashx?l=" + langNo;
+    </script>
     <script src="Common/js/Role-Privilege.js"></script>
 </asp:Content>
 

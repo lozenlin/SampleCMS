@@ -59,11 +59,13 @@
     <Compile Include="DataClass\EmployeeAuthorizations.cs" />
     <Compile Include="DataClass\LoginEmployeeData.cs" />
     <Compile Include="DataClass\OperationHtmlAnchorData.cs" />
+    <Compile Include="DataClass\RoleOpPvg.cs" />
     <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
     <Compile Include="ExtensionMethods\GetSafeStringExtensions.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
     <Compile Include="Interface\IJsonServiceHandler.cs" />
+    <Compile Include="JsonServiceHandlerAbstract.cs" />
     <Compile Include="MagicNumbersAndStrings.cs" />
     <Compile Include="QueryParam\AccountListQueryParams.cs" />
     <Compile Include="QueryParam\AccountParams.cs" />
