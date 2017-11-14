@@ -1,6 +1,8 @@
 ﻿/// <reference path="jquery-3.2.1.js"/>
 /// <reference path="../noUiSlider/nouislider.js"/>
 
+// create sliders
+
 var ctlPvgOfItem = document.getElementById("ctlPvgOfItem");
 noUiSlider.create(ctlPvgOfItem, {
     start: 0,
@@ -45,7 +47,7 @@ noUiSlider.create(ctlPvgOfSubitemOthers, {
     }
 });
 
-// select operation and config privileges
+// functions of select operation and config privileges
 
 $(".op-area").click(function () {
     $(this).siblings().removeClass("active");
@@ -103,34 +105,205 @@ function setConnectBarColor($sliderRoot, value) {
 
     switch (parseInt(value)) {
         case 1:
+            // read
             $connBar.addClass("bg-warning");
             break;
         case 2:
+            // edit
             $connBar.addClass("bg-success");
             break;
         case 3:
+            // delete
             $connBar.addClass("bg-primary");
             break;
     }
 }
 
+function applyPvgLimitation(itemValue, selfValue, crewValue, othersValue, from) {
+    // itemValue, selfValue, crewValue, othersValue: -1=ignore, 0:not-allowed, 1:can-read, 2:can-edit, 3:can-delete
+    // from: item, self, add, crew, others
+
+    var resultOfItem = ctlPvgOfItem.noUiSlider.get();
+    var resultOfSelf = ctlPvgOfSubitemSelf.noUiSlider.get();
+    var resultOfCrew = ctlPvgOfSubitemCrew.noUiSlider.get();
+    var resultOfOthers = ctlPvgOfSubitemOthers.noUiSlider.get();
+    var resultOfAdd = $("#chkAdd")[0].checked;
+
+    var newValueOfItem = 0;
+    var newValueOfSelf = 0;
+    var newValueOfCrew = 0;
+    var newValueOfOthers = 0;
+    var newValueOfAdd = false;
+
+    var reducePvg = false;
+    var extendPvg = false;
+
+    // Privilege of item
+    if (itemValue > -1) {
+        switch (from) {
+            case "item":
+                reducePvg = true;
+                break;
+            case "self":
+                extendPvg = true;
+                break;
+        }
+
+        if (reducePvg) {
+            if (itemValue == 0) {
+                // reduce privilege of subitem-slef
+                if (resultOfSelf > 0) {
+                    newValueOfSelf = 0;
+                    applyPvgLimitation(-1, newValueOfSelf, -1, -1, "item");
+                }
+            }
+        }
+
+        if (extendPvg) {
+            // extend privilege of item
+            ctlPvgOfItem.noUiSlider.set(itemValue);
+            setConnectBarColor($(ctlPvgOfItem), itemValue);
+        }
+    }
+
+    // Privilege of subitem-self
+    if (selfValue > -1) {
+        if (from != "self") {
+            ctlPvgOfSubitemSelf.noUiSlider.set(selfValue);
+            setConnectBarColor($(ctlPvgOfSubitemSelf), selfValue);
+        }
+
+        switch (from) {
+            case "item":
+                reducePvg = true;
+                break;
+            case "self":
+                reducePvg = true;
+                extendPvg = true;
+                break;
+            case "add":
+            case "crew":
+                extendPvg = true;
+                break;
+        }
+
+        if (reducePvg) {
+            // reduce privilege of subitem-crew
+            if (resultOfCrew > selfValue) {
+                newValueOfCrew = selfValue;
+                applyPvgLimitation(-1, -1, newValueOfCrew, -1, "self");
+            }
+
+            // reducre privilege of subitem-self-add
+            if (selfValue < 2 && resultOfAdd == true) {
+                newValueOfAdd = false;
+                $("#chkAdd")[0].checked = newValueOfAdd;
+            }
+        }
+
+        if (extendPvg) {
+            // extend privilege of item
+            if (selfValue > 0 && resultOfItem == 0) {
+                newValueOfItem = 1;
+                applyPvgLimitation(newValueOfItem, -1, -1, -1, "self");
+            }
+        }
+    }
+
+    // Privilege of subitem-crew
+    if (crewValue > -1) {
+        if (from != "crew") {
+            ctlPvgOfSubitemCrew.noUiSlider.set(crewValue);
+            setConnectBarColor($(ctlPvgOfSubitemCrew), crewValue);
+        }
+
+        switch (from) {
+            case "self":
+                reducePvg = true;
+                break;
+            case "crew":
+                reducePvg = true;
+                extendPvg = true;
+                break;
+            case "others":
+                extendPvg = true;
+                break;
+        }
+
+        if (reducePvg) {
+            // reduce privilege of subitem-others
+            if (resultOfOthers > crewValue) {
+                newValueOfOthers = crewValue;
+                applyPvgLimitation(-1, -1, -1, newValueOfOthers, "crew");
+            }
+        }
+
+        if (extendPvg) {
+            // extend privilege of subitem-self
+            if (resultOfSelf < crewValue) {
+                newValueOfSelf = crewValue;
+                applyPvgLimitation(-1, newValueOfSelf, -1, -1, "crew");
+            }
+        }
+    }
+
+    // Privilege of subitem-others
+    if (othersValue > -1) {
+        switch (from) {
+            case "crew":
+                reducePvg = true;
+                break;
+            case "others":
+                extendPvg = true;
+                break;
+        }
+
+        if (reducePvg) {
+            // reduce privilege of subitem-others
+            ctlPvgOfSubitemOthers.noUiSlider.set(othersValue);
+            setConnectBarColor($(ctlPvgOfSubitemOthers), othersValue);
+        }
+
+        if (extendPvg) {
+            // extend privilege of subitem-crew
+            if (resultOfCrew < othersValue) {
+                newValueOfCrew = othersValue;
+                applyPvgLimitation(-1, -1, newValueOfCrew, -1, "others");
+            }
+        }
+    }
+}
+
 ctlPvgOfItem.noUiSlider.on("change", function () {
     var result = this.get();
-    setConnectBarColor($(ctlPvgOfItem), result)
+    setConnectBarColor($(ctlPvgOfItem), result);
+    applyPvgLimitation(result, -1, -1, -1, "item");
 });
 
 ctlPvgOfSubitemSelf.noUiSlider.on("change", function () {
     var result = this.get();
-    setConnectBarColor($(ctlPvgOfSubitemSelf), result)
+    setConnectBarColor($(ctlPvgOfSubitemSelf), result);
+    applyPvgLimitation(-1, result, -1, -1, "self");
 });
 
 ctlPvgOfSubitemCrew.noUiSlider.on("change", function () {
     var result = this.get();
-    setConnectBarColor($(ctlPvgOfSubitemCrew), result)
+    setConnectBarColor($(ctlPvgOfSubitemCrew), result);
+    applyPvgLimitation(-1, -1, result, -1, "crew");
 });
 
 ctlPvgOfSubitemOthers.noUiSlider.on("change", function () {
     var result = this.get();
-    setConnectBarColor($(ctlPvgOfSubitemOthers), result)
+    setConnectBarColor($(ctlPvgOfSubitemOthers), result);
+    applyPvgLimitation(-1, -1, -1, result, "others");
 });
 
+$("#chkAdd").change(function () {
+    if (this.checked) {
+        var resultOfSelf = ctlPvgOfSubitemSelf.noUiSlider.get();
+        if (resultOfSelf < 2) {
+            var newValueOfSelf = 2;
+            applyPvgLimitation(-1, newValueOfSelf, -1, -1, "add");
+        }
+    }
+});
