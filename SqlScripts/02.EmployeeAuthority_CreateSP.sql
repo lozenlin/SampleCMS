@@ -86,6 +86,7 @@ go
 -- Create date: <2017/11/04>
 -- History:
 --	2017/11/08, lozen_lin, modify, 增加權限判斷用的參數
+--	2017/11/14, lozen_lin, modify, 修正 EndDate 判斷
 -- Description: <取得員工清單>
 -- Test:
 /*
@@ -142,11 +143,11 @@ begin
 	begin
 		if @ListMode=1
 		begin
-			set @conditions += N' and e.IsAccessDenied=0 and (r.RoleName=''admin'' or getdate() between e.StartDate and e.EndDate)'
+			set @conditions += N' and e.IsAccessDenied=0 and (r.RoleName=''admin'' or (e.StartDate <= getdate() and getdate() < e.EndDate+1))'
 		end
 		else if @ListMode=2
 		begin
-			set @conditions += N' and e.IsAccessDenied=1 or not (r.RoleName=''admin'' or getdate() between e.StartDate and e.EndDate)'
+			set @conditions += N' and e.IsAccessDenied=1 or not (r.RoleName=''admin'' or (e.StartDate <= getdate() and getdate() < e.EndDate+1))'
 		end
 	end
 	
