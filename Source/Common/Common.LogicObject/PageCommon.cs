@@ -186,6 +186,17 @@ namespace Common.LogicObject
             return value;
         }
 
+        public string FormToSafeStr(string name)
+        {
+            string value = Request.Form[name];
+
+            if (value == null)
+                return null;
+
+            //return AntiXss.GetSafeHtmlFragment(value);
+            return value;
+        }
+
         /// <summary>
         /// 取得客戶端主機位址
         /// </summary>

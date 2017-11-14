@@ -30,6 +30,12 @@ namespace Common.LogicObject
             return obj.ToString();
         }
 
+        public static string ToSafeStr(string value)
+        {
+            //return AntiXss.GetSafeHtmlFragment(value);
+            return value;
+        }
+
         public static T To<T>(this DataRowView drv, string property, T nullValue)
         {
             T result = default(T);
