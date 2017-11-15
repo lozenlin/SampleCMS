@@ -9,7 +9,10 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // ===============================================================================
 
+using log4net;
+using Microsoft.ApplicationBlocks.Data;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -405,6 +408,148 @@ namespace Common.DataAccess.EmployeeAuthority
         public string GetCommandText()
         {
             return "dbo.spEmployeeRoleOperationsDesc_GetDataOfOp";
+        }
+    }
+
+    /// <summary>
+    /// 儲存員工身分後端作業授權
+    /// </summary>
+    public class spEmployeeRoleOperationsDesc_SaveData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string RoleName;
+        public int OpId;
+        public bool CanRead;
+        public bool CanEdit;
+        public bool CanReadSubItemOfSelf;
+        public bool CanEditSubItemOfSelf;
+        public bool CanAddSubItemOfSelf;
+        public bool CanDelSubItemOfSelf;
+        public bool CanReadSubItemOfCrew;
+        public bool CanEditSubItemOfCrew;
+        public bool CanDelSubItemOfCrew;
+        public bool CanReadSubItemOfOthers;
+        public bool CanEditSubItemOfOthers;
+        public bool CanDelSubItemOfOthers;
+        public string PostAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployeeRoleOperationsDesc_SaveData";
+        }
+    }
+
+    /// <summary>
+    /// 儲存員工身分後端作業授權清單
+    /// </summary>
+    public class SaveListOfEmployeeRoleOperationsDesc : IDataAccessCommandInfo, ICustomExecuteNonQuery
+    {
+        public string RoleName;
+        public List<RoleOpDescParamsDA> roleOps;
+        public string PostAccount;
+
+        public SaveListOfEmployeeRoleOperationsDesc()
+        {
+            roleOps = new List<RoleOpDescParamsDA>();
+        }
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "SaveListOfEmployeeRoleOperationsDesc";
+        }
+
+        public bool ExecuteNonQuery(IDataAccessCommandInnerTools innerTools)
+        {
+            if (roleOps.Count == 0)
+            {
+                innerTools.SetErrMsg("roleOps is empty");
+                return false;
+            }
+
+            ILog Logger = innerTools.GetLogger();
+            IDataAccessSource db = innerTools.GetDataAccessSource();
+            SqlConnection conn = null;
+            SqlTransaction tran = null;
+
+            try
+            {
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+                tran = conn.BeginTransaction();
+
+                foreach (RoleOpDescParamsDA roleOp in roleOps)
+                {
+                    innerTools.SetLogSql("spEmployeeRoleOperationsDesc_SaveData",
+                        RoleName,
+                        roleOp.OpId,
+                        roleOp.CanRead,
+                        roleOp.CanEdit,
+                        roleOp.CanReadSubItemOfSelf,
+                        roleOp.CanEditSubItemOfSelf,
+                        roleOp.CanAddSubItemOfSelf,
+                        roleOp.CanDelSubItemOfSelf,
+                        roleOp.CanReadSubItemOfCrew,
+                        roleOp.CanEditSubItemOfCrew,
+                        roleOp.CanDelSubItemOfCrew,
+                        roleOp.CanReadSubItemOfOthers,
+                        roleOp.CanEditSubItemOfOthers,
+                        roleOp.CanDelSubItemOfOthers,
+                        PostAccount
+                        );
+
+                    SqlHelper.ExecuteNonQuery(tran, "dbo.spEmployeeRoleOperationsDesc_SaveData",
+                        RoleName,
+                        roleOp.OpId,
+                        roleOp.CanRead,
+                        roleOp.CanEdit,
+                        roleOp.CanReadSubItemOfSelf,
+                        roleOp.CanEditSubItemOfSelf,
+                        roleOp.CanAddSubItemOfSelf,
+                        roleOp.CanDelSubItemOfSelf,
+                        roleOp.CanReadSubItemOfCrew,
+                        roleOp.CanEditSubItemOfCrew,
+                        roleOp.CanDelSubItemOfCrew,
+                        roleOp.CanReadSubItemOfOthers,
+                        roleOp.CanEditSubItemOfOthers,
+                        roleOp.CanDelSubItemOfOthers,
+                        PostAccount
+                        );
+                }
+
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("", ex);
+
+                //回傳錯誤訊息
+                innerTools.SetErrMsg(ex.Message);
+
+                if (tran != null)
+                    tran.Rollback();
+
+                return false;
+            }
+            finally
+            {
+                //關閉連線資訊
+                db.CloseConnection(conn);
+            }
+
+            return true;
         }
     }
 

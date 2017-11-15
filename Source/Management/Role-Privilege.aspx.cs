@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -112,16 +113,6 @@ public partial class Role_Privilege : System.Web.UI.Page
         DataSet dsTopList = empAuth.GetOperationsTopListWithRoleAuth(ltrRoleName.Text);
         DataSet dsSubList = empAuth.GetOperationsSubListWithRoleAuth(ltrRoleName.Text);
 
-        if (c.IsInRole("admin"))
-        {
-            //管理者可以看到全部
-            foreach (DataRow dr in dsTopList.Tables[0].Rows)
-                dr["CanRead"] = true;
-
-            foreach (DataRow dr in dsSubList.Tables[0].Rows)
-                dr["CanRead"] = true;
-        }
-
         // move sub list table into dsTopList to join
         DataTable dtSubList = dsSubList.Tables[0];
         dtSubList.TableName = "SubList";
@@ -134,6 +125,8 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         rptOperations.DataSource = dsTopList.Tables[0];
         rptOperations.DataBind();
+
+        btnSave.Visible = true;
     }
 
     protected void rptOperations_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -314,6 +307,48 @@ public partial class Role_Privilege : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        Master.ShowErrorMsg("");
 
+        if (!c.seRoleOpPvgs.Any(p => string.Compare(p.RoleName, ltrRoleName.Text) == 0))
+        {
+            Master.ShowErrorMsg("沒有任何權限異動");
+            return;
+        }
+
+        //取得異動的權限
+        List<RoleOpPvg> changes = c.seRoleOpPvgs.Where(p => string.Compare(p.RoleName, ltrRoleName.Text) == 0).ToList();
+        c.ClearRoleDataOfRoleOpPvgs(ltrRoleName.Text);
+
+        //新增後端操作記錄
+        empAuth.InsertBackEndLogData(new BackEndLogData()
+        {
+            EmpAccount = c.GetEmpAccount(),
+            Description = string.Format("．{0}　．儲存權限/Save privileges　．身分/Role[{1}]　．異動數量/changes[{2}]", Title, ltrRoleName.Text, changes.Count),
+            IP = c.GetClientIP()
+        });
+
+        try
+        {
+            bool result = empAuth.SaveListOfEmployeeRolePrivileges(new RolePrivilegeParams()
+            {
+                RoleName = ltrRoleName.Text,
+                pvgChanges = changes,
+                PostAccount = c.GetEmpAccount()
+            });
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Privilege"), true);
+            }
+            else
+            {
+                Master.ShowErrorMsg("儲存權限失敗");
+            }
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            Master.ShowErrorMsg(ex.Message);
+        }
     }
 }

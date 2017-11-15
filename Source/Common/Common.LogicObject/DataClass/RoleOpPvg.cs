@@ -6,7 +6,7 @@ using System.Text;
 namespace Common.LogicObject
 {
     /// <summary>
-    /// role-operation privilege
+    /// role-operation privilege to store in session
     /// </summary>
     [Serializable()]
     public class RoleOpPvg

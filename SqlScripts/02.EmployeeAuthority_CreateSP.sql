@@ -563,6 +563,75 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/15>
+-- Description: <儲存員工身分後端作業授權>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployeeRoleOperationsDesc_SaveData
+@RoleName	nvarchar(20)
+,@OpId	int
+,@CanRead	bit
+,@CanEdit	bit
+,@CanReadSubItemOfSelf	bit
+,@CanEditSubItemOfSelf	bit
+,@CanAddSubItemOfSelf	bit
+,@CanDelSubItemOfSelf	bit
+,@CanReadSubItemOfCrew	bit
+,@CanEditSubItemOfCrew	bit
+,@CanDelSubItemOfCrew	bit
+,@CanReadSubItemOfOthers	bit
+,@CanEditSubItemOfOthers	bit
+,@CanDelSubItemOfOthers	bit
+,@PostAccount	varchar(20)
+as
+begin
+	if exists(select * from dbo.EmployeeRoleOperationsDesc where RoleName=@RoleName and OpId=@OpId)
+	begin
+		update dbo.EmployeeRoleOperationsDesc
+		set
+			CanRead=@CanRead
+			,CanEdit=@CanEdit
+			,CanReadSubItemOfSelf=@CanReadSubItemOfSelf
+			,CanEditSubItemOfSelf=@CanEditSubItemOfSelf
+			,CanAddSubItemOfSelf=@CanAddSubItemOfSelf
+			,CanDelSubItemOfSelf=@CanDelSubItemOfSelf
+			,CanReadSubItemOfCrew=@CanReadSubItemOfCrew
+			,CanEditSubItemOfCrew=@CanEditSubItemOfCrew
+			,CanDelSubItemOfCrew=@CanDelSubItemOfCrew
+			,CanReadSubItemOfOthers=@CanReadSubItemOfOthers
+			,CanEditSubItemOfOthers=@CanEditSubItemOfOthers
+			,CanDelSubItemOfOthers=@CanDelSubItemOfOthers
+			,MdfAccount=@PostAccount
+			,MdfDate=getdate()
+		where RoleName=@RoleName and OpId=@OpId
+	end
+	else
+	begin
+		insert into dbo.EmployeeRoleOperationsDesc(
+			RoleName, OpId, CanRead, 
+			CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, 
+			CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, 
+			CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, 
+			CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, 
+			PostDate
+			)
+		values(
+			@RoleName, @OpId, @CanRead, 
+			@CanEdit, @CanReadSubItemOfSelf, @CanEditSubItemOfSelf, 
+			@CanAddSubItemOfSelf, @CanDelSubItemOfSelf, @CanReadSubItemOfCrew, 
+			@CanEditSubItemOfCrew, @CanDelSubItemOfCrew, @CanReadSubItemOfOthers, 
+			@CanEditSubItemOfOthers, @CanDelSubItemOfOthers, @PostAccount, 
+			getdate()
+			)
+	end
+end
+go
+
+
 ----------------------------------------------------------------------------
 -- 員工身分
 ----------------------------------------------------------------------------
@@ -889,7 +958,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/11>
+-- Create date: <2017/11/15>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

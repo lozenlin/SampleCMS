@@ -771,6 +771,28 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region EmployeeRole-Operations DataAccess functions
+
+        /// <summary>
+        /// 儲存員工身分後端作業授權清單
+        /// </summary>
+        public bool SaveListOfEmployeeRolePrivileges(RolePrivilegeParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            SaveListOfEmployeeRoleOperationsDesc cmdInfo = new SaveListOfEmployeeRoleOperationsDesc()
+            {
+                RoleName = param.RoleName,
+                roleOps = param.GetRoleOpsOfDA(),
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         #region Department DataAccess functions
 
         /// <summary>

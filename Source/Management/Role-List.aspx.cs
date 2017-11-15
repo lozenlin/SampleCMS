@@ -178,7 +178,7 @@ public partial class Role_List : BasePage
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
 
         btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
-        btnGrant.Visible = roleName != "admin";
+        btnGrant.Visible = btnEdit.Visible && (roleName != "admin");
 
         if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId)
             || roleName == "admin"
