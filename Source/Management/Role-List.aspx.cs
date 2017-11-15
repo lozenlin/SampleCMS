@@ -68,6 +68,8 @@ public partial class Role_List : BasePage
 
     private void LoadUIData()
     {
+        btnSearch.ToolTip = Resources.Lang.SearchPanel_btnSearch_Hint;
+        btnClear.ToolTip = Resources.Lang.SearchPanel_btnClear_Hint;
 
         //HUD
         if (empAuth.CanAddSubItemInThisPage())
@@ -82,6 +84,14 @@ public partial class Role_List : BasePage
         //condition vlaues
 
         //columns of list
+        btnSortRoleName.Text = Resources.Lang.Col_RoleName;
+        hidSortRoleName.Text = btnSortRoleName.Text;
+        btnSortRoleDisplayName.Text = Resources.Lang.Col_RoleDisplayName;
+        hidSortRoleDisplayName.Text = btnSortRoleDisplayName.Text;
+        btnSortSortNo.Text = Resources.Lang.Col_SortNo;
+        hidSortSortNo.Text = btnSortSortNo.Text;
+        btnSortEmpTotal.Text = Resources.Lang.Col_EmpTotal;
+        hidSortEmpTotal.Text = btnSortEmpTotal.Text;
 
         c.DisplySortableCols(new string[] { 
             "RoleName", "RoleDisplayName", "SortNo", 
@@ -171,16 +181,16 @@ public partial class Role_List : BasePage
 
         HtmlAnchor btnGrant = (HtmlAnchor)e.Item.FindControl("btnGrant");
         btnGrant.Attributes["onclick"] = string.Format("popWin('Role-Privilege.aspx?roleid={0}', 700, 600); return false;", roleId);
-        btnGrant.Title = "授權";
+        btnGrant.Title = Resources.Lang.Main_btnGrant_Hint;
 
         Literal ltrGrant = (Literal)e.Item.FindControl("ltrGrant");
-        ltrGrant.Text = "授權";
+        ltrGrant.Text = Resources.Lang.Main_btnGrant;
 
         LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
         btnDelete.CommandArgument = string.Join(",", roleId.ToString(), roleName);
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
-        btnDelete.OnClientClick = string.Format("return confirm('" + "確定刪除[{0}][{1}]?" + "');",
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Role_ConfirmDelete_Format + "');",
             roleName, roleDisplayName);
 
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
@@ -228,9 +238,9 @@ public partial class Role_List : BasePage
                 else
                 {
                     if (param.IsThereAccountsOfRole)
-                        Master.ShowErrorMsg("身分已有帳號使用，不允許刪除");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ThereIsAccountOfRole);
                     else
-                        Master.ShowErrorMsg("刪除身分失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteRoleFailed);
                 }
 
                 break;

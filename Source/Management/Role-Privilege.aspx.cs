@@ -23,11 +23,11 @@ public partial class Role_Privilege : System.Web.UI.Page
     }
 
     private int tempLv1Seqno = 0;
-    private string tagHtmlNotAllowed = "<div><span class=\"badge badge-secondary pvg-badge\" title=\"無權限\">無權限</span></div>";
-    private string tagHtmlRead = "<div><span class=\"badge badge-warning text-white pvg-badge\" title=\"可閱讀\">可閱讀</span></div>";
-    private string tagHtmlEdit = "<div><span class=\"badge badge-success pvg-badge\" title=\"可修改\">可修改</span></div>";
-    private string tagHtmlAdd = "<div><span class=\"badge badge-info pvg-badge\" title=\"可新增\">可新增</span></div>";
-    private string tagHtmlDelete = "<div><span class=\"badge badge-primary pvg-badge\" title=\"可刪除\">可刪除</span></div>";
+    private string tagHtmlNotAllowed;
+    private string tagHtmlRead;
+    private string tagHtmlEdit;
+    private string tagHtmlAdd;
+    private string tagHtmlDelete;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -86,6 +86,17 @@ public partial class Role_Privilege : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        tagHtmlNotAllowed = string.Format("<div><span class=\"badge badge-secondary pvg-badge\" title=\"{0}\">{1}</span></div>",
+            Resources.Lang.Privilege_NotAllowed_Hint, Resources.Lang.Privilege_NotAllowed);
+        tagHtmlRead = string.Format("<div><span class=\"badge badge-warning text-white pvg-badge\" title=\"{0}\">{1}</span></div>",
+            Resources.Lang.Privilege_Read_Hint, Resources.Lang.Privilege_Read);
+        tagHtmlEdit = string.Format("<div><span class=\"badge badge-success pvg-badge\" title=\"{0}\">{1}</span></div>",
+            Resources.Lang.Privilege_Edit_Hint, Resources.Lang.Privilege_Edit);
+        tagHtmlAdd = string.Format("<div><span class=\"badge badge-info pvg-badge\" title=\"{0}\">{1}</span></div>",
+            Resources.Lang.Privilege_Add_Hint, Resources.Lang.Privilege_Add);
+        tagHtmlDelete = string.Format("<div><span class=\"badge badge-primary pvg-badge\" title=\"{0}\">{1}</span></div>",
+            Resources.Lang.Privilege_Delete_Hint, Resources.Lang.Privilege_Delete);
+
         LoadRoleInfoUIData();
 
     }
@@ -105,7 +116,7 @@ public partial class Role_Privilege : System.Web.UI.Page
 
     private void LoadTitle()
     {
-        Title = string.Format("授權給身分 - id:{0}", c.qsRoleId);
+        Title = string.Format(Resources.Lang.Role_Title_Grant_Format, c.qsRoleId);
     }
 
     private void DisplayOperations()
@@ -311,7 +322,7 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         if (!c.seRoleOpPvgs.Any(p => string.Compare(p.RoleName, ltrRoleName.Text) == 0))
         {
-            Master.ShowErrorMsg("沒有任何權限異動");
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_ThereIsnotAnyChangesOfPvg);
             return;
         }
 
@@ -342,7 +353,7 @@ public partial class Role_Privilege : System.Web.UI.Page
             }
             else
             {
-                Master.ShowErrorMsg("儲存權限失敗");
+                Master.ShowErrorMsg(Resources.Lang.ErrMsg_RolePrivilegeSaveFailed);
             }
         }
         catch (Exception ex)

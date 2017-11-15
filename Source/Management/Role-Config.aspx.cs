@@ -45,6 +45,13 @@ public partial class Role_Config : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvRoleName.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        revRoleName.ErrorMessage = "*" + Resources.Lang.ErrMsg_RoleNameLimit;
+        ltrRoleNameComment.Text = "(" + Resources.Lang.Role_RoleNameComment + ")";
+        rfvRoleDisplayName.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+
         LoadCopyPrivilegeFromUIData();
     }
 
@@ -65,15 +72,15 @@ public partial class Role_Config : System.Web.UI.Page
             ddlCopyPrivilegeFrom.DataBind();
         }
 
-        ddlCopyPrivilegeFrom.Items.Insert(0, new ListItem("(不複製)", ""));
+        ddlCopyPrivilegeFrom.Items.Insert(0, new ListItem(Resources.Lang.CopyOption_DontCopy, ""));
     }
 
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = "新增身分";
+            Title = Resources.Lang.Role_Title_AddNew;
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改身分 - id:{0}", c.qsRoleId);
+            Title = string.Format(Resources.Lang.Role_Title_Edit_Format, c.qsRoleId);
     }
 
     private void DisplayRoleData()
@@ -143,11 +150,11 @@ public partial class Role_Config : System.Web.UI.Page
                 {
                     if (param.HasRoleBeenUsed)
                     {
-                        Master.ShowErrorMsg("身分名稱已存在");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_RoleNameHasBeenUsed);
                     }
                     else
                     {
-                        Master.ShowErrorMsg("新增身分失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddFailed);
                     }
                 }
             }
@@ -158,7 +165,7 @@ public partial class Role_Config : System.Web.UI.Page
 
                 if (!result)
                 {
-                    Master.ShowErrorMsg("更新身分失敗");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_UpdateFailed);
                 }
             }
 

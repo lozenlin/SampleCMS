@@ -709,6 +709,182 @@
     <value>取 消</value>
     <comment>取 消</comment>
   </data>
+  <data name="Col_RoleName" xml:space="preserve">
+    <value>身分名稱</value>
+    <comment>身分名稱</comment>
+  </data>
+  <data name="Col_RoleDisplayName" xml:space="preserve">
+    <value>顯示用名稱</value>
+    <comment>顯示用名稱</comment>
+  </data>
+  <data name="Col_SortNo" xml:space="preserve">
+    <value>排序編號</value>
+    <comment>排序編號</comment>
+  </data>
+  <data name="Col_EmpTotal" xml:space="preserve">
+    <value>帳號總數</value>
+    <comment>帳號總數</comment>
+  </data>
+  <data name="Main_btnGrant" xml:space="preserve">
+    <value>授權</value>
+    <comment>授權</comment>
+  </data>
+  <data name="Main_btnGrant_Hint" xml:space="preserve">
+    <value>授權</value>
+    <comment>授權</comment>
+  </data>
+  <data name="Role_ConfirmDelete_Format" xml:space="preserve">
+    <value>確定刪除[{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="ErrMsg_DeleteRoleFailed" xml:space="preserve">
+    <value>刪除身分失敗</value>
+    <comment>刪除身分失敗</comment>
+  </data>
+  <data name="ErrMsg_ThereIsAccountOfRole" xml:space="preserve">
+    <value>身分已有帳號使用，不允許刪除</value>
+    <comment>身分已有帳號使用，不允許刪除</comment>
+  </data>
+  <data name="Role_CopyPrivilegesFrom" xml:space="preserve">
+    <value>複製權限自</value>
+    <comment>複製權限自</comment>
+  </data>
+  <data name="CopyOption_DontCopy" xml:space="preserve">
+    <value>(不複製)</value>
+    <comment>(不複製)</comment>
+  </data>
+  <data name="ErrMsg_IntegerOnly" xml:space="preserve">
+    <value>限整數</value>
+    <comment>限整數</comment>
+  </data>
+  <data name="ErrMsg_RoleNameLimit" xml:space="preserve">
+    <value>限英數字和底線</value>
+    <comment>限英數字和底線</comment>
+  </data>
+  <data name="Role_RoleNameComment" xml:space="preserve">
+    <value>請輸入英數字或底線</value>
+    <comment>請輸入英數字或底線</comment>
+  </data>
+  <data name="Role_Title_AddNew" xml:space="preserve">
+    <value>新增身分</value>
+    <comment>新增身分</comment>
+  </data>
+  <data name="Role_Title_Edit_Format" xml:space="preserve">
+    <value>修改身分 - id:{0}</value>
+    <comment>修改身分 - id:{0}</comment>
+  </data>
+  <data name="ErrMsg_RoleNameHasBeenUsed" xml:space="preserve">
+    <value>身分名稱已存在</value>
+    <comment>身分名稱已存在</comment>
+  </data>
+  <data name="GroupLabel_OperationList" xml:space="preserve">
+    <value>作業選項名單</value>
+    <comment>作業選項名單</comment>
+  </data>
+  <data name="GroupLabel_OperationPrivilegeConfig" xml:space="preserve">
+    <value>調整選擇的作業選項權限</value>
+    <comment>調整選擇的作業選項權限</comment>
+  </data>
+  <data name="Col_OperationName" xml:space="preserve">
+    <value>作業選項名稱</value>
+    <comment>作業選項名稱</comment>
+  </data>
+  <data name="Col_OperationName_Hint" xml:space="preserve">
+    <value>作業選項名稱</value>
+    <comment>作業選項名稱</comment>
+  </data>
+  <data name="Col_PrivilegeOfItem" xml:space="preserve">
+    <value>作業選項</value>
+    <comment>作業選項</comment>
+  </data>
+  <data name="Col_PrivilegeOfItem_Hint" xml:space="preserve">
+    <value>授權作業選項</value>
+    <comment>授權作業選項</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemSelf" xml:space="preserve">
+    <value>擁有的子項目</value>
+    <comment>擁有的子項目</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemSelf_Hint" xml:space="preserve">
+    <value>授權擁有的子項目</value>
+    <comment>授權擁有的子項目</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemCrew" xml:space="preserve">
+    <value>部門的子項目</value>
+    <comment>部門的子項目</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemCrew_Hint" xml:space="preserve">
+    <value>授權部門的子項目</value>
+    <comment>授權部門的子項目</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemOthers" xml:space="preserve">
+    <value>所有的子項目</value>
+    <comment>所有的子項目</comment>
+  </data>
+  <data name="Col_PrivilegeOfSubitemOthers_Hint" xml:space="preserve">
+    <value>授權所有的子項目</value>
+    <comment>授權所有的子項目</comment>
+  </data>
+  <data name="Col_StatusOfEditing" xml:space="preserve">
+    <value>編輯狀態</value>
+    <comment>編輯狀態</comment>
+  </data>
+  <data name="Col_StatusOfEditing_Hint" xml:space="preserve">
+    <value>編輯狀態</value>
+    <comment>編輯狀態</comment>
+  </data>
+  <data name="Privilege_NotAllowed" xml:space="preserve">
+    <value>無權限</value>
+    <comment>無權限</comment>
+  </data>
+  <data name="Privilege_NotAllowed_Hint" xml:space="preserve">
+    <value>無權限</value>
+    <comment>無權限</comment>
+  </data>
+  <data name="Privilege_Read" xml:space="preserve">
+    <value>可閱讀</value>
+    <comment>可閱讀</comment>
+  </data>
+  <data name="Privilege_Read_Hint" xml:space="preserve">
+    <value>可閱讀</value>
+    <comment>可閱讀</comment>
+  </data>
+  <data name="Privilege_Edit" xml:space="preserve">
+    <value>可修改</value>
+    <comment>可修改</comment>
+  </data>
+  <data name="Privilege_Edit_Hint" xml:space="preserve">
+    <value>可修改</value>
+    <comment>可修改</comment>
+  </data>
+  <data name="Privilege_Add" xml:space="preserve">
+    <value>可新增</value>
+    <comment>可新增</comment>
+  </data>
+  <data name="Privilege_Add_Hint" xml:space="preserve">
+    <value>可新增</value>
+    <comment>可新增</comment>
+  </data>
+  <data name="Privilege_Delete" xml:space="preserve">
+    <value>可刪除</value>
+    <comment>可刪除</comment>
+  </data>
+  <data name="Privilege_Delete_Hint" xml:space="preserve">
+    <value>可刪除</value>
+    <comment>可刪除</comment>
+  </data>
+  <data name="Role_Title_Grant_Format" xml:space="preserve">
+    <value>授權給身分 - id:{0}</value>
+    <comment>授權給身分 - id:{0}</comment>
+  </data>
+  <data name="ErrMsg_ThereIsnotAnyChangesOfPvg" xml:space="preserve">
+    <value>沒有任何權限異動</value>
+    <comment>沒有任何權限異動</comment>
+  </data>
+  <data name="ErrMsg_RolePrivilegeSaveFailed" xml:space="preserve">
+    <value>儲存權限失敗</value>
+    <comment>儲存權限失敗</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

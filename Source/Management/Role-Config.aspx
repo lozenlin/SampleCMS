@@ -10,7 +10,7 @@
     <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
         <tbody>
             <tr>
-                <th style="width:15%;"><span class="required-symbol">排序編號</span></th>
+                <th style="width:15%;"><span class="required-symbol"><%= Resources.Lang.Col_SortNo %></span></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtSortNo" runat="server" style="width:5rem;"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvSortNo" runat="server" ControlToValidate="txtSortNo" CssClass="text-danger"
@@ -20,7 +20,7 @@
                 </td>
             </tr>
             <tr>
-                <th><span class="required-symbol">身分名稱</span></th>
+                <th><span class="required-symbol"><%= Resources.Lang.Col_RoleName %></span></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtRoleName" runat="server" MaxLength="20" style="width:10rem;"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvRoleName" runat="server" ControlToValidate="txtRoleName" CssClass="text-danger"
@@ -31,7 +31,7 @@
                 </td>
             </tr>
             <tr>
-                <th><span class="required-symbol">顯示用名稱</span></th>
+                <th><span class="required-symbol"><%= Resources.Lang.Col_RoleDisplayName %></span></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtRoleDisplayName" runat="server" MaxLength="20" style="width:22rem;"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvRoleDisplayName" runat="server" ControlToValidate="txtRoleDisplayName" CssClass="text-danger"
@@ -39,7 +39,7 @@
                 </td>
             </tr>
             <tr id="CopyPrivilegeArea" runat="server">
-                <th><span class="">複製權限自</span></th>
+                <th><span class=""><%= Resources.Lang.Role_CopyPrivilegesFrom %></span></th>
                 <td colspan="3">
                     <asp:DropDownList ID="ddlCopyPrivilegeFrom" runat="server"></asp:DropDownList>
                 </td>

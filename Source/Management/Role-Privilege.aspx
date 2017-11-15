@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle container-fluid">
         <div class="form-row">
-            <div class="col-sm-2">作業選項名單</div>
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_OperationList %></div>
             <div class="col-sm-6">
                 <span class="text-primary">
                     <i class="fa fa-user-circle-o"></i>
@@ -21,13 +21,13 @@
     <table class="table table-responsive-sm table-bordered table-sm table-striped table-hover bg-white subitem-list privileges-header">
         <thead>
             <tr>
-                <th title="序號" class="seqno">&nbsp;</th>
-                <th title="作業選項名稱" class="op-name">作業選項名稱</th>
-                <th title="授權作業選項" class="item">作業選項</th>
-                <th title="授權擁有的子項目" class="subitem-self">擁有的子項目</th>
-                <th title="授權部門的子項目" class="subitem-crew">部門的子項目</th>
-                <th title="授權所有的子項目" class="subitem-others">所有的子項目</th>
-                <th title="編輯狀態" class="status">編輯狀態</th>
+                <th title='<%= Resources.Lang.Col_Seqno_Hint %>' class="seqno">&nbsp;</th>
+                <th title='<%= Resources.Lang.Col_OperationName_Hint %>' class="op-name"><%= Resources.Lang.Col_OperationName %></th>
+                <th title='<%= Resources.Lang.Col_PrivilegeOfItem_Hint %>' class="item"><%= Resources.Lang.Col_PrivilegeOfItem %></th>
+                <th title='<%= Resources.Lang.Col_PrivilegeOfSubitemSelf_Hint %>' class="subitem-self"><%= Resources.Lang.Col_PrivilegeOfSubitemSelf %></th>
+                <th title='<%= Resources.Lang.Col_PrivilegeOfSubitemCrew_Hint %>' class="subitem-crew"><%= Resources.Lang.Col_PrivilegeOfSubitemCrew %></th>
+                <th title='<%= Resources.Lang.Col_PrivilegeOfSubitemOthers_Hint %>' class="subitem-others"><%= Resources.Lang.Col_PrivilegeOfSubitemOthers %></th>
+                <th title='<%= Resources.Lang.Col_StatusOfEditing_Hint %>' class="status"><%= Resources.Lang.Col_StatusOfEditing %></th>
             </tr>
         </thead>
     </table>
@@ -104,7 +104,7 @@
     <hr class="content-divider" />
     <div class="sys-subtitle container-fluid">
         <div class="form-row">
-            <div class="col-sm-6">調整選擇的作業選項權限</div>
+            <div class="col-sm-6"><%= Resources.Lang.GroupLabel_OperationPrivilegeConfig %></div>
             <div class="col-sm-6">
             </div>
         </div>
@@ -112,53 +112,53 @@
     <div class="card bg-light privilege-config-panel" style="display:none;">
         <div class="card-body p-1">
             <div class="form-group form-row">
-                <label class="col-md-4 col-form-label text-md-right item-label font-weight-bold">
-                    <span class="seqno"></span><span class="op-name"></span> (作業選項)
+                <label class="col-md-4 col-form-label text-md-right item-label font-weight-bold" title='<%= Resources.Lang.Col_PrivilegeOfItem_Hint %>'>
+                    <span class="seqno"></span><span class="op-name"></span> (<%= Resources.Lang.Col_OperationName %>)
                 </label>
                 <div class="col-md-6 item slider-container">
                     <div id="ctlPvgOfItem" style="width:60%;"></div>
-                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
-                    <div class="scale-label"><span class='badge badge-success ' title='可修改'>可修改</span></div>
+                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='<%= Resources.Lang.Privilege_NotAllowed_Hint %>'><%= Resources.Lang.Privilege_NotAllowed %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='<%= Resources.Lang.Privilege_Read_Hint %>'><%= Resources.Lang.Privilege_Read %></span></div>
+                    <div class="scale-label"><span class='badge badge-success ' title='<%= Resources.Lang.Privilege_Edit_Hint %>'><%= Resources.Lang.Privilege_Edit %></span></div>
                 </div>
             </div>
             <div class="form-group form-row">
-                <label class="col-md-4 col-form-label text-md-right subitem-self-label">
-                    擁有的子項目
+                <label class="col-md-4 col-form-label text-md-right subitem-self-label" title='<%= Resources.Lang.Col_PrivilegeOfSubitemSelf_Hint %>'>
+                    <%= Resources.Lang.Col_PrivilegeOfSubitemSelf %>
                 </label>
                 <div class="col-md-6 subitem-self slider-container">
                     <div id="ctlPvgOfSubitemSelf" style="width:90%;"></div>
-                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
-                    <div class="scale-label"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
+                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='<%= Resources.Lang.Privilege_NotAllowed_Hint %>'><%= Resources.Lang.Privilege_NotAllowed %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='<%= Resources.Lang.Privilege_Read_Hint %>'><%= Resources.Lang.Privilege_Read %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='<%= Resources.Lang.Privilege_Edit_Hint %>'><%= Resources.Lang.Privilege_Edit %></span></div>
+                    <div class="scale-label"><span class='badge badge-primary ' title='<%= Resources.Lang.Privilege_Delete_Hint %>'><%= Resources.Lang.Privilege_Delete %></span></div>
                 </div>
                 <div class="col-md-2 subitem-self-ext py-md-3">
-                    <input type="checkbox" id="chkAdd" /><label for="chkAdd" class="badge badge-info">可新增</label>
+                    <input type="checkbox" id="chkAdd" /><label for="chkAdd" class="badge badge-info" title='<%= Resources.Lang.Privilege_Add_Hint %>'><%= Resources.Lang.Privilege_Add %></label>
                 </div>
             </div>
             <div class="form-group form-row">
-                <label class="col-md-4 col-form-label text-md-right">
-                    部門的子項目
+                <label class="col-md-4 col-form-label text-md-right" title='<%= Resources.Lang.Col_PrivilegeOfSubitemCrew_Hint %>'>
+                    <%= Resources.Lang.Col_PrivilegeOfSubitemCrew %>
                 </label>
                 <div class="col-md-6 slider-container">
                     <div id="ctlPvgOfSubitemCrew" style="width:90%;"></div>
-                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
-                    <div class="scale-label"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
+                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='<%= Resources.Lang.Privilege_NotAllowed_Hint %>'><%= Resources.Lang.Privilege_NotAllowed %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='<%= Resources.Lang.Privilege_Read_Hint %>'><%= Resources.Lang.Privilege_Read %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='<%= Resources.Lang.Privilege_Edit_Hint %>'><%= Resources.Lang.Privilege_Edit %></span></div>
+                    <div class="scale-label"><span class='badge badge-primary ' title='<%= Resources.Lang.Privilege_Delete_Hint %>'><%= Resources.Lang.Privilege_Delete %></span></div>
                 </div>
             </div>
             <div class="form-group form-row">
-                <label class="col-md-4 col-form-label text-md-right subitem-crew-label">
-                    所有的子項目
+                <label class="col-md-4 col-form-label text-md-right subitem-crew-label" title='<%= Resources.Lang.Col_PrivilegeOfSubitemOthers_Hint %>'>
+                    <%= Resources.Lang.Col_PrivilegeOfSubitemOthers %>
                 </label>
                 <div class="col-md-6 subitem-crew slider-container">
                     <div id="ctlPvgOfSubitemOthers" style="width:90%;"></div>
-                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='無權限'>無權限</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='可閱讀'>可閱讀</span></div>
-                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='可修改'>可修改</span></div>
-                    <div class="scale-label"><span class='badge badge-primary ' title='可刪除'>可刪除</span></div>
+                    <div class="scale-label" style="width:30%;margin-left:-23px;"><span class='badge badge-secondary ' title='<%= Resources.Lang.Privilege_NotAllowed_Hint %>'><%= Resources.Lang.Privilege_NotAllowed %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-warning text-white ' title='<%= Resources.Lang.Privilege_Read_Hint %>'><%= Resources.Lang.Privilege_Read %></span></div>
+                    <div class="scale-label" style="width:28%;"><span class='badge badge-success ' title='<%= Resources.Lang.Privilege_Edit_Hint %>'><%= Resources.Lang.Privilege_Edit %></span></div>
+                    <div class="scale-label"><span class='badge badge-primary ' title='<%= Resources.Lang.Privilege_Delete_Hint %>'><%= Resources.Lang.Privilege_Delete %></span></div>
                 </div>
             </div>
         </div>
