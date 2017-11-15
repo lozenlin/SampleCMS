@@ -64,7 +64,7 @@ public class jsonService : IHttpHandler, IRequiresSessionState
         }
 
         string result = JsonConvert.SerializeObject(clientResult);
-
+        
         Response.ContentType = "text/plain";
         Response.Write(result);
     }

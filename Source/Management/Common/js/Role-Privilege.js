@@ -275,11 +275,49 @@ function applyPvgLimitation(itemValue, selfValue, crewValue, othersValue, from) 
     }
 }
 
+function can(typeName, serverValue) {
+    if (typeName == "doNothing" && serverValue == 0) {
+        return true;
+    } else if (typeName == "read" && (serverValue & 1) == 1) {
+        return true;
+    } else if (typeName == "edit" && (serverValue & 2) == 2) {
+        return true;
+    } else if (typeName == "add" && (serverValue & 4) == 4) {
+        return true;
+    } else if (typeName == "delete" && (serverValue & 8) == 8) {
+        return true;
+    }
+
+    return false;
+}
+
+function refreshTags($pvgTags, serverValue) {
+    $pvgTags.html("");
+    if (can("doNothing", serverValue)) {
+        $pvgTags.html(tagHtmlNotAllowed);
+    } else {
+        if (can("read", serverValue)) {
+            $pvgTags.html($pvgTags.html() + tagHtmlRead);
+        }
+
+        if (can("edit", serverValue)) {
+            $pvgTags.html($pvgTags.html() + tagHtmlEdit);
+        }
+
+        if (can("add", serverValue)) {
+            $pvgTags.html($pvgTags.html() + tagHtmlAdd);
+        }
+
+        if (can("delete", serverValue)) {
+            $pvgTags.html($pvgTags.html() + tagHtmlDelete);
+        }
+    }
+}
+
 function sendPvgsToServer() {
     var roleName = $("#roleName").html();
     var $activeOpArea = $(".op-area.active");
     var $status = null;
-    //todo by lozen, 顯示變更後的標籤
     var opId = 0;
 
     if ($activeOpArea.length > 0) {
@@ -297,7 +335,7 @@ function sendPvgsToServer() {
     var addval = $("#chkAdd")[0].checked;
 
     if ($status != null) {
-        $status.html("暫存資料傳送中...");
+        $status.html("傳送中...");
     }
 
     dao.TempStoreRolePvg(roleName, opId, itemVal,
@@ -306,6 +344,28 @@ function sendPvgsToServer() {
         function (cr) {
             if (cr.b) {
                 var pvg = cr.o;
+                console.log("retrived data of " + pvg.RoleName + " opid:" + pvg.OpId);
+                
+                var $opArea = $(".op-area[opid='" + pvg.OpId + "']");
+                var $itemTags = $opArea.find(".item .tags");
+                var $subitemSelfTags = $opArea.find(".subitem-self .tags");
+                var $subitemCrewTags = $opArea.find(".subitem-crew .tags");
+                var $subitemOthersTags = $opArea.find(".subitem-others .tags");
+                var $pvgOfItem = $opArea.find(".hidPvgOfItem");
+                var $pvgOfSubitemSelf = $opArea.find(".hidPvgOfSubitemSelf");
+                var $pvgOfSubitemCrew = $opArea.find(".hidPvgOfSubitemCrew");
+                var $pvgOfSubitemOthers = $opArea.find(".hidPvgOfSubitemOthers");
+
+                $pvgOfItem.val(pvg.PvgOfItem);
+                $pvgOfSubitemSelf.val(pvg.PvgOfSubitemSelf);
+                $pvgOfSubitemCrew.val(pvg.PvgOfSubitemCrew);
+                $pvgOfSubitemOthers.val(pvg.PvgOfSubitemOthers);
+
+                refreshTags($itemTags, $pvgOfItem.val());
+                refreshTags($subitemSelfTags, $pvgOfSubitemSelf.val());
+                refreshTags($subitemCrewTags, $pvgOfSubitemCrew.val());
+                refreshTags($subitemOthersTags, $pvgOfSubitemOthers.val());
+
                 $status.html("已暫存");
             } else {
                 $status.html("傳送失敗");

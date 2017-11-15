@@ -365,17 +365,22 @@
 }
 
     .privilege-config-panel .form-row {
-        margin-bottom:5px;
+        margin-bottom:0px;
     }
 
         .privilege-config-panel .form-row > label {
-            padding:1rem 0;
+            padding:.5rem 0;
             padding-left:1rem;
         }
 
     .privilege-config-panel .slider-container {
-        padding:1rem 2rem;
+        padding:.5rem 2rem;
     }
+
+        .privilege-config-panel .slider-container .scale-label {
+            display:inline-block;
+            padding-top:5px;
+        }
 
     .privilege-config-panel .subitem-self-ext {
         padding-left:1rem;

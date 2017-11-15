@@ -12,8 +12,21 @@ public partial class Role_Privilege : System.Web.UI.Page
 {
     protected RoleCommonOfBackend c;
     protected EmployeeAuthorityLogic empAuth;
+    protected enum PvgTagNameEnum
+    {
+        NotAllowed,
+        Read,
+        Edit,
+        Add,
+        Delete
+    }
 
     private int tempLv1Seqno = 0;
+    private string tagHtmlNotAllowed = "<div><span class=\"badge badge-secondary pvg-badge\" title=\"無權限\">無權限</span></div>";
+    private string tagHtmlRead = "<div><span class=\"badge badge-warning text-white pvg-badge\" title=\"可閱讀\">可閱讀</span></div>";
+    private string tagHtmlEdit = "<div><span class=\"badge badge-success pvg-badge\" title=\"可修改\">可修改</span></div>";
+    private string tagHtmlAdd = "<div><span class=\"badge badge-info pvg-badge\" title=\"可新增\">可新增</span></div>";
+    private string tagHtmlDelete = "<div><span class=\"badge badge-primary pvg-badge\" title=\"可刪除\">可刪除</span></div>";
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -38,9 +51,36 @@ public partial class Role_Privilege : System.Web.UI.Page
 
             LoadUIData();
             DisplayOperations();
+            c.ClearRoleDataOfRoleOpPvgs(ltrRoleName.Text);
         }
 
         LoadTitle();
+    }
+
+    protected string GetTagHtml(PvgTagNameEnum pvgTagName)
+    {
+        string html = "";
+
+        switch (pvgTagName)
+        {
+            case PvgTagNameEnum.NotAllowed:
+                html = tagHtmlNotAllowed;
+                break;
+            case PvgTagNameEnum.Read:
+                html = tagHtmlRead;
+                break;
+            case PvgTagNameEnum.Edit:
+                html = tagHtmlEdit;
+                break;
+            case PvgTagNameEnum.Add:
+                html = tagHtmlAdd;
+                break;
+            case PvgTagNameEnum.Delete:
+                html = tagHtmlDelete;
+                break;
+        }
+
+        return html;
     }
 
     private void LoadUIData()
@@ -142,31 +182,25 @@ public partial class Role_Privilege : System.Web.UI.Page
         Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
         ltrOpItemSubject.Text = opSubject;
 
-        string htmlNotAllowed = "<div><span class='badge badge-secondary pvg-badge' title='無權限'>無權限</span></div>";
-        string htmlRead = "<div><span class='badge badge-warning text-white pvg-badge' title='可閱讀'>可閱讀</span></div>";
-        string htmlEdit = "<div><span class='badge badge-success pvg-badge' title='可修改'>可修改</span></div>";
-        string htmlAdd = "<div><span class='badge badge-info pvg-badge' title='可新增'>可新增</span></div>";
-        string htmlDelete = "<div><span class='badge badge-primary pvg-badge' title='可刪除'>可刪除</span></div>";
-
         Literal ltrPvgOfItem = (Literal)e.Item.FindControl("ltrPvgOfItem");
         HtmlInputHidden hidPvgOfItem = (HtmlInputHidden)e.Item.FindControl("hidPvgOfItem");
         int pvgOfItem = 0;
 
         if (!canRead)
         {
-            ltrPvgOfItem.Text += htmlNotAllowed;
+            ltrPvgOfItem.Text += tagHtmlNotAllowed;
         }
 
         if (canRead)
         {
-            ltrPvgOfItem.Text += htmlRead;
+            ltrPvgOfItem.Text += tagHtmlRead;
             pvgOfItem |= 1;
             hidPvgOfItem.Value = pvgOfItem.ToString();
         }
 
         if (canEdit)
         {
-            ltrPvgOfItem.Text += htmlEdit;
+            ltrPvgOfItem.Text += tagHtmlEdit;
             pvgOfItem |= 2;
             hidPvgOfItem.Value = pvgOfItem.ToString();
         }
@@ -177,33 +211,33 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         if (!canReadSubItemOfSelf)
         {
-            ltrPvgOfSubitemSelf.Text += htmlNotAllowed;
+            ltrPvgOfSubitemSelf.Text += tagHtmlNotAllowed;
         }
 
         if (canReadSubItemOfSelf)
         {
-            ltrPvgOfSubitemSelf.Text += htmlRead;
+            ltrPvgOfSubitemSelf.Text += tagHtmlRead;
             pvgOfSubitemSelf |= 1;
             hidPvgOfSubitemSelf.Value = pvgOfSubitemSelf.ToString();
         }
 
         if (canEditSubItemOfSelf)
         {
-            ltrPvgOfSubitemSelf.Text += htmlEdit;
+            ltrPvgOfSubitemSelf.Text += tagHtmlEdit;
             pvgOfSubitemSelf |= 2;
             hidPvgOfSubitemSelf.Value = pvgOfSubitemSelf.ToString();
         }
 
         if (canAddSubItemOfSelf)
         {
-            ltrPvgOfSubitemSelf.Text += htmlAdd;
+            ltrPvgOfSubitemSelf.Text += tagHtmlAdd;
             pvgOfSubitemSelf |= 4;
             hidPvgOfSubitemSelf.Value = pvgOfSubitemSelf.ToString();
         }
 
         if (canDelSubItemOfSelf)
         {
-            ltrPvgOfSubitemSelf.Text += htmlDelete;
+            ltrPvgOfSubitemSelf.Text += tagHtmlDelete;
             pvgOfSubitemSelf |= 8;
             hidPvgOfSubitemSelf.Value = pvgOfSubitemSelf.ToString();
         }
@@ -214,26 +248,26 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         if (!canReadSubItemOfCrew)
         {
-            ltrPvgOfSubitemCrew.Text += htmlNotAllowed;
+            ltrPvgOfSubitemCrew.Text += tagHtmlNotAllowed;
         }
 
         if (canReadSubItemOfCrew)
         {
-            ltrPvgOfSubitemCrew.Text += htmlRead;
+            ltrPvgOfSubitemCrew.Text += tagHtmlRead;
             pvgOfSubitemCrew |= 1;
             hidPvgOfSubitemCrew.Value = pvgOfSubitemCrew.ToString();
         }
 
         if (canEditSubItemOfCrew)
         {
-            ltrPvgOfSubitemCrew.Text += htmlEdit;
+            ltrPvgOfSubitemCrew.Text += tagHtmlEdit;
             pvgOfSubitemCrew |= 2;
             hidPvgOfSubitemCrew.Value = pvgOfSubitemCrew.ToString();
         }
 
         if (canDelSubItemOfCrew)
         {
-            ltrPvgOfSubitemCrew.Text += htmlDelete;
+            ltrPvgOfSubitemCrew.Text += tagHtmlDelete;
             pvgOfSubitemCrew |= 8;
             hidPvgOfSubitemCrew.Value = pvgOfSubitemCrew.ToString();
         }
@@ -244,26 +278,26 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         if (!canReadSubItemOfOthers)
         {
-            ltrPvgOfSubitemOthers.Text += htmlNotAllowed;
+            ltrPvgOfSubitemOthers.Text += tagHtmlNotAllowed;
         }
 
         if (canReadSubItemOfOthers)
         {
-            ltrPvgOfSubitemOthers.Text += htmlRead;
+            ltrPvgOfSubitemOthers.Text += tagHtmlRead;
             pvgOfSubitemOthers |= 1;
             hidPvgOfSubitemOthers.Value = pvgOfSubitemOthers.ToString();
         }
 
         if (canEditSubItemOfOthers)
         {
-            ltrPvgOfSubitemOthers.Text += htmlEdit;
+            ltrPvgOfSubitemOthers.Text += tagHtmlEdit;
             pvgOfSubitemOthers |= 2;
             hidPvgOfSubitemOthers.Value = pvgOfSubitemOthers.ToString();
         }
 
         if (canDelSubItemOfOthers)
         {
-            ltrPvgOfSubitemOthers.Text += htmlDelete;
+            ltrPvgOfSubitemOthers.Text += tagHtmlDelete;
             pvgOfSubitemOthers |= 8;
             hidPvgOfSubitemOthers.Value = pvgOfSubitemOthers.ToString();
         }
