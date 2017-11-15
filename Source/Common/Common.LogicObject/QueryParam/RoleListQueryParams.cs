@@ -9,10 +9,12 @@ namespace Common.LogicObject
     {
         public string Kw = "";
         public PagedListQueryParams PagedParams;
+        public AuthenticationQueryParams AuthParams;
 
         public RoleListQueryParams()
         {
             PagedParams = new PagedListQueryParams();
+            AuthParams = new AuthenticationQueryParams();
         }
     }
 }

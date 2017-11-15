@@ -660,7 +660,12 @@ namespace Common.LogicObject
                 BeginNum = param.PagedParams.BeginNum,
                 EndNum = param.PagedParams.EndNum,
                 SortField = param.PagedParams.SortField,
-                IsSortDesc = param.PagedParams.IsSortDesc
+                IsSortDesc = param.PagedParams.IsSortDesc,
+                CanReadSubItemOfOthers = param.AuthParams.CanReadSubItemOfOthers,
+                CanReadSubItemOfCrew = param.AuthParams.CanReadSubItemOfCrew,
+                CanReadSubItemOfSelf = param.AuthParams.CanReadSubItemOfSelf,
+                MyAccount = param.AuthParams.MyAccount,
+                MyDeptId = param.AuthParams.MyDeptId,
             };
             DataSet ds = cmd.ExecuteDataset(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();

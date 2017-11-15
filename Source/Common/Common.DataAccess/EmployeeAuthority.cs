@@ -587,6 +587,11 @@ namespace Common.DataAccess.EmployeeAuthority
         public int EndNum;
         public string SortField;
         public bool IsSortDesc;
+        public bool CanReadSubItemOfOthers;
+        public bool CanReadSubItemOfCrew;
+        public bool CanReadSubItemOfSelf;
+        public string MyAccount;
+        public int MyDeptId;
         [OutputPara]
         public int RowCount;
 

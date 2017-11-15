@@ -105,6 +105,15 @@ public partial class Role_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
+        roleParams.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
         // get total of items
         empAuth.GetEmployeeRoleList(roleParams);
 

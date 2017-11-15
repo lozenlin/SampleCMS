@@ -659,11 +659,13 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/10>
+-- History:
+--	2017/11/15, lozen_lin, modify, 增加權限判斷用的參數
 -- Description: <取得員工身分清單>
 -- Test:
 /*
 declare @RowCount int
-exec dbo.spEmployeeRole_GetList N'', 1, 20, N'', 0, @RowCount output
+exec dbo.spEmployeeRole_GetList N'', 1, 20, N'', 0, 1, 1, 1, '', 0, @RowCount output
 select @RowCount
 */
 -- =============================================
@@ -673,6 +675,11 @@ alter procedure dbo.spEmployeeRole_GetList
 ,@EndNum int
 ,@SortField nvarchar(20)=''
 ,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
 ,@RowCount int output
 as
 begin
@@ -684,6 +691,12 @@ begin
 	--條件定義
 	set @conditions=N''
 	
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and e.OwnerAccount=@MyAccount
+	or e.EmpAccount=@MyAccount) '
+
 	if @Kw<>N''
 	begin
 		set @conditions += N' and (r.RoleName like @Kw or r.RoleDisplayName like @Kw) '
@@ -699,6 +712,11 @@ where 1=1 ' + @conditions
 	--參數定義
 	set @parmDef=N'
 @Kw nvarchar(52)
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
 '
 
 	set @parmDefForTotal = @parmDef + N',@RowCount int output'
@@ -707,6 +725,11 @@ where 1=1 ' + @conditions
 
 	exec sp_executesql @sql, @parmDefForTotal, 
 		@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
 		,@RowCount output
 
 	--取得指定排序和範圍的結果
@@ -749,6 +772,11 @@ order by RowNum'
 '
 	exec sp_executesql @sql, @parmDef, 
 		@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
 		,@BeginNum
 		,@EndNum
 end
