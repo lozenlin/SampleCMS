@@ -885,4 +885,8 @@
     <value>Save privileges failed</value>
     <comment>儲存權限失敗</comment>
   </data>
+  <data name="Dept_ConfirmDelete_Format" xml:space="preserve">
+    <value>delete data of [{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
 </root>

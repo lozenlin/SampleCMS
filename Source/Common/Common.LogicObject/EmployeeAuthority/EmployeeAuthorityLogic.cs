@@ -814,6 +814,32 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得部門清單
+        /// </summary>
+        public DataSet GetDepartmentList(DeptListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_GetList cmdInfo = new spDepartment_GetList()
+            {
+                Kw = param.Kw,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc,
+                CanReadSubItemOfOthers = param.AuthParams.CanReadSubItemOfOthers,
+                CanReadSubItemOfCrew = param.AuthParams.CanReadSubItemOfCrew,
+                CanReadSubItemOfSelf = param.AuthParams.CanReadSubItemOfSelf,
+                MyAccount = param.AuthParams.MyAccount,
+                MyDeptId = param.AuthParams.MyDeptId
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+            param.PagedParams.RowCount = cmdInfo.RowCount;
+
+            return ds;
+        }
+
         #endregion
     }
 }

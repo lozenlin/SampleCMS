@@ -740,6 +740,39 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 取得部門清單
+    /// </summary>
+    public class spDepartment_GetList : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string Kw;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        public bool CanReadSubItemOfOthers;
+        public bool CanReadSubItemOfCrew;
+        public bool CanReadSubItemOfSelf;
+        public string MyAccount;
+        public int MyDeptId;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_GetList";
+        }
+    }
+
     #endregion
 
     #region emptyTail
