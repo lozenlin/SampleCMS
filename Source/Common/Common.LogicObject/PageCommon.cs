@@ -110,6 +110,26 @@ namespace Common.LogicObject
             }
         }
 
+        /// <summary>
+        /// 代碼
+        /// </summary>
+        public int qsId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("id");
+                int nResult = 0;
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                }
+                else
+                    nResult = 0;
+
+                return nResult;
+            }
+        }
+
         #endregion
 
         protected HttpContext context;

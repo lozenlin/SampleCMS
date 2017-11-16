@@ -656,4 +656,45 @@ namespace Common.LogicObject
 
         #endregion
     }
+
+    /// <summary>
+    /// 後台部門管理頁的共用元件
+    /// </summary>
+    [Description("後台部門管理頁的共用元件")]
+    public class DepartmentCommonOfBackend : BackendPageCommon, ICustomEmployeeAuthorizationResult
+    {
+        public DepartmentCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
+        public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc,
+            int p)
+        {
+            return string.Format("Department-List.aspx?kw={0}&sortfield={1}&isSortDesc={2}" +
+                "&p={3}",
+                kw, sortfield, isSortDesc,
+                p);
+        }
+
+        #region ICustomEmployeeAuthorizationResult
+
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations)
+        {
+            EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
+
+            if (!isTopPageOfOperation)
+            {
+                // get owner info for config-form
+                //todo by lozen
+            }
+
+            return authAndOwner;
+        }
+
+        #endregion
+    }
 }
