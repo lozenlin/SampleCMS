@@ -35,15 +35,15 @@
         <thead>
             <tr>
                 <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
-                <th title="部門名稱">
+                <th title='<%= Resources.Lang.Col_DeptName_Hint %>'>
                     <asp:LinkButton ID="btnSortDeptName" runat="server" CommandArgument="DeptName" Text="部門名稱" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortDeptName" runat="server" Visible="false" Text="部門名稱"></asp:Literal>
                 </th>
-                <th title="排序編號" style="width:9%;">
+                <th title='<%= Resources.Lang.Col_SortNo_Hint %>' style="width:9%;">
                     <asp:LinkButton ID="btnSortSortNo" runat="server" CommandArgument="SortNo" Text="排序編號" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortSortNo" runat="server" Visible="false" Text="排序編號"></asp:Literal>
                 </th>
-                <th title="帳號總數" style="width:9%;">
+                <th title='<%= Resources.Lang.Col_EmpTotal_Hint %>' style="width:9%;">
                     <asp:LinkButton ID="btnSortEmpTotal" runat="server" CommandArgument="EmpTotal" Text="帳號總數" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpTotal" runat="server" Visible="false" Text="帳號總數"></asp:Literal>
                 </th>
@@ -51,7 +51,7 @@
             </tr>
         </thead>
         <tbody>
-            <asp:Repeater ID="rptDepartments" runat="server" OnItemDataBound="rptDepartments_ItemDataBound">
+            <asp:Repeater ID="rptDepartments" runat="server" OnItemDataBound="rptDepartments_ItemDataBound" OnItemCommand="rptDepartments_ItemCommand">
             <ItemTemplate>
                 <tr>
                     <td><%# EvalToSafeStr("RowNum") %></td>

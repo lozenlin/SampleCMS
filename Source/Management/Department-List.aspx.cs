@@ -85,6 +85,8 @@ public partial class Department_List : BasePage
         txtKw.Text = c.qsKw;
 
         //columns of list
+        btnSortDeptName.Text = Resources.Lang.Col_DeptName;
+        hidSortDeptName.Text = btnSortDeptName.Text;
         btnSortSortNo.Text = Resources.Lang.Col_SortNo;
         hidSortSortNo.Text = btnSortSortNo.Text;
         btnSortEmpTotal.Text = Resources.Lang.Col_EmpTotal;
@@ -181,6 +183,45 @@ public partial class Department_List : BasePage
             || empTotal > 0)
         {
             btnDelete.Visible = false;
+        }
+    }
+
+    protected void rptDepartments_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                int deptId = Convert.ToInt32(args[0]);
+                string deptName = args[1];
+                DeptParams param = new DeptParams() { DeptId = deptId };
+
+                bool result = empAuth.DeleteDepartmentData(param);
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．刪除部門/Delete department　．代碼/id[{0}]　名稱/name[{1}]　結果/result[{2}]", deptId, deptName, result),
+                    IP = c.GetClientIP()
+                });
+
+                // log to file
+                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "dept-" + deptId.ToString() + "-" + deptName, result);
+
+                if (result)
+                {
+                    DisplayDepartments();
+                }
+                else
+                {
+                    if (param.IsThereAccountsOfDept)
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ThereIsAccountOfDept);
+                    else
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteDeptFailed);
+                }
+
+                break;
         }
     }
 

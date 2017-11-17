@@ -773,6 +773,117 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 刪除部門資料
+    /// </summary>
+    public class spDepartment_DeleteData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int DeptId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_DeleteData";
+        }
+    }
+
+    /// <summary>
+    /// 取得部門資料
+    /// </summary>
+    public class spDepartment_GetData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int DeptId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_GetData";
+        }
+    }
+
+    /// <summary>
+    /// 取得部門最大排序編號
+    /// </summary>
+    public class spDepartment_GetMaxSortNo : IDataAccessCommandInfo
+    {
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_GetMaxSortNo";
+        }
+    }
+
+    /// <summary>
+    /// 新增部門資料
+    /// </summary>
+    public class spDepartment_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public string DeptName;
+        public int SortNo;
+        public string PostAccount;
+        [OutputPara]
+        public int DeptId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 更新部門資料
+    /// </summary>
+    public class spDepartment_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int DeptId;
+        public string DeptName;
+        public int SortNo;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spDepartment_UpdateData";
+        }
+    }
+
     #endregion
 
     #region emptyTail

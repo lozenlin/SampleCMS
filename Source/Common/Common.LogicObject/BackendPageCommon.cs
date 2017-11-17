@@ -689,7 +689,21 @@ namespace Common.LogicObject
             if (!isTopPageOfOperation)
             {
                 // get owner info for config-form
-                //todo by lozen
+                IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+                spDepartment_GetData cmdInfo = new spDepartment_GetData()
+                {
+                    DeptId = qsId
+                };
+                DataSet ds = cmd.ExecuteDataset(cmdInfo);
+                string dbErrMsg = cmd.GetErrMsg();
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drFirst = ds.Tables[0].Rows[0];
+
+                    authAndOwner.OwnerAccountOfDataExamined = drFirst.ToSafeStr("PostAccount");
+                    authAndOwner.OwnerDeptIdOfDataExamined = Convert.ToInt32(drFirst["PostDeptId"]);
+                }
             }
 
             return authAndOwner;

@@ -35,19 +35,19 @@
         <thead>
             <tr>
                 <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
-                <th title="身分名稱" style="width:9%">
+                <th title='<%= Resources.Lang.Col_RoleName_Hint %>' style="width:9%">
                     <asp:LinkButton ID="btnSortRoleName" runat="server" CommandArgument="RoleName" Text="身分名稱" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortRoleName" runat="server" Visible="false" Text="身分名稱"></asp:Literal>
                 </th>
-                <th title="顯示用名稱">
+                <th title='<%= Resources.Lang.Col_RoleDisplayName_Hint %>'>
                     <asp:LinkButton ID="btnSortRoleDisplayName" runat="server" CommandArgument="RoleDisplayName" Text="顯示用名稱" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortRoleDisplayName" runat="server" Visible="false" Text="顯示用名稱"></asp:Literal>
                 </th>
-                <th title="排序編號" style="width:9%;">
+                <th title='<%= Resources.Lang.Col_SortNo_Hint %>' style="width:9%;">
                     <asp:LinkButton ID="btnSortSortNo" runat="server" CommandArgument="SortNo" Text="排序編號" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortSortNo" runat="server" Visible="false" Text="排序編號"></asp:Literal>
                 </th>
-                <th title="帳號總數" style="width:9%;">
+                <th title='<%= Resources.Lang.Col_EmpTotal_Hint %>' style="width:9%;">
                     <asp:LinkButton ID="btnSortEmpTotal" runat="server" CommandArgument="EmpTotal" Text="帳號總數" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpTotal" runat="server" Visible="false" Text="帳號總數"></asp:Literal>
                 </th>

@@ -1100,6 +1100,134 @@ order by RowNum'
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/17>
+-- Description: <刪除部門資料>
+-- Test:
+/*
+exec dbo.spDepartment_DeleteData 1
+*/
+-- =============================================
+create procedure dbo.spDepartment_DeleteData
+@DeptId int
+as
+begin
+	-- 檢查帳號總數
+	if exists(select * from dbo.Employee where DeptId=@DeptId)
+	begin
+		raiserror(N'部門已有帳號使用,不允許刪除', 11, 2)
+		return
+	end
+
+	delete dbo.Department
+	where DeptId=@DeptId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/17>
+-- Description: <取得部門資料>
+-- Test:
+/*
+exec dbo.spDepartment_GetData 1
+*/
+-- =============================================
+create procedure dbo.spDepartment_GetData
+@DeptId int
+as
+begin
+	select
+		d.DeptId, d.DeptName, d.SortNo,
+		d.PostAccount, d.PostDate, d.MdfAccount,
+		d.MdfDate, isnull(e.DeptId, 0) as PostDeptId
+	from dbo.Department d
+		left join dbo.Employee e on d.PostAccount=e.EmpAccount
+	where d.DeptId=@DeptId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/17>
+-- Description: <取得部門最大排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spDepartment_GetMaxSortNo
+as
+begin
+	select isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.Department
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/17>
+-- Description: <新增部門資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spDepartment_InsertData
+@DeptName	nvarchar(50)
+,@SortNo	int
+,@PostAccount	varchar(20)
+,@DeptId	int output
+as
+begin
+	if exists(select * from dbo.Department where DeptName=@DeptName)
+	begin
+		raiserror(N'部門名稱已存在', 11, 2)
+		return
+	end
+
+	insert into dbo.Department(
+		DeptName, SortNo, PostAccount,
+		PostDate
+		)
+	values(
+		@DeptName, @SortNo, @PostAccount,
+		getdate()
+		)
+
+	set @DeptId=scope_identity()
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/17>
+-- Description: <更新部門資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spDepartment_UpdateData
+@DeptId	int
+,@DeptName	nvarchar(50)
+,@SortNo	int
+,@MdfAccount	varchar(20)
+as
+begin
+	if exists(select * from dbo.Department where DeptId<>@DeptId and DeptName=@DeptName)
+	begin
+		raiserror(N'部門名稱已存在', 11, 2)
+		return
+	end
+
+	update dbo.Department
+	set DeptName=@DeptName
+		,SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where DeptId=@DeptId
+end
+go
+
 
 
 /*
@@ -1110,7 +1238,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/16>
+-- Create date: <2017/11/17>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

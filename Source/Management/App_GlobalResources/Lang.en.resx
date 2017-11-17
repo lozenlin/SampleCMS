@@ -382,11 +382,11 @@
     <comment>序號</comment>
   </data>
   <data name="Col_DeptName" xml:space="preserve">
-    <value>Dept.</value>
+    <value>Dept. name</value>
     <comment>部門</comment>
   </data>
   <data name="Col_DeptName_Hint" xml:space="preserve">
-    <value>Department</value>
+    <value>Department name</value>
     <comment>部門</comment>
   </data>
   <data name="Col_Role" xml:space="preserve">
@@ -713,7 +713,15 @@
     <value>Role name</value>
     <comment>身分名稱</comment>
   </data>
+  <data name="Col_RoleName_Hint" xml:space="preserve">
+    <value>Role name</value>
+    <comment>身分名稱</comment>
+  </data>
   <data name="Col_RoleDisplayName" xml:space="preserve">
+    <value>Kind name</value>
+    <comment>顯示用名稱</comment>
+  </data>
+  <data name="Col_RoleDisplayName_Hint" xml:space="preserve">
     <value>Kind name</value>
     <comment>顯示用名稱</comment>
   </data>
@@ -721,7 +729,15 @@
     <value>Sort number</value>
     <comment>排序編號</comment>
   </data>
+  <data name="Col_SortNo_Hint" xml:space="preserve">
+    <value>Sort number</value>
+    <comment>排序編號</comment>
+  </data>
   <data name="Col_EmpTotal" xml:space="preserve">
+    <value>Accounts</value>
+    <comment>帳號總數</comment>
+  </data>
+  <data name="Col_EmpTotal_Hint" xml:space="preserve">
     <value>Accounts</value>
     <comment>帳號總數</comment>
   </data>
@@ -888,5 +904,25 @@
   <data name="Dept_ConfirmDelete_Format" xml:space="preserve">
     <value>delete data of [{0}][{1}]?</value>
     <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="ErrMsg_ThereIsAccountOfDept" xml:space="preserve">
+    <value>there is account of department, not allowed to delete.</value>
+    <comment>部門已有帳號使用，不允許刪除</comment>
+  </data>
+  <data name="ErrMsg_DeleteDeptFailed" xml:space="preserve">
+    <value>delete department failed.</value>
+    <comment>刪除部門失敗</comment>
+  </data>
+  <data name="Dept_Title_AddNew" xml:space="preserve">
+    <value>Add a department</value>
+    <comment>新增部門</comment>
+  </data>
+  <data name="Dept_Title_Edit_Format" xml:space="preserve">
+    <value>Edit department - Id:{0}</value>
+    <comment>修改部門 - Id:{0}</comment>
+  </data>
+  <data name="ErrMsg_DeptNameHasBeenUsed" xml:space="preserve">
+    <value>Department name has been used</value>
+    <comment>部門名稱已存在</comment>
   </data>
 </root>

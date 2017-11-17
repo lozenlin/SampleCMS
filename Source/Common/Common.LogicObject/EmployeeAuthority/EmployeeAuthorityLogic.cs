@@ -840,6 +840,109 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 刪除部門資料
+        /// </summary>
+        public bool DeleteDepartmentData(DeptParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_DeleteData cmdInfo = new spDepartment_DeleteData()
+            {
+                DeptId = param.DeptId
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result && cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.IsThereAccountsOfDept = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得部門資料
+        /// </summary>
+        public DataSet GetDepartmentData(int deptId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_GetData cmdInfo = new spDepartment_GetData()
+            {
+                DeptId = deptId
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得部門最大排序編號
+        /// </summary>
+        public int GetDepartmentMaxSortNo()
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_GetMaxSortNo cmdInfo = new spDepartment_GetMaxSortNo();
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增部門資料
+        /// </summary>
+        public bool InsertDepartmentData(DeptParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_InsertData cmdInfo = new spDepartment_InsertData()
+            {
+                DeptName = param.DeptName,
+                SortNo = param.SortNo,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result)
+            {
+                param.DeptId = cmdInfo.DeptId;
+            }
+            else if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.HasDeptNameBeenUsed = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新部門資料
+        /// </summary>
+        public bool UpdateDepartmentData(DeptParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spDepartment_UpdateData cmdInfo = new spDepartment_UpdateData()
+            {
+                DeptId = param.DeptId,
+                DeptName = param.DeptName,
+                SortNo = param.SortNo,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result && cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.HasDeptNameBeenUsed = true;
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
