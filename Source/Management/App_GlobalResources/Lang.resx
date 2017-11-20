@@ -925,6 +925,82 @@
     <value>部門名稱已存在</value>
     <comment>部門名稱已存在</comment>
   </data>
+  <data name="SearchPanel_lblOpDateStart" xml:space="preserve">
+    <value>開始時間</value>
+    <comment>開始時間</comment>
+  </data>
+  <data name="SearchPanel_lblOpDateEnd" xml:space="preserve">
+    <value>結束時間</value>
+    <comment>結束時間</comment>
+  </data>
+  <data name="SearchPanel_lblAccount" xml:space="preserve">
+    <value>帳號</value>
+    <comment>帳號</comment>
+  </data>
+  <data name="SearchPanel_lblIP" xml:space="preserve">
+    <value>IP</value>
+    <comment>IP</comment>
+  </data>
+  <data name="SearchPanel_lblIsKeyword" xml:space="preserve">
+    <value>為關鍵字</value>
+    <comment>為關鍵字</comment>
+  </data>
+  <data name="SearchPanel_lblIsKeywordOfHead" xml:space="preserve">
+    <value>為開頭關鍵字</value>
+    <comment>為開頭關鍵字</comment>
+  </data>
+  <data name="SearchPanel_lblKeywordOfLog" xml:space="preserve">
+    <value>操作紀錄關鍵字</value>
+    <comment>操作紀錄關鍵字</comment>
+  </data>
+  <data name="SearchPanel_lblRangeMode" xml:space="preserve">
+    <value>搜尋範圍</value>
+    <comment>搜尋範圍</comment>
+  </data>
+  <data name="SearchOption_LoginRelated" xml:space="preserve">
+    <value>登入相關</value>
+    <comment>登入相關</comment>
+  </data>
+  <data name="Col_OpDate" xml:space="preserve">
+    <value>日期時間</value>
+    <comment>日期時間</comment>
+  </data>
+  <data name="Col_OpDate_Hint" xml:space="preserve">
+    <value>日期時間</value>
+    <comment>日期時間</comment>
+  </data>
+  <data name="Col_IP" xml:space="preserve">
+    <value>IP</value>
+    <comment>IP</comment>
+  </data>
+  <data name="Col_IP_Hint" xml:space="preserve">
+    <value>IP</value>
+    <comment>IP</comment>
+  </data>
+  <data name="Col_EmpNameOfLog" xml:space="preserve">
+    <value>姓名(帳號)</value>
+    <comment>姓名(帳號)</comment>
+  </data>
+  <data name="Col_EmpNameOfLog_Hint" xml:space="preserve">
+    <value>姓名(帳號)</value>
+    <comment>姓名(帳號)</comment>
+  </data>
+  <data name="Col_LogRecord" xml:space="preserve">
+    <value>操作紀錄</value>
+    <comment>操作紀錄</comment>
+  </data>
+  <data name="Col_LogRecord_Hint" xml:space="preserve">
+    <value>操作紀錄</value>
+    <comment>操作紀錄</comment>
+  </data>
+  <data name="ErrMsg_InvalidOpDateStart" xml:space="preserve">
+    <value>開始日期錯誤</value>
+    <comment>開始日期錯誤</comment>
+  </data>
+  <data name="ErrMsg_InvalidOpDateEnd" xml:space="preserve">
+    <value>結束日期錯誤</value>
+    <comment>結束日期錯誤</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

@@ -21,7 +21,7 @@
         <div class="card bg-light search-panel">
             <div class="card-body sys-conditions pr-md-5">
                 <div class="form-group form-row">
-                    <label for='開始時間' class="col-md-2 col-form-label text-md-right">開始時間</label>
+                    <label for='<%= txtStartDate.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblOpDateStart %></label>
                     <div class="col-md-10">
                         <asp:TextBox ID="txtStartDate" runat="server" CssClass="form-control d-inline-block datepicker" Width="100px"></asp:TextBox>
                         <asp:DropDownList ID="ddlHourStart" runat="server" CssClass="form-control d-inline-block" Width="70px"></asp:DropDownList> :
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="form-group form-row">
-                    <label for='結束時間' class="col-md-2 col-form-label text-md-right">結束時間</label>
+                    <label for='<%= txtEndDate.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblOpDateEnd %></label>
                     <div class="col-md-10">
                         <asp:TextBox ID="txtEndDate" runat="server" CssClass="form-control d-inline-block datepicker" Width="100px"></asp:TextBox>
                         <asp:DropDownList ID="ddlHourEnd" runat="server" CssClass="form-control d-inline-block" Width="70px"></asp:DropDownList> :
@@ -39,27 +39,27 @@
                     </div>
                 </div>
                 <div class="form-group form-row">
-                    <label for='帳號' class="col-md-2 col-form-label text-md-right">帳號</label>
+                    <label for='<%= txtAccount.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblAccount %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtAccount" runat="server" CssClass="form-control" MaxLength="20"></asp:TextBox>
                         <label class="form-check-label">
-                            <asp:CheckBox ID="chkIsAccKw" runat="server" CssClass="form-check-input" /> 為關鍵字
+                            <asp:CheckBox ID="chkIsAccKw" runat="server" CssClass="form-check-input" /> <%= Resources.Lang.SearchPanel_lblIsKeyword %>
                         </label>
                     </div>
-                    <label for='IP' class="col-md-2 col-form-label text-md-right">IP</label>
+                    <label for='<%= txtIP.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblIP %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtIP" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
                         <label class="form-check-label">
-                            <asp:CheckBox ID="chkIsIpHeadKw" runat="server" CssClass="form-check-input" /> 為開頭關鍵字
+                            <asp:CheckBox ID="chkIsIpHeadKw" runat="server" CssClass="form-check-input" /> <%= Resources.Lang.SearchPanel_lblIsKeywordOfHead %>
                         </label>
                     </div>
                 </div>
                 <div class="form-group form-row">
-                    <label for='操作紀錄關鍵字' class="col-md-2 col-form-label text-md-right">操作紀錄關鍵字</label>
+                    <label for='<%= txtDescKw.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblKeywordOfLog %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtDescKw" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                     </div>
-                    <label for='搜尋範圍' class="col-md-2 col-form-label text-md-right">搜尋範圍</label>
+                    <label for='<%= ddlRangeMode.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblRangeMode %></label>
                     <div class="col-md-4">
                         <asp:DropDownList ID="ddlRangeMode" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
@@ -82,19 +82,19 @@
         <thead>
             <tr>
                 <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
-                <th title='日期時間' style="width:20%;">
+                <th title='<%= Resources.Lang.Col_OpDate_Hint %>' style="width:20%;">
                     <asp:LinkButton ID="btnSortOpDate" runat="server" CommandArgument="OpDate" Text="日期時間" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortOpDate" runat="server" Visible="false" Text="日期時間"></asp:Literal>
                 </th>
-                <th title='IP' style="width:15%;">
+                <th title='<%= Resources.Lang.Col_IP_Hint %>' style="width:15%;">
                     <asp:LinkButton ID="btnSortIP" runat="server" CommandArgument="IP" Text="IP" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortIP" runat="server" Visible="false" Text="IP"></asp:Literal>
                 </th>
-                <th title='姓名(帳號)' style="width:15%;">
+                <th title='<%= Resources.Lang.Col_EmpNameOfLog_Hint %>' style="width:15%;">
                     <asp:LinkButton ID="btnSortEmpName" runat="server" CommandArgument="EmpName" Text="姓名(帳號)" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpName" runat="server" Visible="false" Text="姓名(帳號)"></asp:Literal>
                 </th>
-                <th title='操作紀錄'>
+                <th title='<%= Resources.Lang.Col_LogRecord_Hint %>'>
                     <asp:LinkButton ID="btnSortDescription" runat="server" CommandArgument="Description" Text="操作紀錄" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortDescription" runat="server" Visible="false" Text="操作紀錄"></asp:Literal>
                 </th>

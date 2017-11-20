@@ -78,6 +78,14 @@ public partial class Back_End_Log : BasePage
         ddlRangeMode.SelectedValue = c.qsRangeMode.ToString();
 
         //columns of list
+        btnSortOpDate.Text = Resources.Lang.Col_OpDate;
+        hidSortOpDate.Text = btnSortOpDate.Text;
+        btnSortIP.Text = Resources.Lang.Col_IP;
+        hidSortIP.Text = btnSortIP.Text;
+        btnSortEmpName.Text = Resources.Lang.Col_EmpNameOfLog;
+        hidSortEmpName.Text = btnSortEmpName.Text;
+        btnSortDescription.Text = Resources.Lang.Col_LogRecord;
+        hidSortDescription.Text = btnSortDescription.Text;
 
         c.DisplySortableCols(new string[] { 
             "OpDate", "IP", "EmpName", 
@@ -122,7 +130,7 @@ public partial class Back_End_Log : BasePage
     {
         ddlRangeMode.Items.Clear();
         ddlRangeMode.Items.Add(new ListItem(Resources.Lang.SearchOption_All, "0"));
-        ddlRangeMode.Items.Add(new ListItem("登入相關", "1"));
+        ddlRangeMode.Items.Add(new ListItem(Resources.Lang.SearchOption_LoginRelated, "1"));
     }
 
     private void DisplayLogs()
@@ -209,7 +217,7 @@ public partial class Back_End_Log : BasePage
         string strStartDate = txtStartDate.Text + " " + ddlHourStart.SelectedValue + ":" + ddlMinStart.SelectedValue + ":" + ddlSecStart.SelectedValue;
         if (!DateTime.TryParse(strStartDate, out startDate))
         {
-            Master.ShowErrorMsg("開始日期錯誤");
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_InvalidOpDateStart);
             return;
         }
 
@@ -217,7 +225,7 @@ public partial class Back_End_Log : BasePage
         string strEndDate = txtEndDate.Text + " " + ddlHourEnd.SelectedValue + ":" + ddlMinEnd.SelectedValue + ":" + ddlSecEnd.SelectedValue;
         if (!DateTime.TryParse(strEndDate, out endDate))
         {
-            Master.ShowErrorMsg("結束日期錯誤");
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_InvalidOpDateEnd);
             return;
         }
 
