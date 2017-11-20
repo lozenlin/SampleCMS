@@ -1,10 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="wucDataPager.ascx.cs" Inherits="UserControls_wucDataPager" %>
 <div id="PaginationArea" runat="server" class="PageArea d-flex flex-md-row flex-column justify-content-center">
     <div class="text">
-        <asp:Literal ID="ltrTotalCount" runat="server" Text="共 0 筆"></asp:Literal> |
-    </div>
-    <div class="text">
-        <a id="btnFirstPage" runat="server" href="#">第一頁</a> |
+        <a id="btnFirstPage" runat="server" href="#">第一頁</a>
     </div>
     <ul class="pagination">
         <li id="PreviousPageArea" runat="server" class="page-item">
@@ -22,16 +19,17 @@
         </li>
     </ul>
     <div class="text pl-md-2">
-        | <a id="btnLastPage" runat="server" href="#">最後頁</a> |
+        <a id="btnLastPage" runat="server" href="#">最後頁</a>
     </div>
+</div>
+<div id="PaginationInfoArea" runat="server" class="PageArea d-flex flex-md-row flex-column justify-content-center">
     <div class="text">
+        <asp:Literal ID="ltrTotalCount" runat="server" Text="共 0 筆"></asp:Literal> -
         <%= Resources.Lang.Pager_PageInfo_Head %>
         <asp:Literal ID="ltrCurrentPageCode" runat="server"></asp:Literal>
         <%= Resources.Lang.Pager_PageInfo_Mid %>
         <asp:Literal ID="ltrLastPageCode" runat="server"></asp:Literal>
-        <%= Resources.Lang.Pager_PageInfo_Tail %> |
-    </div>
-    <div class="text">
+        <%= Resources.Lang.Pager_PageInfo_Tail %> -
         <%= Resources.Lang.Pager_JumpTo %>
         <asp:DropDownList ID="ddlPageSelect" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSelect_SelectedIndexChanged"></asp:DropDownList>
         <span id="TextCtrlArea" runat="server" visible="false">

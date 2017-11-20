@@ -82,6 +82,7 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
         {
             dataPager.ItemTotalCount = value;
             PaginationArea.Visible = value > 0;
+            PaginationInfoArea.Visible = PaginationArea.Visible;
         }
     }
 
