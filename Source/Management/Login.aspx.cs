@@ -240,7 +240,7 @@ public partial class Login : System.Web.UI.Page
         //新增後端操作記錄
         empAuth.InsertBackEndLogData(new BackEndLogData()
         {
-            EmpAccount = "",
+            EmpAccount = c.GetEmpAccount(),
             Description = "．登入系統！　．Logged in!",
             IP = c.GetClientIP()
         });

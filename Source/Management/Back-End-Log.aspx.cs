@@ -1,6 +1,7 @@
 ﻿using Common.LogicObject;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -126,12 +127,78 @@ public partial class Back_End_Log : BasePage
 
     private void DisplayLogs()
     {
-        
+        BackEndLogListQueryParams logParams = new BackEndLogListQueryParams()
+        {
+            StartDate = c.qsStartDateOfQuery,
+            EndDate = c.qsEndDateOfQuery,
+            Account = c.qsAccount,
+            IsAccKw = c.qsIsAccKw,
+            IP = c.qsIP,
+            IsIpHeadKw = c.qsIsIpHeadKw,
+            DescKw = c.qsDescKw,
+            RangeMode = c.qsRangeMode
+        };
+
+        logParams.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 0,
+            EndNum = 0,
+            SortField = c.qsSortField,
+            IsSortDesc = c.qsIsSortDesc
+        };
+
+        logParams.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
+        // get total of items
+        empAuth.GetBackEndLogList(logParams);
+
+        // update pager and get begin end of item numbers
+        int itemTotalCount = logParams.PagedParams.RowCount;
+        ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
+        if (IsPostBack)
+            ucDataPager.RefreshPagerAfterPostBack();
+
+        logParams.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = ucDataPager.BeginItemNumberOfPage,
+            EndNum = ucDataPager.EndItemNumberOfPage,
+            SortField = c.qsSortField,
+            IsSortDesc = c.qsIsSortDesc
+        };
+
+        DataSet dsLogs = empAuth.GetBackEndLogList(logParams);
+
+        if (dsLogs != null)
+        {
+            rptLogs.DataSource = dsLogs.Tables[0];
+            rptLogs.DataBind();
+        }
+
+        if (c.qsPageCode > 1)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "isSearchPanelCollapsingAtBeginning", "isSearchPanelCollapsingAtBeginning = true;", true);
+        }
     }
 
     protected void rptLogs_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
+        string empAccount = drvTemp.ToSafeStr("EmpAccount");
+        string empName = drvTemp.ToSafeStr("EmpName");
+
+        Literal ltrEmpName = (Literal)e.Item.FindControl("ltrEmpName");
+        ltrEmpName.Text = string.Format("{0}({1})", empName, empAccount);
+
+        Literal ltrDescription = (Literal)e.Item.FindControl("ltrDescription");
+        ltrDescription.Text = drvTemp.ToSafeStr("Description").Replace("　．", "<br>．");
     }
 
     protected void btnSearch_Click(object sender, EventArgs e)

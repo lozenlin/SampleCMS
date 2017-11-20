@@ -435,9 +435,12 @@ go
 -- Description: <取得後端操作記錄清單>
 -- Test:
 /*
+declare @RowCount int
+exec dbo.spBackEndLog_GetList '1901/1/1', '2017/11/21', '', 1, '', 1, N'', 1, 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
 */
 -- =============================================
-create procedure dbo.spBackEndLog_GetList
+alter procedure dbo.spBackEndLog_GetList
 @StartDate datetime
 ,@EndDate datetime
 ,@Account varchar(22)=''	-- '':全部
@@ -464,7 +467,7 @@ begin
 	declare @conditions nvarchar(4000)
 
 	--條件定義
-	set @conditions=N''
+	set @conditions=N' and l.OpDate between @StartDate and @EndDate '
 
 	set @conditions += N'
  and (@CanReadSubItemOfOthers=1
@@ -506,18 +509,104 @@ begin
 	if @RangeMode=1
 	begin
 		set @conditions += N' 
-and (l.Description like N''Logged in''
-or l.Description like N''Logged out''
-or l.Description like N''帳號登入驗證時發生異常錯誤''
-or l.Description like N''帳號不存在''
-or l.Description like N''密碼錯誤''
-or l.Description like N''帳號停用''
-or l.Description like N''帳號超出有效範圍''
-or l.Description like N''帳號登入取得使用者資料時發生異常錯誤''
+and (l.Description like N''%Logged in%''
+or l.Description like N''%Logged out%''
+or l.Description like N''%帳號登入驗證時發生異常錯誤%''
+or l.Description like N''%帳號不存在%''
+or l.Description like N''%密碼錯誤%''
+or l.Description like N''%帳號停用%''
+or l.Description like N''%帳號超出有效範圍%''
+or l.Description like N''%帳號登入取得使用者資料時發生異常錯誤%''
 ) '
 	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.BackEndLog l
+	left join dbo.Employee e on l.EmpAccount=e.EmpAccount
+where 1=1 ' + @conditions
 
-	--todo by lozen
+	--參數定義
+	set @parmDef=N'
+@StartDate datetime
+,@EndDate datetime
+,@Account varchar(22)
+,@IP varchar(52)
+,@DescKw nvarchar(102)
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	exec sp_executesql @sql, @ParmDefForTotal,
+		@StartDate
+		,@EndDate
+		,@Account
+		,@IP
+		,@DescKw 
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'OpDate', N'IP', N'EmpName', N'EmpAccount', N'Description')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by OpDate desc'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			l.EmpAccount, e.EmpName, l.Description, 
+			l.OpDate, l.IP, e.DeptId
+		from dbo.BackEndLog l
+			left join dbo.Employee e on l.EmpAccount=e.EmpAccount
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+
+	exec sp_executesql @sql, @parmDef,
+		@StartDate
+		,@EndDate
+		,@Account
+		,@IP
+		,@DescKw 
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@BeginNum
+		,@EndNum
 end
 go
 

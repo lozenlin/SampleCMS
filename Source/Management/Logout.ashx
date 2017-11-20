@@ -16,7 +16,7 @@ public class Logout : IHttpHandler, System.Web.SessionState.IRequiresSessionStat
         //新增後端操作記錄
         empAuth.InsertBackEndLogData(new BackEndLogData()
         {
-            EmpAccount = "",
+            EmpAccount = c.GetEmpAccount(),
             Description = "．登出系統！　．Logged out!",
             IP = c.GetClientIP()
         });

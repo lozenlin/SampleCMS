@@ -292,6 +292,46 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 取得後端操作記錄清單
+    /// </summary>
+    public class spBackEndLog_GetList : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public DateTime StartDate;
+        public DateTime EndDate;
+        public string Account;  // 空字串:全部
+        public bool IsAccKw;
+        public string IP;   // 空字串:全部
+        public bool IsIpHeadKw;
+        public string DescKw;   // 空字串:全部
+        public int RangeMode;   // 0:全部, 1:登入相關
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        public bool CanReadSubItemOfOthers;
+        public bool CanReadSubItemOfCrew;
+        public bool CanReadSubItemOfSelf;
+        public string MyAccount;
+        public int MyDeptId;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spBackEndLog_GetList";
+        }
+    }
+
     #endregion
 
     #region 網頁後端作業選項相關

@@ -70,6 +70,7 @@
     <Compile Include="QueryParam\AccountListQueryParams.cs" />
     <Compile Include="QueryParam\AccountParams.cs" />
     <Compile Include="QueryParam\AuthenticationQueryParams.cs" />
+    <Compile Include="QueryParam\BackEndLogListQueryParams.cs" />
     <Compile Include="QueryParam\DeptListQueryParams.cs" />
     <Compile Include="QueryParam\DeptParams.cs" />
     <Compile Include="QueryParam\PagedListQueryParams.cs" />
