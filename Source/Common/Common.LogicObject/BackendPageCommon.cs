@@ -711,4 +711,132 @@ namespace Common.LogicObject
 
         #endregion
     }
+
+    /// <summary>
+    /// 後端操作記錄頁的共用元件
+    /// </summary>
+    [Description("後端操作記錄頁的共用元件")]
+    public class BackEndLogCommonOfBackend : BackendPageCommon
+    {
+        public BackEndLogCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        public string qsAccount
+        {
+            get
+            {
+                return QueryStringToSafeStr("account") ?? "";
+            }
+        }
+
+        public string qsIP
+        {
+            get
+            {
+                return QueryStringToSafeStr("ip") ?? "";
+            }
+        }
+
+        public DateTime qsStartDateOfQuery
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("startdate");
+                DateTime dtime = DateTime.Today.AddDays(-7);
+
+                if(str != null && DateTime.TryParse(str, out dtime))
+                {
+                }
+
+                return dtime;
+            }
+        }
+
+        public DateTime qsEndDateOfQuery
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("enddate");
+                DateTime dtime = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                if (str != null && DateTime.TryParse(str, out dtime))
+                {
+                }
+
+                return dtime;
+            }
+        }
+
+        public bool qsIsAccKw
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("isAccKw");
+                bool bResult = false;
+                bool.TryParse(str, out bResult);
+
+                return bResult;
+            }
+        }
+
+        public bool qsIsIpHeadKw
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("isIpHeadKw");
+                bool bResult = false;
+                bool.TryParse(str, out bResult);
+
+                return bResult;
+            }
+        }
+
+        public string qsDescKw
+        {
+            get
+            {
+                return QueryStringToSafeStr("desckw") ?? "";
+            }
+        }
+
+        /// <summary>
+        /// 搜尋範圍模式(0:全部,1:登入)
+        /// </summary>
+        public int qsRangeMode
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("rangemode");
+                int nResult = 0;
+
+                if (str != null && int.TryParse(str, out nResult))
+                {
+                }
+
+                return nResult;
+            }
+        }
+
+        #endregion
+
+        public string BuildUrlOfListPage(string account, string ip, DateTime startdate,
+            DateTime enddate, bool isAccKw, bool isIpHeadKw, 
+            string desckw, int rangemode, string sortfield, 
+            bool isSortDesc, int p)
+        {
+            return string.Format("Back-End-Log.aspx?account={0}&ip={1}&startdate={2:yyyy-MM-dd HH:mm:ss}" +
+                "&enddate={3:yyyy-MM-dd HH:mm:ss}&isAccKw={4}&isIpHeadKw={5}" +
+                "&desckw={6}&rangemode={7}&sortfield={8}" +
+                "&isSortDesc={9}&p={10}",
+                account, ip, startdate,
+                enddate, isAccKw, isIpHeadKw,
+                desckw, rangemode, sortfield,
+                isSortDesc, p);
+        }
+
+    }
 }

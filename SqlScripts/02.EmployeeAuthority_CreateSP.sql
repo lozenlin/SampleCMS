@@ -429,6 +429,98 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/20>
+-- Description: <取得後端操作記錄清單>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spBackEndLog_GetList
+@StartDate datetime
+,@EndDate datetime
+,@Account varchar(22)=''	-- '':全部
+,@IsAccKw bit
+,@IP varchar(52)=''	-- '':全部
+,@IsIpHeadKw bit
+,@DescKw nvarchar(102)=N''	-- '':全部
+,@RangeMode int=0	-- 0:全部, 1:登入相關
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N''
+
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and l.EmpAccount=@MyAccount) '
+
+	if @Account<>''
+	begin
+		if @IsAccKw=1
+		begin
+			set @conditions += N' and l.EmpAccount like @Account '
+			set @Account = '%'+@Account+'%'
+		end
+		else
+		begin
+			set @conditions += N' and l.EmpAccount=@Account '
+		end
+	end
+
+	if @IP<>''
+	begin
+		if @IsIpHeadKw=1
+		begin
+			set @conditions += N' and l.IP like @IP '
+			set @IP = @IP+'%'
+		end
+		else
+		begin
+			set @conditions += N' and l.IP=@IP '
+		end
+	end
+
+	if @DescKw<>''
+	begin
+		set @conditions += N' and l.Description like @DescKw '
+		set @DescKw = N'%'+@DescKw+N'%'
+	end
+
+	if @RangeMode=1
+	begin
+		set @conditions += N' 
+and (l.Description like N''Logged in''
+or l.Description like N''Logged out''
+or l.Description like N''帳號登入驗證時發生異常錯誤''
+or l.Description like N''帳號不存在''
+or l.Description like N''密碼錯誤''
+or l.Description like N''帳號停用''
+or l.Description like N''帳號超出有效範圍''
+or l.Description like N''帳號登入取得使用者資料時發生異常錯誤''
+) '
+	end
+
+	--todo by lozen
+end
+go
+
 ----------------------------------------------------------------------------
 -- 網頁後端作業選項相關
 ----------------------------------------------------------------------------
@@ -1238,7 +1330,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/17>
+-- Create date: <2017/11/20>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

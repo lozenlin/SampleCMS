@@ -186,6 +186,8 @@ insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImag
  values (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'RoleCommonOfBackend', 'admin', getdate(), null, null)
 insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
  values (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), null, null)
+insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate)
+ values (5, 1, N'後端操作記錄', N'Back-End-Log.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'BackEndLogCommonOfBackend', 'admin', getdate(), null, null)
 
 set identity_insert dbo.Operations off
 go
