@@ -671,6 +671,53 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得後端作業選項清單
+        /// </summary>
+        public DataSet GetOperationList(OpListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetList cmdInfo = new spOperations_GetList()
+            {
+                ParentId = param.ParentId,
+                CultureName = param.CultureName,
+                Kw = param.Kw,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc,
+                CanReadSubItemOfOthers = true,
+                CanReadSubItemOfCrew = true,
+                CanReadSubItemOfSelf = true,
+                MyAccount = "",
+                MyDeptId = 0
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+            param.PagedParams.RowCount = cmdInfo.RowCount;
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 刪除後端作業選項
+        /// </summary>
+        public bool DeleteOperationData(OpParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_DeleteData cmdInfo = new spOperations_DeleteData() { OpId = param.OpId };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result && cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+            {
+                param.IsThereSubitemOfOp = true;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region EmployeeRole DataAccess functions

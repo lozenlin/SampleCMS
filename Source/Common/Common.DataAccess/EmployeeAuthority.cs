@@ -424,6 +424,63 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 取得後端作業選項清單
+    /// </summary>
+    public class spOperations_GetList : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int ParentId;	// 0:root
+        public string CultureName;
+        public string Kw;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        public bool CanReadSubItemOfOthers;
+        public bool CanReadSubItemOfCrew;
+        public bool CanReadSubItemOfSelf;
+        public string MyAccount;
+        public int MyDeptId;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_GetList";
+        }
+    }
+
+    /// <summary>
+    /// 刪除後端作業選項
+    /// </summary>
+    public class spOperations_DeleteData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int OpId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_DeleteData";
+        }
+    }
+
     #endregion
 
     #region 員工身分後端作業授權相關

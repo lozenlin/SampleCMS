@@ -272,5 +272,10 @@ public partial class MasterMain : System.Web.UI.MasterPage
         }
     }
 
+    public void RefreshOpMenu()
+    {
+        DisplayOpMenu();
+    }
+
     #endregion
 }

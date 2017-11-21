@@ -839,4 +839,25 @@ namespace Common.LogicObject
         }
 
     }
+
+    /// <summary>
+    /// 後端作業選項管理頁的共用元件
+    /// </summary>
+    [Description("後端作業選項管理頁的共用元件")]
+    public class OperationCommonOfBackend : BackendPageCommon
+    {
+        public OperationCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
+        public string BuildUrlOfListPage(int id, string sortfield, bool isSortDesc)
+        {
+            return string.Format("Operation-Node.aspx?id={0}&sortfield={1}&isSortDesc={2}",
+                id, sortfield, isSortDesc);
+        }
+    }
 }

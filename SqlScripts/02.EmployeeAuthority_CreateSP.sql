@@ -724,6 +724,319 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/21>
+-- Description: <取得後端作業選項清單>
+-- Test:
+/*
+declare @RowCount int
+exec dbo.spOperations_GetList 0, '', N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
+
+declare @RowCount int
+exec dbo.spOperations_GetList 1, '', N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
+
+*/
+-- =============================================
+alter procedure dbo.spOperations_GetList
+@ParentId int=0	-- 0:root
+,@CultureName varchar(10)
+,@Kw nvarchar(52)=''
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N''
+	
+	if @ParentId=0
+	begin
+		set @conditions += N' and o.ParentId is null '
+	end
+	else
+	begin
+		set @conditions += N' and o.ParentId=@ParentId '
+	end
+
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and o.PostAccount=@MyAccount) '
+	
+	if @Kw<>N''
+	begin
+		set @conditions += N' and (o.OpSubject like @Kw or o.EnglishSubject like @Kw) '
+	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.Operations o
+	left join dbo.Employee e on o.PostAccount=e.EmpAccount
+where 1=1 ' + @conditions
+
+	--參數定義
+	set @parmDef=N'
+@ParentId int
+,@CultureName varchar(10)
+,@Kw nvarchar(52)
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	set @Kw = N'%'+@Kw+N'%'
+
+	exec sp_executesql @sql, @parmDefForTotal, 
+		@ParentId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'Subject', N'IsNewWindow', N'CommonClass', N'SortNo')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by SortNo'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			o.OpId, o.ParentId, o.OpSubject
+			,o.LinkUrl, o.IsNewWindow, o.IconImageFile
+			,o.SortNo, o.IsHideSelf, o.CommonClass
+			,o.PostAccount, o.PostDate, o.MdfAccount
+			,o.MdfDate, o.EnglishSubject, isnull(e.DeptId, 0) as PostDeptId, 
+			case when @CultureName=''en'' then o.EnglishSubject else o.OpSubject end as Subject
+		from dbo.Operations o
+			left join dbo.Employee e on o.PostAccount=e.EmpAccount
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+	exec sp_executesql @sql, @parmDef, 
+		@ParentId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@BeginNum
+		,@EndNum
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/21>
+-- Description: <刪除後端作業選項>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_DeleteData
+@OpId int
+as
+begin
+	if exists(select * from dbo.Operations where ParentId=@OpId)
+	begin
+		raiserror(N'此作業選項有子項目,不允許刪除', 11, 2)
+		return
+	end
+
+	delete from dbo.Operations
+	where OpId=@OpId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/21>
+-- Description: <加大後端作業選項的排序編號>
+-- Test:
+/*
+exec dbo.spOperations_IncreaseSortNo 2, 'admin'
+*/
+-- =============================================
+create procedure dbo.spOperations_IncreaseSortNo
+@OpId int
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ParentId int
+	declare @SortNo int
+
+	select
+		@ParentId=ParentId, @SortNo=SortNo
+	from dbo.Operations
+	where OpId=@OpId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get bigger one
+	declare @BiggerSortNo int
+	declare @BiggerOpId int
+
+	select top 1
+		@BiggerSortNo=SortNo, @BiggerOpId=OpId
+	from dbo.Operations
+	where (ParentId=@ParentId or @ParentId is null and ParentId is null)
+		and OpId<>@OpId
+		and SortNo>=@SortNo
+	order by SortNo
+
+	-- there is not bigger one, exit
+	if @BiggerOpId is null
+	begin
+		return
+	end
+
+	if @BiggerSortNo is null
+	begin
+		set @BiggerSortNo=0
+	end
+
+	-- when the values are the same
+	if @SortNo=@BiggerSortNo
+	begin
+		set @BiggerSortNo += 1
+	end
+
+	-- swap
+	update dbo.Operations
+	set SortNo=@BiggerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where OpId=@OpId
+
+	update dbo.Operations
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where OpId=@BiggerOpId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/21>
+-- Description: <減小後端作業選項的排序編號>
+-- Test:
+/*
+exec dbo.spOperations_DecreaseSortNo 2, 'admin'
+*/
+-- =============================================
+create procedure dbo.spOperations_DecreaseSortNo
+@OpId int
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ParentId int
+	declare @SortNo int
+
+	select
+		@ParentId=ParentId, @SortNo=SortNo
+	from dbo.Operations
+	where OpId=@OpId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get smaller one
+	declare @SmallerSortNo int
+	declare @SmallerOpId int
+
+	select top 1
+		@SmallerSortNo=SortNo, @SmallerOpId=OpId
+	from dbo.Operations
+	where (ParentId=@ParentId or @ParentId is null and ParentId is null)
+		and OpId<>@OpId
+		and SortNo<=@SortNo
+	order by SortNo desc
+
+	-- there is not smaller one, exit
+	if @SmallerOpId is null
+	begin
+		return
+	end
+
+	if @SmallerSortNo is null
+	begin
+		set @SmallerSortNo=0
+	end
+
+	-- when the values are the same
+	if @SortNo=@SmallerSortNo
+	begin
+		set @SortNo += 1
+	end
+
+	-- swap
+	update dbo.Operations
+	set SortNo=@SmallerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where OpId=@OpId
+
+	update dbo.Operations
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where OpId=@SmallerOpId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 員工身分後端作業授權相關
 ----------------------------------------------------------------------------
@@ -850,6 +1163,7 @@ go
 -- Create date: <2017/11/10>
 -- History:
 --	2017/11/15, lozen_lin, modify, 增加權限判斷用的參數
+--	2017/11/21, lozen_lin, modify, 修正權限判斷
 -- Description: <取得員工身分清單>
 -- Test:
 /*
@@ -883,8 +1197,7 @@ begin
 	set @conditions += N'
  and (@CanReadSubItemOfOthers=1
 	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
-	or @CanReadSubItemOfSelf=1 and e.OwnerAccount=@MyAccount
-	or e.EmpAccount=@MyAccount) '
+	or @CanReadSubItemOfSelf=1 and r.PostAccount=@MyAccount) '
 
 	if @Kw<>N''
 	begin
@@ -1168,6 +1481,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/16>
+-- History:
+--	2017/11/21, lozen_lin, modify, 修正權限判斷
 -- Description: <取得部門清單>
 -- Test:
 /*
@@ -1176,7 +1491,7 @@ exec dbo.spDepartment_GetList N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount outpu
 select @RowCount
 */
 -- =============================================
-create procedure dbo.spDepartment_GetList
+alter procedure dbo.spDepartment_GetList
 @Kw nvarchar(52)=''
 ,@BeginNum int
 ,@EndNum int
@@ -1201,8 +1516,7 @@ begin
 	set @conditions += N'
  and (@CanReadSubItemOfOthers=1
 	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
-	or @CanReadSubItemOfSelf=1 and e.OwnerAccount=@MyAccount
-	or e.EmpAccount=@MyAccount) '
+	or @CanReadSubItemOfSelf=1 and d.PostAccount=@MyAccount) '
 
 	if @Kw<>N''
 	begin
@@ -1427,7 +1741,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/20>
+-- Create date: <2017/11/21>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -187,11 +187,11 @@ insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImag
 insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
  values (2, 1, N'帳號管理', N'Account-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'AccountCommonOfBackend', 'admin', getdate(), null, null, N'Account mgmt.')
 insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'RoleCommonOfBackend', 'admin', getdate(), null, null, N'Role & Privilege mgmt.')
+ values (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/basic/028.png', 20, 0, 'RoleCommonOfBackend', 'admin', getdate(), null, null, N'Role & Privilege mgmt.')
 insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), null, null, N'Department mgmt.')
+ values (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/028.png', 30, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), null, null, N'Department mgmt.')
 insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (5, 1, N'後端操作記錄', N'Back-End-Log.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'BackEndLogCommonOfBackend', 'admin', getdate(), null, null, N'Operating log')
+ values (5, 1, N'後端操作記錄', N'Back-End-Log.aspx', 0, N'vectory_mini/basic/028.png', 40, 0, 'BackEndLogCommonOfBackend', 'admin', getdate(), null, null, N'Operating log')
 
 set identity_insert dbo.Operations off
 go
