@@ -12,11 +12,18 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
     protected BackendPageCommon c;
     protected EmployeeAuthorityLogic empAuth;
 
+    private bool useEnglishSubject = false;
+
     protected void Page_Init(object sender, EventArgs e)
     {
         c = new BackendPageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
         empAuth = new EmployeeAuthorityLogic(c);
+
+        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        {
+            useEnglishSubject = true;
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -233,7 +240,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
     /// </summary>
     public bool RebuildBreadcrumbAndUpdateHead(int opId)
     {
-        OperationHtmlAnchorData anchorData = empAuth.GetOperationHtmlAnchorData(opId);
+        OperationHtmlAnchorData anchorData = empAuth.GetOperationHtmlAnchorData(opId, useEnglishSubject);
 
         if (anchorData == null)
             return false;

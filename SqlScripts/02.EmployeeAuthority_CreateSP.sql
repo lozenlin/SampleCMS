@@ -638,13 +638,15 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
+-- History:
+--	2017/11/21, lozen_lin, modify, 新增欄位「英文標題」
 -- Description: <取得後端作業選項第一層清單和身分授權>
 -- Test:
 /*
 exec dbo.spOperations_GetTopListWithRoleAuth 'user'
 */
 -- =============================================
-create procedure dbo.spOperations_GetTopListWithRoleAuth
+alter procedure dbo.spOperations_GetTopListWithRoleAuth
 @RoleName nvarchar(20)
 as
 begin
@@ -654,7 +656,8 @@ begin
 		ro.CanRead, ro.CanEdit, ro.CanReadSubItemOfSelf, 
 		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
 		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
-		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers
+		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers, 
+		o.EnglishSubject
 	from dbo.Operations o
 		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId
 	where o.ParentId is null
@@ -666,13 +669,15 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
+-- History:
+--	2017/11/21, lozen_lin, modify, 新增欄位「英文標題」
 -- Description: <取得後端作業選項子清單和身分授權>
 -- Test:
 /*
 exec dbo.spOperations_GetSubListWithRoleAuth 'user'
 */
 -- =============================================
-create procedure dbo.spOperations_GetSubListWithRoleAuth
+alter procedure dbo.spOperations_GetSubListWithRoleAuth
 @RoleName nvarchar(20)
 as
 begin
@@ -682,7 +687,8 @@ begin
 		ro.CanRead, ro.CanEdit, ro.CanReadSubItemOfSelf, 
 		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
 		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
-		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers
+		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers, 
+		o.EnglishSubject
 	from dbo.Operations o
 		join dbo.Operations parent on o.ParentId=parent.OpId and parent.IsHideSelf=0
 		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId
@@ -695,20 +701,22 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/02>
+-- History:
+--	2017/11/21, lozen_lin, modify, 新增欄位「英文標題」
 -- Description: <取得後端作業選項資料>
 -- Test:
 /*
 exec dbo.spOperations_GetData 2
 */
 -- =============================================
-create procedure dbo.spOperations_GetData
+alter procedure dbo.spOperations_GetData
 @OpId int
 as
 begin
 	select
 		o.OpId, o.OpSubject, o.LinkUrl, 
 		o.IconImageFile, o.PostAccount, o.PostDate, o.MdfAccount, o.MdfDate, 
-		e.EmpName as PostName, d.DeptName as PostDeptName
+		e.EmpName as PostName, d.DeptName as PostDeptName, o.EnglishSubject
 	from dbo.Operations o
 		left join dbo.Employee e on o.PostAccount=e.EmpAccount
 		left join dbo.Department d on e.DeptId=d.DeptId

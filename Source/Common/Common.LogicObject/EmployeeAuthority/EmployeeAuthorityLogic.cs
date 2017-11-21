@@ -644,7 +644,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得用來組成麵包屑節點連結的後端作業選項資料
         /// </summary>
-        public OperationHtmlAnchorData GetOperationHtmlAnchorData(int opId)
+        public OperationHtmlAnchorData GetOperationHtmlAnchorData(int opId, bool useEnglishSubject)
         {
             OperationHtmlAnchorData result = null;
             DataSet dsOp = GetOperationData(opId);
@@ -653,8 +653,16 @@ namespace Common.LogicObject
             {
                 DataRow drFirst = dsOp.Tables[0].Rows[0];
 
+                string opSubject = drFirst.ToSafeStr("OpSubject");
+                string englishSubject = drFirst.ToSafeStr("EnglishSubject");
+
+                if (useEnglishSubject && !string.IsNullOrEmpty(englishSubject))
+                {
+                    opSubject = englishSubject;
+                }
+
                 result = new OperationHtmlAnchorData();
-                result.Subject = drFirst.ToSafeStr("OpSubject");
+                result.Subject = opSubject;
                 result.LinkUrl = drFirst.ToSafeStr("LinkUrl");
                 result.IconImageFileUrl = drFirst.ToSafeStr("IconImageFile");
                 result.Html = string.Format("<a href=\"{0}\">{1}</a>", result.LinkUrl, result.Subject);

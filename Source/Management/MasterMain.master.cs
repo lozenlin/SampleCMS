@@ -14,6 +14,8 @@ public partial class MasterMain : System.Web.UI.MasterPage
     protected BackendPageCommon c;
     protected EmployeeAuthorityLogic empAuth;
 
+    private bool useEnglishSubject = false;
+
     #region Public properties
 
     public string FlagValue
@@ -86,6 +88,11 @@ public partial class MasterMain : System.Web.UI.MasterPage
                 dr["CanRead"] = true;
         }
 
+        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        {
+            useEnglishSubject = true;
+        }
+
         // move sub list table into dsTopList to join
         DataTable dtSubList = dsSubList.Tables[0];
         dtSubList.TableName = "SubList";
@@ -109,9 +116,15 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
         int opId = Convert.ToInt32(drvTemp["OpId"]);
         string opSubject = drvTemp.ToSafeStr("OpSubject");
+        string englishSubject = drvTemp.ToSafeStr("EnglishSubject");
         bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
         string encodedUrl = drvTemp.ToSafeStr("LinkUrl");
         string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
+
+        if (useEnglishSubject && !string.IsNullOrEmpty(englishSubject))
+        {
+            opSubject = englishSubject;
+        }
 
         HtmlGenericControl OpHeaderArea = (HtmlGenericControl)e.Item.FindControl("OpHeaderArea");
         OpHeaderArea.Attributes.Add("opId", opId.ToString());
@@ -175,9 +188,15 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
         int opId = Convert.ToInt32(drvTemp["OpId"]);
         string opSubject = drvTemp.ToSafeStr("OpSubject");
+        string englishSubject = drvTemp.ToSafeStr("EnglishSubject");
         bool isNewWindow = Convert.ToBoolean(drvTemp["IsNewWindow"]);
         string encodedUrl = drvTemp.ToSafeStr("LinkUrl");
         string linkUrl = c.DecodeUrlOfMenu(encodedUrl);
+
+        if (useEnglishSubject && !string.IsNullOrEmpty(englishSubject))
+        {
+            opSubject = englishSubject;
+        }
 
         HtmlGenericControl OpItemArea = (HtmlGenericControl)e.Item.FindControl("OpItemArea");
         OpItemArea.Attributes.Add("opId", opId.ToString());
