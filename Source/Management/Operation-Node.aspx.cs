@@ -263,7 +263,8 @@ public partial class Operation_Node : BasePage
         ltrIsNewWindow.Text = isNewWindow ? "是" : "";
 
         Literal ltrCommonClass = (Literal)e.Item.FindControl("ltrCommonClass");
-        ltrCommonClass.Text = string.IsNullOrEmpty(commonClass) ? "" : "已指定";
+        string commonClassBadge = string.Format("<span class='badge badge-secondary' title='{0}'>{1}</span>", commonClass, "已指定");
+        ltrCommonClass.Text = string.IsNullOrEmpty(commonClass) ? "" : commonClassBadge;
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
         btnEdit.Attributes["onclick"] = string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600); return false;", ConfigFormAction.edit, opId);
