@@ -1105,6 +1105,109 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/22>
+-- Description: <取得後端作業選項最大排序編號>
+-- Test:
+/*
+exec dbo.spOperations_GetMaxSortNo 0
+exec dbo.spOperations_GetMaxSortNo 1
+*/
+-- =============================================
+create procedure dbo.spOperations_GetMaxSortNo
+@ParentId int=0	-- 0:root
+as
+begin
+	select
+		isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.Operations
+	where (@ParentId=0 and ParentId is null
+		or ParentId=@ParentId)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/22>
+-- Description: <新增後端作業選項>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_InsertData
+@ParentId	int	-- 0: set null value
+,@OpSubject	nvarchar(100)
+,@LinkUrl	nvarchar(100)
+,@IsNewWindow	bit
+,@IconImageFile	nvarchar(255)
+,@SortNo	int
+,@IsHideSelf	bit
+,@CommonClass	varchar(100)
+,@PostAccount	varchar(20)
+,@EnglishSubject	nvarchar(100)
+,@OpId	int output
+as
+begin
+	if @ParentId=0
+	begin
+		set @ParentId = null
+	end
+
+	insert into dbo.Operations(
+		ParentId, OpSubject, LinkUrl, 
+		IsNewWindow, IconImageFile, SortNo, 
+		IsHideSelf, CommonClass, PostAccount, 
+		PostDate, EnglishSubject
+		)
+	values(
+		@ParentId, @OpSubject, @LinkUrl, 
+		@IsNewWindow, @IconImageFile, @SortNo, 
+		@IsHideSelf, @CommonClass, @PostAccount, 
+		getdate(), @EnglishSubject
+		)
+
+	set @OpId = scope_identity()
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/22>
+-- Description: <更新後端作業選項>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_UpdateData
+@OpId	int
+,@OpSubject	nvarchar(100)
+,@LinkUrl	nvarchar(100)
+,@IsNewWindow	bit
+,@IconImageFile	nvarchar(255)
+,@SortNo	int
+,@IsHideSelf	bit
+,@CommonClass	varchar(100)
+,@MdfAccount	varchar(20)
+,@EnglishSubject	nvarchar(100)
+as
+begin
+	update dbo.Operations
+	set
+		OpSubject=@OpSubject
+		,LinkUrl=@LinkUrl
+		,IsNewWindow=@IsNewWindow
+		,IconImageFile=@IconImageFile
+		,SortNo=@SortNo
+		,IsHideSelf=@IsHideSelf
+		,CommonClass=@CommonClass
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+		,EnglishSubject=@EnglishSubject
+	where OpId=@OpId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 員工身分後端作業授權相關
 ----------------------------------------------------------------------------

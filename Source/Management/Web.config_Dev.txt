@@ -40,6 +40,7 @@
     </authorization>
     <!-- maxRequestLength: The maximum request size in kilobytes. The default size is 4096 KB (4 MB). requestValidationMode: default "4.5" -->
     <httpRuntime maxRequestLength="4096" executionTimeout="600"/>
+    <pages controlRenderingCompatibilityVersion="4.0"/>
   </system.web>
   <log4net>
     <appender name="TraceAppender" type="log4net.Appender.TraceAppender">

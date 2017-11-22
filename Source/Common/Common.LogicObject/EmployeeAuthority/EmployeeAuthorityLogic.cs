@@ -768,6 +768,76 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得後端作業選項最大排序編號
+        /// </summary>
+        public int GetOperationMaxSortNo(int parentId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetMaxSortNo cmdInfo = new spOperations_GetMaxSortNo() { ParentId = parentId };
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增後端作業選項
+        /// </summary>
+        public bool InsertOperationData(OpParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_InsertData cmdInfo = new spOperations_InsertData()
+            {
+                ParentId = param.ParentId,
+                OpSubject = param.OpSubject,
+                LinkUrl = param.LinkUrl,
+                IsNewWindow = param.IsNewWindow,
+                IconImageFile = param.IconImageFile,
+                SortNo = param.SortNo,
+                IsHideSelf = param.IsHideSelf,
+                CommonClass = param.CommonClass,
+                PostAccount = param.PostAccount,
+                EnglishSubject = param.EnglishSubject
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result)
+            {
+                param.OpId = cmdInfo.OpId;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新後端作業選項
+        /// </summary>
+        public bool UpdateOperaionData(OpParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_UpdateData cmdInfo = new spOperations_UpdateData()
+            {
+                OpId = param.OpId,
+                OpSubject = param.OpSubject,
+                LinkUrl = param.LinkUrl,
+                IsNewWindow = param.IsNewWindow,
+                IconImageFile = param.IconImageFile,
+                SortNo = param.SortNo,
+                IsHideSelf = param.IsHideSelf,
+                CommonClass = param.CommonClass,
+                MdfAccount = param.PostAccount,
+                EnglishSubject = param.EnglishSubject
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region EmployeeRole DataAccess functions

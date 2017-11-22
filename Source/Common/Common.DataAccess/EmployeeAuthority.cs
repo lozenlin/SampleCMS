@@ -549,6 +549,92 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 取得後端作業選項最大排序編號
+    /// </summary>
+    public class spOperations_GetMaxSortNo : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int ParentId;    // 0:root
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_GetMaxSortNo";
+        }
+    }
+
+    /// <summary>
+    /// 新增後端作業選項
+    /// </summary>
+    public class spOperations_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int ParentId;	// 0: root
+        public string OpSubject;
+        public string LinkUrl;
+        public bool IsNewWindow;
+        public string IconImageFile;
+        public int SortNo;
+        public bool IsHideSelf;
+        public string CommonClass;
+        public string PostAccount;
+        public string EnglishSubject;
+        [OutputPara]
+        public int OpId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 更新後端作業選項
+    /// </summary>
+    public class spOperations_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // Output parameter needs attribute [OutputPara]
+        public int OpId;
+        public string OpSubject;
+        public string LinkUrl;
+        public bool IsNewWindow;
+        public string IconImageFile;
+        public int SortNo;
+        public bool IsHideSelf;
+        public string CommonClass;
+        public string MdfAccount;
+        public string EnglishSubject;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_UpdateData";
+        }
+    }
+
     #endregion
 
     #region 員工身分後端作業授權相關

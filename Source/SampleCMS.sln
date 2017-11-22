@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://samplecms.dev.com", "http://samplecms.dev.com", "{5280B754-9F03-476B-9ABE-6F29D15FF8D3}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "false"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/samplecms.dev.com"
 		Debug.AspNetCompiler.PhysicalPath = "Root\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\samplecms.dev.com\"
@@ -25,7 +25,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Management", "http://samplecms.dev.com/Management", "{6319B360-A190-4F22-8E66-2F66F38EE25B}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "false"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		ProjectReferences = "{67548d79-7859-408a-97d8-7e6233d274a0}|Common.DataAccess.dll;{e72437e3-dd4d-42a0-840b-070898a01af7}|Common.LogicObject.dll;{148266c2-75dc-4c89-85fc-23e9eef766cf}|Common.Utility.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Management"
 		Debug.AspNetCompiler.PhysicalPath = "Management\"

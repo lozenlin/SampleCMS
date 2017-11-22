@@ -4,13 +4,21 @@
     <!-- 定義語言文化名稱(for db) -->
     <add key="CultureNameZHTW" value="zh-TW"/>
     <add key="CultureNameEN" value="en"/>
-
     <!-- 定義語言號碼(for pic dir, queryString) -->
     <add key="LangNoZHTW" value="1"/>
     <add key="LangNoEN" value="2"/>
   </appSettings>
+  <!--
+    如需 .NET 4.5 web.config 變更的說明，請參閱 http://go.microsoft.com/fwlink/?LinkId=235367。
+
+    您可以在 <httpRuntime>  標記上設定下列屬性。
+      <system.Web>
+        <httpRuntime targetFramework="4.5" />
+      </system.Web>
+  -->
   <system.web>
     <compilation debug="true" targetFramework="4.5"/>
-    <globalization uiCulture="auto" enableClientBasedCulture="true" />
+    <globalization uiCulture="auto" enableClientBasedCulture="true"/>
+    <pages controlRenderingCompatibilityVersion="4.0"/>
   </system.web>
 </configuration>

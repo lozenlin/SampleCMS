@@ -26,9 +26,11 @@
                     <asp:RequiredFieldValidator ID="rfvOpSubject" runat="server" ControlToValidate="txtOpSubject" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                 </td>
-                <th style="width:15%;">英文標題</th>
+                <th style="width:15%;"><span class="required-symbol">英文標題</span></th>
                 <td style="width:35%;">
                     <asp:TextBox ID="txtEnglishSubject" runat="server" MaxLength="100" style="width:90%;"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvEnglishSubject" runat="server" ControlToValidate="txtEnglishSubject" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -86,5 +88,34 @@
     <a href="#" class="btn btn-light" onclick="closeThisForm(); return false;"><%= Resources.Lang.ConfigForm_btnCancel %></a>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
+    <script>
+        function PreviewIconImageFile(fileName, idImg) {
+            if (fileName == "") {
+                fileName = "data.gif";
+            }
+
+            $("#imgIconImageFile").attr("src", "BPimages/icon/" + fileName);
+        }
+
+        $("#ddlCommonClasses").hide();
+
+        $("#btnBrowseClass").click(function () {
+            $("#ddlCommonClasses").toggle("normal");
+            return false;
+        });
+
+        $("#ddlCommonClasses").change(function () {
+            if (this.selectedIndex == 0)
+                return;
+
+            var commonClass = $("#ddlCommonClasses").val();
+            $("#txtCommonClass").val(commonClass);
+            $(this).fadeOut("normal");
+        });
+
+        $("#txtIconImageFile").blur(function () {
+            PreviewIconImageFile(this.value);
+        }).blur();
+    </script>
 </asp:Content>
 
