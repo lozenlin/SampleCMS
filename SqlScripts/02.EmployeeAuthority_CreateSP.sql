@@ -703,6 +703,7 @@ go
 -- Create date: <2017/11/02>
 -- History:
 --	2017/11/21, lozen_lin, modify, 新增欄位「英文標題」
+--	2017/11/22, lozen_lin, modify, 加上所有欄位
 -- Description: <取得後端作業選項資料>
 -- Test:
 /*
@@ -714,9 +715,12 @@ alter procedure dbo.spOperations_GetData
 as
 begin
 	select
-		o.OpId, o.OpSubject, o.LinkUrl, 
-		o.IconImageFile, o.PostAccount, o.PostDate, o.MdfAccount, o.MdfDate, 
-		e.EmpName as PostName, d.DeptName as PostDeptName, o.EnglishSubject
+		o.OpId, o.ParentId, o.OpSubject, 
+		o.LinkUrl, o.IsNewWindow, o.IconImageFile, 
+		o.SortNo, o.IsHideSelf, o.CommonClass, 
+		o.PostAccount, o.PostDate, o.MdfAccount, 
+		o.MdfDate, e.EmpName as PostName, d.DeptName as PostDeptName, 
+		o.EnglishSubject
 	from dbo.Operations o
 		left join dbo.Employee e on o.PostAccount=e.EmpAccount
 		left join dbo.Department d on e.DeptId=d.DeptId
@@ -1034,6 +1038,70 @@ begin
 		,MdfAccount=@MdfAccount
 		,MdfDate=getdate()
 	where OpId=@SmallerOpId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/11/22>
+-- Description: <取得後端作業選項階層資訊>
+-- Test:
+/*
+exec dbo.spOperations_GetLevelInfo 1
+exec dbo.spOperations_GetLevelInfo 2
+*/
+-- =============================================
+alter procedure dbo.spOperations_GetLevelInfo
+@OpId int
+as
+begin
+	create table #tbl(
+		LevelNum int
+		,OpId int
+		,OpSubject nvarchar(100)
+		,EnglishSubject nvarchar(100)
+	)
+
+	declare @LevelNum int=0
+	declare @CurOpId int=@OpId
+	declare @ParentId int=0
+	declare @OpSubject nvarchar(100)
+	declare @EnglishSubject nvarchar(100)
+
+	while 1=1
+	begin
+		select
+			@ParentId=ParentId, @OpSubject=OpSubject, @EnglishSubject=EnglishSubject
+		from dbo.Operations
+		where OpId=@CurOpId
+
+		set @LevelNum -= 1
+		
+		insert into #tbl(
+			LevelNum, OpId, OpSubject, 
+			EnglishSubject)
+		values(
+			@LevelNum, @CurOpId, @OpSubject,
+			@EnglishSubject
+			)
+
+		if @ParentId is null
+		begin
+			break
+		end
+
+		set @CurOpId=@ParentId
+	end
+
+	set @LevelNum = abs(@LevelNum)
+
+	update #tbl
+	set LevelNum += @LevelNum+1
+
+	select * from #tbl
+	order by LevelNum desc
+
+	drop table #tbl
 end
 go
 
@@ -1741,7 +1809,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/21>
+-- Create date: <2017/11/22>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

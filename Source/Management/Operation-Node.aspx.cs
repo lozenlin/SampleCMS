@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -14,6 +15,10 @@ public partial class Operation_Node : BasePage
     protected EmployeeAuthorityLogic empAuth;
     private IHeadUpDisplay hud = null;
 
+    private bool useEnglishSubject = false;
+    private int levelNumOfThis = 0;
+    private int maxLevelNum = 2;
+
     protected void Page_PreInit(object sender, EventArgs e)
     {
         c = new OperationCommonOfBackend(this.Context, this.ViewState);
@@ -24,6 +29,11 @@ public partial class Operation_Node : BasePage
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
+
+        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        {
+            useEnglishSubject = true;
+        }
     }
 
     protected void Page_Init(object sender, EventArgs e)
@@ -32,6 +42,9 @@ public partial class Operation_Node : BasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        RebuildBreadcrumbAndHeadOfHUD();
+        Title = hud.GetHeadText() + " - " + Title;
+
         if (!IsPostBack)
         {
             if (!c.IsInRole("admin"))
@@ -59,12 +72,79 @@ public partial class Operation_Node : BasePage
         }
     }
 
+    private void RebuildBreadcrumbAndHeadOfHUD()
+    {
+        string pageName = "後端作業選項";
+        string pageUrl = "Operation-Node.aspx";
+
+        if (c.qsId == 0)
+        {
+            //root
+            hud.RebuildBreadcrumb(pageName, false);
+            hud.SetHeadText(pageName);
+        }
+        else
+        {
+            StringBuilder sbBreadcrumbWoHome = new StringBuilder(100);
+
+            // add root link
+            sbBreadcrumbWoHome.Append(hud.GetBreadcrumbLinkItemHtml(pageName, pageName, pageUrl));
+            // set url of BackToParent button
+            hud.SetButtonAttribute(HudButtonNameEnum.BackToParent, HudButtonAttributeEnum.NavigateUrl, "~/" + pageUrl);
+
+            DataSet dsLevelInfo = empAuth.GetOperationLevelInfo(c.qsId);
+
+            if (dsLevelInfo != null && dsLevelInfo.Tables[0].Rows.Count > 0)
+            {
+                int total = dsLevelInfo.Tables[0].Rows.Count;
+
+                for (int itemNum = total; itemNum >= 1; itemNum--)
+                {
+                    DataRow drOp = dsLevelInfo.Tables[0].Rows[itemNum - 1];
+                    string opSubject = drOp.ToSafeStr("OpSubject");
+                    string englishSubject = drOp.ToSafeStr("EnglishSubject");
+                    int opId = Convert.ToInt32(drOp["OpId"]);
+                    string url = string.Format("{0}?id={1}", pageUrl, opId);
+                    int levelNum = Convert.ToInt32(drOp["LevelNum"]);
+
+                    if (useEnglishSubject && !string.IsNullOrEmpty(englishSubject))
+                    {
+                        opSubject = englishSubject;
+                    }
+
+                    if (itemNum == 1)
+                    {
+                        levelNumOfThis = levelNum;
+                        sbBreadcrumbWoHome.Append(hud.GetBreadcrumbTextItemHtml(opSubject));
+                        // update head of HUD
+                        hud.SetHeadText(opSubject);
+                    }
+                    else
+                    {
+                        sbBreadcrumbWoHome.Append(hud.GetBreadcrumbLinkItemHtml(opSubject, opSubject, url));
+
+                        if (itemNum == 2)
+                        {
+                            // set url of BackToParent button
+                            hud.SetButtonAttribute(HudButtonNameEnum.BackToParent, HudButtonAttributeEnum.NavigateUrl, "~/" + url);
+                        }
+                    }
+                }
+            }
+
+            hud.RebuildBreadcrumb(sbBreadcrumbWoHome.ToString(), true);
+        }
+    }
+
     private void LoadUIData()
     {
         //HUD
-        hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
-        hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
-            string.Format("popWin('Operation-Config.aspx?act={0}', 700, 600);", ConfigFormAction.add));
+        if (levelNumOfThis < maxLevelNum)
+        {
+            hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
+            hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
+                string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600);", ConfigFormAction.add, c.qsId));
+        }
 
         if (c.qsId > 0)
         {
@@ -93,6 +173,11 @@ public partial class Operation_Node : BasePage
 
     private void DisplaySubitems()
     {
+        if (levelNumOfThis >= maxLevelNum)
+        {
+            return;
+        }
+
         SubitemArea.Visible = true;
 
         OpListQueryParams opParams = new OpListQueryParams()
@@ -197,12 +282,13 @@ public partial class Operation_Node : BasePage
     protected void rptSubitems_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
         bool result = false;
+        int opId = 0;
 
         switch (e.CommandName)
         {
             case "Del":
                 string[] args = e.CommandArgument.ToString().Split(',');
-                int opId = Convert.ToInt32(args[0]);
+                opId = Convert.ToInt32(args[0]);
                 string subject = args[1];
                 OpParams param = new OpParams() { OpId = opId };
 
@@ -219,11 +305,7 @@ public partial class Operation_Node : BasePage
                 // log to file
                 c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "op-" + opId.ToString() + "-" + subject, result);
 
-                if (result)
-                {
-                    Master.RefreshOpMenu();
-                }
-                else
+                if (!result)
                 {
                     if (param.IsThereSubitemOfOp)
                         Master.ShowErrorMsg("此作業選項有子項目，不允許刪除");
@@ -233,20 +315,75 @@ public partial class Operation_Node : BasePage
 
                 break;
             case "MoveUp":
+                opId = Convert.ToInt32(e.CommandArgument);
+                result = empAuth.DecreaseOperationSortNo(opId, c.GetEmpAccount());
                 break;
             case "MoveDown":
+                opId = Convert.ToInt32(e.CommandArgument);
+                result = empAuth.IncreaseOperationSortNo(opId, c.GetEmpAccount());
                 break;
         }
 
         if (result)
         {
             DisplaySubitems();
+            Master.RefreshOpMenu();
         }
     }
 
     private void DisplayProperties()
     {
-        
+        if (c.qsId == 0)
+        {
+            return;
+        }
+
+        PropertyArea.Visible = true;
+
+        if (levelNumOfThis >= maxLevelNum)
+        {
+            PropertyDivider.Visible = false;
+        }
+
+        DataSet dsOp = empAuth.GetOperationData(c.qsId);
+
+        if (dsOp != null && dsOp.Tables[0].Rows.Count > 0)
+        {
+            DataRow drFirst = dsOp.Tables[0].Rows[0];
+
+            string iconImageFile = drFirst.ToSafeStr("IconImageFile");
+
+            if (iconImageFile != "")
+            {
+                imgIcon.Src = "BPimages/icon/" + iconImageFile;
+            }
+
+            ltrLinkUrl.Text = drFirst.ToSafeStr("LinkUrl");
+
+            bool isNewWindow = Convert.ToBoolean(drFirst["IsNewWindow"]);
+            ltrIsNewWindow.Text = isNewWindow ? "是" : "";
+
+            bool isHideSelf = Convert.ToBoolean(drFirst["IsHideSelf"]);
+            ltrIsHideSelf.Text = isHideSelf ? "隱藏" : "顯示";
+
+            ltrCommonClass.Text = drFirst.ToSafeStr("CommonClass");
+
+            string mdfAccount = drFirst.ToSafeStr("mdfAccount");
+            DateTime mdfDate;
+
+            if (Convert.IsDBNull(drFirst["MdfDate"]))
+            {
+                mdfAccount = drFirst.ToSafeStr("PostAccount");
+                mdfDate = Convert.ToDateTime(drFirst["PostDate"]);
+            }
+            else
+            {
+                mdfDate = Convert.ToDateTime(drFirst["MdfDate"]);
+            }
+
+            ltrMdfAccount.Text = mdfAccount;
+            ltrMdfDate.Text = mdfDate.ToString("yyyy-MM-dd HH:mm:ss");
+        }
     }
 
     protected void btnSort_Click(object sender, EventArgs e)

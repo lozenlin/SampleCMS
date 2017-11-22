@@ -21,9 +21,9 @@
                         <asp:LinkButton ID="btnSortIsNewWindow" runat="server" CommandArgument="IsNewWindow" Text="在新視窗" OnClick="btnSort_Click"></asp:LinkButton>
                         <asp:Literal ID="hidSortIsNewWindow" runat="server" Visible="false" Text="在新視窗"></asp:Literal>
                     </th>
-                    <th title='權限元件' style="width:9%;">
-                        <asp:LinkButton ID="btnSortCommonClass" runat="server" CommandArgument="CommonClass" Text="權限元件" OnClick="btnSort_Click"></asp:LinkButton>
-                        <asp:Literal ID="hidSortCommonClass" runat="server" Visible="false" Text="權限元件"></asp:Literal>
+                    <th title='單元共用元件' style="width:13%;">
+                        <asp:LinkButton ID="btnSortCommonClass" runat="server" CommandArgument="CommonClass" Text="單元共用元件" OnClick="btnSort_Click"></asp:LinkButton>
+                        <asp:Literal ID="hidSortCommonClass" runat="server" Visible="false" Text="單元共用元件"></asp:Literal>
                     </th>
                     <th title='<%= Resources.Lang.Col_SortNo_Hint %>' style="width:9%;">
                         <asp:LinkButton ID="btnSortSortNo" runat="server" CommandArgument="SortNo" Text="排序編號" OnClick="btnSort_Click"></asp:LinkButton>
@@ -77,7 +77,56 @@
 
     </asp:PlaceHolder>
     <asp:PlaceHolder ID="PropertyArea" runat="server" Visible="false">
-
+        <hr id="PropertyDivider" runat="server" class="content-divider" />
+        <div class="sys-subtitle">
+            屬性值
+        </div>
+        <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
+            <tbody>
+                <tr>
+                    <th style="width:25%;">圖示</th>
+                    <td>
+                        <img id="imgIcon" runat="server" src="BPimages/icon/data.gif" alt="*" style="width:32px; height:32px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>超連結網址</th>
+                    <td>
+                        <asp:Literal ID="ltrLinkUrl" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>開啟在新視窗</th>
+                    <td>
+                        <asp:Literal ID="ltrIsNewWindow" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>隱藏</th>
+                    <td>
+                        <asp:Literal ID="ltrIsHideSelf" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>單元共用元件</th>
+                    <td>
+                        <asp:Literal ID="ltrCommonClass" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>更新者帳號</th>
+                    <td>
+                        <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>更新時間</th>
+                    <td>
+                        <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </asp:PlaceHolder>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">

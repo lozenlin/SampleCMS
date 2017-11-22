@@ -718,6 +718,56 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 加大後端作業選項的排序編號
+        /// </summary>
+        public bool IncreaseOperationSortNo(int opId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_IncreaseSortNo cmdInfo = new spOperations_IncreaseSortNo()
+            {
+                OpId = opId,
+                MdfAccount = mdfAccount
+            };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 減小後端作業選項的排序編號
+        /// </summary>
+        public bool DecreaseOperationSortNo(int opId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_DecreaseSortNo cmdInfo = new spOperations_DecreaseSortNo()
+            {
+                OpId = opId,
+                MdfAccount = mdfAccount
+            };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得後端作業選項階層資訊
+        /// </summary>
+        public DataSet GetOperationLevelInfo(int opId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetLevelInfo cmdInfo = new spOperations_GetLevelInfo() { OpId = opId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region EmployeeRole DataAccess functions

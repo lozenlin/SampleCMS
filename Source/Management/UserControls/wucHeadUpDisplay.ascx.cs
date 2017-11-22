@@ -24,13 +24,17 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         {
             useEnglishSubject = true;
         }
+
+        if (!IsPostBack)
+        {
+            LoadUIData();
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            LoadUIData();
         }
 
         if (c.seLoginEmpData.EmpAccount != null
@@ -213,6 +217,16 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         btn.Visible = visible;
     }
 
+    public string GetBreadcrumbTextItemHtml(string subject)
+    {
+        return string.Format("<span class='breadcrumb-item active'>{0}</span>", subject);
+    }
+
+    public string GetBreadcrumbLinkItemHtml(string subject, string title, string href)
+    {
+        return string.Format("<a href='{0}' class='breadcrumb-item' title={1}>{2}</a>", href, title, subject);
+    }
+
     /// <summary>
     /// e.g., Home / textAfterHomeNode
     /// </summary>
@@ -221,8 +235,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         ltrBreadcrumb.Text = "";
 
         //add home node
-        ltrBreadcrumb.Text += string.Format("<a href='/Management/Dashboard.aspx' class='breadcrumb-item' title={0}>{0}</a>", 
-            Resources.Lang.Main_Home);
+        ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml(Resources.Lang.Main_Home, Resources.Lang.Main_Home, "/Management/Dashboard.aspx");
 
         //add text
         if (textIsHtml)
@@ -231,7 +244,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         }
         else
         {
-            ltrBreadcrumb.Text += string.Format("<span class='breadcrumb-item active'>{0}</span>", textAfterHomeNode);
+            ltrBreadcrumb.Text += GetBreadcrumbTextItemHtml(textAfterHomeNode);
         }
     }
 

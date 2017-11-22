@@ -16,6 +16,8 @@ public interface IHeadUpDisplay
     void SetButtonAttribute(HudButtonNameEnum buttonName, HudButtonAttributeEnum buttonAttr, string value);
     bool GetButtonVisible(HudButtonNameEnum buttonName);
     void SetButtonVisible(HudButtonNameEnum buttonName, bool visible);
+    string GetBreadcrumbTextItemHtml(string subject);
+    string GetBreadcrumbLinkItemHtml(string subject, string title, string href);
     /// <summary>
     /// e.g., Home / textAfterHomeNode
     /// </summary>
