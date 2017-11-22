@@ -102,7 +102,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>隱藏</th>
+                    <th>隱藏此項目</th>
                     <td>
                         <asp:Literal ID="ltrIsHideSelf" runat="server"></asp:Literal>
                     </td>

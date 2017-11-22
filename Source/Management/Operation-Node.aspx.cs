@@ -65,6 +65,7 @@ public partial class Operation_Node : BasePage
                 if (Master.FlagValue == "Config")
                 {
                     DisplayOperation();
+                    Master.RefreshOpMenu();
                 }
 
                 Master.FlagValue = "";
