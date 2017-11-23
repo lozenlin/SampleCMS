@@ -179,9 +179,9 @@ public partial class Role_Privilege : System.Web.UI.Page
         HtmlImage imgOpItem = (HtmlImage)e.Item.FindControl("imgOpItem");
         imgOpItem.Alt = opSubject;
         imgOpItem.Src = "~/BPimages/icon/data.gif";
-        object objIconImageFile = drvTemp["IconImageFile"];
-        if (!Convert.IsDBNull(objIconImageFile))
-            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", drvTemp.ToSafeStr("IconImageFile"));
+        string iconImageFile = drvTemp.ToSafeStr("IconImageFile");
+        if (!string.IsNullOrEmpty(iconImageFile))
+            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", iconImageFile);
 
         Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
         ltrOpItemSubject.Text = opSubject;

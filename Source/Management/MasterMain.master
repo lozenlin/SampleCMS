@@ -85,7 +85,7 @@
                             <ItemTemplate>
                                 <li id="OpHeaderArea" runat="server" class="nav-item card items-group">
                                     <a id="btnOpHeader" runat="server" href="#" class="nav-link item-header">
-                                        <img id="imgOpHeader" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                        <img id="imgOpHeader" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
                                         <asp:Literal ID="ltrOpHeaderSubject" runat="server"></asp:Literal>
                                     </a>
                                     <ul class="nav nav-pills flex-column flex-nowrap item-list">
@@ -93,7 +93,7 @@
                                     <ItemTemplate>
                                         <li id="OpItemArea" runat="server" class="nav-item item-area">
                                             <a id="btnOpItem" runat="server" href="#" class="nav-link item">
-                                                <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                                <img id="imgOpItem" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
                                                 <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
                                             </a>
                                         </li>

@@ -107,6 +107,7 @@ public partial class Operation_Node : BasePage
                     int opId = Convert.ToInt32(drOp["OpId"]);
                     string url = string.Format("{0}?id={1}", pageUrl, opId);
                     int levelNum = Convert.ToInt32(drOp["LevelNum"]);
+                    string iconImageFile = drOp.ToSafeStr("IconImageFile");
 
                     if (useEnglishSubject && !string.IsNullOrEmpty(englishSubject))
                     {
@@ -119,6 +120,12 @@ public partial class Operation_Node : BasePage
                         sbBreadcrumbWoHome.Append(hud.GetBreadcrumbTextItemHtml(opSubject));
                         // update head of HUD
                         hud.SetHeadText(opSubject);
+
+                        if (!string.IsNullOrEmpty(iconImageFile))
+                        {
+                            iconImageFile = "~/BPImages/icon/" + iconImageFile;
+                            hud.SetHeadIconImageUrl(iconImageFile);
+                        }
                     }
                     else
                     {

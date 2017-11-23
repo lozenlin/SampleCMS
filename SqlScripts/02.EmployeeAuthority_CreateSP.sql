@@ -879,12 +879,14 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/21>
+-- History:
+--	2017/11/23, lozen_lin, modify, 刪除授權設定
 -- Description: <刪除後端作業選項>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spOperations_DeleteData
+alter procedure dbo.spOperations_DeleteData
 @OpId int
 as
 begin
@@ -894,8 +896,34 @@ begin
 		return
 	end
 
-	delete from dbo.Operations
-	where OpId=@OpId
+	begin transaction
+	begin try
+		--先刪除授權設定
+		delete dbo.EmployeeRoleOperationsDesc
+		where OpId=@OpId
+
+		delete from dbo.Operations
+		where OpId=@OpId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
 end
 go
 
@@ -1044,6 +1072,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/22>
+-- History:
+--	2017/11/23, lozen_lin, modify, add IconImageFile
 -- Description: <取得後端作業選項階層資訊>
 -- Test:
 /*
@@ -1060,6 +1090,7 @@ begin
 		,OpId int
 		,OpSubject nvarchar(100)
 		,EnglishSubject nvarchar(100)
+		,IconImageFile nvarchar(255)
 	)
 
 	declare @LevelNum int=0
@@ -1067,11 +1098,13 @@ begin
 	declare @ParentId int=0
 	declare @OpSubject nvarchar(100)
 	declare @EnglishSubject nvarchar(100)
+	declare @IconImageFile nvarchar(255)
 
 	while 1=1
 	begin
 		select
-			@ParentId=ParentId, @OpSubject=OpSubject, @EnglishSubject=EnglishSubject
+			@ParentId=ParentId, @OpSubject=OpSubject, @EnglishSubject=EnglishSubject, 
+			@IconImageFile=IconImageFile
 		from dbo.Operations
 		where OpId=@CurOpId
 
@@ -1079,10 +1112,10 @@ begin
 		
 		insert into #tbl(
 			LevelNum, OpId, OpSubject, 
-			EnglishSubject)
+			EnglishSubject, IconImageFile)
 		values(
 			@LevelNum, @CurOpId, @OpSubject,
-			@EnglishSubject
+			@EnglishSubject, @IconImageFile
 			)
 
 		if @ParentId is null

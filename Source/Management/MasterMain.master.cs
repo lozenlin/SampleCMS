@@ -158,9 +158,9 @@ public partial class MasterMain : System.Web.UI.MasterPage
         HtmlImage imgOpHeader = (HtmlImage)e.Item.FindControl("imgOpHeader");
         imgOpHeader.Alt = opSubject;
         imgOpHeader.Src = "~/BPimages/icon/data.gif";
-        object objIconImageFile = drvTemp["IconImageFile"];
-        if (!Convert.IsDBNull(objIconImageFile))
-            imgOpHeader.Src = string.Format("~/BPimages/icon/{0}", drvTemp.ToSafeStr("IconImageFile"));
+        string iconImageFile = drvTemp.ToSafeStr("IconImageFile");
+        if (!string.IsNullOrEmpty(iconImageFile))
+            imgOpHeader.Src = string.Format("~/BPimages/icon/{0}", iconImageFile);
 
         Literal ltrOpHeaderSubject = (Literal)e.Item.FindControl("ltrOpHeaderSubject");
         ltrOpHeaderSubject.Text = opSubject;
@@ -230,9 +230,9 @@ public partial class MasterMain : System.Web.UI.MasterPage
         HtmlImage imgOpItem = (HtmlImage)e.Item.FindControl("imgOpItem");
         imgOpItem.Alt = opSubject;
         imgOpItem.Src = "~/BPimages/icon/data.gif";
-        object objIconImageFile = drvTemp["IconImageFile"];
-        if (!Convert.IsDBNull(objIconImageFile))
-            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", drvTemp.ToSafeStr("IconImageFile"));
+        string iconImageFile = drvTemp.ToSafeStr("IconImageFile");
+        if (!string.IsNullOrEmpty(iconImageFile))
+            imgOpItem.Src = string.Format("~/BPimages/icon/{0}", iconImageFile);
 
         Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
         ltrOpItemSubject.Text = opSubject;
