@@ -13,4 +13,13 @@ namespace Common.LogicObject
         public const string edit = "edit";
         public const string add = "add";
     }
+
+    /// <summary>
+    /// angular-FileManager file type
+    /// </summary>
+    public static class AfmFileType
+    {
+        public const string dir = "dir";
+        public const string file = "file";
+    }
 }

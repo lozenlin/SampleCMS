@@ -50,10 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfmServiceHandlerAbstract.cs" />
     <Compile Include="BackendPageCommon.cs" />
     <Compile Include="BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="DataClass\AfmResult.cs" />
     <Compile Include="DataClass\BackEndLogData.cs" />
     <Compile Include="DataClass\ClientResult.cs" />
     <Compile Include="DataClass\EmployeeAuthorizations.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="DataClass\RoleOpPvg.cs" />
     <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
     <Compile Include="ExtensionMethods\GetSafeStringExtensions.cs" />
+    <Compile Include="Interface\IAfmServiceHandler.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
     <Compile Include="Interface\IJsonServiceHandler.cs" />

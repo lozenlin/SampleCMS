@@ -37,7 +37,7 @@
                 <th>圖示</th>
                 <td colspan="3">
                     <asp:TextBox ID="txtIconImageFile" runat="server" ClientIDMode="Static" MaxLength="255" style="width:25rem;"></asp:TextBox>
-                    <a id="btnBrowseImage" href="#" class="btn btn-sm btn-secondary" title="瀏覽網站目錄" style="display:none;"><i class="fa fa-folder-open"></i> 瀏覽</a>
+                    <a id="btnBrowseImage" href="#" class="btn btn-sm btn-secondary" title="瀏覽網站目錄"><i class="fa fa-folder-open"></i> 瀏覽</a>
                     <div class="text-success">
                         (請將圖示檔案放至網站目錄[ BPimages/icon ]中)
                     </div>
@@ -96,6 +96,15 @@
 
             $("#imgIconImageFile").attr("src", "BPimages/icon/" + fileName);
         }
+
+        function BrowseOpIcons() {
+            popWinOut("angularFileManager/Index.aspx", 990, 768);
+        }
+
+        $("#btnBrowseImage").click(function () {
+            BrowseOpIcons();
+            return false;
+        });
 
         $("#ddlCommonClasses").hide();
 
