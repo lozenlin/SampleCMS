@@ -61,13 +61,11 @@
                 editUrl: basicServiceUrl,
                 getContentUrl: basicServiceUrl,
                 createFolderUrl: basicServiceUrl,
-                downloadFileUrl: basicServiceUrl,
+                downloadFileUrl: '../afmDownload.ashx?listtype=' + listType,
                 downloadMultipleUrl: basicServiceUrl,
                 compressUrl: basicServiceUrl,
                 extractUrl: basicServiceUrl,
                 permissionsUrl: basicServiceUrl,
-
-                downloadFilesByAjax: false,
 
                 pickCallback: function (item) {
                     /*
@@ -109,7 +107,7 @@
                     compress: false,
                     compressChooseName: false,
                     extract: false,
-                    download: false,
+                    download: true,
                     downloadMultiple: false,
                     preview: true,
                     remove: false,

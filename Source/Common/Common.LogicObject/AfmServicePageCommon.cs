@@ -26,6 +26,14 @@ namespace Common.LogicObject
             }
         }
 
+        public string qsPath
+        {
+            get
+            {
+                return QueryStringToSafeStr("path") ?? "";
+            }
+        }
+
         public string seLastPath
         {
             get { return SessionToSafeStr("seLastPath"); }

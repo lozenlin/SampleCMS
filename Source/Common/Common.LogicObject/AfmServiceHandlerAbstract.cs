@@ -100,10 +100,13 @@ namespace Common.LogicObject
                 listDir = appDir + @"UserFiles\";
             }
 
-            if (afmRequest.path.Length > 1)
+            if (listDir != "")
             {
-                string subPath = afmRequest.path.Substring(1).Replace('/', '\\');
-                listDir += subPath + @"\";
+                if (afmRequest.path.Length > 1)
+                {
+                    string subPath = afmRequest.path.Substring(1).Replace('/', '\\');
+                    listDir += subPath + @"\";
+                }
             }
 
             return listDir;
