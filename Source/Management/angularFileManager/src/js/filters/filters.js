@@ -17,10 +17,32 @@
         };
     }]);
 
-    app.filter('formatDate', ['$filter', function() {
+    app.filter('formatDate', ['$filter', function () {
+        function dateToStr(input) {
+            // 2017/11/24, lozen_lin, modify, fix time 19:05 (at Taiwan server) show 11:05
+            // original: var str = input.toISOString().substring(0, 19).replace('T', ' ');
+
+            var y = input.getFullYear();
+            var M = input.getMonth() + 1;
+            var d = input.getDate();
+            var h = input.getHours();
+            var m = input.getMinutes();
+            var s = input.getSeconds();
+
+            if (M < 10) M = "0" + M;
+            if (d < 10) d = "0" + d;
+            if (h < 10) h = "0" + h;
+            if (m < 10) m = "0" + m;
+            if (s < 10) s = "0" + s;
+
+            var str = y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+
+            return str;
+        }
+
         return function(input) {
             return input instanceof Date ?
-                input.toISOString().substring(0, 19).replace('T', ' ') :
+                dateToStr(input) :
                 (input.toLocaleString || input.toString).apply(input);
         };
     }]);

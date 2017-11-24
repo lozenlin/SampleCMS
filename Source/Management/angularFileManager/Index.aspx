@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="bower_components/bootswatch/paper/bootstrap.min.css" />
     <!-- /third party -->
 
-    <!-- Uncomment if you need to use raw source code
     <script src="src/js/app.js"></script>
     <script src="src/js/directives/directives.js"></script>
     <script src="src/js/filters/filters.js"></script>
@@ -31,6 +30,7 @@
     <script src="src/js/providers/translations.js"></script>
     <script src="src/js/controllers/main.js"></script>
     <script src="src/js/controllers/selector-controller.js"></script>
+    <!-- Uncomment if you need to use raw source code
     <link href="src/css/animations.css" rel="stylesheet">
     <link href="src/css/dialogs.css" rel="stylesheet">
     <link href="src/css/main.css" rel="stylesheet">
@@ -38,20 +38,36 @@
 
     <!-- Comment if you need to use raw source code -->
     <link href="dist/angular-filemanager.min.css" rel="stylesheet"/>
-    <script src="dist/angular-filemanager.min.js"></script>
+    <!--<script src="dist/angular-filemanager.min.js"></script>-->
     <!-- /Comment if you need to use raw source code -->
 
     <script type="text/javascript">
         var listType = $.QueryString["listtype"];
         var fnSelected = $.QueryString["fnSelected"];
 
+        var basicServiceUrl = '../afmService.ashx?listtype=' + listType;
+
         //example to override angular-filemanager default config
         angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
             var defaults = config.$get();
             config.set({
                 //appName: 'angular-filemanager',
-                listUrl: '../afmService.ashx?listtype=' + listType,
-                uploadUrl: '../afmService.ashx?listtype=' + listType,
+                listUrl: basicServiceUrl,
+                uploadUrl: basicServiceUrl,
+                renameUrl: basicServiceUrl,
+                copyUrl: basicServiceUrl,
+                moveUrl: basicServiceUrl,
+                removeUrl: basicServiceUrl,
+                editUrl: basicServiceUrl,
+                getContentUrl: basicServiceUrl,
+                createFolderUrl: basicServiceUrl,
+                downloadFileUrl: basicServiceUrl,
+                downloadMultipleUrl: basicServiceUrl,
+                compressUrl: basicServiceUrl,
+                extractUrl: basicServiceUrl,
+                permissionsUrl: basicServiceUrl,
+
+                downloadFilesByAjax: false,
 
                 pickCallback: function (item) {
                     /*
@@ -95,7 +111,7 @@
                     extract: false,
                     download: false,
                     downloadMultiple: false,
-                    preview: false,
+                    preview: true,
                     remove: false,
                     createFolder: false,
                     pickFiles: true,
