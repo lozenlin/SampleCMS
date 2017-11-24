@@ -222,7 +222,16 @@
                 action: 'download',
                 path: path
             };
-            return path && [apiUrl, $httpParamSerializer(data)].join('?');
+
+            // 2017/11/24, lozen_lin, modify, ?action= change to &action=, if there is ? in apiUrl
+
+            var joinSymbol = '?';
+
+            if (apiUrl.indexOf('?') > -1) {
+                joinSymbol = '&';
+            }
+
+            return path && [apiUrl, $httpParamSerializer(data)].join(joinSymbol);
         };
 
         ApiHandler.prototype.download = function(apiUrl, itemPath, toFilename, downloadByAjax, forceNewWindow) {
