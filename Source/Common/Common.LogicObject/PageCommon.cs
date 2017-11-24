@@ -217,6 +217,19 @@ namespace Common.LogicObject
             return value;
         }
 
+        public string SessionToSafeStr(string name)
+        {
+            object obj = Session[name];
+
+            if (obj == null)
+                return null;
+
+            string value = Convert.ToString(obj);
+
+            //return AntiXss.GetSafeHtmlFragment(value);
+            return value;
+        }
+
         /// <summary>
         /// 取得客戶端主機位址
         /// </summary>

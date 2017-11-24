@@ -22,11 +22,18 @@ public class AfmGetList : AfmServiceHandlerAbstract
 
         if (listDir == "")
         {
-            result = BuildResultOfError("listType is invalid");
+            result = BuildResultOfError("list type is invalid");
             return result;
         }
 
         DirectoryInfo diList = new DirectoryInfo(listDir);
+
+        if (!diList.Exists)
+        {
+            result = BuildResultOfError("directory does not exist");
+            return result;
+        }
+
         FileSystemInfo[] fsInfos = diList.GetFileSystemInfos();
         List<AfmFileInfo> afmFiles = new List<AfmFileInfo>(fsInfos.Length);
 
@@ -68,32 +75,80 @@ public class AfmGetList : AfmServiceHandlerAbstract
 
         return result;
     }
+}
 
-    private string GetListDir()
+/// <summary>
+/// upload files for angular-FileManager
+/// </summary>
+public class AfmUploadFiles : AfmServiceHandlerAbstract
+{
+    public AfmUploadFiles(HttpContext context, AfmRequest afmRequest)
+        : base(context, afmRequest)
     {
-        string listDir = "";
+    }
 
-        string appDir = Server.MapPath("~/");
+    public override AfmResult ProcessRequest()
+    {
+        AfmResult result = null;
+        string listDir = GetListDir();
 
-        if (string.Compare(c.qsListType, AfmListType.icon) == 0)
+        if (listDir == "")
         {
-            listDir = appDir + @"BPimages\icon\";
-        }
-        else if (string.Compare(c.qsListType, AfmListType.images) == 0)
-        {
-            listDir = appDir + @"images\";
-        }
-        else if (string.Compare(c.qsListType, AfmListType.UserFiles) == 0)
-        {
-            listDir = appDir + @"UserFiles\";
+            result = BuildResultOfError("list type is invalid");
+            return result;
         }
 
-        if (afmRequest.path.Length > 1)
+        DirectoryInfo diList = new DirectoryInfo(listDir);
+
+        if (!diList.Exists)
         {
-            string subPath = afmRequest.path.Substring(1).Replace('/', '\\');
-            listDir += subPath + @"\";
+            result = BuildResultOfError("directory does not exist");
+            return result;
         }
 
-        return listDir;
+        if (Request.Files.Count == 0)
+        {
+            result = BuildResultOfError("no file data");
+            return result;
+        }
+
+        for (int fileIndex = 0; fileIndex < Request.Files.Count; fileIndex++)
+        {
+            HttpPostedFile postedFile = Request.Files[fileIndex];
+
+            string fileName = Path.GetFileName(postedFile.FileName);
+            int duplicateCount = 0;
+
+            // check same file
+            while (File.Exists(listDir + fileName))
+            {
+                if (++duplicateCount > 99)
+                {
+                    result = BuildResultOfError(string.Format("too many duplication of {0}, not allowed to save more", Path.GetFileName(postedFile.FileName)));
+                    return result;
+                }
+
+                //change name
+                string fileNameWoExt = string.Format("{0} ({1})", Path.GetFileNameWithoutExtension(postedFile.FileName), duplicateCount);
+                string ext = Path.GetExtension(postedFile.FileName);
+
+                fileName = fileNameWoExt + ext;
+            }
+
+            try
+            {
+                postedFile.SaveAs(listDir + fileName);
+            }
+            catch (Exception ex)
+            {
+                c.LoggerOfUI.Error("", ex);
+
+                result = BuildResultOfError(string.Format("save {0} failed", fileName));
+            }
+        }
+
+        result = BuildResultOfSuccess();
+
+        return result;
     }
 }

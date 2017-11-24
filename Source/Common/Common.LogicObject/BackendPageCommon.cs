@@ -108,7 +108,7 @@ namespace Common.LogicObject
         /// </summary>
         public string seCaptchaCode
         {
-            get { return Convert.ToString(Session["seCaptchaCode"]); }
+            get { return SessionToSafeStr("seCaptchaCode"); }
             set { Session["seCaptchaCode"] = value; }
         }
 

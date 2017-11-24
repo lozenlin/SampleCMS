@@ -21,6 +21,9 @@ public static class AfmServiceHandlerFactory
             case "list":
                 handler = new AfmGetList(context, afmRequest);
                 break;
+            case "upload":
+                handler = new AfmUploadFiles(context, afmRequest);
+                break;
         }
 
         return handler;

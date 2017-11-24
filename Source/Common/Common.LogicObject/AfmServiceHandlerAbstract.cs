@@ -53,7 +53,7 @@ namespace Common.LogicObject
             AfmResultOfResult ror = new AfmResultOfResult()
             {
                 success = false,
-                error = "not implemented"
+                error = errMsg
             };
 
             AfmResult result = new AfmResult()
@@ -80,5 +80,33 @@ namespace Common.LogicObject
         }
 
         public abstract AfmResult ProcessRequest();
+
+        protected string GetListDir()
+        {
+            string listDir = "";
+
+            string appDir = Server.MapPath("~/");
+
+            if (string.Compare(c.qsListType, AfmListType.icon) == 0)
+            {
+                listDir = appDir + @"BPimages\icon\";
+            }
+            else if (string.Compare(c.qsListType, AfmListType.images) == 0)
+            {
+                listDir = appDir + @"images\";
+            }
+            else if (string.Compare(c.qsListType, AfmListType.UserFiles) == 0)
+            {
+                listDir = appDir + @"UserFiles\";
+            }
+
+            if (afmRequest.path.Length > 1)
+            {
+                string subPath = afmRequest.path.Substring(1).Replace('/', '\\');
+                listDir += subPath + @"\";
+            }
+
+            return listDir;
+        }
     }
 }

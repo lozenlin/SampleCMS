@@ -51,7 +51,7 @@
             config.set({
                 //appName: 'angular-filemanager',
                 listUrl: '../afmService.ashx?listtype=' + listType,
-                uploadUrl: '../afmService.ashx',
+                uploadUrl: '../afmService.ashx?listtype=' + listType,
 
                 pickCallback: function (item) {
                     /*

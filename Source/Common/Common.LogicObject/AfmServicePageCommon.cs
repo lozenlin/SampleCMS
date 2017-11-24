@@ -26,6 +26,12 @@ namespace Common.LogicObject
             }
         }
 
+        public string seLastPath
+        {
+            get { return SessionToSafeStr("seLastPath"); }
+            set { Session["seLastPath"] = value; }
+        }
+
         #endregion
     }
 }

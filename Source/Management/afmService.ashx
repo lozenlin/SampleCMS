@@ -10,9 +10,9 @@ using System.IO;
 /// <summary>
 /// angular-FileManager Service
 /// </summary>
-public class afmService : IHttpHandler
+public class afmService : IHttpHandler, IRequiresSessionState
 {
-    protected PageCommon c;
+    protected AfmServicePageCommon c;
     protected HttpContext context;
 
     #region 工具屬性
@@ -43,7 +43,7 @@ public class afmService : IHttpHandler
 
     public void ProcessRequest(HttpContext context)
     {
-        c = new PageCommon(context, null);
+        c = new AfmServicePageCommon(context);
         c.InitialLoggerOfUI(this.GetType());
 
         this.context = context;
@@ -60,7 +60,11 @@ public class afmService : IHttpHandler
             if (Request.Files.Count > 0)
             {
                 // files upload
-                afmRequest = new AfmRequest() { action = "upload" };
+                afmRequest = new AfmRequest()
+                {
+                    action = "upload",
+                    path = c.seLastPath
+                };
             }
             else
             {
@@ -68,8 +72,18 @@ public class afmService : IHttpHandler
             }
 
             if (afmRequest == null)
+            {
                 throw new Exception("request payload is invalid");
-
+            }
+            else
+            {
+                if (afmRequest.action == "list" && afmRequest.path != c.seLastPath)
+                {
+                    // backup path
+                    c.seLastPath = afmRequest.path;
+                }
+            }
+            
             IAfmServiceHandler handler = AfmServiceHandlerFactory.GetHandler(context, afmRequest);
 
             if (handler == null)
