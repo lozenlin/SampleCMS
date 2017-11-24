@@ -22,4 +22,14 @@ namespace Common.LogicObject
         public const string dir = "dir";
         public const string file = "file";
     }
+
+    /// <summary>
+    /// angular-FileManager list type
+    /// </summary>
+    public static class AfmListType
+    {
+        public const string icon = "icon";
+        public const string images = "images";
+        public const string UserFiles = "UserFiles";
+    }
 }

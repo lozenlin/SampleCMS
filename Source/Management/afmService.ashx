@@ -55,17 +55,25 @@ public class afmService : IHttpHandler
 
         try
         {
-            dynamic reqData = JsonConvert.DeserializeObject(payload);
+            AfmRequest afmRequest = null;
 
-            if (reqData == null)
-                throw new Exception("payload is invalid");
-            
-            string action = reqData.action;
+            if (Request.Files.Count > 0)
+            {
+                // files upload
+                afmRequest = new AfmRequest() { action = "upload" };
+            }
+            else
+            {
+                afmRequest = JsonConvert.DeserializeObject<AfmRequest>(payload);
+            }
 
-            IAfmServiceHandler handler = AfmServiceHandlerFactory.GetHandler(context, action);
+            if (afmRequest == null)
+                throw new Exception("request payload is invalid");
+
+            IAfmServiceHandler handler = AfmServiceHandlerFactory.GetHandler(context, afmRequest);
 
             if (handler == null)
-                throw new Exception("action is invalid");
+                throw new Exception("action is not supported");
 
             afmResult = handler.ProcessRequest();
         }

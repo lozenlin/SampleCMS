@@ -14,6 +14,7 @@
     <script src="bower_components/angular-translate/angular-translate.min.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../Common/js/jquery.QueryString.js"></script>
     <link rel="stylesheet" href="bower_components/bootswatch/paper/bootstrap.min.css" />
     <!-- /third party -->
 
@@ -41,18 +42,45 @@
     <!-- /Comment if you need to use raw source code -->
 
     <script type="text/javascript">
+        var listType = $.QueryString["listtype"];
+        var fnSelected = $.QueryString["fnSelected"];
+
         //example to override angular-filemanager default config
         angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
             var defaults = config.$get();
             config.set({
                 //appName: 'angular-filemanager',
-                listUrl: '../afmService.ashx',
+                listUrl: '../afmService.ashx?listtype=' + listType,
+                uploadUrl: '../afmService.ashx',
 
                 pickCallback: function (item) {
+                    /*
                     var msg = 'Picked %s "%s" for external use'
                     .replace('%s', item.type)
                     .replace('%s', item.fullPath());
                     window.alert(msg);
+                    */
+
+                    if (fnSelected != null && fnSelected != "") {
+                        var parentWin = window.opener;
+
+                        if (parentWin == null) {
+                            window.parent;
+                        }
+
+                        if (parentWin != null) {
+                            var iconPath = item.fullPath();
+
+                            if (iconPath.indexOf("/") == 0 && iconPath.length > 1) {
+                                iconPath = iconPath.substr(1);
+                            }
+
+                            var cmd = "parentWin." + fnSelected + "('" + iconPath + "');";
+                            eval(cmd);
+
+                            window.close();
+                        }
+                    }
                 },
 
                 allowedActions: angular.extend(defaults.allowedActions, {

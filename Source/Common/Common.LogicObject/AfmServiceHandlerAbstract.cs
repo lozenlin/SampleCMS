@@ -13,7 +13,8 @@ namespace Common.LogicObject
     public abstract class AfmServiceHandlerAbstract : IAfmServiceHandler
     {
         protected HttpContext context = null;
-        protected bool allowedParamFromQueryString = false;   // true for testing
+        protected AfmRequest afmRequest = null;
+        protected AfmServicePageCommon c = null;
 
         #region 工具屬性
 
@@ -39,17 +40,43 @@ namespace Common.LogicObject
 
         #endregion
 
-        public AfmServiceHandlerAbstract(HttpContext context)
+        public AfmServiceHandlerAbstract(HttpContext context, AfmRequest afmRequest)
         {
             this.context = context;
+            this.afmRequest = afmRequest;
+            c = new AfmServicePageCommon(context);
+            c.InitialLoggerOfUI(this.GetType());
         }
 
-        protected string GetParamValue(string name)
+        public AfmResult BuildResultOfError(string errMsg)
         {
-            if (allowedParamFromQueryString)
-                return GetSafeStringExtensions.ToSafeStr(Request[name]);
+            AfmResultOfResult ror = new AfmResultOfResult()
+            {
+                success = false,
+                error = "not implemented"
+            };
 
-            return GetSafeStringExtensions.ToSafeStr(Request.Form[name]);
+            AfmResult result = new AfmResult()
+            {
+                result = ror
+            };
+
+            return result;
+        }
+
+        public AfmResult BuildResultOfSuccess()
+        {
+            AfmResultOfResult ror = new AfmResultOfResult()
+            {
+                success = true
+            };
+
+            AfmResult result = new AfmResult()
+            {
+                result = ror
+            };
+
+            return result;
         }
 
         public abstract AfmResult ProcessRequest();

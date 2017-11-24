@@ -9,14 +9,17 @@ using System.Web;
 /// </summary>
 public static class AfmServiceHandlerFactory
 {
-    public static IAfmServiceHandler GetHandler(HttpContext context, string action)
+    public static IAfmServiceHandler GetHandler(HttpContext context, AfmRequest afmRequest)
     {
         IAfmServiceHandler handler = null;
 
-        switch (action)
+        if (afmRequest == null)
+            return handler;
+
+        switch (afmRequest.action)
         {
             case "list":
-                handler = new AfmGetList(context);
+                handler = new AfmGetList(context, afmRequest);
                 break;
         }
 

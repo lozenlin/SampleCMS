@@ -38,10 +38,12 @@
                 <td colspan="3">
                     <asp:TextBox ID="txtIconImageFile" runat="server" ClientIDMode="Static" MaxLength="255" style="width:25rem;"></asp:TextBox>
                     <a id="btnBrowseImage" href="#" class="btn btn-sm btn-secondary" title="瀏覽網站目錄"><i class="fa fa-folder-open"></i> 瀏覽</a>
-                    <div class="text-success">
+                    <div class="text-success" runat="server" visible="false">
                         (請將圖示檔案放至網站目錄[ BPimages/icon ]中)
                     </div>
-                    預覽: <img id="imgIconImageFile" src="BPimages/icon/data.gif" alt="*" style="width:32px; height:32px;" />
+                    <div class="mt-2">
+                        預覽: <img id="imgIconImageFile" src="BPimages/icon/data.gif" alt="*" style="width:32px; height:32px;" />
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -97,8 +99,18 @@
             $("#imgIconImageFile").attr("src", "BPimages/icon/" + fileName);
         }
 
+        function OpIconSelected(data) {
+            if (data == undefined || data == null) {
+                return;
+            }
+
+            $("#txtIconImageFile")
+                .val(data)
+                .blur();
+        }
+
         function BrowseOpIcons() {
-            popWinOut("angularFileManager/Index.aspx", 990, 768);
+            popWinOut("angularFileManager/Index.aspx?listtype=icon&fnSelected=OpIconSelected", 1000, 768);
         }
 
         $("#btnBrowseImage").click(function () {
