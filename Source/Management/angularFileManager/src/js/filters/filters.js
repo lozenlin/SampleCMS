@@ -19,7 +19,7 @@
 
     app.filter('formatDate', ['$filter', function () {
         function dateToStr(input) {
-            // 2017/11/24, lozen_lin, modify, fix time 19:05 (at Taiwan server) show 11:05
+            // 2017/11/24, lozen_lin, modify, fix time 19:05 (browser at Taiwan) show 11:05
             // original: var str = input.toISOString().substring(0, 19).replace('T', ' ');
 
             var y = input.getFullYear();
