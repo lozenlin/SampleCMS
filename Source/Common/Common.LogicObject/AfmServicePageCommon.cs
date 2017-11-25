@@ -9,7 +9,7 @@ namespace Common.LogicObject
     /// <summary>
     /// angular-FileManager service page common function
     /// </summary>
-    public class AfmServicePageCommon : PageCommon
+    public class AfmServicePageCommon : BackendPageCommon
     {
         public AfmServicePageCommon(HttpContext context)
             : base(context, null)

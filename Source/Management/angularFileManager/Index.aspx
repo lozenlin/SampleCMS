@@ -110,7 +110,7 @@
                     download: true,
                     downloadMultiple: false,
                     preview: true,
-                    remove: false,
+                    remove: true,
                     createFolder: false,
                     pickFiles: true,
                     pickFolders: false

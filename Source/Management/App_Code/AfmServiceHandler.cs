@@ -138,6 +138,14 @@ public class AfmUploadFiles : AfmServiceHandlerAbstract
             try
             {
                 postedFile.SaveAs(listDir + fileName);
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．FileManager upload file　．ListType[{0}]　．path[{1}]　．file[{2}]", c.qsListType, afmRequest.path, fileName),
+                    IP = c.GetClientIP()
+                });
             }
             catch (Exception ex)
             {
@@ -149,6 +157,25 @@ public class AfmUploadFiles : AfmServiceHandlerAbstract
 
         result = BuildResultOfSuccess();
 
+        return result;
+    }
+}
+
+/// <summary>
+/// remove directories or files for angular-FileManager
+/// </summary>
+public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
+{
+    public AfmRemoveDirOrFiles(HttpContext context, AfmRequest afmRequest)
+        : base(context, afmRequest)
+    {
+    }
+
+    public override AfmResult ProcessRequest()
+    {
+        AfmResult result = null;
+
+        result = BuildResultOfError("not yet");
         return result;
     }
 }

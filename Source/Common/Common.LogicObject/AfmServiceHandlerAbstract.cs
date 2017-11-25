@@ -15,6 +15,7 @@ namespace Common.LogicObject
         protected HttpContext context = null;
         protected AfmRequest afmRequest = null;
         protected AfmServicePageCommon c = null;
+        protected EmployeeAuthorityLogic empAuth = null;
 
         #region 工具屬性
 
@@ -46,6 +47,7 @@ namespace Common.LogicObject
             this.afmRequest = afmRequest;
             c = new AfmServicePageCommon(context);
             c.InitialLoggerOfUI(this.GetType());
+            empAuth = new EmployeeAuthorityLogic(c);
         }
 
         public AfmResult BuildResultOfError(string errMsg)
@@ -81,31 +83,51 @@ namespace Common.LogicObject
 
         public abstract AfmResult ProcessRequest();
 
+        protected string GetListTypeSubDir()
+        {
+            string listTypeDir = "";
+
+            if (string.Compare(c.qsListType, AfmListType.icon) == 0)
+            {
+                listTypeDir = @"BPimages\icon\";
+            }
+            else if (string.Compare(c.qsListType, AfmListType.images) == 0)
+            {
+                listTypeDir = @"images\";
+            }
+            else if (string.Compare(c.qsListType, AfmListType.UserFiles) == 0)
+            {
+                listTypeDir = @"UserFiles\";
+            }
+
+            return listTypeDir;
+        }
+
         protected string GetListDir()
+        {
+            return GetListDir(afmRequest.path, AfmFileType.dir);
+        }
+
+        protected string GetListDir(string path, string afmFileType)
         {
             string listDir = "";
 
             string appDir = Server.MapPath("~/");
+            string listTypeSubDir = GetListTypeSubDir();
 
-            if (string.Compare(c.qsListType, AfmListType.icon) == 0)
+            if (listTypeSubDir != "")
             {
-                listDir = appDir + @"BPimages\icon\";
-            }
-            else if (string.Compare(c.qsListType, AfmListType.images) == 0)
-            {
-                listDir = appDir + @"images\";
-            }
-            else if (string.Compare(c.qsListType, AfmListType.UserFiles) == 0)
-            {
-                listDir = appDir + @"UserFiles\";
-            }
+                listDir = appDir + listTypeSubDir;
 
-            if (listDir != "")
-            {
-                if (afmRequest.path.Length > 1)
+                if (!string.IsNullOrEmpty(path))
                 {
-                    string subPath = afmRequest.path.Substring(1).Replace('/', '\\');
-                    listDir += subPath + @"\";
+                    string subPath = path.Substring(1).Replace('/', '\\');
+                    listDir += subPath;
+
+                    if (afmFileType == AfmFileType.dir)
+                    {
+                        listDir += @"\";
+                    }
                 }
             }
 
