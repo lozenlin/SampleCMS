@@ -80,6 +80,12 @@ public class afmDownload : IHttpHandler, IRequiresSessionState
                 break;
         }
 
+        //使用 Client Cache
+        Response.Cache.SetCacheability(HttpCacheability.Private);    // Private:Client, Public:Server+Proxy+Client, Server:Client No-Cache
+        Response.Cache.VaryByParams["listtype"] = true;
+        Response.Cache.VaryByParams["path"] = true;
+        Response.Cache.SetExpires(DateTime.Now.AddYears(1));    // for Client
+        
         Response.ContentType = contentType;
         Response.HeaderEncoding = System.Text.Encoding.GetEncoding("big5");
         Response.AddHeader("Content-Disposition", "attachment; filename=" + fi.Name);
