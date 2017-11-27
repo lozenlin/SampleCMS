@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -132,6 +133,18 @@ namespace Common.LogicObject
             }
 
             return listDir;
+        }
+
+        protected bool IsFileExists(string item)
+        {
+            string fileFullName = GetListDir(item, AfmFileType.file);
+            return File.Exists(fileFullName);
+        }
+
+        protected bool IsDirectoryExists(string item)
+        {
+            string dirFullName = GetListDir(item, AfmFileType.dir);
+            return Directory.Exists(dirFullName);
         }
     }
 }

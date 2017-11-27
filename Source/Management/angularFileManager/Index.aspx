@@ -99,7 +99,7 @@
 
                 allowedActions: angular.extend(defaults.allowedActions, {
                     upload: true,
-                    rename: false,
+                    rename: true,
                     move: false,
                     copy: false,
                     edit: false,

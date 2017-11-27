@@ -30,7 +30,7 @@ public class AfmGetList : AfmServiceHandlerAbstract
 
         if (!diList.Exists)
         {
-            result = BuildResultOfError("directory does not exist");
+            result = BuildResultOfError("folder does not exist");
             return result;
         }
 
@@ -102,7 +102,7 @@ public class AfmUploadFiles : AfmServiceHandlerAbstract
 
         if (!diList.Exists)
         {
-            result = BuildResultOfError("directory does not exist");
+            result = BuildResultOfError("folder does not exist");
             return result;
         }
 
@@ -162,11 +162,11 @@ public class AfmUploadFiles : AfmServiceHandlerAbstract
 }
 
 /// <summary>
-/// remove directories or files for angular-FileManager
+/// remove folders(directories) or files for angular-FileManager
 /// </summary>
-public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
+public class AfmRemoveFoldersOrFiles : AfmServiceHandlerAbstract
 {
-    public AfmRemoveDirOrFiles(HttpContext context, AfmRequest afmRequest)
+    public AfmRemoveFoldersOrFiles(HttpContext context, AfmRequest afmRequest)
         : base(context, afmRequest)
     {
     }
@@ -206,7 +206,7 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
                     {
                         if (!RemoveDirectory(item))
                         {
-                            result = BuildResultOfError(string.Format("remove directory {0} failed", item));
+                            result = BuildResultOfError(string.Format("remove folder {0} failed", item));
                             return result;
                         }
                     }
@@ -226,7 +226,7 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
                 {
                     if (!RemoveDirectory(item))
                     {
-                        result = BuildResultOfError(string.Format("remove directory {0} failed", item));
+                        result = BuildResultOfError(string.Format("remove folder {0} failed", item));
                         return result;
                     }
                 }
@@ -244,7 +244,7 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
                     }
                     else
                     {
-                        result = BuildResultOfError(string.Format("directory {0} does not exist", item));
+                        result = BuildResultOfError(string.Format("folder {0} does not exist", item));
                         return result;
                     }
                 }
@@ -254,12 +254,6 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
         result = BuildResultOfSuccess();
 
         return result;
-    }
-
-    private bool IsFileExists(string item)
-    {
-        string fileFullName = GetListDir(item, AfmFileType.file);
-        return File.Exists(fileFullName);
     }
 
     private bool RemoveFile(string item)
@@ -293,12 +287,6 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
         return true;
     }
 
-    private bool IsDirectoryExists(string item)
-    {
-        string dirFullName = GetListDir(item, AfmFileType.dir);
-        return Directory.Exists(dirFullName);
-    }
-
     private bool RemoveDirectory(string item)
     {
         string dirFullName = GetListDir(item, AfmFileType.dir);
@@ -317,7 +305,7 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．FileManager remove directory　．ListType[{0}]　．dir[{1}]", c.qsListType, item),
+                Description = string.Format("．FileManager remove folder(directory)　．ListType[{0}]　．dir[{1}]", c.qsListType, item),
                 IP = c.GetClientIP()
             });
         }
@@ -383,5 +371,162 @@ public class AfmCreateFolder : AfmServiceHandlerAbstract
         result = BuildResultOfSuccess();
 
         return result;
+    }
+}
+
+/// <summary>
+/// rename folder or file for angular-FileManager
+/// </summary>
+public class AfmRenameFolderOrFile : AfmServiceHandlerAbstract
+{
+    public AfmRenameFolderOrFile(HttpContext context, AfmRequest afmRequest)
+        : base(context, afmRequest)
+    {
+    }
+
+    public override AfmResult ProcessRequest()
+    {
+        AfmResult result = null;
+
+        if (string.IsNullOrEmpty(afmRequest.item) || string.IsNullOrEmpty(afmRequest.newItemPath))
+        {
+            result = BuildResultOfError("item or newItemPath is invalid");
+            return result;
+        }
+
+        string ext = Path.GetExtension(afmRequest.item);
+
+        if (ext != "")
+        {
+            // as file
+            bool isFile = IsFileExists(afmRequest.item);
+
+            if (isFile)
+            {
+                if (!RenameFile(afmRequest.item, afmRequest.newItemPath))
+                {
+                    result = BuildResultOfError("rename file failed");
+                    return result;
+                }
+            }
+            else
+            {
+                bool isDir = IsDirectoryExists(afmRequest.item);
+
+                if (isDir)
+                {
+                    if (!RenameDirectory(afmRequest.item, afmRequest.newItemPath))
+                    {
+                        result = BuildResultOfError("remove folder failed");
+                        return result;
+                    }
+                }
+                else
+                {
+                    result = BuildResultOfError(string.Format("file {0} does not exist", afmRequest.item));
+                    return result;
+                }
+            }
+        }
+        else
+        {
+            // as directory
+            bool isDir = IsDirectoryExists(afmRequest.item);
+
+            if (isDir)
+            {
+                if (!RenameDirectory(afmRequest.item, afmRequest.newItemPath))
+                {
+                    result = BuildResultOfError("remove folder failed");
+                    return result;
+                }
+            }
+            else
+            {
+                bool isFile = IsFileExists(afmRequest.item);
+
+                if (isFile)
+                {
+                    if (!RenameFile(afmRequest.item, afmRequest.newItemPath))
+                    {
+                        result = BuildResultOfError("remove file failed");
+                        return result;
+                    }
+                }
+                else
+                {
+                    result = BuildResultOfError(string.Format("folder {0} does not exist", afmRequest.item));
+                    return result;
+                }
+            }
+        }
+
+        result = BuildResultOfSuccess();
+
+        return result;
+    }
+
+    private bool RenameFile(string item, string newItemPath)
+    {
+        string fileFullName = GetListDir(item, AfmFileType.file);
+        string newFileFullName = GetListDir(newItemPath, AfmFileType.file);
+        FileInfo fi = new FileInfo(fileFullName);
+
+        if (!fi.Exists)
+        {
+            return false;
+        }
+
+        try
+        {
+            fi.MoveTo(newFileFullName);
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．FileManager rename file　．ListType[{0}]　．file[{1}]　．new file[{2}]", c.qsListType, item, newItemPath),
+                IP = c.GetClientIP()
+            });
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool RenameDirectory(string item, string newItemPath)
+    {
+        string dirFullName = GetListDir(item, AfmFileType.dir);
+        string newDirFullName = GetListDir(newItemPath, AfmFileType.dir);
+        DirectoryInfo di = new DirectoryInfo(dirFullName);
+
+        if (!di.Exists)
+        {
+            return false;
+        }
+
+        try
+        {
+            di.MoveTo(newDirFullName);
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．FileManager rename folder(directory)　．ListType[{0}]　．dir[{1}]　．new dir[{2}]", c.qsListType, item, newItemPath),
+                IP = c.GetClientIP()
+            });
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            return false;
+        }
+
+        return true;
     }
 }

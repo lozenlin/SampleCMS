@@ -25,10 +25,13 @@ public static class AfmServiceHandlerFactory
                 handler = new AfmUploadFiles(context, afmRequest);
                 break;
             case "remove":
-                handler = new AfmRemoveDirOrFiles(context, afmRequest);
+                handler = new AfmRemoveFoldersOrFiles(context, afmRequest);
                 break;
             case "createFolder":
                 handler = new AfmCreateFolder(context, afmRequest);
+                break;
+            case "rename":
+                handler = new AfmRenameFolderOrFile(context, afmRequest);
                 break;
         }
 
