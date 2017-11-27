@@ -949,7 +949,7 @@
             selection: '選擇',
             no_files_in_folder: '此資料匣沒有文件',
             no_folders_in_folder: '此資料匣不包含子資料匣',
-            select_this: '選擇此資料匣',
+            select_this: '選擇此項目',
             go_back: '後退',
             wait: '等待',
             move: '移動',

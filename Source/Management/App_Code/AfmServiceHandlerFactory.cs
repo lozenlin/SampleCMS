@@ -27,6 +27,9 @@ public static class AfmServiceHandlerFactory
             case "remove":
                 handler = new AfmRemoveDirOrFiles(context, afmRequest);
                 break;
+            case "createFolder":
+                handler = new AfmCreateFolder(context, afmRequest);
+                break;
         }
 
         return handler;

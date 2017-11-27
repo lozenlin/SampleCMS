@@ -330,3 +330,58 @@ public class AfmRemoveDirOrFiles : AfmServiceHandlerAbstract
         return true;
     }
 }
+
+/// <summary>
+/// create folder for angular-FileManager
+/// </summary>
+public class AfmCreateFolder : AfmServiceHandlerAbstract
+{
+    public AfmCreateFolder(HttpContext context, AfmRequest afmRequest)
+        : base(context, afmRequest)
+    {
+    }
+
+    public override AfmResult ProcessRequest()
+    {
+        AfmResult result = null;
+        string listDir = GetListDir(afmRequest.newPath, AfmFileType.dir);
+
+        if (listDir == "")
+        {
+            result = BuildResultOfError("list type is invalid");
+            return result;
+        }
+
+        DirectoryInfo diList = new DirectoryInfo(listDir);
+
+        if (diList.Exists)
+        {
+            result = BuildResultOfError("folder has been used");
+            return result;
+        }
+
+        try
+        {
+            diList.Create();
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．FileManager creaet folder(directory)　．ListType[{0}]　．path[{1}]", c.qsListType, afmRequest.newPath),
+                IP = c.GetClientIP()
+            });
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            result = BuildResultOfError("create folder failed");
+
+            return result;
+        }
+
+        result = BuildResultOfSuccess();
+
+        return result;
+    }
+}

@@ -111,7 +111,7 @@
                     downloadMultiple: false,
                     preview: true,
                     remove: true,
-                    createFolder: false,
+                    createFolder: true,
                     pickFiles: true,
                     pickFolders: false
                 }),
