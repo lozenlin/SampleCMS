@@ -45,6 +45,13 @@ public partial class Operation_Config : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvOpSubject.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvEnglishSubject.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        chkIsNewWindow.Text = Resources.Lang.Operation_chkIsNewWindow;
+        chkIsHideSelf.Text = Resources.Lang.Col_HideThisItem;
+
         LoadCommonClasses();
     }
 
@@ -63,8 +70,8 @@ public partial class Operation_Config : System.Web.UI.Page
         Array.Sort(exportedTypes, (x, y) => x.Name.CompareTo(y.Name));
 
         // initialize dropdownlist
-        ddlCommonClasses.Items.Add(new ListItem("(請選擇)", ""));
-        ddlCommonClasses.Items.Add(new ListItem("空白", ""));
+        ddlCommonClasses.Items.Add(new ListItem(Resources.Lang.Option_Choose, ""));
+        ddlCommonClasses.Items.Add(new ListItem(Resources.Lang.CommonClassesOption_Empty, ""));
 
         foreach (Type classType in exportedTypes)
         {
@@ -88,9 +95,9 @@ public partial class Operation_Config : System.Web.UI.Page
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = string.Format("新增作業選項 - id:{0}", c.qsId);
+            Title = string.Format(Resources.Lang.Operation_Title_AddNew_Format, c.qsId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改作業選項 - id:{0}", c.qsId);
+            Title = string.Format(Resources.Lang.Operation_Title_Edit_Format, c.qsId);
     }
 
     private void DisplayOperationData()

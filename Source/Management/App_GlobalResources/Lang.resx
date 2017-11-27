@@ -634,8 +634,8 @@
     <comment>新增帳號</comment>
   </data>
   <data name="Account_Title_Edit_Format" xml:space="preserve">
-    <value>修改帳號 - Id:{0}</value>
-    <comment>修改帳號 - Id:{0}</comment>
+    <value>修改帳號 - id:{0}</value>
+    <comment>修改帳號 - id:{0}</comment>
   </data>
   <data name="ConfigForm_btnSubject" xml:space="preserve">
     <value>標題</value>
@@ -918,8 +918,8 @@
     <comment>新增部門</comment>
   </data>
   <data name="Dept_Title_Edit_Format" xml:space="preserve">
-    <value>修改部門 - Id:{0}</value>
-    <comment>修改部門 - Id:{0}</comment>
+    <value>修改部門 - id:{0}</value>
+    <comment>修改部門 - id:{0}</comment>
   </data>
   <data name="ErrMsg_DeptNameHasBeenUsed" xml:space="preserve">
     <value>部門名稱已存在</value>
@@ -1084,6 +1084,106 @@
   <data name="Col_MdfDate_Hint" xml:space="preserve">
     <value>更新時間</value>
     <comment>更新時間</comment>
+  </data>
+  <data name="Operation_ConfirmDelete_Format" xml:space="preserve">
+    <value>確定刪除[{0}]?</value>
+    <comment>確定刪除[{0}]?</comment>
+  </data>
+  <data name="IsNewWindow_Yes" xml:space="preserve">
+    <value>是</value>
+    <comment>是</comment>
+  </data>
+  <data name="IsNewWindow_No" xml:space="preserve">
+    <value></value>
+    <comment></comment>
+  </data>
+  <data name="CommonClass_HasValue" xml:space="preserve">
+    <value>已指定</value>
+    <comment>已指定</comment>
+  </data>
+  <data name="ErrMsg_DeleteOperationFailed" xml:space="preserve">
+    <value>刪除作業選項失敗</value>
+    <comment>刪除作業選項失敗</comment>
+  </data>
+  <data name="ErrMsg_ThereIsSubitemofOp" xml:space="preserve">
+    <value>此作業選項有子項目，不允許刪除</value>
+    <comment>此作業選項有子項目，不允許刪除</comment>
+  </data>
+  <data name="IsHideSelf_Hide" xml:space="preserve">
+    <value>隱藏</value>
+    <comment>隱藏</comment>
+  </data>
+  <data name="IsHideSelf_Show" xml:space="preserve">
+    <value>顯示</value>
+    <comment>顯示</comment>
+  </data>
+  <data name="btnMoveUp" xml:space="preserve">
+    <value>往上</value>
+    <comment>往上</comment>
+  </data>
+  <data name="btnMoveDown" xml:space="preserve">
+    <value>往下</value>
+    <comment>往下</comment>
+  </data>
+  <data name="Col_EnglishSubject" xml:space="preserve">
+    <value>英文標題</value>
+    <comment>英文標題</comment>
+  </data>
+  <data name="Operation_btnBrowseImage" xml:space="preserve">
+    <value>瀏覽</value>
+    <comment>瀏覽</comment>
+  </data>
+  <data name="Operation_btnBrowseImage_Hint" xml:space="preserve">
+    <value>瀏覽網站目錄</value>
+    <comment>瀏覽網站目錄</comment>
+  </data>
+  <data name="Operation_lblPreview" xml:space="preserve">
+    <value>預覽</value>
+    <comment>預覽</comment>
+  </data>
+  <data name="Operation_btnBrowseImage_Notice" xml:space="preserve">
+    <value>請將圖示檔案放至網站目錄[ BPimages/icon ]中</value>
+    <comment>請將圖示檔案放至網站目錄[ BPimages/icon ]中</comment>
+  </data>
+  <data name="Operation_txtLinkUrl_Notice" xml:space="preserve">
+    <value>．{dns} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</value>
+    <comment>．{dns} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</comment>
+  </data>
+  <data name="Operation_chkIsNewWindow" xml:space="preserve">
+    <value>開啟在新視窗</value>
+    <comment>開啟在新視窗</comment>
+  </data>
+  <data name="Operation_btnBrowseClass" xml:space="preserve">
+    <value>瀏覽並選擇元件</value>
+    <comment>瀏覽並選擇元件</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Hint" xml:space="preserve">
+    <value>瀏覽並選擇元件</value>
+    <comment>瀏覽並選擇元件</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Notice" xml:space="preserve">
+    <value>．有區分大小寫！&lt;br /&gt;．此設定為系統用來判斷權限的資料來源，若不確定時請勿更改！&lt;br /&gt;．「網站架構管理」請設定為「ArticleCommonOfBackend」！&lt;br /&gt;</value>
+    <comment>．有區分大小寫！&lt;br /&gt;．此設定為系統用來判斷權限的資料來源，若不確定時請勿更改！&lt;br /&gt;．「網站架構管理」請設定為「ArticleCommonOfBackend」！&lt;br /&gt;</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Notice2" xml:space="preserve">
+    <value>．超連結網址為 Article-Node.aspx 時，請設定為空白！</value>
+    <comment>．超連結網址為 Article-Node.aspx 時，請設定為空白！</comment>
+  </data>
+  <data name="Option_Choose" xml:space="preserve">
+    <value>(請選擇)</value>
+    <comment>(請選擇)</comment>
+  </data>
+  <data name="CommonClassesOption_Empty" xml:space="preserve">
+    <value>空白</value>
+    <comment>空白</comment>
+  </data>
+  <data name="Operation_Title_AddNew_Format" xml:space="preserve">
+    <value>新增作業選項 - id:{0}</value>
+    <comment>新增作業選項 - id:{0}</comment>
+  </data>
+  <data name="Operation_Title_Edit_Format" xml:space="preserve">
+    <value>修改作業選項 - id:{0}</value>
+    <comment>修改作業選項 - id:{0}</comment>
   </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>

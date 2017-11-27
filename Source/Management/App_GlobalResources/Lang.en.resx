@@ -634,8 +634,8 @@
     <comment>新增帳號</comment>
   </data>
   <data name="Account_Title_Edit_Format" xml:space="preserve">
-    <value>Edit account - Id:{0}</value>
-    <comment>修改帳號 - Id:{0}</comment>
+    <value>Edit account - id:{0}</value>
+    <comment>修改帳號 - id:{0}</comment>
   </data>
   <data name="ConfigForm_btnSubject" xml:space="preserve">
     <value>Title</value>
@@ -918,8 +918,8 @@
     <comment>新增部門</comment>
   </data>
   <data name="Dept_Title_Edit_Format" xml:space="preserve">
-    <value>Edit department - Id:{0}</value>
-    <comment>修改部門 - Id:{0}</comment>
+    <value>Edit department - id:{0}</value>
+    <comment>修改部門 - id:{0}</comment>
   </data>
   <data name="ErrMsg_DeptNameHasBeenUsed" xml:space="preserve">
     <value>Department name has been used</value>
@@ -1084,5 +1084,105 @@
   <data name="Col_MdfDate_Hint" xml:space="preserve">
     <value>Updated</value>
     <comment>更新時間</comment>
+  </data>
+  <data name="Operation_ConfirmDelete_Format" xml:space="preserve">
+    <value>delete data of [{0}]?</value>
+    <comment>確定刪除[{0}]?</comment>
+  </data>
+  <data name="IsNewWindow_Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>是</comment>
+  </data>
+  <data name="IsNewWindow_No" xml:space="preserve">
+    <value></value>
+    <comment></comment>
+  </data>
+  <data name="CommonClass_HasValue" xml:space="preserve">
+    <value>Selected</value>
+    <comment>已指定</comment>
+  </data>
+  <data name="ErrMsg_DeleteOperationFailed" xml:space="preserve">
+    <value>delete operation failed</value>
+    <comment>刪除作業選項失敗</comment>
+  </data>
+  <data name="ErrMsg_ThereIsSubitemofOp" xml:space="preserve">
+    <value>there is sub-item of operation, not allowed to delete.</value>
+    <comment>此作業選項有子項目，不允許刪除</comment>
+  </data>
+  <data name="IsHideSelf_Hide" xml:space="preserve">
+    <value>Hide</value>
+    <comment>隱藏</comment>
+  </data>
+  <data name="IsHideSelf_Show" xml:space="preserve">
+    <value>Show</value>
+    <comment>顯示</comment>
+  </data>
+  <data name="btnMoveUp" xml:space="preserve">
+    <value>move up</value>
+    <comment>往上</comment>
+  </data>
+  <data name="btnMoveDown" xml:space="preserve">
+    <value>move down</value>
+    <comment>往下</comment>
+  </data>
+  <data name="Col_EnglishSubject" xml:space="preserve">
+    <value>English subject</value>
+    <comment>英文標題</comment>
+  </data>
+  <data name="Operation_btnBrowseImage" xml:space="preserve">
+    <value>Browse</value>
+    <comment>瀏覽</comment>
+  </data>
+  <data name="Operation_btnBrowseImage_Hint" xml:space="preserve">
+    <value>Browse website directory</value>
+    <comment>瀏覽網站目錄</comment>
+  </data>
+  <data name="Operation_lblPreview" xml:space="preserve">
+    <value>Preview</value>
+    <comment>預覽</comment>
+  </data>
+  <data name="Operation_btnBrowseImage_Notice" xml:space="preserve">
+    <value>Please put the graphic files in the website directory [BPimages/icon]</value>
+    <comment>請將圖示檔案放至網站目錄[ BPimages/icon ]中</comment>
+  </data>
+  <data name="Operation_txtLinkUrl_Notice" xml:space="preserve">
+    <value>．{dns} = Will be replaced by the front-stage URL. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = Will be replaced by the back-stage URL. e.g., https://SampleCMS.dev.com/Management</value>
+    <comment>．{dns} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</comment>
+  </data>
+  <data name="Operation_chkIsNewWindow" xml:space="preserve">
+    <value>Open in new window</value>
+    <comment>開啟在新視窗</comment>
+  </data>
+  <data name="Operation_btnBrowseClass" xml:space="preserve">
+    <value>Browse and select classes</value>
+    <comment>瀏覽並選擇元件</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Hint" xml:space="preserve">
+    <value>Browse and select classes</value>
+    <comment>瀏覽並選擇元件</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Notice" xml:space="preserve">
+    <value>．Case sensitive!&lt;br /&gt;．This setting is a data source of system used to determine the authority, if not sure, do not change!&lt;br /&gt;．「Site Architecture Mgmt.」set to「ArticleCommonOfBackend」!&lt;br /&gt;</value>
+    <comment>．有區分大小寫！&lt;br /&gt;．此設定為系統用來判斷權限的資料來源，若不確定時請勿更改！&lt;br /&gt;．「網站架構管理」請設定為「ArticleCommonOfBackend」！&lt;br /&gt;</comment>
+  </data>
+  <data name="Operation_btnBrowseClass_Notice2" xml:space="preserve">
+    <value>．When the URL is Article-Node.aspx, please set it as blank!</value>
+    <comment>．超連結網址為 Article-Node.aspx 時，請設定為空白！</comment>
+  </data>
+  <data name="Option_Choose" xml:space="preserve">
+    <value>(choose)</value>
+    <comment>(請選擇)</comment>
+  </data>
+  <data name="CommonClassesOption_Empty" xml:space="preserve">
+    <value>blank</value>
+    <comment>空白</comment>
+  </data>
+  <data name="Operation_Title_AddNew_Format" xml:space="preserve">
+    <value>Add an operation - id:{0}</value>
+    <comment>新增作業選項 - id:{0}</comment>
+  </data>
+  <data name="Operation_Title_Edit_Format" xml:space="preserve">
+    <value>Edit operation - id:{0}</value>
+    <comment>修改作業選項 - id:{0}</comment>
   </data>
 </root>

@@ -239,7 +239,11 @@ public partial class Operation_Node : BasePage
         }
 
         LinkButton btnMoveDown = (LinkButton)e.Item.FindControl("btnMoveDown");
+        btnMoveDown.ToolTip = Resources.Lang.btnMoveDown;
+
         LinkButton btnMoveUp = (LinkButton)e.Item.FindControl("btnMoveUp");
+        btnMoveUp.ToolTip = Resources.Lang.btnMoveUp;
+
         int total = drvTemp.DataView.Count;
         int itemNum = e.Item.ItemIndex + 1;
 
@@ -275,10 +279,10 @@ public partial class Operation_Node : BasePage
         ltrSubject.Text = subject;
 
         Literal ltrIsNewWindow = (Literal)e.Item.FindControl("ltrIsNewWindow");
-        ltrIsNewWindow.Text = isNewWindow ? "是" : "";
+        ltrIsNewWindow.Text = isNewWindow ? Resources.Lang.IsNewWindow_Yes : Resources.Lang.IsNewWindow_No;
 
         Literal ltrCommonClass = (Literal)e.Item.FindControl("ltrCommonClass");
-        string commonClassBadge = string.Format("<span class='badge badge-secondary' title='{0}'>{1}</span>", commonClass, "已指定");
+        string commonClassBadge = string.Format("<span class='badge badge-secondary' title='{0}'>{1}</span>", commonClass, Resources.Lang.CommonClass_HasValue);
         ltrCommonClass.Text = string.IsNullOrEmpty(commonClass) ? "" : commonClassBadge;
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
@@ -292,7 +296,7 @@ public partial class Operation_Node : BasePage
         btnDelete.CommandArgument = string.Join(",", opId.ToString(), subject);
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
-        btnDelete.OnClientClick = string.Format("return confirm('" + "確定刪除[{0}]?" + "');",
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Operation_ConfirmDelete_Format + "');",
             subject);
     }
 
@@ -325,9 +329,9 @@ public partial class Operation_Node : BasePage
                 if (!result)
                 {
                     if (param.IsThereSubitemOfOp)
-                        Master.ShowErrorMsg("此作業選項有子項目，不允許刪除");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ThereIsSubitemofOp);
                     else
-                        Master.ShowErrorMsg("刪除作業選項失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteOperationFailed);
                 }
 
                 break;
@@ -378,10 +382,10 @@ public partial class Operation_Node : BasePage
             ltrLinkUrl.Text = drFirst.ToSafeStr("LinkUrl");
 
             bool isNewWindow = Convert.ToBoolean(drFirst["IsNewWindow"]);
-            ltrIsNewWindow.Text = isNewWindow ? "是" : "";
+            ltrIsNewWindow.Text = isNewWindow ? Resources.Lang.IsNewWindow_Yes : Resources.Lang.IsNewWindow_No;
 
             bool isHideSelf = Convert.ToBoolean(drFirst["IsHideSelf"]);
-            ltrIsHideSelf.Text = isHideSelf ? "隱藏" : "顯示";
+            ltrIsHideSelf.Text = isHideSelf ? Resources.Lang.IsHideSelf_Hide : Resources.Lang.IsHideSelf_Show;
 
             ltrCommonClass.Text = drFirst.ToSafeStr("CommonClass");
 

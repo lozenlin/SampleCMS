@@ -42,6 +42,7 @@
     <!-- /Comment if you need to use raw source code -->
 
     <script type="text/javascript">
+        var lang = '<%= afmLang  %>';
         var listType = $.QueryString["listtype"];
         var fnSelected = $.QueryString["fnSelected"];
 
@@ -52,6 +53,8 @@
             var defaults = config.$get();
             config.set({
                 //appName: 'angular-filemanager',
+                defaultLang: lang,
+
                 listUrl: basicServiceUrl,
                 uploadUrl: basicServiceUrl,
                 renameUrl: basicServiceUrl,
