@@ -75,7 +75,7 @@ public partial class Operation_Node : BasePage
 
     private void RebuildBreadcrumbAndHeadOfHUD()
     {
-        string pageName = "後端作業選項";
+        string pageName = Resources.Lang.PageName_Operations;
         string pageUrl = "Operation-Node.aspx";
 
         if (c.qsId == 0)
@@ -166,6 +166,14 @@ public partial class Operation_Node : BasePage
         //condition vlaues
 
         //columns of list
+        btnSortSubject.Text = Resources.Lang.Col_Subject;
+        hidSortSubject.Text = btnSortSubject.Text;
+        btnSortIsNewWindow.Text = Resources.Lang.Col_OpenInNewWindow;
+        hidSortIsNewWindow.Text = btnSortIsNewWindow.Text;
+        btnSortCommonClass.Text = Resources.Lang.Col_CommonClass;
+        hidSortCommonClass.Text = btnSortCommonClass.Text;
+        btnSortSortNo.Text = Resources.Lang.Col_SortNo;
+        hidSortSortNo.Text = btnSortSortNo.Text;
 
         c.DisplySortableCols(new string[] { 
             "Subject", "IsNewWindow", "CommonClass", 

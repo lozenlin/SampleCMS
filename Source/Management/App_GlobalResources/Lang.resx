@@ -1001,6 +1001,90 @@
     <value>結束日期錯誤</value>
     <comment>結束日期錯誤</comment>
   </data>
+  <data name="GroupLabel_Subitems" xml:space="preserve">
+    <value>子項目</value>
+    <comment>子項目</comment>
+  </data>
+  <data name="PageName_Operations" xml:space="preserve">
+    <value>後端作業選項</value>
+    <comment>後端作業選項</comment>
+  </data>
+  <data name="Col_AdjustSortNo" xml:space="preserve">
+    <value>順序</value>
+    <comment>順序</comment>
+  </data>
+  <data name="Col_AdjustSortNo_Hint" xml:space="preserve">
+    <value>調整順序</value>
+    <comment>調整順序</comment>
+  </data>
+  <data name="Col_Subject" xml:space="preserve">
+    <value>標題</value>
+    <comment>標題</comment>
+  </data>
+  <data name="Col_Subject_Hint" xml:space="preserve">
+    <value>標題</value>
+    <comment>標題</comment>
+  </data>
+  <data name="Col_OpenInNewWindow" xml:space="preserve">
+    <value>在新視窗</value>
+    <comment>在新視窗</comment>
+  </data>
+  <data name="Col_OpenInNewWindow_Hint" xml:space="preserve">
+    <value>開啟在新視窗</value>
+    <comment>開啟在新視窗</comment>
+  </data>
+  <data name="Col_CommonClass" xml:space="preserve">
+    <value>單元共用元件</value>
+    <comment>單元共用元件</comment>
+  </data>
+  <data name="Col_CommonClass_Hint" xml:space="preserve">
+    <value>單元共用元件</value>
+    <comment>單元共用元件</comment>
+  </data>
+  <data name="GroupLabel_Properties" xml:space="preserve">
+    <value>屬性值</value>
+    <comment>屬性值</comment>
+  </data>
+  <data name="Col_Icon" xml:space="preserve">
+    <value>圖示</value>
+    <comment>圖示</comment>
+  </data>
+  <data name="Col_Icon_Hint" xml:space="preserve">
+    <value>圖示</value>
+    <comment>圖示</comment>
+  </data>
+  <data name="Col_LinkUrl" xml:space="preserve">
+    <value>超連結網址</value>
+    <comment>超連結網址</comment>
+  </data>
+  <data name="Col_LinkUrl_Hint" xml:space="preserve">
+    <value>超連結網址</value>
+    <comment>超連結網址</comment>
+  </data>
+  <data name="Col_HideThisItem" xml:space="preserve">
+    <value>隱藏此項目</value>
+    <comment>隱藏此項目</comment>
+  </data>
+  <data name="Col_HideThisItem_Hint" xml:space="preserve">
+    <value>隱藏此項目</value>
+    <comment>隱藏此項目</comment>
+  </data>
+  <data name="Col_MdfAccount" xml:space="preserve">
+    <value>更新者帳號</value>
+    <comment>更新者帳號</comment>
+  </data>
+  <data name="Col_MdfAccount_Hint" xml:space="preserve">
+    <value>更新者帳號</value>
+    <comment>更新者帳號</comment>
+  </data>
+  <data name="Col_MdfDate" xml:space="preserve">
+    <value>更新時間</value>
+    <comment>更新時間</comment>
+  </data>
+  <data name="Col_MdfDate_Hint" xml:space="preserve">
+    <value>更新時間</value>
+    <comment>更新時間</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
