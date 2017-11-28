@@ -58,20 +58,8 @@
             string empAccount = User.Identity.Name;
 
             //取得員工身分
-            string roleName = "";
-
-            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
-            spEmployee_GetRoleName cmdInfo = new spEmployee_GetRoleName()
-            {
-                EmpAccount = empAccount
-            };
-            roleName = cmd.ExecuteScalar<string>(cmdInfo, "-1");
-            string errMsg = cmd.GetErrMsg();
-
-            if (roleName == "-1")
-            {
-                roleName = "";
-            }
+            EmployeeAuthorityLogic empAuth = new EmployeeAuthorityLogic(null);
+            string roleName = empAuth.GetRoleNameOfEmp(empAccount);
 
             string[] aryRoles = new string[] { roleName };
 

@@ -46,6 +46,7 @@ namespace Common.LogicObject
         protected int ownerDeptIdOfDataExamined = 0;
 
         protected IAuthenticationConditionProvider authCondition;
+        protected ICustomEmployeeAuthorizationResult custEmpAuthResult;
         protected EmployeeAuthorizations authorizations = null;
         protected ILog logger = null;
         /// <summary>
@@ -67,11 +68,25 @@ namespace Common.LogicObject
             this.authCondition = authCondition;
             this.authorizations = new EmployeeAuthorizations();
             logger = LogManager.GetLogger(this.GetType());
-            opIdOfPage = authCondition.GetOpIdOfPage();
-            empAccount = authCondition.GetEmpAccount();
-            roleName = authCondition.GetRoleName();
-            isRoleAdmin = authCondition.IsInRole("admin");
-            deptId = authCondition.GetDeptId();
+
+            if (authCondition != null)
+            {
+                opIdOfPage = authCondition.GetOpIdOfPage();
+                empAccount = authCondition.GetEmpAccount();
+                roleName = authCondition.GetRoleName();
+                isRoleAdmin = authCondition.IsInRole("admin");
+                deptId = authCondition.GetDeptId();
+
+                if (authCondition is ICustomEmployeeAuthorizationResult)
+                {
+                    custEmpAuthResult = (ICustomEmployeeAuthorizationResult)authCondition;
+                }
+            }
+        }
+
+        public void SetCustomEmployeeAuthorizationResult(ICustomEmployeeAuthorizationResult custEmpAuthResult)
+        {
+            this.custEmpAuthResult = custEmpAuthResult;
         }
 
         /// <summary>
@@ -110,10 +125,10 @@ namespace Common.LogicObject
             //從資料集載入身分的授權設定
             LoadRoleAuthorizationsFrom(dsRoleOp);
 
-            if (authCondition is ICustomEmployeeAuthorizationResult)
+            if (custEmpAuthResult != null)
             {
                 //自訂帳號授權結果
-                EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = ((ICustomEmployeeAuthorizationResult)authCondition).InitialAuthorizationResult(isTopPageOfOperation, authorizations);
+                EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = custEmpAuthResult.InitialAuthorizationResult(isTopPageOfOperation, authorizations);
                 ownerAccountOfDataExamined = authAndOwner.OwnerAccountOfDataExamined;
                 ownerDeptIdOfDataExamined = authAndOwner.OwnerDeptIdOfDataExamined;
                 this.authorizations = authAndOwner;
