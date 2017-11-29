@@ -52,7 +52,6 @@
         <script src="Common/jquery-ui-1.12.1.Datepicker/jquery-ui.min.js"></script>
         <asp:Literal ID="ltrDatepickerJsTW" runat="server" Text="<script src='Common/jquery-ui-1.12.1/i18n/datepicker-zh-TW.js'></script>"></asp:Literal>
         <script src="Common/js/BackendPage.js"></script>
-        <script src="ckeditor/ckeditor.js"></script>
         <script>
             var isMobile = false;
             if (navigator) {

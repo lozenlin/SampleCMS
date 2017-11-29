@@ -100,7 +100,8 @@ var $itemHeaders = $(".sidebar-menu .items-group>.item-header");
 
 $itemHeaders.click(function () {
     $(this).siblings(".item-list, .tree-list").slideToggle("fast");
-    return false;
+
+    // return false;
 });
 
 if (!isMobile) {

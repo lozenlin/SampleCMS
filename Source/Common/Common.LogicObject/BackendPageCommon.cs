@@ -860,4 +860,48 @@ namespace Common.LogicObject
                 id, sortfield, isSortDesc);
         }
     }
+
+    /// <summary>
+    /// 後端網站架構管理頁的共用元件
+    /// </summary>
+    [Description("後端網站架構管理頁的共用元件")]
+    public class ArticleCommonOfBackend : BackendPageCommon
+    {
+        public ArticleCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// Article id
+        /// </summary>
+        public Guid qsArtId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("artid") ?? "";
+                Guid result = Guid.Empty;   //root id
+
+                if (str != "" && Guid.TryParse(str, out result))
+                {
+                }
+
+                return result;
+            }
+        }
+
+        #endregion
+
+        public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc,
+            int p)
+        {
+            return string.Format("Article-Node.aspx?kw={0}&sortfield={1}&isSortDesc={2}" +
+                "&p={3}",
+                kw, sortfield, isSortDesc,
+                p);
+        }
+
+    }
 }

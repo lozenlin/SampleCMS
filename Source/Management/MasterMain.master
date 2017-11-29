@@ -84,7 +84,7 @@
                             <asp:Repeater ID="rptOpMenu" runat="server" OnItemDataBound="rptOpMenu_ItemDataBound">
                             <ItemTemplate>
                                 <li id="OpHeaderArea" runat="server" class="nav-item card items-group">
-                                    <a id="btnOpHeader" runat="server" href="#" class="nav-link item-header">
+                                    <a id="btnOpHeader" runat="server" href="javascript:void(0);" class="nav-link item-header">
                                         <img id="imgOpHeader" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
                                         <asp:Literal ID="ltrOpHeaderSubject" runat="server"></asp:Literal>
                                     </a>

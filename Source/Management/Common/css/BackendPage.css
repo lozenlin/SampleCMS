@@ -290,6 +290,18 @@
     border-radius: 0.25rem;
 }
 
+.config-textbox-lang {
+    padding-bottom:3px;
+    margin-bottom:3px;
+    border-bottom:1px dotted #6fa49e;
+}
+
+    .config-textbox-lang>.lang-label {
+        display:inline-block;
+        width:3rem;
+        text-align:right;
+    }
+
 /* Role management */
 .RoleDisplay-admin {
     color:#ffb400;
