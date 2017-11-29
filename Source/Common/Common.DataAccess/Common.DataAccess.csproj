@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArticlePublisher.cs" />
     <Compile Include="CustomAttributes.cs" />
     <Compile Include="DataAccessCommand.cs" />
     <Compile Include="DataAccessSource.cs" />

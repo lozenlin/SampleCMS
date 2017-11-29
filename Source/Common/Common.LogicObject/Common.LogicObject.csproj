@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AfmServiceHandlerAbstract.cs" />
     <Compile Include="AfmServicePageCommon.cs" />
+    <Compile Include="ArticlePublisherLogic.cs" />
     <Compile Include="BackendPageCommon.cs" />
     <Compile Include="BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>

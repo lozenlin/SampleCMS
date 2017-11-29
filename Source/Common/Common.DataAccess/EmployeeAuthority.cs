@@ -1136,7 +1136,4 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     #endregion
-
-    #region emptyTail
-    #endregion
 }

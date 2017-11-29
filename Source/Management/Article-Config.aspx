@@ -103,7 +103,7 @@
                             <asp:ListItem Text="使用控制項　" Value="4" />
                         </asp:RadioButtonList>
                     </div>
-                    <div id="ShowTypeDetailArea" runat="server" class="config-textbox-lang ShowTypeDetailArea" style="display:none;">
+                    <div id="LinkUrlArea" class="config-textbox-lang" style="display:none;">
                         <div class="text-success">
                             (填入連結網址，客製化網頁程式請用 ~/ 開頭， e.g., ~/News.aspx，或填入控制項名稱)
                         </div>
@@ -111,6 +111,15 @@
                         <div class="mt-2 IsNewWindow">
                             <asp:CheckBox ID="chkIsNewWindow" runat="server" Text="開啟在新視窗" ClientIDMode="Static" />
                         </div>
+                    </div>
+                    <div id="ControlNameArea" class="config-textbox-lang" style="display:none;">
+                        <div class="text-success">
+                            (填入控制項名稱)
+                        </div>
+                        <span class="ctrl-label">控制項:</span>
+                        <asp:TextBox ID="txtControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox><br />
+                        <span class="ctrl-label">子項目預設控制項:</span>
+                        <asp:TextBox ID="txtSubItemControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox>
                     </div>
                 </td>
             </tr>
@@ -146,12 +155,40 @@
     </ul>
     <div class="tab-content bg-white p-3 border border-top-0">
         <div class="tab-pane fade show active" id="pnlZhTw">
-            <asp:TextBox ID="txtCkeContentZhTw" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
+            <asp:TextBox ID="txtCkeContextZhTw" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
         </div>
         <div class="tab-pane fade" id="pnlEn">
-            <asp:TextBox ID="txtCkeContentEn" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
+            <asp:TextBox ID="txtCkeContextEn" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
         </div>
     </div>
+    <hr class="content-divider" />
+    <div class="sys-subtitle">
+        異動資訊
+    </div>
+    <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
+        <tbody>
+            <tr>
+                <th style="width:15%;">建立者</th>
+                <td style="width:35%;">
+                    <asp:Literal ID="ltrPostAccount" runat="server"></asp:Literal>
+                </td>
+                <th style="width:15%;">建立日期</th>
+                <td style="width:35%;">
+                    <asp:Literal ID="ltrPostDate" runat="server"></asp:Literal>
+                </td>
+            </tr>
+            <tr>
+                <th>更新者</th>
+                <td>
+                    <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
+                </td>
+                <th>更新日期</th>
+                <td>
+                    <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphActionButtons" Runat="Server">
     <asp:LinkButton ID="btnSave" runat="server" CssClass="btn btn-success" ValidationGroup="g" Visible="false"
@@ -163,16 +200,16 @@
     <script>
         // show type
         function setShowTypeDetailArea(showTypeId) {
-            if (showTypeId == 3 || showTypeId == 4) {
-                $(".ShowTypeDetailArea").show();
-            } else {
-                $(".ShowTypeDetailArea").hide();
-            }
+            var $LinkUrlArea = $("#LinkUrlArea");
+            var $ControlNameArea = $("#ControlNameArea");
 
-            if (showTypeId == 4) {
-                $(".IsNewWindow").hide();
-            } else {
-                $(".IsNewWindow").show();
+            $LinkUrlArea.hide();
+            $ControlNameArea.hide();
+
+            if (showTypeId == 3) {
+                $LinkUrlArea.slideDown("fast");
+            } else if (showTypeId == 4) {
+                $ControlNameArea.slideDown("fast");
             }
         }
 
@@ -187,12 +224,12 @@
         }
 
         // article context
-        CKEDITOR.replace("txtCkeContentZhTw", {
+        CKEDITOR.replace("txtCkeContextZhTw", {
             allowedContent: true,
             width: "90%"
         });
 
-        CKEDITOR.replace("txtCkeContentEn", {
+        CKEDITOR.replace("txtCkeContextEn", {
             allowedContent: true,
             width: "90%"
         });

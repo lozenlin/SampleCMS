@@ -74,6 +74,13 @@ public partial class Article_Node : System.Web.UI.Page
         btnClear.ToolTip = Resources.Lang.SearchPanel_btnClear_Hint;
 
         //HUD
+        if (empAuth.CanEditThisPage())
+        {
+            hud.SetButtonVisible(HudButtonNameEnum.Edit, true);
+            hud.SetButtonAttribute(HudButtonNameEnum.Edit, HudButtonAttributeEnum.JsInNavigateUrl,
+                string.Format("popWin('Article-Config.aspx?act={0}&artid={1}', 700, 600);", ConfigFormAction.edit, c.qsArtId));
+        }
+
         if (empAuth.CanAddSubItemInThisPage())
         {
             hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
