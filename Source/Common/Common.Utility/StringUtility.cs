@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Common.Utility
 {
@@ -323,6 +324,21 @@ namespace Common.Utility
         public static string GetPswSimpleRuleValidationExpression()
         {
             return @"[a-zA-Z0-9`~!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\\\|:;""'<>,\.\?/]{6,50}";
+        }
+
+        /// <summary>
+        /// 取得過濾多餘資料的Html編輯器內文
+        /// </summary>
+        public static string GetSievedHtmlEditorValue(string htmlValue)
+        {
+            string managementDir = "Management/";
+
+            if (htmlValue.IndexOf(managementDir, StringComparison.CurrentCultureIgnoreCase) >= 0)
+            {
+                htmlValue = Regex.Replace(htmlValue, "(?im)" + managementDir, "");
+            }
+
+            return htmlValue;
         }
     }
 }

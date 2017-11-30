@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,7 @@ public partial class Article_Config : System.Web.UI.Page
 {
     protected ArticleCommonOfBackend c;
     protected EmployeeAuthorityLogic empAuth;
-    protected ArticlePublisherLogic articlePub;
+    protected ArticlePublisherLogic artPub;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -21,7 +22,7 @@ public partial class Article_Config : System.Web.UI.Page
         empAuth = new EmployeeAuthorityLogic(c);
         empAuth.InitialAuthorizationResultOfSubPages();
 
-        articlePub = new ArticlePublisherLogic();
+        artPub = new ArticlePublisherLogic();
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -62,7 +63,7 @@ public partial class Article_Config : System.Web.UI.Page
     {
         if (c.qsAct == ConfigFormAction.edit)
         {
-            DataSet dsArticle = articlePub.GetArticleDataForBackend(c.qsArtId);
+            DataSet dsArticle = artPub.GetArticleDataForBackend(c.qsArtId);
 
             if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
             {
@@ -94,14 +95,14 @@ public partial class Article_Config : System.Web.UI.Page
                 }
 
                 //zh-TW
-                DataSet dsZhTw = articlePub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameZHTW);
+                DataSet dsZhTw = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameZHTW);
 
                 if (dsZhTw != null && dsZhTw.Tables[0].Rows.Count > 0)
                 {
                     DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
 
                     txtArticleSubjectZhTw.Text = drZhTw.ToSafeStr("ArticleSubject");
-                    IsShowInLangZhTw.Checked = Convert.ToBoolean(drZhTw["IsShowInLang"]);
+                    chkIsShowInLangZhTw.Checked = Convert.ToBoolean(drZhTw["IsShowInLang"]);
                     txtCkeContextZhTw.Text = drZhTw["ArticleContext"].ToString();
 
                     if (!Convert.IsDBNull(drZhTw["MdfDate"]) && Convert.ToDateTime(drZhTw["MdfDate"]) > mdfDate)
@@ -112,14 +113,14 @@ public partial class Article_Config : System.Web.UI.Page
                 }
 
                 //en
-                DataSet dsEn = articlePub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameEN);
+                DataSet dsEn = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameEN);
 
                 if (dsEn != null && dsEn.Tables[0].Rows.Count > 0)
                 {
                     DataRow drEn = dsEn.Tables[0].Rows[0];
 
                     txtArticleSubjectEn.Text = drEn.ToSafeStr("ArticleSubject");
-                    IsShowInLangEn.Checked = Convert.ToBoolean(drEn["IsShowInLang"]);
+                    chkIsShowInLangEn.Checked = Convert.ToBoolean(drEn["IsShowInLang"]);
                     txtCkeContextEn.Text = drEn["ArticleContext"].ToString();
 
                     if (!Convert.IsDBNull(drEn["MdfDate"]) && Convert.ToDateTime(drEn["MdfDate"]) > mdfDate)
@@ -140,7 +141,7 @@ public partial class Article_Config : System.Web.UI.Page
         }
         else if (c.qsAct == ConfigFormAction.add)
         {
-            int newSortNo = articlePub.GetArticleMaxSortNo(c.qsArtId) + 10;
+            int newSortNo = artPub.GetArticleMaxSortNo(c.qsArtId) + 10;
             txtSortNo.Text = newSortNo.ToString();
             DateTime startDate = DateTime.Today.AddDays(3);
             DateTime endDate = startDate.AddYears(10);
@@ -160,6 +161,164 @@ public partial class Article_Config : System.Web.UI.Page
 
         try
         {
+            txtArticleAlias.Text = txtArticleAlias.Text.Trim();
+            txtBannerPicFileName.Text = txtBannerPicFileName.Text.Trim();
+            txtLinkUrl.Text = txtLinkUrl.Text.Trim();
+            txtControlName.Text = txtControlName.Text.Trim();
+            txtSubItemControlName.Text = txtSubItemControlName.Text.Trim();
+
+            ArticleParams param = new ArticleParams()
+            {
+                ArticleAlias = txtArticleAlias.Text,
+                BannerPicFileName = txtBannerPicFileName.Text,
+                LayoutModeId = Convert.ToInt32(rdolLayoutMode.SelectedValue),
+                ShowTypeId = Convert.ToInt32(rdolShowType.SelectedValue),
+                LinkUrl = txtLinkUrl.Text,
+                LinkTarget = chkIsNewWindow.Checked ? "_blank" : "",
+                ControlName = txtControlName.Text,
+                SubItemControlName = txtSubItemControlName.Text,
+                IsHideSelf = chkIsHideSelf.Checked,
+                IsHideChild = chkIsHideChild.Checked,
+                StartDate = Convert.ToDateTime(txtStartDate.Text),
+                EndDate = Convert.ToDateTime(txtEndDate.Text),
+                SortNo = Convert.ToInt32(txtSortNo.Text),
+                DontDelete = chkDontDelete.Checked,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            txtArticleSubjectZhTw.Text = txtArticleSubjectZhTw.Text.Trim();
+            txtCkeContextZhTw.Text = StringUtility.GetSievedHtmlEditorValue(txtCkeContextZhTw.Text);
+
+            ArticleMultiLangParams paramZhTw = new ArticleMultiLangParams()
+            {
+                CultureName = LangManager.CultureNameZHTW,
+                ArticleSubject = txtArticleSubjectZhTw.Text,
+                ArticleContext = txtCkeContextZhTw.Text,
+                IsShowInLang = chkIsShowInLangZhTw.Checked,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            txtArticleSubjectEn.Text = txtArticleSubjectEn.Text.Trim();
+            txtCkeContextEn.Text = StringUtility.GetSievedHtmlEditorValue(txtCkeContextEn.Text);
+
+            ArticleMultiLangParams paramEn = new ArticleMultiLangParams()
+            {
+                CultureName = LangManager.CultureNameEN,
+                ArticleSubject = txtArticleSubjectEn.Text,
+                ArticleContext = txtCkeContextEn.Text,
+                IsShowInLang = chkIsShowInLangEn.Checked,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            bool result = false;
+
+            if (c.qsAct == ConfigFormAction.add)
+            {
+                Guid newArticleId = Guid.NewGuid();
+                param.ArticleId = newArticleId;
+                param.ParentId = c.qsArtId;
+
+                if (param.ArticleAlias == "")
+                {
+                    param.ArticleAlias = newArticleId.ToString();
+                }
+
+                result = artPub.InsertArticleData(param);
+
+                if (result)
+                {
+                    //ZhTw
+                    if (result)
+                    {
+                        paramZhTw.ArticleId = param.ArticleId;
+                        result = artPub.InsertArticleMultiLangData(paramZhTw);
+                    }
+
+                    //En
+                    if (result)
+                    {
+                        paramEn.ArticleId = param.ArticleId;
+                        result = artPub.InsertArticleMultiLangData(paramEn);
+                    }
+
+                    if (!result)
+                    {
+                        Master.ShowErrorMsg("新增多國語系資料失敗");
+                    }
+                }
+                else
+                {
+                    if (param.HasIdBeenUsed)
+                    {
+                        Master.ShowErrorMsg("網頁代碼已被使用");
+                    }
+                    else if (param.HasAliasBeenUsed)
+                    {
+                        Master.ShowErrorMsg("網址別名已被使用");
+                    }
+                    else
+                    {
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddFailed);
+                    }
+                }
+            }
+            else if (c.qsAct == ConfigFormAction.edit)
+            {
+                param.ArticleId = c.qsArtId;
+
+                if (param.ArticleAlias == "")
+                {
+                    param.ArticleAlias = c.qsArtId.ToString();
+                }
+
+                result = artPub.UpdateArticleData(param);
+
+                if (result)
+                {
+                    //ZhTw
+                    if (result)
+                    {
+                        paramZhTw.ArticleId = param.ArticleId;
+                        result = artPub.UpdateArticleMultiLangData(paramZhTw);
+                    }
+
+                    //En
+                    if (result)
+                    {
+                        paramEn.ArticleId = param.ArticleId;
+                        result = artPub.UpdateArticleMultiLangData(paramEn);
+                    }
+
+                    if (!result)
+                    {
+                        Master.ShowErrorMsg("更新多國語系資料失敗");
+                    }
+                }
+                else
+                {
+                    if (param.HasAliasBeenUsed)
+                    {
+                        Master.ShowErrorMsg("網址別名已被使用");
+                    }
+                    else
+                    {
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddFailed);
+                    }
+                }
+            }
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
+            }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存網頁/Save article[{1}][{2}]　結果/result[{3}]", Title, txtArticleSubjectZhTw.Text, txtArticleSubjectEn.Text, result),
+                IP = c.GetClientIP()
+            });
         }
         catch (Exception ex)
         {

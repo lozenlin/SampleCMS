@@ -71,8 +71,8 @@
             <tr>
                 <th>語言版本</th>
                 <td colspan="3">
-                    <asp:CheckBox ID="IsShowInLangZhTw" runat="server" Text="中" Checked="true" />&nbsp;
-                    <asp:CheckBox ID="IsShowInLangEn" runat="server" Text="Eng" Checked="true" />&nbsp;
+                    <asp:CheckBox ID="chkIsShowInLangZhTw" runat="server" Text="中" Checked="true" />&nbsp;
+                    <asp:CheckBox ID="chkIsShowInLangEn" runat="server" Text="Eng" Checked="true" />&nbsp;
                 </td>
             </tr>
             <tr>
