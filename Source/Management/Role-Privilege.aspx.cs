@@ -330,14 +330,6 @@ public partial class Role_Privilege : System.Web.UI.Page
         List<RoleOpPvg> changes = c.seRoleOpPvgs.Where(p => string.Compare(p.RoleName, ltrRoleName.Text) == 0).ToList();
         c.ClearRoleDataOfRoleOpPvgs(ltrRoleName.Text);
 
-        //新增後端操作記錄
-        empAuth.InsertBackEndLogData(new BackEndLogData()
-        {
-            EmpAccount = c.GetEmpAccount(),
-            Description = string.Format("．{0}　．儲存權限/Save privileges　．身分/Role[{1}]　．異動數量/changes[{2}]", Title, ltrRoleName.Text, changes.Count),
-            IP = c.GetClientIP()
-        });
-
         try
         {
             bool result = empAuth.SaveListOfEmployeeRolePrivileges(new RolePrivilegeParams()
@@ -355,6 +347,14 @@ public partial class Role_Privilege : System.Web.UI.Page
             {
                 Master.ShowErrorMsg(Resources.Lang.ErrMsg_RolePrivilegeSaveFailed);
             }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存權限/Save privileges　．身分/Role[{1}]　．異動數量/changes[{2}]　結果/result[{3}]", Title, ltrRoleName.Text, changes.Count, result),
+                IP = c.GetClientIP()
+            });
         }
         catch (Exception ex)
         {

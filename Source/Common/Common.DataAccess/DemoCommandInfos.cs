@@ -35,9 +35,9 @@ namespace Common.DataAccess.DemoCommandInfos
     /// </summary>
     public class spDemo_WithPara : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int pa1;
         public string pa2;
@@ -58,9 +58,9 @@ namespace Common.DataAccess.DemoCommandInfos
     /// </summary>
     public class spDemo_WithOutputPara : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int pa1;
         public string pa2;
@@ -88,9 +88,9 @@ namespace Common.DataAccess.DemoCommandInfos
     /// </summary>
     public class spDemo_WithOutputParaAndAuthPara : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int pa1;
         public string pa2;
@@ -127,9 +127,9 @@ namespace Common.DataAccess.DemoCommandInfos
     /// </summary>
     public class spDemo_ModifyCommandParametersBeforeExecute : IDataAccessCommandInfo, IModifyCommandParametersBeforeExecute
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int pa1;
         public string pa2;

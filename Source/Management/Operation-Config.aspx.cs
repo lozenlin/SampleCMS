@@ -141,14 +141,6 @@ public partial class Operation_Config : System.Web.UI.Page
         if (!IsValid)
             return;
 
-        //新增後端操作記錄
-        empAuth.InsertBackEndLogData(new BackEndLogData()
-        {
-            EmpAccount = c.GetEmpAccount(),
-            Description = string.Format("．{0}　．儲存後端作業選項/Save operation[{1}][{2}]", Title, txtOpSubject.Text, txtEnglishSubject.Text),
-            IP = c.GetClientIP()
-        });
-
         try
         {
             txtOpSubject.Text = txtOpSubject.Text.Trim();
@@ -197,6 +189,14 @@ public partial class Operation_Config : System.Web.UI.Page
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
             }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存後端作業選項/Save operation[{1}][{2}]　結果/result[{3}]", Title, txtOpSubject.Text, txtEnglishSubject.Text, result),
+                IP = c.GetClientIP()
+            });
         }
         catch (Exception ex)
         {

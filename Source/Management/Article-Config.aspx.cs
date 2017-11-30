@@ -72,6 +72,7 @@ public partial class Article_Config : System.Web.UI.Page
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["StartDate"]);
                 txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["EndDate"]);
                 txtBannerPicFileName.Text = drFirst.ToSafeStr("BannerPicFileName");
+                txtArticleAlias.Text = drFirst.ToSafeStr("ArticleAlias");
                 rdolLayoutMode.SelectedValue = drFirst.ToSafeStr("LayoutModeId");
                 rdolShowType.SelectedValue = drFirst.ToSafeStr("ShowTypeId");
                 txtLinkUrl.Text = drFirst.ToSafeStr("LinkUrl");
@@ -152,6 +153,18 @@ public partial class Article_Config : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        Master.ShowErrorMsg("");
 
+        if (!IsValid)
+            return;
+
+        try
+        {
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            Master.ShowErrorMsg(ex.Message);
+        }
     }
 }

@@ -89,14 +89,6 @@ public partial class Department_Config : System.Web.UI.Page
         if (!IsValid)
             return;
 
-        //新增後端操作記錄
-        empAuth.InsertBackEndLogData(new BackEndLogData()
-        {
-            EmpAccount = c.GetEmpAccount(),
-            Description = string.Format("．{0}　．儲存部門/Save department[{1}]", Title, txtDeptName.Text),
-            IP = c.GetClientIP()
-        });
-
         try
         {
             txtDeptName.Text = txtDeptName.Text.Trim();
@@ -149,6 +141,14 @@ public partial class Department_Config : System.Web.UI.Page
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
             }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存部門/Save department[{1}]　結果/result[{2}]", Title, txtDeptName.Text, result),
+                IP = c.GetClientIP()
+            });
         }
         catch (Exception ex)
         {

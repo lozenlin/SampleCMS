@@ -25,9 +25,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_GetDataToLogin : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
 
@@ -47,9 +47,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_GetData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
 
@@ -69,9 +69,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_GetAccountOfId : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int EmpId;
 
@@ -91,9 +91,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_GetList : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int DeptId;  //0:all
         public string Kw;
@@ -130,9 +130,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_GetRoleName : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
 
@@ -152,9 +152,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_UpdateLoginInfo : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
         public string ThisLoginIP;
@@ -175,9 +175,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_DeleteData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int EmpId;
 
@@ -197,9 +197,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_InsertData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
         public string EmpPassword;
@@ -234,9 +234,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployee_UpdateData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int EmpId;
         public string EmpPassword;
@@ -273,9 +273,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spBackEndLog_InsertData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string EmpAccount;
         public string Description;
@@ -297,9 +297,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spBackEndLog_GetList : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public DateTime StartDate;
         public DateTime EndDate;
@@ -341,9 +341,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetOpInfoByCommonClass : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string CommonClass;
 
@@ -363,9 +363,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetTopListWithRoleAuth : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string RoleName;
 
@@ -385,9 +385,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetSubListWithRoleAuth : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string RoleName;
 
@@ -407,9 +407,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
 
@@ -429,9 +429,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetList : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int ParentId;	// 0:root
         public string CultureName;
@@ -464,9 +464,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_DeleteData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
 
@@ -486,9 +486,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_IncreaseSortNo : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
         public string MdfAccount;
@@ -509,9 +509,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_DecreaseSortNo : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
         public string MdfAccount;
@@ -532,9 +532,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetLevelInfo : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
 
@@ -554,9 +554,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_GetMaxSortNo : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int ParentId;    // 0:root
 
@@ -576,9 +576,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_InsertData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int ParentId;	// 0: root
         public string OpSubject;
@@ -609,9 +609,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spOperations_UpdateData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int OpId;
         public string OpSubject;
@@ -644,9 +644,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRoleOperationsDesc_GetDataOfOp : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string RoleName;
         public int OpId;
@@ -667,9 +667,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRoleOperationsDesc_SaveData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string RoleName;
         public int OpId;
@@ -829,9 +829,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRole_GetList : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string Kw;
         public int BeginNum;
@@ -862,9 +862,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRole_DeleteData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int RoleId;
 
@@ -900,9 +900,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRole_GetData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int RoleId;
 
@@ -923,9 +923,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRole_InsertData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string RoleName;
         public string RoleDisplayName;
@@ -951,9 +951,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spEmployeeRole_UpdateData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int RoleId;
         public string RoleDisplayName;
@@ -996,9 +996,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spDepartment_GetList : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string Kw;
         public int BeginNum;
@@ -1029,9 +1029,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spDepartment_DeleteData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int DeptId;
 
@@ -1051,9 +1051,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spDepartment_GetData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int DeptId;
 
@@ -1089,9 +1089,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spDepartment_InsertData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public string DeptName;
         public int SortNo;
@@ -1115,9 +1115,9 @@ namespace Common.DataAccess.EmployeeAuthority
     /// </summary>
     public class spDepartment_UpdateData : IDataAccessCommandInfo
     {
-        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值、順序)；屬性不包含在其中。
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
-        // DataAccessCommand generates SqlParameter information(name, value, order) from these fields automatically. Property is not be included.
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
         // Output parameter needs attribute [OutputPara]
         public int DeptId;
         public string DeptName;

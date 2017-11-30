@@ -94,6 +94,131 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 新增網頁內容
+        /// </summary>
+        public bool InsertArticleData(ArticleParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_InsertData cmdInfo = new spArticle_InsertData()
+            {
+                ArticleId = param.ArticleId,
+                ParentId = param.ParentId,
+                ArticleAlias = param.ArticleAlias,
+                BannerPicFileName = param.BannerPicFileName,
+                LayoutModeId = param.LayoutModeId,
+                ShowTypeId = param.ShowTypeId,
+                LinkUrl = param.LinkUrl,
+                LinkTarget = param.LinkTarget,
+                ControlName = param.ControlName,
+                SubItemControlName = param.SubItemControlName,
+                IsHideSelf = param.IsHideSelf,
+                IsHideChild = param.IsHideChild,
+                StartDate = param.StartDate,
+                EndDate = param.EndDate,
+                SortNo = param.SortNo,
+                DontDelete = param.DontDelete,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result)
+            {
+                if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 2)
+                {
+                    param.HasIdBeenUsed = true;
+                }
+                else if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 3)
+                {
+                    param.HasAliasBeenUsed = true;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增網頁內容的多國語系資料
+        /// </summary>
+        public bool InsertArticleMultiLangData(ArticleMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleMultiLang_InsertData cmdInfo = new spArticleMultiLang_InsertData()
+            {
+                ArticleId = param.ArticleId,
+                CultureName = param.CultureName,
+                ArticleSubject = param.ArticleSubject,
+                ArticleContext = param.ArticleContext,
+                IsShowInLang = param.IsShowInLang,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁內容
+        /// </summary>
+        public bool UpdateArticleData(ArticleParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_UpdateData cmdInfo = new spArticle_UpdateData()
+            {
+                ArticleId = param.ArticleId,
+                ArticleAlias = param.ArticleAlias,
+                BannerPicFileName = param.BannerPicFileName,
+                LayoutModeId = param.LayoutModeId,
+                ShowTypeId = param.ShowTypeId,
+                LinkUrl = param.LinkUrl,
+                LinkTarget = param.LinkTarget,
+                ControlName = param.ControlName,
+                SubItemControlName = param.SubItemControlName,
+                IsHideSelf = param.IsHideSelf,
+                IsHideChild = param.IsHideChild,
+                StartDate = param.StartDate,
+                EndDate = param.EndDate,
+                SortNo = param.SortNo,
+                DontDelete = param.DontDelete,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (!result)
+            {
+                if (cmd.GetSqlErrNumber() == 50000 && cmd.GetSqlErrState() == 3)
+                {
+                    param.HasAliasBeenUsed = true;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁內容的多國語系資料
+        /// </summary>
+        public bool UpdateArticleMultiLangData(ArticleMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleMultiLang_UpdateData cmdInfo = new spArticleMultiLang_UpdateData()
+            {
+                ArticleId = param.ArticleId,
+                CultureName = param.CultureName,
+                ArticleSubject = param.ArticleSubject,
+                ArticleContext = param.ArticleContext,
+                IsShowInLang = param.IsShowInLang,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
     }
 }

@@ -76,6 +76,8 @@
     <Compile Include="MagicNumbersAndStrings.cs" />
     <Compile Include="QueryParam\AccountListQueryParams.cs" />
     <Compile Include="QueryParam\AccountParams.cs" />
+    <Compile Include="QueryParam\ArticleMultiLangParams.cs" />
+    <Compile Include="QueryParam\ArticleParams.cs" />
     <Compile Include="QueryParam\AuthenticationQueryParams.cs" />
     <Compile Include="QueryParam\BackEndLogListQueryParams.cs" />
     <Compile Include="QueryParam\OpParams.cs" />

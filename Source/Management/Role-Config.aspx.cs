@@ -116,14 +116,6 @@ public partial class Role_Config : System.Web.UI.Page
         if (!IsValid)
             return;
 
-        //新增後端操作記錄
-        empAuth.InsertBackEndLogData(new BackEndLogData()
-        {
-            EmpAccount = c.GetEmpAccount(),
-            Description = string.Format("．{0}　．儲存身分/Save role[{1}]", Title, txtRoleName.Text),
-            IP = c.GetClientIP()
-        });
-
         try
         {
             txtRoleName.Text = txtRoleName.Text.Trim();
@@ -173,6 +165,14 @@ public partial class Role_Config : System.Web.UI.Page
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
             }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存身分/Save role[{1}]　結果/result[{2}]", Title, txtRoleName.Text, result),
+                IP = c.GetClientIP()
+            });
         }
         catch (Exception ex)
         {

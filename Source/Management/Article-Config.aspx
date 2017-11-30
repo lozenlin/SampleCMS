@@ -75,6 +75,12 @@
                     <asp:CheckBox ID="IsShowInLangEn" runat="server" Text="Eng" Checked="true" />&nbsp;
                 </td>
             </tr>
+            <tr>
+                <th>網址別名</th>
+                <td colspan="3">
+                    <asp:TextBox ID="txtArticleAlias" runat="server" MaxLength="50" Width="90%"></asp:TextBox>
+                </td>
+            </tr>
         </tbody>
     </table>
     <hr class="content-divider" />
