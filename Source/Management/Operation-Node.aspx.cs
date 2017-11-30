@@ -196,14 +196,14 @@ public partial class Operation_Node : BasePage
 
         SubitemArea.Visible = true;
 
-        OpListQueryParams opParams = new OpListQueryParams()
+        OpListQueryParams param = new OpListQueryParams()
         {
             ParentId = c.qsId,
             CultureName = new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()),
             Kw = ""
         };
 
-        opParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = 1,
             EndNum = 999999999,
@@ -211,7 +211,7 @@ public partial class Operation_Node : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        DataSet dsSubitems = empAuth.GetOperationList(opParams);
+        DataSet dsSubitems = empAuth.GetOperationList(param);
 
         if (dsSubitems != null)
         {

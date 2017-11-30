@@ -135,7 +135,7 @@ public partial class Back_End_Log : BasePage
 
     private void DisplayLogs()
     {
-        BackEndLogListQueryParams logParams = new BackEndLogListQueryParams()
+        BackEndLogListQueryParams param = new BackEndLogListQueryParams()
         {
             StartDate = c.qsStartDateOfQuery,
             EndDate = c.qsEndDateOfQuery,
@@ -147,7 +147,7 @@ public partial class Back_End_Log : BasePage
             RangeMode = c.qsRangeMode
         };
 
-        logParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = 0,
             EndNum = 0,
@@ -155,7 +155,7 @@ public partial class Back_End_Log : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        logParams.AuthParams = new AuthenticationQueryParams()
+        param.AuthParams = new AuthenticationQueryParams()
         {
             CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
             CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
@@ -165,15 +165,15 @@ public partial class Back_End_Log : BasePage
         };
 
         // get total of items
-        empAuth.GetBackEndLogList(logParams);
+        empAuth.GetBackEndLogList(param);
 
         // update pager and get begin end of item numbers
-        int itemTotalCount = logParams.PagedParams.RowCount;
+        int itemTotalCount = param.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
         if (IsPostBack)
             ucDataPager.RefreshPagerAfterPostBack();
 
-        logParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = ucDataPager.BeginItemNumberOfPage,
             EndNum = ucDataPager.EndItemNumberOfPage,
@@ -181,7 +181,7 @@ public partial class Back_End_Log : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        DataSet dsLogs = empAuth.GetBackEndLogList(logParams);
+        DataSet dsLogs = empAuth.GetBackEndLogList(param);
 
         if (dsLogs != null)
         {

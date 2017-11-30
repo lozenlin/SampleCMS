@@ -135,14 +135,14 @@ public partial class Account_List : BasePage
 
     private void DisplayAccounts()
     {
-        AccountListQueryParams accountParams = new AccountListQueryParams()
+        AccountListQueryParams param = new AccountListQueryParams()
         {
             ListMode = c.qsEmpRange,
             DeptId = c.qsDeptId,
             Kw = c.qsKw
         };
 
-        accountParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = 0,
             EndNum = 0,
@@ -150,7 +150,7 @@ public partial class Account_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        accountParams.AuthParams = new AuthenticationQueryParams()
+        param.AuthParams = new AuthenticationQueryParams()
         {
             CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
             CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
@@ -160,15 +160,15 @@ public partial class Account_List : BasePage
         };
 
         // get total of items
-        empAuth.GetAccountList(accountParams);
+        empAuth.GetAccountList(param);
 
         // update pager and get begin end of item numbers
-        int itemTotalCount = accountParams.PagedParams.RowCount;
+        int itemTotalCount = param.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
         if (IsPostBack)
             ucDataPager.RefreshPagerAfterPostBack();
 
-        accountParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = ucDataPager.BeginItemNumberOfPage,
             EndNum = ucDataPager.EndItemNumberOfPage,
@@ -176,7 +176,7 @@ public partial class Account_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        DataSet dsAccounts = empAuth.GetAccountList(accountParams);
+        DataSet dsAccounts = empAuth.GetAccountList(param);
 
         if (dsAccounts != null)
         {

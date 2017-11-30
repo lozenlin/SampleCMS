@@ -99,12 +99,12 @@ public partial class Department_List : BasePage
 
     private void DisplayDepartments()
     {
-        DeptListQueryParams deptParams = new DeptListQueryParams()
+        DeptListQueryParams param = new DeptListQueryParams()
         {
             Kw = c.qsKw
         };
 
-        deptParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = 0,
             EndNum = 0,
@@ -112,7 +112,7 @@ public partial class Department_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        deptParams.AuthParams = new AuthenticationQueryParams()
+        param.AuthParams = new AuthenticationQueryParams()
         {
             CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
             CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
@@ -122,15 +122,15 @@ public partial class Department_List : BasePage
         };
 
         // get total of items
-        empAuth.GetDepartmentList(deptParams);
+        empAuth.GetDepartmentList(param);
 
         // update pager and get begin end of item numbers
-        int itemTotalCount = deptParams.PagedParams.RowCount;
+        int itemTotalCount = param.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
         if (IsPostBack)
             ucDataPager.RefreshPagerAfterPostBack();
 
-        deptParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = ucDataPager.BeginItemNumberOfPage,
             EndNum = ucDataPager.EndItemNumberOfPage,
@@ -138,7 +138,7 @@ public partial class Department_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        DataSet dsRoles = empAuth.GetDepartmentList(deptParams);
+        DataSet dsRoles = empAuth.GetDepartmentList(param);
 
         if (dsRoles != null)
         {

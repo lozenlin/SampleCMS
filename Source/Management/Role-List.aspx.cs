@@ -103,12 +103,12 @@ public partial class Role_List : BasePage
 
     private void DisplayRoles()
     {
-        RoleListQueryParams roleParams = new RoleListQueryParams()
+        RoleListQueryParams param = new RoleListQueryParams()
         {
              Kw = c.qsKw
         };
 
-        roleParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = 0,
             EndNum = 0,
@@ -116,7 +116,7 @@ public partial class Role_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        roleParams.AuthParams = new AuthenticationQueryParams()
+        param.AuthParams = new AuthenticationQueryParams()
         {
             CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
             CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
@@ -126,15 +126,15 @@ public partial class Role_List : BasePage
         };
 
         // get total of items
-        empAuth.GetEmployeeRoleList(roleParams);
+        empAuth.GetEmployeeRoleList(param);
 
         // update pager and get begin end of item numbers
-        int itemTotalCount = roleParams.PagedParams.RowCount;
+        int itemTotalCount = param.PagedParams.RowCount;
         ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
         if (IsPostBack)
             ucDataPager.RefreshPagerAfterPostBack();
 
-        roleParams.PagedParams = new PagedListQueryParams()
+        param.PagedParams = new PagedListQueryParams()
         {
             BeginNum = ucDataPager.BeginItemNumberOfPage,
             EndNum = ucDataPager.EndItemNumberOfPage,
@@ -142,7 +142,7 @@ public partial class Role_List : BasePage
             IsSortDesc = c.qsIsSortDesc
         };
 
-        DataSet dsRoles = empAuth.GetEmployeeRoleList(roleParams);
+        DataSet dsRoles = empAuth.GetEmployeeRoleList(param);
 
         if (dsRoles != null)
         {
