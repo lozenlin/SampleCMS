@@ -132,6 +132,12 @@ namespace Common.LogicObject
                 ownerAccountOfDataExamined = authAndOwner.OwnerAccountOfDataExamined;
                 ownerDeptIdOfDataExamined = authAndOwner.OwnerDeptIdOfDataExamined;
                 this.authorizations = authAndOwner;
+
+                if (authAndOwner.IsTopPageOfOperationChanged)
+                {
+                    this.isTopPageOfOperation = authAndOwner.IsTopPageOfOperation;
+                }
+
                 return;
             }
         }
@@ -143,7 +149,7 @@ namespace Common.LogicObject
         {
             if (isRoleAdmin)
             {
-                //管理者,權限最大
+                // admin, open all
                 authorizations.CanRead = true;
                 authorizations.CanEdit = true;
 
@@ -170,7 +176,7 @@ namespace Common.LogicObject
 
                 DataRow drRoleOp = dsRoleOp.Tables[0].Rows[0];
 
-                //載入設定
+                // load settings
                 authorizations.CanRead = Convert.ToBoolean(drRoleOp["CanRead"]);
                 authorizations.CanEdit = Convert.ToBoolean(drRoleOp["CanEdit"]);
 

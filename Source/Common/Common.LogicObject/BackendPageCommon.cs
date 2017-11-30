@@ -898,6 +898,113 @@ namespace Common.LogicObject
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
         #endregion
 
+        /// <summary>
+        /// 展開選單到目前頁面的功能項目
+        /// </summary>
+        public override void SelectMenuItemToThisPage()
+        {
+            string menuOpId = this.GetOpIdOfPage().ToString();
+            string menuArticleId = this.qsArtId.ToString();
+
+            SelectMenuItem(menuOpId, menuArticleId);
+        }
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public override int GetOpIdOfPage()
+        {
+            if (opIdOfPage < 1)
+            {
+                bool gotOpId = false;
+                Guid curArticleId = qsArtId;
+                Guid curParentId = Guid.Empty;
+                int curArticleLevelNo;
+                string linkUrl = "";
+                bool isRoot = false;
+
+                // get article info
+                IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+                Common.DataAccess.ArticlePublisher.spArticle_GetDataForBackend articleCmdInfo = new DataAccess.ArticlePublisher.spArticle_GetDataForBackend()
+                {
+                    ArticleId = curArticleId
+                };
+                DataSet dsArticle = cmd.ExecuteDataset(articleCmdInfo);
+
+                if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drArticle = dsArticle.Tables[0].Rows[0];
+
+                    if (Convert.IsDBNull(drArticle["ParentId"]))
+                    {
+                        isRoot = true;
+                    }
+                    else
+                    {
+                        curParentId = new Guid(drArticle.ToSafeStr("ParentId"));
+                    }
+
+                    curArticleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
+                }
+
+                if (isRoot)
+                {
+                    opIdOfPage = base.GetOpIdOfPage();
+                    return opIdOfPage;
+                }
+
+                do
+                {
+                    // get opId by LinkUrl
+                    linkUrl = string.Format("Article-Node.aspx?artid={0}", curArticleId);
+
+                    Common.DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl opCmdInfo = new DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl()
+                    {
+                        LinkUrl = linkUrl
+                    };
+                    DataSet dsOpInfo = cmd.ExecuteDataset(opCmdInfo);
+
+                    if (dsOpInfo != null && dsOpInfo.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow drOpInfo = dsOpInfo.Tables[0].Rows[0];
+                        opIdOfPage = Convert.ToInt32(drOpInfo["OpId"]);
+                        gotOpId = true;
+                    }
+                    else
+                    {
+                        if (curParentId == Guid.Empty)
+                        {
+                            // parent is root
+                            break;
+                        }
+
+                        // get parent info
+                        articleCmdInfo.ArticleId = curParentId;
+                        DataSet dsParent = cmd.ExecuteDataset(articleCmdInfo);
+
+                        if (dsParent == null || dsParent.Tables[0].Rows.Count == 0)
+                        {
+                            logger.Error(string.Format("can not get article data of {0}", curParentId));
+                            break;
+                        }
+
+                        // move to parent level
+                        DataRow drParent = dsParent.Tables[0].Rows[0];
+                        curArticleId = curParentId;
+                        curParentId = new Guid(drParent.ToSafeStr("ParentId"));
+                        curArticleLevelNo = Convert.ToInt32(drParent["ArticleLevelNo"]);
+                    }
+                } while (!gotOpId);
+
+                if (!gotOpId)
+                {
+                    opIdOfPage = base.GetOpIdOfPage();
+                }
+            }
+
+            return opIdOfPage;
+        }
+
         public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc,
             int p)
         {

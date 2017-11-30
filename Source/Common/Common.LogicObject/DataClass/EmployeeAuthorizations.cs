@@ -80,6 +80,11 @@ namespace Common.LogicObject
         /// 目標資料的擁有者部門
         /// </summary>
         public int OwnerDeptIdOfDataExamined = 0;
+        /// <summary>
+        /// 為作業項目中的最上層頁面
+        /// </summary>
+        public bool IsTopPageOfOperation = true;
+        public bool IsTopPageOfOperationChanged = false;
 
         /// <summary>
         /// 授權項目與目標資料的擁有者資訊

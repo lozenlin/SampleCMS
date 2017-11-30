@@ -15,7 +15,7 @@ go
 /*
 */
 -- =============================================
-create procedure dbo.spArticle_GetDataForBackend
+alter procedure dbo.spArticle_GetDataForBackend
 @ArticleId uniqueidentifier
 as
 begin
@@ -26,8 +26,9 @@ begin
 		a.SubItemControlName, a.IsHideSelf, a.IsHideChild, 
 		a.StartDate, a.EndDate, a.SortNo, 
 		a.DontDelete, a.PostAccount, a.PostDate, 
-		a.MdfAccount, a.MdfDate
+		a.MdfAccount, a.MdfDate, isnull(e.DeptId, 0) as PostDeptId
 	from dbo.Article a
+		join dbo.Employee e on a.PostAccount=e.EmpAccount
 	where a.ArticleId=@ArticleId
 end
 go

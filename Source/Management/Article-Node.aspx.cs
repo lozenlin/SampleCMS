@@ -21,7 +21,8 @@ public partial class Article_Node : System.Web.UI.Page
 
         artPub = new ArticlePublisherLogic(c);
 
-        empAuth = new EmployeeAuthorityLogic(artPub);
+        empAuth = new EmployeeAuthorityLogic(c);
+        empAuth.SetCustomEmployeeAuthorizationResult(artPub);
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
