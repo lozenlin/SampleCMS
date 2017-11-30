@@ -637,6 +637,25 @@ go
 
 -- =============================================
 -- Author:      <lozen_lin>
+-- Create date: <2017/11/30>
+-- Description: <用超連結網址取得後端作業選項資訊>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spOperations_GetOpInfoByLinkUrl
+@LinkUrl nvarchar(100)
+as
+begin
+	select top 1
+		o.OpId
+	from dbo.Operations o
+	where o.LinkUrl=@LinkUrl
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
 -- Create date: <2017/10/31>
 -- History:
 --	2017/11/21, lozen_lin, modify, 新增欄位「英文標題」
@@ -1945,7 +1964,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/22>
+-- Create date: <2017/11/30>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

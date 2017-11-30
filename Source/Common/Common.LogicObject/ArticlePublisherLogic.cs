@@ -23,17 +23,23 @@ namespace Common.LogicObject
     /// <summary>
     /// 網頁內容發佈(上稿)
     /// </summary>
-    public class ArticlePublisherLogic
+    public class ArticlePublisherLogic : IAuthenticationConditionProvider, ICustomEmployeeAuthorizationResult
     {
         protected ILog logger = null;
         protected string dbErrMsg = "";
+        protected IAuthenticationConditionProvider authCondition;
+        /// <summary>
+        /// 後台網頁所屬的作業代碼
+        /// </summary>
+        protected int opIdOfPage;
 
         /// <summary>
         /// 網頁內容發佈(上稿)
         /// </summary>
-        public ArticlePublisherLogic()
+        public ArticlePublisherLogic(IAuthenticationConditionProvider authCondition)
         {
             logger = LogManager.GetLogger(this.GetType());
+            this.authCondition = authCondition;
         }
 
         // DataAccess functions
@@ -217,6 +223,105 @@ namespace Common.LogicObject
             dbErrMsg = cmd.GetErrMsg();
 
             return result;
+        }
+
+        #endregion
+
+        #region IAuthenticationConditionProvider
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public int GetOpIdOfPage()
+        {
+            if (opIdOfPage < 1)
+            {
+                bool gotOpId = false;
+                Guid curArticleId = authCondition.GetArticleId();
+                Guid curParentId;
+                int curArticleLevelNo;
+                bool isParentIdNull = false;
+
+                // get article info
+                DataSet dsArticle = GetArticleDataForBackend(curArticleId);
+
+                if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drArticle = dsArticle.Tables[0].Rows[0];
+
+                    if (Convert.IsDBNull(drArticle["ParentId"]))
+                    {
+                        isParentIdNull = true;
+                    }
+                    else
+                    {
+                        curParentId = new Guid(drArticle.ToSafeStr("ParentId"));
+                    }
+
+                    curArticleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
+                }
+
+                if (!isParentIdNull)
+                {
+                    //todo by lozen, get opId by LinkUrl
+
+
+                    //if (dsArticle == null || dsArticle.Tables[0].Rows.Count == 0)
+                    //{
+                    //    logger.Error(string.Format("can not get article data of {0}", curArticleId));
+                    //    // break;
+                    //}
+
+                    //DataRow drArticle = dsArticle.Tables[0].Rows[0];
+                    //curParentId = new Guid(drArticle.ToSafeStr("ParentId"));
+                    //curArticleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
+                }
+
+                if (!gotOpId)
+                {
+                    opIdOfPage = authCondition.GetOpIdOfPage();
+                }
+            }
+
+            return opIdOfPage;
+        }
+
+        public string GetEmpAccount()
+        {
+            return authCondition.GetEmpAccount();
+        }
+
+        public string GetRoleName()
+        {
+            return authCondition.GetRoleName();
+        }
+
+        public bool IsInRole(string roleName)
+        {
+            return authCondition.IsInRole(roleName);
+        }
+
+        public int GetDeptId()
+        {
+            return authCondition.GetDeptId();
+        }
+
+        public Guid GetArticleId()
+        {
+            return authCondition.GetArticleId();
+        }
+
+        #endregion
+
+        #region ICustomEmployeeAuthorizationResult
+
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations)
+        {
+            EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
+
+            //todo by lozen
+
+            return authAndOwner;
         }
 
         #endregion

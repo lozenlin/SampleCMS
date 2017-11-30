@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 public partial class Article_Node : System.Web.UI.Page
 {
     protected ArticleCommonOfBackend c;
+    protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
     private IHeadUpDisplay hud = null;
 
@@ -18,7 +19,9 @@ public partial class Article_Node : System.Web.UI.Page
         c.InitialLoggerOfUI(this.GetType());
         c.SelectMenuItemToThisPage();
 
-        empAuth = new EmployeeAuthorityLogic(c);
+        artPub = new ArticlePublisherLogic(c);
+
+        empAuth = new EmployeeAuthorityLogic(artPub);
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();

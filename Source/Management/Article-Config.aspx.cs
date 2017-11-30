@@ -11,18 +11,18 @@ using System.Web.UI.WebControls;
 public partial class Article_Config : System.Web.UI.Page
 {
     protected ArticleCommonOfBackend c;
-    protected EmployeeAuthorityLogic empAuth;
     protected ArticlePublisherLogic artPub;
+    protected EmployeeAuthorityLogic empAuth;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
         c = new ArticleCommonOfBackend(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
-        empAuth = new EmployeeAuthorityLogic(c);
-        empAuth.InitialAuthorizationResultOfSubPages();
+        artPub = new ArticlePublisherLogic(c);
 
-        artPub = new ArticlePublisherLogic();
+        empAuth = new EmployeeAuthorityLogic(artPub);
+        empAuth.InitialAuthorizationResultOfSubPages();
     }
 
     protected void Page_Load(object sender, EventArgs e)

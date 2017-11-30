@@ -1,4 +1,5 @@
 ﻿
+using System;
 namespace Common.LogicObject
 {
     /// <summary>
@@ -26,5 +27,9 @@ namespace Common.LogicObject
         /// 取得部門代碼
         /// </summary>
         int GetDeptId();
+        /// <summary>
+        /// 取得網頁代碼
+        /// </summary>
+        Guid GetArticleId();
     }
 }

@@ -359,6 +359,28 @@ namespace Common.DataAccess.EmployeeAuthority
     }
 
     /// <summary>
+    /// 用超連結網址取得後端作業選項資訊
+    /// </summary>
+    public class spOperations_GetOpInfoByLinkUrl : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public string LinkUrl;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spOperations_GetOpInfoByLinkUrl";
+        }
+    }
+
+    /// <summary>
     /// 取得後端作業選項第一層清單和身分授權
     /// </summary>
     public class spOperations_GetTopListWithRoleAuth : IDataAccessCommandInfo

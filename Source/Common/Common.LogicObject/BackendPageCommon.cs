@@ -88,6 +88,24 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// Article id
+        /// </summary>
+        public Guid qsArtId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("artid") ?? "";
+                Guid result = Guid.Empty;   //root id
+
+                if (str != "" && Guid.TryParse(str, out result))
+                {
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// 登入者資料
         /// </summary>
         public LoginEmployeeData seLoginEmpData
@@ -356,6 +374,11 @@ namespace Common.LogicObject
         public int GetDeptId()
         {
             return seLoginEmpData.DeptId;
+        }
+
+        public Guid GetArticleId()
+        {
+            return qsArtId;
         }
 
         #endregion
@@ -873,25 +896,6 @@ namespace Common.LogicObject
         }
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
-
-        /// <summary>
-        /// Article id
-        /// </summary>
-        public Guid qsArtId
-        {
-            get
-            {
-                string str = QueryStringToSafeStr("artid") ?? "";
-                Guid result = Guid.Empty;   //root id
-
-                if (str != "" && Guid.TryParse(str, out result))
-                {
-                }
-
-                return result;
-            }
-        }
-
         #endregion
 
         public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc,
