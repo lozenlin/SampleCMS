@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -52,7 +53,7 @@ public partial class Article_Node : BasePage
             }
 
             LoadUIData();
-            DisplaySubitems();
+            DisplayArticle();
         }
         else
         {
@@ -63,7 +64,7 @@ public partial class Article_Node : BasePage
 
                 if (Master.FlagValue == "Config")
                 {
-                    DisplaySubitems();
+                    DisplayArticle();
                 }
 
                 Master.FlagValue = "";
@@ -73,7 +74,56 @@ public partial class Article_Node : BasePage
 
     private void RebuildBreadcrumbAndHeadOfHUD()
     {
-        hud.RebuildBreadcrumbAndUpdateHead(c.GetOpIdOfPage());
+        StringBuilder sbBreadcrumbWoHome = new StringBuilder(100);
+
+        DataSet dsLevelInfo = artPub.GetArticleMultiLangLevelInfo(c.qsArtId, c.seCultureNameOfBackend);
+
+        if (dsLevelInfo != null && dsLevelInfo.Tables[0].Rows.Count > 0)
+        {
+            int total = dsLevelInfo.Tables[0].Rows.Count;
+
+            for (int itemNum = total; itemNum >= 1; itemNum--)
+            {
+                DataRow drArticle = dsLevelInfo.Tables[0].Rows[itemNum - 1];
+
+                Guid articleId = (Guid)drArticle["ArticleId"];
+                string articleSubject = drArticle.ToSafeStr("ArticleSubject");
+                int articleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
+                string url = string.Format("Article-Node.aspx?artid={0}", articleId);
+
+                if (itemNum == 1)
+                {
+                    sbBreadcrumbWoHome.Append(hud.GetBreadcrumbTextItemHtml(articleSubject));
+                    // update head of HUD
+                    hud.SetHeadText(articleSubject);
+
+                    // get icon of operation
+                    OperationHtmlAnchorData anchorData = empAuth.GetOperationHtmlAnchorData(c.GetOpIdOfPage(), false);
+
+                    if (anchorData != null && anchorData.IconImageFileUrl != "")
+                    {
+                        string iconImageFile = "~/BPImages/icon/" + anchorData.IconImageFileUrl;
+                        hud.SetHeadIconImageUrl(iconImageFile);
+                    }
+                }
+                else
+                {
+                    sbBreadcrumbWoHome.Append(hud.GetBreadcrumbLinkItemHtml(articleSubject, articleSubject, url));
+
+                    if (itemNum == 2)
+                    {
+                        // set url of BackToParent button
+                        string backToParentUrl = "~/" + c.BuildUrlOfListPage(articleId,
+                            c.qsKwOfParent, c.qsSortField, c.qsIsSortDesc,
+                            StringUtility.GetLastNumOfParents(c.qsPageCodeOfParents), StringUtility.GetNumOfParentsForParent(c.qsPageCodeOfParents), "");
+
+                        hud.SetButtonAttribute(HudButtonNameEnum.BackToParent, HudButtonAttributeEnum.NavigateUrl, backToParentUrl);
+                    }
+                }
+            }
+        }
+
+        hud.RebuildBreadcrumb(sbBreadcrumbWoHome.ToString(), true);
     }
 
     private void LoadUIData()
@@ -109,12 +159,86 @@ public partial class Article_Node : BasePage
         });
     }
 
+    private void DisplayArticle()
+    {
+        DataSet dsArticle = artPub.GetArticleDataForBackend(c.qsArtId);
+
+        if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
+        {
+            DataRow drFirst = dsArticle.Tables[0].Rows[0];
+
+            hidParentId.Text = drFirst.ToSafeStr("ParentId");
+            hidArticleLevelNo.Text = drFirst.ToSafeStr("ArticleLevelNo");
+
+            ltrValidDateRange.Text = string.Format("{0:yyyy-MM-dd} ~ {1:yyyy-MM-dd}", drFirst["StartDate"], drFirst["EndDate"]);
+
+            int showTypeId = Convert.ToInt32(drFirst["ShowTypeId"]);
+            string linkUrl = drFirst.ToSafeStr("LinkUrl");
+
+            switch (showTypeId)
+            {
+                case 1:
+                    // page
+                    ltrShowTypeName.Text = "呈現網頁";
+                    break;
+                case 2:
+                    // to sub-page
+                    ltrShowTypeName.Text = "跳轉下層";
+                    break;
+                case 3:
+                    // URL
+                    ltrShowTypeName.Text = "超連結";
+                    string showTypeLinkUrl = linkUrl;
+
+                    if (showTypeLinkUrl.StartsWith("~/"))
+                    {
+                        showTypeLinkUrl = showTypeLinkUrl.Replace("~", "..");
+                    }
+
+                    btnShowTypeLinkUrl.HRef = showTypeLinkUrl;
+                    btnShowTypeLinkUrl.Visible = true;
+                    ltrShowTypeName.Visible = false;
+                    break;
+                case 4:
+                    // use control
+                    ltrShowTypeName.Text = "使用控制項";
+                    break;
+            }
+
+            DataSet dsArticleMultiLang = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, c.seCultureNameOfBackend);
+
+            if (dsArticleMultiLang != null && dsArticleMultiLang.Tables[0].Rows.Count > 0)
+            {
+                DataRow drMultiLang = dsArticleMultiLang.Tables[0].Rows[0];
+
+                string mdfAccount;
+                DateTime mdfDate;
+
+                if (Convert.IsDBNull(drMultiLang["MdfDate"]))
+                {
+                    mdfAccount = drMultiLang.ToSafeStr("PostAccount");
+                    mdfDate = Convert.ToDateTime(drMultiLang["PostDate"]);
+                }
+                else
+                {
+                    mdfAccount = drMultiLang.ToSafeStr("MdfAccount");
+                    mdfDate = Convert.ToDateTime(drMultiLang["MdfDate"]);
+                }
+
+                ltrMdfName.Text = mdfAccount;
+                ltrMdfDate.Text = mdfDate.ToString("yyyy-MM-dd");
+            }
+        }
+
+        DisplaySubitems();
+    }
+
     private void DisplaySubitems()
     {
         ArticleListQueryParams param = new ArticleListQueryParams()
         {
             ParentId = c.qsArtId,
-            CultureName = new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()),
+            CultureName = c.seCultureNameOfBackend,
             Kw = c.qsKw
         };
 
@@ -315,7 +439,7 @@ public partial class Article_Node : BasePage
 
         if (result)
         {
-            DisplaySubitems();
+            DisplayArticle();
         }
     }
 

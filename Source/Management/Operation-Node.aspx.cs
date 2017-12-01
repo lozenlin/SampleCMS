@@ -30,7 +30,7 @@ public partial class Operation_Node : BasePage
 
         hud = Master.GetHeadUpDisplay();
 
-        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        if (c.seCultureNameOfBackend == "en")
         {
             useEnglishSubject = true;
         }
@@ -199,7 +199,7 @@ public partial class Operation_Node : BasePage
         OpListQueryParams param = new OpListQueryParams()
         {
             ParentId = c.qsId,
-            CultureName = new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()),
+            CultureName = c.seCultureNameOfBackend,
             Kw = ""
         };
 

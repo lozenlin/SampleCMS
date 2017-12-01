@@ -176,6 +176,24 @@ namespace Common.LogicObject
             set { Session["seLangNoOfBackend"] = value; }
         }
 
+        /// <summary>
+        /// 後端語言文化名稱
+        /// </summary>
+        public string seCultureNameOfBackend
+        {
+            get
+            {
+                object obj = Session["seCultureNameOfBackend"];
+
+                if (obj == null)
+                {
+                    Session["seCultureNameOfBackend"] = new LangManager().GetCultureName(seLangNoOfBackend.ToString());
+                }
+
+                return SessionToSafeStr("seCultureNameOfBackend");
+            }
+        }
+
         #endregion
 
         /// <summary>

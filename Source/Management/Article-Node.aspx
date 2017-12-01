@@ -7,16 +7,18 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <ul class="sys-info list-inline">
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">有效日期: 2010-07-26 ~ 2020-07-26</span>
+            <span class="badge badge-secondary font-weight-normal">有效日期: <asp:Literal ID="ltrValidDateRange" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">更新人員: 管理者</span>
+            <span class="badge badge-secondary font-weight-normal">更新人員: <asp:Literal ID="ltrMdfName" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">更新日期: 2014-12-29</span>
+            <span class="badge badge-secondary font-weight-normal">更新日期: <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">頁面屬性: <a href="#">超連結</a></span>
+            <span class="badge badge-secondary font-weight-normal">頁面屬性: 
+                <asp:Literal ID="ltrShowTypeName" runat="server"></asp:Literal>
+                <a id="btnShowTypeLinkUrl" runat="server" href="#" target="_blank" visible="false">超連結</a></span>
         </li>
     </ul>
     <div class="sys-subtitle">
@@ -132,6 +134,9 @@
     </table>
 
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
+
+    <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
+    <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
 </asp:Content>

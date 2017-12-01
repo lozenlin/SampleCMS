@@ -20,7 +20,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         c.InitialLoggerOfUI(this.GetType());
         empAuth = new EmployeeAuthorityLogic(c);
 
-        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        if (c.seCultureNameOfBackend == "en")
         {
             useEnglishSubject = true;
         }

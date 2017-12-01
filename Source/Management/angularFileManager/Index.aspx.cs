@@ -15,7 +15,7 @@ public partial class angularFileManager_Index : System.Web.UI.Page
     {
         c = new BackendPageCommon(this.Context, this.ViewState);
 
-        afmLang = new LangManager().GetCultureName(c.seLangNoOfBackend.ToString());
+        afmLang = c.seCultureNameOfBackend;
 
         if (string.Compare(afmLang, "zh-TW", true) == 0)
         {

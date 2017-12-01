@@ -88,7 +88,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
                 dr["CanRead"] = true;
         }
 
-        if (new LangManager().GetCultureName(c.seLangNoOfBackend.ToString()) == "en")
+        if (c.seCultureNameOfBackend == "en")
         {
             useEnglishSubject = true;
         }
