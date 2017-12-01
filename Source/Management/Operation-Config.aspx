@@ -90,7 +90,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
     <script>
-        function PreviewIconImageFile(fileName, idImg) {
+        function PreviewIconImageFile(fileName) {
             if (fileName == "") {
                 fileName = "data.gif";
             }

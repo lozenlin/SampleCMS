@@ -63,8 +63,8 @@
                     </div>
                     <div class="mt-2">
                         <%= Resources.Lang.Operation_lblPreview %> -
-                        中: <img id="imgBannerPicZhTw" src="images/default.png" alt="*" style="width:32px; height:32px;" />
-                        Eng: <img id="imgBannerPicEn" src="images/default.png" alt="*" style="width:32px; height:32px;" />
+                        中: <img id="imgBannerPicZhTw" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
+                        Eng: <img id="imgBannerPicEn" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
                     </div>
                 </td>
             </tr>
@@ -204,6 +204,56 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
     <script src="ckeditor/ckeditor.js"></script>
     <script>
+        //取得過濾掉多餘路徑的檔名
+        function GetSievedFileName(fileUrl) {
+            // exclude lang directory
+            var iLangDir = fileUrl.indexOf("/");
+
+            if (iLangDir == 1)
+                fileUrl = fileUrl.substr(2, fileUrl.length - 2);
+
+            return fileUrl;
+        }
+
+        function BannerSelected(data) {
+            if (data == undefined || data == null) {
+                return;
+            }
+
+            data = GetSievedFileName(data);
+
+            $("#txtBannerPicFileName")
+                .val(data)
+                .blur();
+        }
+
+        function BrowseImages() {
+            popWinOut("angularFileManager/Index.aspx?listtype=images&fnSelected=BannerSelected", 1000, 768);
+        }
+
+        // browse banner
+        $("#btnBrowseBannerPic").click(function () {
+            BrowseImages();
+            return false;
+        });
+
+        function PreviewBannerPicFile(fileName) {
+            var fileNameZhTw = "images/default.png";
+            var fileNameEn = "images/default.png";
+
+            if (fileName != "") {
+                fileNameZhTw = "images/1/" + fileName;
+                fileNameEn = "images/2/" + fileName;
+            }
+
+            $("#imgBannerPicZhTw").attr("src", fileNameZhTw);
+            $("#imgBannerPicEn").attr("src", fileNameEn);
+        }
+
+        $("#txtBannerPicFileName").blur(function () {
+            PreviewBannerPicFile(this.value);
+        }).blur();
+
         // show type
         function setShowTypeDetailArea(showTypeId) {
             var $LinkUrlArea = $("#LinkUrlArea");
