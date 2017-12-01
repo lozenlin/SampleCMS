@@ -45,7 +45,7 @@ namespace Common.DataAccess.ArticlePublisher
     /// <summary>
     /// 取得後台用網頁內容的多國語系資料
     /// </summary>
-    public class spArticleMultiLang_GetDataForbackend : IDataAccessCommandInfo
+    public class spArticleMultiLang_GetDataForBackend : IDataAccessCommandInfo
     {
         // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
         // 輸出參數請加上屬性 [OutputPara]
@@ -61,7 +61,7 @@ namespace Common.DataAccess.ArticlePublisher
 
         public string GetCommandText()
         {
-            return "dbo.spArticleMultiLang_GetDataForbackend";
+            return "dbo.spArticleMultiLang_GetDataForBackend";
         }
     }
 

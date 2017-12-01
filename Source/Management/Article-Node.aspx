@@ -75,39 +75,59 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>
-                    <a href="#" title="往下">
-                        <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
-                </td>
-                <td>
-                    <a href="#" title="往上">
-                        <span class="fa fa-arrow-up fa-lg text-info"></span></a>
-                </td>
-                <td>
-                    <a href="#">子項目</a>
-                </td>
-                <td>
-                    <span class="badge badge-light text-info border border-info">中</span>
-                    <span class="badge badge-light text-info border border-info">Eng</span>
-                    <span class="badge badge-light text-secondary">日</span>
-                </td>
-                <td>10</td>
-                <td>
-                    <span class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
-                </td>
-                <td>
-                    <a href="#" class="small">2017-10-18</a>
-                </td>
-                <td>
-                    <span class="small">部門名稱</span>
-                </td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                    <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                </td>
-            </tr>
+            <asp:Repeater ID="rptSubitems" runat="server">
+            <ItemTemplate>
+                <tr id="ItemArea" runat="server">
+                    <td>
+                            <%# EvalToSafeStr("RowNum") %>
+                    </td>
+                    <td>
+                        <asp:LinkButton ID="btnMoveDown" runat="server" ToolTip="往下" CommandName="MoveDown" CommandArgument='<%# EvalToSafeStr("ArticleId") %>'>
+                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></asp:LinkButton>
+                    </td>
+                    <td>
+                        <asp:LinkButton ID="btnMoveUp" runat="server" ToolTip="往上" CommandName="MoveUp" CommandArgument='<%# EvalToSafeStr("ArticleId") %>'>
+                            <span class="fa fa-arrow-up fa-lg text-info"></span></asp:LinkButton>
+                    </td>
+                    <td>
+                        <a id="btnItem" runat="server" href="#"></a>
+                    </td>
+                    <td>
+                        <span id="ctlIsShowInLangZhTw" runat="server" class="badge badge-light text-secondary">中</span>
+                        <span id="ctlIsShowInLangEn" runat="server" class="badge badge-light text-secondary">Eng</span>
+                        <%--
+                            on: badge badge-light text-info border border-info
+                            off: badge badge-light text-secondary
+                            --%>
+                    </td>
+                    <td>
+                        <%# EvalToSafeStr("SortNo") %>
+                    </td>
+                    <td>
+                        <span id="ctlArticleState" runat="server" class="fa fa-thumbs-up fa-lg text-success" title="online"></span>
+                        <%--
+                            online: fa fa-thumbs-up fa-lg text-success
+                            offline: fa fa-ban fa-lg text-danger
+                            on schedule: fa fa-hourglass-start fa-lg text-info
+                            --%>
+                    </td>
+                    <td>
+                        <span class="small"><asp:Literal ID="ltrValidDateRange" runat="server"></asp:Literal></span>
+                    </td>
+                    <td>
+                        <span class="small"><%# EvalToSafeStr("PostDeptName") %></span>
+                    </td>
+                    <td>
+                        <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
+                            <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
+                        </a>
+                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
+                            <i class="fa fa-trash-o"></i> 刪除
+                        </asp:LinkButton>
+                    </td>
+                </tr>
+            </ItemTemplate>
+            </asp:Repeater>
         </tbody>
     </table>
 

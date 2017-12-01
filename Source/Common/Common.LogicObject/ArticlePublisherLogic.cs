@@ -70,7 +70,7 @@ namespace Common.LogicObject
         public DataSet GetArticleMultiLangDataForBackend(Guid articleId, string cultureName)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
-            spArticleMultiLang_GetDataForbackend cmdInfo = new spArticleMultiLang_GetDataForbackend()
+            spArticleMultiLang_GetDataForBackend cmdInfo = new spArticleMultiLang_GetDataForBackend()
             {
                 ArticleId = articleId,
                 CultureName = cultureName

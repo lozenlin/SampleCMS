@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Article_Node : System.Web.UI.Page
+public partial class Article_Node : BasePage
 {
     protected ArticleCommonOfBackend c;
     protected ArticlePublisherLogic artPub;
