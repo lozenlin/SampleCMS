@@ -249,6 +249,54 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 刪除網頁內容
+        /// </summary>
+        public bool DeleteArticleData(Guid articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_DeleteData cmdInfo = new spArticle_DeleteData() { ArticleId = articleId };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 加大網頁內容的排序編號
+        /// </summary>
+        public bool IncreaseArticleSortNo(Guid articleId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_IncreaseSortNo cmdInfo = new spArticle_IncreaseSortNo()
+            {
+                ArticleId = articleId,
+                MdfAccount = mdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 減小網頁內容的排序編號
+        /// </summary>
+        public bool DecreaseArticleSortNo(Guid articleId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_DecreaseSortNo cmdInfo = new spArticle_DecreaseSortNo()
+            {
+                ArticleId = articleId,
+                MdfAccount = mdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>

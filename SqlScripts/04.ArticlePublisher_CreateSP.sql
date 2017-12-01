@@ -445,6 +445,192 @@ order by RowNum'
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/01>
+-- Description: <刪除網頁內容>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticle_DeleteData
+@ArticleId uniqueidentifier
+as
+begin
+	begin transaction
+	begin try
+		-- delete multi language data
+		delete from dbo.ArticleMultiLang
+		where ArticleId=@ArticleId
+
+		-- delete main data
+		delete from dbo.Article
+		where ArticleId=@ArticleId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/01>
+-- Description: <加大網頁內容的排序編號>
+-- Test:
+/*
+exec dbo.spArticle_IncreaseSortNo '343a6e5f-5ab5-4f4a-81c6-4ae990df9ce8', 'admin'
+*/
+-- =============================================
+create procedure dbo.spArticle_IncreaseSortNo
+@ArticleId uniqueidentifier
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ParentId uniqueidentifier
+	declare @SortNo int
+
+	select
+		@ParentId=ParentId, @SortNo=SortNo
+	from dbo.Article
+	where ArticleId=@ArticleId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get bigger one
+	declare @BiggerSortNo int
+	declare @BiggerArticleId uniqueidentifier
+
+	select top 1
+		@BiggerSortNo=SortNo, @BiggerArticleId=ArticleId
+	from dbo.Article
+	where ParentId=@ParentId
+		and ArticleId<>@ArticleId
+		and SortNo>=@SortNo
+	order by SortNo
+
+	-- there is no bigger one, exit
+	if @BiggerArticleId is null
+	begin
+		return
+	end
+
+	if @BiggerSortNo is null
+	begin
+		set @BiggerSortNo += 1
+	end
+
+	-- when the values area the same
+	if @SortNo=@BiggerSortNo
+	begin
+		set @BiggerSortNo += 1
+	end
+
+	-- swap
+	update dbo.Article
+	set SortNo=@BiggerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where ArticleId=@ArticleId
+
+	update dbo.Article
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where ArticleId=@BiggerArticleId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/01>
+-- Description: <減小網頁內容的排序編號>
+-- Test:
+/*
+exec dbo.spArticle_DecreaseSortNo '343a6e5f-5ab5-4f4a-81c6-4ae990df9ce8', 'admin'
+*/
+-- =============================================
+create procedure dbo.spArticle_DecreaseSortNo
+@ArticleId uniqueidentifier
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ParentId uniqueidentifier
+	declare @SortNo int
+
+	select
+		@ParentId=ParentId, @SortNo=SortNo
+	from dbo.Article
+	where ArticleId=@ArticleId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get smaller one
+	declare @SmallerSortNo int
+	declare @SmallerArticleId uniqueidentifier
+
+	select top 1
+		@SmallerSortNo=SortNo, @SmallerArticleId=ArticleId
+	from dbo.Article
+	where ParentId=@ParentId
+		and ArticleId<>@ArticleId
+		and SortNo<=@SortNo
+	order by SortNo desc
+
+	-- there is no smaller one, exit
+	if @SmallerArticleId is null
+	begin
+		return
+	end
+
+	if @SmallerSortNo is null
+	begin
+		set @SmallerSortNo=0
+	end
+
+	-- when the values are the same
+	if @SortNo=@SmallerSortNo
+	begin
+		set @SortNo += 1
+	end
+
+	-- swap
+	update dbo.Article
+	set SortNo=@SmallerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where ArticleId=@ArticleId
+
+	update dbo.Article
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where ArticleId=@SmallerArticleId
+end
+go
+
 
 
 

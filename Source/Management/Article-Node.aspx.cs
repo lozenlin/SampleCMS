@@ -266,7 +266,49 @@ public partial class Article_Node : BasePage
 
     protected void rptSubitems_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+        bool result = false;
+        Guid articleId;
 
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                articleId = new Guid(args[0]);
+                string articleSubject = args[1];
+
+                result = artPub.DeleteArticleData(articleId);
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．刪除網頁內容/Delete article　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", articleId, articleSubject, result),
+                    IP = c.GetClientIP()
+                });
+
+                // log to file
+                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "article-[" + articleId.ToString() + "]-" + articleSubject, result);
+
+                if (!result)
+                {
+                    Master.ShowErrorMsg("刪除網頁內容失敗");
+                }
+
+                break;
+            case "MoveUp":
+                articleId = new Guid(e.CommandArgument.ToString());
+                result = artPub.DecreaseArticleSortNo(articleId, c.GetEmpAccount());
+                break;
+            case "MoveDown":
+                articleId = new Guid(e.CommandArgument.ToString());
+                result = artPub.IncreaseArticleSortNo(articleId, c.GetEmpAccount());
+                break;
+        }
+
+        if (result)
+        {
+            DisplaySubitems();
+        }
     }
 
     protected void btnSearch_Click(object sender, EventArgs e)

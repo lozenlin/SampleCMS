@@ -985,7 +985,7 @@ begin
 		and SortNo>=@SortNo
 	order by SortNo
 
-	-- there is not bigger one, exit
+	-- there is no bigger one, exit
 	if @BiggerOpId is null
 	begin
 		return
@@ -1056,7 +1056,7 @@ begin
 		and SortNo<=@SortNo
 	order by SortNo desc
 
-	-- there is not smaller one, exit
+	-- there is no smaller one, exit
 	if @SmallerOpId is null
 	begin
 		return
