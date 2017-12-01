@@ -102,6 +102,11 @@ public partial class Article_Node : BasePage
         txtKw.Text = c.qsKw;
 
         //columns of list
+
+        c.DisplySortableCols(new string[] { 
+            "ArticleSubject", "SortNo", "StartDate", 
+            "PostDeptName"
+        });
     }
 
     private void DisplaySubitems()
@@ -201,6 +206,9 @@ public partial class Article_Node : BasePage
         HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
         btnItem.InnerHtml = articleSubject;
         btnItem.Title = articleSubject;
+        btnItem.HRef = c.BuildUrlOfListPage(articleId,
+            "", c.qsSortField, c.qsIsSortDesc,
+            1, StringUtility.GetNumOfParentsForChild(c.qsPageCode, c.qsPageCodeOfParents), c.qsKw);
 
         HtmlGenericControl ctlIsShowInLangZhTw = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangZhTw");
         HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
@@ -313,12 +321,18 @@ public partial class Article_Node : BasePage
 
     protected void btnSearch_Click(object sender, EventArgs e)
     {
+        txtKw.Text = txtKw.Text.Trim();
 
+        Response.Redirect(c.BuildUrlOfListPage(c.qsArtId,
+            txtKw.Text, "", false,
+            1, c.qsPageCodeOfParents, c.qsKwOfParent));
     }
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect(c.BuildUrlOfListPage(c.qsArtId,
+            "", "", false,
+            1, c.qsPageCodeOfParents, c.qsKwOfParent));
     }
 
     protected void btnSort_Click(object sender, EventArgs e)
@@ -329,6 +343,8 @@ public partial class Article_Node : BasePage
         c.ChangeSortStateToNext(ref sortField, out isSortDesc);
 
         //重新載入頁面
-        //Response.Redirect(c.BuildUrlOfListPage(c.qsId, sortField, isSortDesc));
+        Response.Redirect(c.BuildUrlOfListPage(c.qsArtId,
+            c.qsKw, sortField, isSortDesc,
+            c.qsPageCode, c.qsPageCodeOfParents, c.qsKwOfParent));
     }
 }

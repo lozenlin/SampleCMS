@@ -106,6 +106,28 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 所有父層頁碼(以逗號分開) e.g., 2,1,1
+        /// </summary>
+        public string qsPageCodeOfParents
+        {
+            get
+            {
+                return QueryStringToSafeStr("pParents") ?? "";
+            }
+        }
+
+        /// <summary>
+        /// Keyword of parent
+        /// </summary>
+        public string qsKwOfParent
+        {
+            get
+            {
+                return QueryStringToSafeStr("pkw") ?? "";
+            }
+        }
+
+        /// <summary>
         /// 登入者資料
         /// </summary>
         public LoginEmployeeData seLoginEmpData
@@ -1005,13 +1027,16 @@ namespace Common.LogicObject
             return opIdOfPage;
         }
 
-        public string BuildUrlOfListPage(string kw, string sortfield, bool isSortDesc,
-            int p)
+        public string BuildUrlOfListPage(Guid artid,
+            string kw, string sortfield, bool isSortDesc,
+            int p, string pParents, string pkw)
         {
-            return string.Format("Article-Node.aspx?kw={0}&sortfield={1}&isSortDesc={2}" +
-                "&p={3}",
+            return string.Format("Article-Node.aspx?artid={0}" +
+                "&kw={1}&sortfield={2}&isSortDesc={3}" +
+                "&p={4}&pParents={5}&pkw={6}",
+                artid,
                 kw, sortfield, isSortDesc,
-                p);
+                p, pParents, pkw);
         }
 
     }

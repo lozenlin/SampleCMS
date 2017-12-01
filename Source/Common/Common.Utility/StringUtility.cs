@@ -351,5 +351,55 @@ namespace Common.Utility
             else
                 return "badge badge-light text-secondary";
         }
+
+        /// <summary>
+        /// 取得給下一層用的所有父層Num
+        /// </summary>
+        public static string GetNumOfParentsForChild(int Num, string NumOfParents)
+        {
+            string strResult = "";
+
+            if (NumOfParents == "")
+                strResult = Num.ToString();
+            else
+                strResult = NumOfParents + "," + Num.ToString();
+
+            return strResult;
+        }
+
+        /// <summary>
+        /// 取得給上一層用的所有父層Num
+        /// </summary>
+        public static string GetNumOfParentsForParent(string NumOfParents)
+        {
+            string strResult = "";
+            int lastIndex = NumOfParents.LastIndexOf(',');
+
+            if (lastIndex != -1)
+                strResult = NumOfParents.Substring(0, lastIndex);
+
+            return strResult;
+        }
+
+        /// <summary>
+        /// 最後一個父層Num
+        /// </summary>
+        public static int GetLastNumOfParents(string NumOfParents)
+        {
+            int nResult;
+            string strNum = NumOfParents;
+            int lastIndex = NumOfParents.LastIndexOf(',');
+
+            if (lastIndex != -1)
+                strNum = NumOfParents.Substring(lastIndex).Replace(",", "");
+
+            if (int.TryParse(strNum, out nResult) && nResult >= 1)
+            {
+            }
+            else
+                nResult = 1;
+
+            return nResult;
+        }
     }
 }

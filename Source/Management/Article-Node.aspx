@@ -68,8 +68,8 @@
                     <asp:Literal ID="hidSortStartDate" runat="server" Visible="false" Text="上架日期"></asp:Literal>
                 </th>
                 <th title="<%= Resources.Lang.Col_DeptName_Hint %>" style="width:9%">
-                    <asp:LinkButton ID="btnSortDeptName" runat="server" CommandArgument="DeptName" Text="部門" OnClick="btnSort_Click"></asp:LinkButton>
-                    <asp:Literal ID="hidSortDeptName" runat="server" Visible="false" Text="部門"></asp:Literal>
+                    <asp:LinkButton ID="btnSortPostDeptName" runat="server" CommandArgument="PostDeptName" Text="部門" OnClick="btnSort_Click"></asp:LinkButton>
+                    <asp:Literal ID="hidSortPostDeptName" runat="server" Visible="false" Text="部門"></asp:Literal>
                 </th>
                 <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management_Hint %></th>
             </tr>
