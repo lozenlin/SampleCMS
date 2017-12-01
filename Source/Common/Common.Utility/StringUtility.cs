@@ -340,5 +340,16 @@ namespace Common.Utility
 
             return htmlValue;
         }
+
+        /// <summary>
+        /// 取得語系狀態圖示的 css class
+        /// </summary>
+        public static string GetCssClassOfIconIsShowInLang(bool enabled)
+        {
+            if (enabled)
+                return "badge badge-light text-info border border-info";
+            else
+                return "badge badge-light text-secondary";
+        }
     }
 }

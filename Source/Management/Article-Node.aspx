@@ -75,7 +75,7 @@
             </tr>
         </thead>
         <tbody>
-            <asp:Repeater ID="rptSubitems" runat="server">
+            <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSubitems_ItemDataBound" OnItemCommand="rptSubitems_ItemCommand">
             <ItemTemplate>
                 <tr id="ItemArea" runat="server">
                     <td>

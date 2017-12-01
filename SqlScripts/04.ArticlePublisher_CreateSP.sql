@@ -2,6 +2,38 @@
 use SampleCMS
 go
 
+-- db functions
+go
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/01>
+-- Description: <網頁內容在指定語系是否顯示>
+-- Test:
+/*
+select dbo.fnArticle_IsShowInLang('00000000-0000-0000-0000-000000000000', 'zh-TW')
+*/
+-- =============================================
+create function dbo.fnArticle_IsShowInLang(
+@ArticleId uniqueidentifier
+,@CultureName varchar(10)
+)
+returns bit
+as
+begin
+	declare @IsShowInLang bit
+
+	select 
+		@IsShowInLang=IsShowInLang
+	from dbo.ArticleMultiLang
+	where ArticleId=@ArticleId
+		and CultureName=@CultureName
+
+	return @IsShowInLang
+end
+go
+
+-- sp
+go
 ----------------------------------------------------------------------------
 -- 網頁內容
 ----------------------------------------------------------------------------
@@ -182,12 +214,14 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/30>
+-- History:
+--	2017/12/01, lozen_lin, modify, 修正別名誤判問題
 -- Description: <更新網頁內容>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spArticle_UpdateData
+alter procedure dbo.spArticle_UpdateData
 @ArticleId	uniqueidentifier
 ,@ArticleAlias	varchar(50)
 ,@BannerPicFileName	nvarchar(255)
@@ -214,7 +248,7 @@ begin
 	where ArticleId=@ArticleId
 
 	-- check alias
-	if exists(select * from dbo.Article where ParentId=@ParentId and ArticleAlias=@ArticleAlias)
+	if exists(select * from dbo.Article where ParentId=@ParentId and ArticleId<>@ArticleId and ArticleAlias=@ArticleAlias)
 	begin
 		raiserror(N'ArticleAlias has been used.', 11, 3)
 		return
@@ -275,7 +309,7 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/01>
--- Description: <取得網頁內容的指定語系清單>
+-- Description: <取得後台用指定語系的網頁內容清單>
 -- Test:
 /*
 declare @RowCount int
@@ -376,14 +410,17 @@ from (
 	from (
 		select
 			am.ArticleId, am.CultureName, am.ArticleSubject, 
-			am.ArticleContext, am.ReadCount, am.IsShowInLang, 
+			am.ArticleContext, am.ReadCount, 
+			dbo.fnArticle_IsShowInLang(am.ArticleId, ''zh-TW'') as IsShowInLangZhTw,
+			dbo.fnArticle_IsShowInLang(am.ArticleId, ''en'') as IsShowInLangEn, 
 			am.PostAccount, am.PostDate, am.MdfAccount,
-			am.MdfDate, isnull(e.DeptId, 0) as PostDeptId, a.IsHideSelf, 
-			a.IsHideChild, a.StartDate, a.EndDate, 
-			a.SortNo, a.DontDelete
+			am.MdfDate, isnull(e.DeptId, 0) as PostDeptId, d.DeptName as PostDeptName, 
+			a.IsHideSelf, a.IsHideChild, a.StartDate, 
+			a.EndDate, a.SortNo, a.DontDelete
 		from dbo.ArticleMultiLang am
 			join dbo.Article a on am.ArticleId=a.ArticleId
 			left join dbo.Employee e on am.PostAccount=e.EmpAccount
+			left join dbo.Department d on e.DeptId=d.DeptId
 		where 1=1' + @conditions + N'
 	) main 
 ) result 
