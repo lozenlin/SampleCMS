@@ -297,6 +297,23 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得指定語系的網頁內容階層資料
+        /// </summary>
+        public DataSet GetArticleMultiLangLevelInfo(Guid articleId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleMultiLang_GetLevelInfo cmdInfo = new spArticleMultiLang_GetLevelInfo()
+            {
+                ArticleId = articleId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         /// <summary>

@@ -631,6 +631,80 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/01>
+-- Description: <取得指定語系的網頁內容階層資料>
+-- Test:
+/*
+exec dbo.spArticleMultiLang_GetLevelInfo '036604AA-98E1-49C2-A42B-CC3ED20F4DB7', 'en'
+exec dbo.spArticleMultiLang_GetLevelInfo '343A6E5F-5AB5-4F4A-81C6-4AE990DF9CE8', 'zh-TW'
+exec dbo.spArticleMultiLang_GetLevelInfo '00000000-0000-0000-0000-000000000000', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spArticleMultiLang_GetLevelInfo
+@ArticleId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	create table #tbl(
+		ArticleId	uniqueidentifier
+		,ArticleSubject	nvarchar(200)
+		,ArticleLevelNo	int
+		,ShowTypeId	int
+		,LinkUrl	nvarchar(2048)
+		,LinkTarget	varchar(10)
+		,IsHideSelf	bit
+		,IsShowInLang	bit
+	)
+
+	declare @CurArticleId	uniqueidentifier = @ArticleId
+	declare @ParentId uniqueidentifier
+	declare @ArticleSubject	nvarchar(200)
+	declare @ArticleLevelNo	int
+	declare @ShowTypeId	int
+	declare @LinkUrl	nvarchar(2048)
+	declare @LinkTarget	varchar(10)
+	declare @IsHideSelf	bit
+	declare @IsShowInLang	bit
+
+	while 1=1
+	begin
+		select
+			@ParentId=a.ParentId, @ArticleSubject=am.ArticleSubject, @ArticleLevelNo=a.ArticleLevelNo,
+			@ShowTypeId=a.ShowTypeId, @LinkUrl=a.LinkUrl, @LinkTarget=a.LinkTarget, 
+			@IsHideSelf=a.IsHideSelf, @IsShowInLang=am.IsShowInLang
+		from dbo.ArticleMultiLang am
+			join dbo.Article a on am.ArticleId=a.ArticleId
+		where am.ArticleId=@CurArticleId
+			and am.CultureName=@CultureName
+
+		insert into #tbl(
+			ArticleId, ArticleSubject, ArticleLevelNo
+			,ShowTypeId, LinkUrl, LinkTarget
+			,IsHideSelf, IsShowInLang
+			)
+		values(
+			@CurArticleId, @ArticleSubject, @ArticleLevelNo
+			,@ShowTypeId, @LinkUrl, @LinkTarget
+			,@IsHideSelf, @IsShowInLang
+			)
+
+		if @ParentId is null
+		begin
+			break;
+		end
+
+		set @CurArticleId=@ParentId
+	end
+
+	select * from #tbl
+	order by ArticleLevelNo desc
+	
+	drop table #tbl 
+end
+go
+
 
 
 
