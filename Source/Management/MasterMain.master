@@ -90,23 +90,71 @@
                                     </a>
                                     <%-- item list (for operation) --%>
                                     <asp:Repeater ID="rptOpItems" runat="server" OnItemDataBound="rptOpItems_ItemDataBound">
-                                    <HeaderTemplate>
-                                        <ul class="nav nav-pills flex-column flex-nowrap item-list">
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <li id="OpItemArea" runat="server" class="nav-item item-area">
-                                            <a id="btnOpItem" runat="server" href="#" class="nav-link item">
-                                                <img id="imgOpItem" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
-                                                <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
-                                            </a>
-                                        </li>
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                        </ul>
-                                    </FooterTemplate>
+                                        <HeaderTemplate>
+                                            <ul class="nav nav-pills flex-column flex-nowrap item-list">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <li id="OpItemArea" runat="server" class="nav-item item-area">
+                                                <a id="btnOpItem" runat="server" href="#" class="nav-link item">
+                                                    <img id="imgOpItem" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                                    <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
+                                                </a>
+                                            </li>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </ul>
+                                        </FooterTemplate>
                                     </asp:Repeater>
                                     <%-- tree list (for article) --%>
-                                    <asp:PlaceHolder ID="rptArticles" runat="server" Visible="false">
+                                    <asp:Repeater ID="rptArticles" runat="server" OnItemDataBound="rptArticles_ItemDataBound" Visible="false">
+                                        <HeaderTemplate>
+                                            <ul class="nav nav-pills flex-column flex-nowrap tree-list">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <li id="BranchArea" runat="server" class="nav-item branch-area">
+                                                <a id="btnItem" runat="server" href="#" class="nav-link branch">
+                                                    <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/>
+                                                    <asp:Literal ID="ltrArticleSubject" runat="server"></asp:Literal>
+                                                </a>
+                                                <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptArticles_ItemDataBound">
+                                                    <HeaderTemplate>
+                                                        <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <li id="BranchArea" runat="server" class="nav-item branch-area">
+                                                            <a id="btnItem" runat="server" href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/>
+                                                                <asp:Literal ID="ltrArticleSubject" runat="server"></asp:Literal>
+                                                            </a>
+                                                            <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptArticles_ItemDataBound">
+                                                                <HeaderTemplate>
+                                                                    <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <li id="BranchArea" runat="server" class="nav-item branch-area">
+                                                                        <a id="btnItem" runat="server" href="#" class="nav-link branch">
+                                                                            <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/>
+                                                                            <asp:Literal ID="ltrArticleSubject" runat="server"></asp:Literal>
+                                                                        </a>
+                                                                    </li>
+                                                                </ItemTemplate>
+                                                                <FooterTemplate>
+                                                                    </ul>
+                                                                </FooterTemplate>
+                                                            </asp:Repeater>
+                                                        </li>
+                                                    </ItemTemplate>
+                                                    <FooterTemplate>
+                                                        </ul>
+                                                    </FooterTemplate>
+                                                </asp:Repeater>
+                                            </li>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </ul>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                    <asp:PlaceHolder ID="test" runat="server" Visible="false">
                                     <ul class="nav nav-pills flex-column flex-nowrap tree-list">
                                         <li class="nav-item branch-area" articleId="a01">
                                             <a href="#" class="nav-link branch">

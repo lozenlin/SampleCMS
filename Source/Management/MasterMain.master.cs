@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 public partial class MasterMain : System.Web.UI.MasterPage
 {
     protected BackendPageCommon c;
+    protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
 
     private bool useEnglishSubject = false;
@@ -31,6 +32,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
     {
         c = new BackendPageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
+        artPub = new ArticlePublisherLogic(c);
         empAuth = new EmployeeAuthorityLogic(c);
 
         Page.Title = Resources.Lang.BackStageName;
@@ -72,6 +74,37 @@ public partial class MasterMain : System.Web.UI.MasterPage
         //只有管理者能編輯後端作業選項
         btnEditOperations.Visible = c.IsInRole("admin");
         LineOfCtrl.Visible = btnEditOperations.Visible;
+    }
+
+    private DataSet GetSubitemsOfArticle(Guid articleId)
+    {
+        ArticleListQueryParams param = new ArticleListQueryParams()
+        {
+            ParentId = articleId,
+            CultureName = c.seCultureNameOfBackend,
+            Kw = ""
+        };
+
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 1,
+            EndNum = 999999999,
+            SortField = "",
+            IsSortDesc = false
+        };
+
+        param.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = true,
+            CanReadSubItemOfCrew = true,
+            CanReadSubItemOfSelf = true,
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
+        DataSet dsSubitems = artPub.GetArticleMultiLangListForBackend(param);
+
+        return dsSubitems;
     }
 
     private void DisplayOpMenu()
@@ -191,13 +224,21 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
         OpHeaderArea.Visible = canRead;
         Repeater rptOpItems = (Repeater)e.Item.FindControl("rptOpItems");
-        PlaceHolder rptArticles = (PlaceHolder)e.Item.FindControl("rptArticles");
+        Repeater rptArticles = (Repeater)e.Item.FindControl("rptArticles");
 
         if (opIdOfArticleMgmt != 0 && opId == opIdOfArticleMgmt)
         {
             // articles
             rptOpItems.Visible = false;
-            rptArticles.Visible = true;
+
+            DataSet dsSubitems = GetSubitemsOfArticle(Guid.Empty);  //Guid.Empty: root articleId
+
+            if (dsSubitems != null)
+            {
+                rptArticles.Visible = true;
+                rptArticles.DataSource = dsSubitems.Tables[0];
+                rptArticles.DataBind();
+            }
         }
         else
         {
@@ -273,6 +314,44 @@ public partial class MasterMain : System.Web.UI.MasterPage
             canRead = Convert.ToBoolean(drvTemp["CanRead"]);
 
         OpItemArea.Visible = canRead;
+    }
+
+    protected void rptArticles_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid articleId = (Guid)drvTemp["ArticleId"];
+        string articleSubject = drvTemp.ToSafeStr("ArticleSubject");
+        bool isHideSelf = Convert.ToBoolean(drvTemp["IsHideSelf"]);
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.HRef = string.Format("~/Article-Node.aspx?artid={0}", articleId);
+
+        Literal ltrArticleSubject = (Literal)e.Item.FindControl("ltrArticleSubject");
+        ltrArticleSubject.Text = articleSubject;
+
+        HtmlGenericControl BranchArea = (HtmlGenericControl)e.Item.FindControl("BranchArea");
+        BranchArea.Attributes.Add("articleId", articleId.ToString());
+        BranchArea.Visible = !isHideSelf;
+
+        // sub-items
+        Control ctlSubitems = e.Item.FindControl("rptSubitems");
+
+        if (ctlSubitems != null)
+        {
+            Repeater rptSubitems = (Repeater)ctlSubitems;
+
+            DataSet dsSubitems = GetSubitemsOfArticle(articleId);
+
+            if (dsSubitems != null)
+            {
+                rptSubitems.DataSource = dsSubitems.Tables[0];
+                rptSubitems.DataBind();
+            }
+        }
     }
 
     #region Public Methods

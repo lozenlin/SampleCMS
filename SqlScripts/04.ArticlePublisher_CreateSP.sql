@@ -409,8 +409,7 @@ from (
 	select row_number() over(' + @SortExp + N') as RowNum, *
 	from (
 		select
-			am.ArticleId, am.CultureName, am.ArticleSubject, 
-			am.ArticleContext, am.ReadCount, 
+			am.ArticleId, am.ArticleSubject, am.ReadCount, 
 			dbo.fnArticle_IsShowInLang(am.ArticleId, ''zh-TW'') as IsShowInLangZhTw,
 			dbo.fnArticle_IsShowInLang(am.ArticleId, ''en'') as IsShowInLangEn, 
 			am.PostAccount, am.PostDate, am.MdfAccount,
