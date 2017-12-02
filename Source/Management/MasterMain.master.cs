@@ -15,6 +15,7 @@ public partial class MasterMain : System.Web.UI.MasterPage
     protected EmployeeAuthorityLogic empAuth;
 
     private bool useEnglishSubject = false;
+    private int opIdOfArticleMgmt = 0;
 
     #region Public properties
 
@@ -75,6 +76,17 @@ public partial class MasterMain : System.Web.UI.MasterPage
 
     private void DisplayOpMenu()
     {
+        // get opId of article management
+        DataSet dsOpInfo = empAuth.GetOperationOpInfoByCommonClass("ArticleCommonOfBackend");
+
+        if (dsOpInfo != null && dsOpInfo.Tables[0].Rows.Count > 0)
+        {
+            DataRow drFirst = dsOpInfo.Tables[0].Rows[0];
+
+            opIdOfArticleMgmt = Convert.ToInt32(drFirst["OpId"]);
+        }
+
+
         DataSet dsTopList = empAuth.GetOperationsTopListWithRoleAuth(c.GetRoleName());
         DataSet dsSubList = empAuth.GetOperationsSubListWithRoleAuth(c.GetRoleName());
 
@@ -165,6 +177,12 @@ public partial class MasterMain : System.Web.UI.MasterPage
         Literal ltrOpHeaderSubject = (Literal)e.Item.FindControl("ltrOpHeaderSubject");
         ltrOpHeaderSubject.Text = opSubject;
 
+        if (opIdOfArticleMgmt != 0 && opId == opIdOfArticleMgmt)
+        {
+            string noticeIconOfHoverToExpand = "<span class='hover-intent-notice float-right' title='hover to expand' style='display:none;'><i class='fa fa-hand-o-up'></i><i class='fa fa-hourglass-start'></i></span>";
+            ltrOpHeaderSubject.Text += noticeIconOfHoverToExpand;
+        }
+
         //檢查授權
         bool canRead = false;
 
@@ -172,11 +190,22 @@ public partial class MasterMain : System.Web.UI.MasterPage
             canRead = Convert.ToBoolean(drvTemp["CanRead"]);
 
         OpHeaderArea.Visible = canRead;
-
-        DataView dvSubList = drvTemp.CreateChildView("JoinTopSub");
         Repeater rptOpItems = (Repeater)e.Item.FindControl("rptOpItems");
-        rptOpItems.DataSource = dvSubList;
-        rptOpItems.DataBind();
+        PlaceHolder rptArticles = (PlaceHolder)e.Item.FindControl("rptArticles");
+
+        if (opIdOfArticleMgmt != 0 && opId == opIdOfArticleMgmt)
+        {
+            // articles
+            rptOpItems.Visible = false;
+            rptArticles.Visible = true;
+        }
+        else
+        {
+            // sub-operations
+            DataView dvSubList = drvTemp.CreateChildView("JoinTopSub");
+            rptOpItems.DataSource = dvSubList;
+            rptOpItems.DataBind();
+        }
     }
 
     protected void rptOpItems_ItemDataBound(object sender, RepeaterItemEventArgs e)

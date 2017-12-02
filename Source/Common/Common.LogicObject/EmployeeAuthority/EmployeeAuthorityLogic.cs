@@ -615,6 +615,22 @@ namespace Common.LogicObject
         #region Operation DataAccess functions
 
         /// <summary>
+        /// 用共用元件類別名稱取得後端作業選項資訊
+        /// </summary>
+        public DataSet GetOperationOpInfoByCommonClass(string commonClass)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spOperations_GetOpInfoByCommonClass cmdInfo = new spOperations_GetOpInfoByCommonClass()
+            {
+                CommonClass = commonClass
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
         /// 取得後端作業選項第一層清單和身分授權
         /// </summary>
         public DataSet GetOperationsTopListWithRoleAuth(string roleName)

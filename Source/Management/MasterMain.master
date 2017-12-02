@@ -88,8 +88,11 @@
                                         <img id="imgOpHeader" runat="server" src="BPimages/icon/data.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
                                         <asp:Literal ID="ltrOpHeaderSubject" runat="server"></asp:Literal>
                                     </a>
-                                    <ul class="nav nav-pills flex-column flex-nowrap item-list">
+                                    <%-- item list (for operation) --%>
                                     <asp:Repeater ID="rptOpItems" runat="server" OnItemDataBound="rptOpItems_ItemDataBound">
+                                    <HeaderTemplate>
+                                        <ul class="nav nav-pills flex-column flex-nowrap item-list">
+                                    </HeaderTemplate>
                                     <ItemTemplate>
                                         <li id="OpItemArea" runat="server" class="nav-item item-area">
                                             <a id="btnOpItem" runat="server" href="#" class="nav-link item">
@@ -98,8 +101,65 @@
                                             </a>
                                         </li>
                                     </ItemTemplate>
+                                    <FooterTemplate>
+                                        </ul>
+                                    </FooterTemplate>
                                     </asp:Repeater>
+                                    <%-- tree list (for article) --%>
+                                    <asp:PlaceHolder ID="rptArticles" runat="server" Visible="false">
+                                    <ul class="nav nav-pills flex-column flex-nowrap tree-list">
+                                        <li class="nav-item branch-area" articleId="a01">
+                                            <a href="#" class="nav-link branch">
+                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
+                                            <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                <li class="nav-item branch-area" articleId="a03">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                    <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                        <li class="nav-item branch-area" articleId="a05">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a06">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a07">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item branch-area" articleId="a04">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folderStuffed.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                    <ul class="nav nav-pills flex-column flex-nowrap branch-list">
+                                                        <li class="nav-item branch-area" articleId="a08">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a09">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                        <li class="nav-item branch-area" articleId="a10">
+                                                            <a href="#" class="nav-link branch">
+                                                                <img src="BPimages/icon/file_s.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第三層名稱</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item branch-area" articleId="a20">
+                                                    <a href="#" class="nav-link branch">
+                                                        <img src="BPimages/icon/folder.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第二層名稱</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item branch-area" articleId="a02">
+                                            <a href="#" class="nav-link branch">
+                                                <img src="BPimages/icon/Generic_Application.gif" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 第一層名稱</a>
+                                        </li>
                                     </ul>
+                                    </asp:PlaceHolder>
                                 </li>
                             </ItemTemplate>
                             </asp:Repeater>

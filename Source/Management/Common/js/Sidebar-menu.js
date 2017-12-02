@@ -61,6 +61,13 @@ var opMenu = {
         $itemsGroup.children(".item-list, .tree-list").show();
     },
 
+    unfoldItemsGroup: function ($itemsGroup, useAnimate) {
+        if (useAnimate)
+            $itemsGroup.children(".item-list, .tree-list").slideDown("fast");
+        else
+            $itemsGroup.children(".item-list, .tree-list").show();
+    },
+
     toggleOperation: function (opId, articleId) {
         var $itemAreaOrItemsGroup = $("[opId='" + opId + "']");
 
@@ -105,12 +112,26 @@ $itemHeaders.click(function () {
 });
 
 if (!isMobile) {
+    // enable hover-intent
+    // branch of tree list
     var $articleBranches = $(".tree-list .branch");
 
     $articleBranches.hoverIntent(function () {
         articleMenu.unfoldBranch($(this), true);
     }, function () {
     });
+
+    // items group of tree list
+    var $treeList = $(".tree-list");
+
+    if ($treeList.length > 0) {
+        $treeList.parent().hoverIntent(function () {
+            opMenu.unfoldItemsGroup($(this), true);
+        }, function () {
+        });
+    }
+
+    $(".sidebar-menu .hover-intent-notice").show();
 
     //離開選單後回預設值
     $(".sidebar-container").mouseleave(function () {
