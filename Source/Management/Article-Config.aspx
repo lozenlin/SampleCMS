@@ -53,13 +53,13 @@
                 </td>
             </tr>
             <tr>
-                <th>橫幅區圖檔名</th>
+                <th><%= Resources.Lang.Col_BannerPicFileName %></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtBannerPicFileName" runat="server" ClientIDMode="Static" MaxLength="255" style="width:25rem;"></asp:TextBox>
                     <a id="btnBrowseBannerPic" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Operation_btnBrowseImage_Hint %>">
                         <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                     <div class="text-success">
-                        (請將圖檔放至網站目錄[ (語言編號) ]中)
+                        (<%= Resources.Lang.Article_txtBannerPicFileName_Notice %>)
                     </div>
                     <div class="mt-2">
                         <%= Resources.Lang.Operation_lblPreview %> -
@@ -69,14 +69,14 @@
                 </td>
             </tr>
             <tr>
-                <th>語言版本</th>
+                <th><%= Resources.Lang.Col_Language %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsShowInLangZhTw" runat="server" Text="中" Checked="true" />&nbsp;
                     <asp:CheckBox ID="chkIsShowInLangEn" runat="server" Text="Eng" Checked="true" />&nbsp;
                 </td>
             </tr>
             <tr>
-                <th>網址別名</th>
+                <th><%= Resources.Lang.Col_ArticleAlias %></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtArticleAlias" runat="server" MaxLength="50" Width="90%"></asp:TextBox>
                 </td>
@@ -90,28 +90,22 @@
     <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
         <tbody>
             <tr>
-                <th style="width:15%;"><span class="">版面模式</span></th>
+                <th style="width:15%;"><span class=""><%= Resources.Lang.Col_LayoutMode %></span></th>
                 <td colspan="3">
                     <asp:RadioButtonList ID="rdolLayoutMode" runat="server" RepeatLayout="Flow" RepeatDirection="Horizontal">
-                        <asp:ListItem Text="全版　" Value="1" Selected="True" />
-                        <asp:ListItem Text="兩欄式　" Value="2" />
                     </asp:RadioButtonList>
                 </td>
             </tr>
             <tr>
-                <th>開啟方式</th>
+                <th><%= Resources.Lang.Col_PageShowType %></th>
                 <td colspan="3">
                     <div class="config-textbox-lang">
                         <asp:RadioButtonList ID="rdolShowType" runat="server" RepeatLayout="Flow" RepeatDirection="Horizontal" ClientIDMode="Static">
-                            <asp:ListItem Text="呈現網頁　" Value="1" Selected="True" />
-                            <asp:ListItem Text="跳轉下層　" Value="2" />
-                            <asp:ListItem Text="超連結　" Value="3" />
-                            <asp:ListItem Text="使用控制項　" Value="4" />
                         </asp:RadioButtonList>
                     </div>
                     <div id="LinkUrlArea" class="config-textbox-lang" style="display:none;">
                         <div class="text-success">
-                            (填入連結網址，客製化網頁程式請用 ~/ 開頭， e.g., ~/News.aspx，或填入控制項名稱)
+                            (<%= Resources.Lang.Article_txtLinkUrl_Notice %>)
                         </div>
                         <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" Width="90%"></asp:TextBox>
                         <div class="mt-2 IsNewWindow">
@@ -120,27 +114,27 @@
                     </div>
                     <div id="ControlNameArea" class="config-textbox-lang" style="display:none;">
                         <div class="text-success">
-                            (填入控制項名稱)
+                            (<%= Resources.Lang.Article_txtControlName_Notice %>)
                         </div>
-                        <span class="ctrl-label">控制項:</span>
+                        <span class="ctrl-label"><%= Resources.Lang.Article_lblControlName %>:</span>
                         <asp:TextBox ID="txtControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox><br />
-                        <span class="ctrl-label">子項目預設控制項:</span>
+                        <span class="ctrl-label"><%= Resources.Lang.Article_lblSubItemControlName %>:</span>
                         <asp:TextBox ID="txtSubItemControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox>
                     </div>
                 </td>
             </tr>
             <tr>
-                <th>隱藏文章</th>
+                <th><%= Resources.Lang.Col_HideArticle %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsHideSelf" runat="server" Text="隱藏本篇" />
-                    <span class="text-success">(若有選單，在父層的選單中不出現本篇文章)</span>
+                    <span class="text-success">(<%= Resources.Lang.Article_chkIsHideSelf_Notice %>)</span>
                     <br />
                     <asp:CheckBox ID="chkIsHideChild" runat="server" Text="隱藏子項目" />
-                    <span class="text-success">(若有選單，在選單中不列出所有子項目)</span>
+                    <span class="text-success">(<%= Resources.Lang.Article_chkIsHideChild_Notice %>)</span>
                 </td>
             </tr>
             <tr class="table-warning">
-                <th>禁止刪除</th>
+                <th><%= Resources.Lang.Col_NotAllowedToDelete %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkDontDelete" runat="server" Text="隱藏刪除鈕" />
                 </td>

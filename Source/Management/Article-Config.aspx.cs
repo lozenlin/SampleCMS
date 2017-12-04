@@ -49,15 +49,48 @@ public partial class Article_Config : System.Web.UI.Page
 
     private void LoadUIData()
     {
-        
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvStartDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covStartDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
+        rfvEndDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covEndDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
+        rfvArticleSubjectZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvArticleSubjectEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+
+        LoadLayoutModeUIData();
+        LoadShowTypeUIData();
+
+        chkIsNewWindow.Text = Resources.Lang.Col_OpenInNewWindow_Hint;
+        chkIsHideSelf.Text = Resources.Lang.Article_chkIsHideSelf;
+        chkIsHideChild.Text = Resources.Lang.Article_chkIsHideChild;
+        chkDontDelete.Text = Resources.Lang.Article_chkDontDelete;
+    }
+
+    private void LoadLayoutModeUIData()
+    {
+        rdolLayoutMode.Items.Clear();
+        rdolLayoutMode.Items.Add(new ListItem(Resources.Lang.LayoutModeOption_WideContent + "　", "1"));
+        rdolLayoutMode.Items.Add(new ListItem(Resources.Lang.LayoutModeOption_TwoColContent + "　", "2"));
+        rdolLayoutMode.Items[0].Selected = true;
+    }
+
+    private void LoadShowTypeUIData()
+    {
+        rdolShowType.Items.Clear();
+        rdolShowType.Items.Add(new ListItem(Resources.Lang.PageShowTypeOption_Page + "　", "1"));
+        rdolShowType.Items.Add(new ListItem(Resources.Lang.PageShowTypeOption_ToSubPage + "　", "2"));
+        rdolShowType.Items.Add(new ListItem(Resources.Lang.PageShowTypeOption_URL + "　", "3"));
+        rdolShowType.Items.Add(new ListItem(Resources.Lang.PageShowTypeOption_UseControl + "　", "4"));
+        rdolShowType.Items[0].Selected = true;
     }
 
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = string.Format("新增網頁 - id:{0}", c.qsArtId);
+            Title = string.Format(Resources.Lang.Article_Title_AddNew_Format, c.qsArtId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改網頁 - id:{0}", c.qsArtId);
+            Title = string.Format(Resources.Lang.Article_Title_Edit_Format, c.qsArtId);
     }
 
     private void DisplayArticleData()
@@ -244,18 +277,18 @@ public partial class Article_Config : System.Web.UI.Page
 
                     if (!result)
                     {
-                        Master.ShowErrorMsg("新增多國語系資料失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddMultiLangFailed);
                     }
                 }
                 else
                 {
                     if (param.HasIdBeenUsed)
                     {
-                        Master.ShowErrorMsg("網頁代碼已被使用");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ArticleIdHasBeenUsed);
                     }
                     else if (param.HasAliasBeenUsed)
                     {
-                        Master.ShowErrorMsg("網址別名已被使用");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ArticleAliasHasBeenUsed);
                     }
                     else
                     {
@@ -292,14 +325,14 @@ public partial class Article_Config : System.Web.UI.Page
 
                     if (!result)
                     {
-                        Master.ShowErrorMsg("更新多國語系資料失敗");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_UpdateMultiLangFailed);
                     }
                 }
                 else
                 {
                     if (param.HasAliasBeenUsed)
                     {
-                        Master.ShowErrorMsg("網址別名已被使用");
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_ArticleAliasHasBeenUsed);
                     }
                     else
                     {

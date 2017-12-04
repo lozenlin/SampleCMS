@@ -1277,6 +1277,118 @@
     <value>異動資訊</value>
     <comment>異動資訊</comment>
   </data>
+  <data name="Col_BannerPicFileName" xml:space="preserve">
+    <value>橫幅區圖檔名</value>
+    <comment>橫幅區圖檔名</comment>
+  </data>
+  <data name="Col_BannerPicFileName_Hint" xml:space="preserve">
+    <value>橫幅區圖檔名</value>
+    <comment>橫幅區圖檔名</comment>
+  </data>
+  <data name="Article_txtBannerPicFileName_Notice" xml:space="preserve">
+    <value>請將圖檔放至網站目錄[ (語言編號) ]中</value>
+    <comment>請將圖檔放至網站目錄[ (語言編號) ]中</comment>
+  </data>
+  <data name="Col_ArticleAlias" xml:space="preserve">
+    <value>網址別名</value>
+    <comment>網址別名</comment>
+  </data>
+  <data name="Col_ArticleAlias_Hint" xml:space="preserve">
+    <value>網址別名</value>
+    <comment>網址別名</comment>
+  </data>
+  <data name="Col_LayoutMode" xml:space="preserve">
+    <value>版面模式</value>
+    <comment>版面模式</comment>
+  </data>
+  <data name="Col_LayoutMode" xml:space="preserve">
+    <value>版面模式</value>
+    <comment>版面模式</comment>
+  </data>
+  <data name="Article_txtLinkUrl_Notice" xml:space="preserve">
+    <value>填入連結網址，客製化網頁程式請用 ~/ 開頭， e.g., ~/News.aspx</value>
+    <comment>填入連結網址，客製化網頁程式請用 ~/ 開頭， e.g., ~/News.aspx</comment>
+  </data>
+  <data name="Article_txtControlName_Notice" xml:space="preserve">
+    <value>填入控制項名稱</value>
+    <comment>填入控制項名稱</comment>
+  </data>
+  <data name="Article_lblControlName" xml:space="preserve">
+    <value>控制項</value>
+    <comment>控制項</comment>
+  </data>
+  <data name="Article_lblSubItemControlName" xml:space="preserve">
+    <value>子項目預設控制項</value>
+    <comment>子項目預設控制項</comment>
+  </data>
+  <data name="Col_HideArticle" xml:space="preserve">
+    <value>隱藏文章</value>
+    <comment>隱藏文章</comment>
+  </data>
+  <data name="Col_HideArticle_Hint" xml:space="preserve">
+    <value>隱藏文章</value>
+    <comment>隱藏文章</comment>
+  </data>
+  <data name="Article_chkIsHideSelf" xml:space="preserve">
+    <value>隱藏本篇</value>
+    <comment>隱藏本篇</comment>
+  </data>
+  <data name="Article_chkIsHideSelf_Notice" xml:space="preserve">
+    <value>若有選單，在父層的選單中不出現本篇文章</value>
+    <comment>若有選單，在父層的選單中不出現本篇文章</comment>
+  </data>
+  <data name="Article_chkIsHideChild" xml:space="preserve">
+    <value>隱藏子項目</value>
+    <comment>隱藏子項目</comment>
+  </data>
+  <data name="Article_chkIsHideChild_Notice" xml:space="preserve">
+    <value>若有選單，在選單中不列出所有子項目</value>
+    <comment>若有選單，在選單中不列出所有子項目</comment>
+  </data>
+  <data name="Col_NotAllowedToDelete" xml:space="preserve">
+    <value>禁止刪除</value>
+    <comment>禁止刪除</comment>
+  </data>
+  <data name="Col_NotAllowedToDelete_Hint" xml:space="preserve">
+    <value>禁止刪除</value>
+    <comment>禁止刪除</comment>
+  </data>
+  <data name="Article_chkDontDelete" xml:space="preserve">
+    <value>隱藏刪除鈕</value>
+    <comment>隱藏刪除鈕</comment>
+  </data>
+  <data name="LayoutModeOption_WideContent" xml:space="preserve">
+    <value>全版</value>
+    <comment>全版</comment>
+  </data>
+  <data name="LayoutModeOption_TwoColContent" xml:space="preserve">
+    <value>兩欄式</value>
+    <comment>兩欄式</comment>
+  </data>
+  <data name="Article_Title_AddNew_Format" xml:space="preserve">
+    <value>新增網頁 - id:{0}</value>
+    <comment>新增網頁 - id:{0}</comment>
+  </data>
+  <data name="Article_Title_Edit_Format" xml:space="preserve">
+    <value>修改網頁 - id:{0}</value>
+    <comment>修改網頁 - id:{0}</comment>
+  </data>
+  <data name="ErrMsg_AddMultiLangFailed" xml:space="preserve">
+    <value>新增多國語系資料失敗</value>
+    <comment>新增多國語系資料失敗</comment>
+  </data>
+  <data name="ErrMsg_ArticleIdHasBeenUsed" xml:space="preserve">
+    <value>網頁代碼已被使用</value>
+    <comment>網頁代碼已被使用</comment>
+  </data>
+  <data name="ErrMsg_ArticleAliasHasBeenUsed" xml:space="preserve">
+    <value>網址別名已被使用</value>
+    <comment>網址別名已被使用</comment>
+  </data>
+  <data name="ErrMsg_UpdateMultiLangFailed" xml:space="preserve">
+    <value>更新多國語系資料失敗</value>
+    <comment>更新多國語系資料失敗</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
