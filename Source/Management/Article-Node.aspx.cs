@@ -189,15 +189,15 @@ public partial class Article_Node : BasePage
             {
                 case 1:
                     // page
-                    ltrShowTypeName.Text = "呈現網頁";
+                    ltrShowTypeName.Text = Resources.Lang.PageShowTypeOption_Page;
                     break;
                 case 2:
                     // to sub-page
-                    ltrShowTypeName.Text = "跳轉下層";
+                    ltrShowTypeName.Text = Resources.Lang.PageShowTypeOption_ToSubPage;
                     break;
                 case 3:
                     // URL
-                    ltrShowTypeName.Text = "超連結";
+                    ltrShowTypeName.Text = Resources.Lang.PageShowTypeOption_URL;
                     string showTypeLinkUrl = linkUrl;
 
                     if (showTypeLinkUrl.StartsWith("~/"))
@@ -211,7 +211,7 @@ public partial class Article_Node : BasePage
                     break;
                 case 4:
                     // use control
-                    ltrShowTypeName.Text = "使用控制項";
+                    ltrShowTypeName.Text = Resources.Lang.PageShowTypeOption_UseControl;
                     break;
             }
 
@@ -392,12 +392,13 @@ public partial class Article_Node : BasePage
         btnDelete.CommandArgument = string.Join(",", articleId.ToString(), articleSubject);
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
-        btnDelete.OnClientClick = string.Format("return confirm('" + "確定刪除[{0}][{1}]?" + "');",
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Article_ConfirmDelete_Format + "');",
             articleSubject, articleId);
 
         if (dontDelete)
         {
             HtmlGenericControl ctlDontDelete = (HtmlGenericControl)e.Item.FindControl("ctlDontDelete");
+            ctlDontDelete.Attributes["title"] = Resources.Lang.Status_DontDelete;
             ctlDontDelete.Visible = true;
             btnDelete.Visible = false;
         }
@@ -441,7 +442,7 @@ public partial class Article_Node : BasePage
 
                 if (!result)
                 {
-                    Master.ShowErrorMsg("刪除網頁內容失敗");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteArticleFailed);
                 }
 
                 break;

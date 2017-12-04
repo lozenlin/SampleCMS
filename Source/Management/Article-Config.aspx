@@ -85,7 +85,7 @@
     </table>
     <hr class="content-divider" />
     <div class="sys-subtitle">
-        頁面設定
+        <%= Resources.Lang.GroupLabel_PageSettings %>
     </div>
     <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
         <tbody>
@@ -149,7 +149,7 @@
     </table>
     <hr class="content-divider" />
     <div class="sys-subtitle">
-        內文編輯
+        <%= Resources.Lang.GroupLabel_ContextEditor %>
     </div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -169,26 +169,26 @@
     </div>
     <hr class="content-divider" />
     <div class="sys-subtitle">
-        異動資訊
+        <%= Resources.Lang.GroupLabel_ModificationInfo %>
     </div>
     <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
         <tbody>
             <tr>
-                <th style="width:15%;">建立者</th>
+                <th style="width:15%;"><%= Resources.Lang.Col_Creator %></th>
                 <td style="width:35%;">
                     <asp:Literal ID="ltrPostAccount" runat="server"></asp:Literal>
                 </td>
-                <th style="width:15%;">建立日期</th>
+                <th style="width:15%;"><%= Resources.Lang.Col_CreateDate %></th>
                 <td style="width:35%;">
                     <asp:Literal ID="ltrPostDate" runat="server"></asp:Literal>
                 </td>
             </tr>
             <tr>
-                <th>更新者</th>
+                <th><%= Resources.Lang.Col_Modifier %></th>
                 <td>
                     <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
                 </td>
-                <th>更新日期</th>
+                <th><%= Resources.Lang.Col_ModifyDate %></th>
                 <td>
                     <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal>
                 </td>

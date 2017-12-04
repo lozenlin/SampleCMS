@@ -1253,6 +1253,30 @@
     <value>語言</value>
     <comment>語言</comment>
   </data>
+  <data name="Article_ConfirmDelete_Format" xml:space="preserve">
+    <value>確定刪除[{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="Status_DontDelete" xml:space="preserve">
+    <value>禁止刪除</value>
+    <comment>禁止刪除</comment>
+  </data>
+  <data name="ErrMsg_DeleteArticleFailed" xml:space="preserve">
+    <value>刪除網頁內容失敗</value>
+    <comment>刪除網頁內容失敗</comment>
+  </data>
+  <data name="GroupLabel_PageSettings" xml:space="preserve">
+    <value>頁面設定</value>
+    <comment>頁面設定</comment>
+  </data>
+  <data name="GroupLabel_ContextEditor" xml:space="preserve">
+    <value>內文編輯</value>
+    <comment>內文編輯</comment>
+  </data>
+  <data name="GroupLabel_ModificationInfo" xml:space="preserve">
+    <value>異動資訊</value>
+    <comment>異動資訊</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
