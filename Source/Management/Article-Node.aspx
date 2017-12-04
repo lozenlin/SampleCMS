@@ -126,6 +126,8 @@
                         <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
                             <i class="fa fa-trash-o"></i> 刪除
                         </asp:LinkButton>
+                        <span id="ctlDontDelete" runat="server" visible="false"
+                            class="badge badge-warning text-white" title="禁止刪除"><i class="fa fa-lock fa-lg"></i></span>
                     </td>
                 </tr>
             </ItemTemplate>

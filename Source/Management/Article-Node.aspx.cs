@@ -301,6 +301,7 @@ public partial class Article_Node : BasePage
         bool isHideSelf = Convert.ToBoolean(drvTemp["IsHideSelf"]);
         DateTime startDate = Convert.ToDateTime(drvTemp["StartDate"]);
         DateTime endDate = Convert.ToDateTime(drvTemp["EndDate"]);
+        bool dontDelete = Convert.ToBoolean(drvTemp["DontDelete"]);
 
         LinkButton btnMoveDown = (LinkButton)e.Item.FindControl("btnMoveDown");
         btnMoveDown.ToolTip = Resources.Lang.btnMoveDown;
@@ -383,6 +384,13 @@ public partial class Article_Node : BasePage
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
         btnDelete.OnClientClick = string.Format("return confirm('" + "確定刪除[{0}][{1}]?" + "');",
             articleSubject, articleId);
+
+        if (dontDelete)
+        {
+            HtmlGenericControl ctlDontDelete = (HtmlGenericControl)e.Item.FindControl("ctlDontDelete");
+            ctlDontDelete.Visible = true;
+            btnDelete.Visible = false;
+        }
 
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
