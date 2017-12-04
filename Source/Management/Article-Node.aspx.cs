@@ -65,6 +65,7 @@ public partial class Article_Node : BasePage
                 if (Master.FlagValue == "Config")
                 {
                     DisplayArticle();
+                    Master.RefreshOpMenu();
                 }
 
                 Master.FlagValue = "";
@@ -128,6 +129,7 @@ public partial class Article_Node : BasePage
 
     private void LoadUIData()
     {
+        btnShowTypeLinkUrl.InnerHtml = Resources.Lang.PageShowTypeOption_URL;
         btnSearch.ToolTip = Resources.Lang.SearchPanel_btnSearch_Hint;
         btnClear.ToolTip = Resources.Lang.SearchPanel_btnClear_Hint;
 
@@ -152,6 +154,14 @@ public partial class Article_Node : BasePage
         txtKw.Text = c.qsKw;
 
         //columns of list
+        btnSortArticleSubject.Text = Resources.Lang.Col_Subject;
+        hidSortArticleSubject.Text = btnSortArticleSubject.Text;
+        btnSortSortNo.Text = Resources.Lang.Col_SortNo;
+        hidSortSortNo.Text = btnSortSortNo.Text;
+        btnSortStartDate.Text = Resources.Lang.Col_ValidationDate;
+        hidSortStartDate.Text = btnSortStartDate.Text;
+        btnSortPostDeptName.Text = Resources.Lang.Col_DeptName;
+        hidSortPostDeptName.Text = btnSortPostDeptName.Text;
 
         c.DisplySortableCols(new string[] { 
             "ArticleSubject", "SortNo", "StartDate", 
@@ -448,6 +458,7 @@ public partial class Article_Node : BasePage
         if (result)
         {
             DisplayArticle();
+            Master.RefreshOpMenu();
         }
     }
 

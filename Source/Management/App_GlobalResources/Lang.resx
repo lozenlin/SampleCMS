@@ -1185,6 +1185,74 @@
     <value>修改作業選項 - id:{0}</value>
     <comment>修改作業選項 - id:{0}</comment>
   </data>
+  <data name="Col_Creator" xml:space="preserve">
+    <value>建立者</value>
+    <comment>建立者</comment>
+  </data>
+  <data name="Col_Creator_Hint" xml:space="preserve">
+    <value>建立者</value>
+    <comment>建立者</comment>
+  </data>
+  <data name="Col_CreateDate" xml:space="preserve">
+    <value>建立日期</value>
+    <comment>建立日期</comment>
+  </data>
+  <data name="Col_CreateDate_Hint" xml:space="preserve">
+    <value>建立日期</value>
+    <comment>建立日期</comment>
+  </data>
+  <data name="Col_Modifier" xml:space="preserve">
+    <value>更新者</value>
+    <comment>更新者</comment>
+  </data>
+  <data name="Col_Modifier_Hint" xml:space="preserve">
+    <value>更新者</value>
+    <comment>更新者</comment>
+  </data>
+  <data name="Col_ModifyDate" xml:space="preserve">
+    <value>更新日期</value>
+    <comment>更新日期</comment>
+  </data>
+  <data name="Col_ModifyDate_Hint" xml:space="preserve">
+    <value>更新日期</value>
+    <comment>更新日期</comment>
+  </data>
+  <data name="Col_PageShowType" xml:space="preserve">
+    <value>開啟方式</value>
+    <comment>開啟方式</comment>
+  </data>
+  <data name="Col_PageShowType_Hint" xml:space="preserve">
+    <value>開啟方式</value>
+    <comment>開啟方式</comment>
+  </data>
+  <data name="PageShowTypeOption_Page" xml:space="preserve">
+    <value>呈現網頁</value>
+    <comment>呈現網頁</comment>
+  </data>
+  <data name="PageShowTypeOption_ToSubPage" xml:space="preserve">
+    <value>跳轉下層</value>
+    <comment>跳轉下層</comment>
+  </data>
+  <data name="PageShowTypeOption_URL" xml:space="preserve">
+    <value>超連結</value>
+    <comment>超連結</comment>
+  </data>
+  <data name="PageShowTypeOption_UseControl" xml:space="preserve">
+    <value>使用控制項</value>
+    <comment>使用控制項</comment>
+  </data>
+  <data name="SearchPanel_lblSubjectKw" xml:space="preserve">
+    <value>標題關鍵字</value>
+    <comment>標題關鍵字</comment>
+  </data>
+  <data name="Col_Language" xml:space="preserve">
+    <value>語言</value>
+    <comment>語言</comment>
+  </data>
+  <data name="Col_Language_Hint" xml:space="preserve">
+    <value>語言</value>
+    <comment>語言</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

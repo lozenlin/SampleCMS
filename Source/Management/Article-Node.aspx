@@ -7,16 +7,23 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <ul class="sys-info list-inline">
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">有效日期: <asp:Literal ID="ltrValidDateRange" runat="server"></asp:Literal></span>
+            <span class="badge badge-secondary font-weight-normal">
+                <%= Resources.Lang.Col_ValidationDate %>:
+                <asp:Literal ID="ltrValidDateRange" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">更新人員: <asp:Literal ID="ltrMdfName" runat="server"></asp:Literal></span>
+            <span class="badge badge-secondary font-weight-normal">
+                <%= Resources.Lang.Col_Modifier %>: 
+                <asp:Literal ID="ltrMdfName" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">更新日期: <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
+            <span class="badge badge-secondary font-weight-normal">
+                <%= Resources.Lang.Col_ModifyDate %>: 
+                <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
         </li>
         <li class="list-inline-item">
-            <span class="badge badge-secondary font-weight-normal">頁面屬性: 
+            <span class="badge badge-secondary font-weight-normal">
+                <%= Resources.Lang.Col_PageShowType %>: 
                 <asp:Literal ID="ltrShowTypeName" runat="server"></asp:Literal>
                 <a id="btnShowTypeLinkUrl" runat="server" href="#" target="_blank" visible="false">超連結</a></span>
         </li>
@@ -31,7 +38,7 @@
         <div class="card bg-light search-panel">
             <div class="card-body sys-conditions pr-md-5">
                 <div class="form-group form-row">
-                    <label for='<%= txtKw.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblKw %></label>
+                    <label for='<%= txtKw.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblSubjectKw %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtKw" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
                     </div>
@@ -59,12 +66,12 @@
                     <asp:LinkButton ID="btnSortArticleSubject" runat="server" CommandArgument="ArticleSubject" Text="標題" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortArticleSubject" runat="server" Visible="false" Text="標題"></asp:Literal>
                 </th>
-                <th title="語言" style="width:14%">語言</th>
+                <th title="<%= Resources.Lang.Col_Language_Hint %>" style="width:14%"><%= Resources.Lang.Col_Language %></th>
                 <th title="<%= Resources.Lang.Col_SortNo_Hint %>" style="width:10%">
                     <asp:LinkButton ID="btnSortSortNo" runat="server" CommandArgument="SortNo" Text="排序編號" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortSortNo" runat="server" Visible="false" Text="排序編號"></asp:Literal>
                 </th>
-                <th title="狀態" style="width:4%">狀態</th>
+                <th title="<%= Resources.Lang.Col_Status_Hint %>" style="width:4%"><%= Resources.Lang.Col_Status %></th>
                 <th title="<%= Resources.Lang.Col_ValidationDate_Hint %>" style="width:13%">
                     <asp:LinkButton ID="btnSortStartDate" runat="server" CommandArgument="StartDate" Text="上架日期" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortStartDate" runat="server" Visible="false" Text="上架日期"></asp:Literal>
