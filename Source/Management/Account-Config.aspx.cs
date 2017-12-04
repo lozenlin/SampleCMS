@@ -205,6 +205,17 @@ public partial class Account_Config : System.Web.UI.Page
                 ltrOwnerAccount.Text = txtOwnerAccount.Text;
 
                 isOwner = empAuth.CanEditThisPage(false, drFirst.ToSafeStr("OwnerAccount"), Convert.ToInt32(drFirst["OwnerDeptId"]));
+
+                //modification info
+                ltrPostAccount.Text = drFirst.ToSafeStr("PostAccount");
+                ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", drFirst["PostDate"]);
+
+                if (!Convert.IsDBNull(drFirst["MdfDate"]))
+                {
+                    ltrMdfAccount.Text = drFirst.ToSafeStr("MdfAccount");
+                    ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", drFirst["MdfDate"]);
+                }
+
                 btnSave.Visible = true; 
             }
         }
@@ -220,6 +231,7 @@ public partial class Account_Config : System.Web.UI.Page
             ltrOwnerAccount.Text = txtOwnerAccount.Text;
 
             isOwner = true;
+
             btnSave.Visible = true;
         }
 

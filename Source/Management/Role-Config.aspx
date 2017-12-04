@@ -46,6 +46,34 @@
             </tr>
         </tbody>
     </table>
+    <hr class="content-divider" />
+    <div class="sys-subtitle">
+        <%= Resources.Lang.GroupLabel_ModificationInfo %>
+    </div>
+    <table class="table table-responsive-sm table-bordered table-striped table-hover table-sm bg-white config-list">
+        <tbody>
+            <tr>
+                <th style="width:15%;"><%= Resources.Lang.Col_Creator %></th>
+                <td style="width:35%;">
+                    <asp:Literal ID="ltrPostAccount" runat="server"></asp:Literal>
+                </td>
+                <th style="width:15%;"><%= Resources.Lang.Col_CreateDate %></th>
+                <td style="width:35%;">
+                    <asp:Literal ID="ltrPostDate" runat="server"></asp:Literal>
+                </td>
+            </tr>
+            <tr>
+                <th><%= Resources.Lang.Col_Modifier %></th>
+                <td>
+                    <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
+                </td>
+                <th><%= Resources.Lang.Col_ModifyDate %></th>
+                <td>
+                    <asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphActionButtons" Runat="Server">
     <asp:LinkButton ID="btnSave" runat="server" CssClass="btn btn-success" ValidationGroup="g" Visible="false"

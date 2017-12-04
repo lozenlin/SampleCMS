@@ -99,6 +99,16 @@ public partial class Role_Config : System.Web.UI.Page
                 txtRoleDisplayName.Text = drFirst.ToSafeStr("RoleDisplayName");
                 CopyPrivilegeArea.Visible = false;
 
+                //modification info
+                ltrPostAccount.Text = drFirst.ToSafeStr("PostAccount");
+                ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", drFirst["PostDate"]);
+
+                if (!Convert.IsDBNull(drFirst["MdfDate"]))
+                {
+                    ltrMdfAccount.Text = drFirst.ToSafeStr("MdfAccount");
+                    ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", drFirst["MdfDate"]);
+                }
+
                 btnSave.Visible = true;
             }
         }
