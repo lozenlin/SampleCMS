@@ -1389,6 +1389,26 @@
     <value>更新多國語系資料失敗</value>
     <comment>更新多國語系資料失敗</comment>
   </data>
+  <data name="PvgStatus_Sending" xml:space="preserve">
+    <value>傳送中</value>
+    <comment>傳送中</comment>
+  </data>
+  <data name="PvgStatus_TempStored" xml:space="preserve">
+    <value>已暫存</value>
+    <comment>已暫存</comment>
+  </data>
+  <data name="PvgStatus_SentFailed" xml:space="preserve">
+    <value>傳送失敗</value>
+    <comment>傳送失敗</comment>
+  </data>
+  <data name="Col_LastUpdate" xml:space="preserve">
+    <value>最後更新</value>
+    <comment>最後更新</comment>
+  </data>
+  <data name="Col_LastUpdate_Hint" xml:space="preserve">
+    <value>最後更新</value>
+    <comment>最後更新</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

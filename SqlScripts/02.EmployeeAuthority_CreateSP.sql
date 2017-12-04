@@ -676,7 +676,8 @@ begin
 		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
 		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
 		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers, 
-		o.EnglishSubject
+		o.EnglishSubject, ro.PostAccount, ro.PostDate, 
+		ro.MdfAccount, ro.MdfDate
 	from dbo.Operations o
 		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId
 	where o.ParentId is null
@@ -707,7 +708,8 @@ begin
 		ro.CanEditSubItemOfSelf, ro.CanAddSubItemOfSelf, ro.CanDelSubItemOfSelf, 
 		ro.CanReadSubItemOfCrew, ro.CanEditSubItemOfCrew, ro.CanDelSubItemOfCrew, 
 		ro.CanReadSubItemOfOthers, ro.CanEditSubItemOfOthers, ro.CanDelSubItemOfOthers, 
-		o.EnglishSubject
+		o.EnglishSubject, ro.PostAccount, ro.PostDate, 
+		ro.MdfAccount, ro.MdfDate
 	from dbo.Operations o
 		join dbo.Operations parent on o.ParentId=parent.OpId and parent.IsHideSelf=0
 		left join dbo.EmployeeRoleOperationsDesc ro on ro.RoleName=@RoleName and o.OpId=ro.OpId

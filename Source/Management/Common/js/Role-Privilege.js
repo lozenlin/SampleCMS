@@ -58,7 +58,7 @@ $(".op-area").click(function () {
     var $configPanel = $(".privilege-config-panel");
     $configPanel.show();
     $configPanel.find(".seqno").html($(this).find(".seqno").html() + ". ");
-    $configPanel.find(".op-name").html($(this).find(".op-name").html());
+    $configPanel.find(".op-name").html($(this).find(".op-name>.subject").html());
 
     var pvgOfItem = $(this).find(".hidPvgOfItem").val();
     var pvgOfSubitemSelf = $(this).find(".hidPvgOfSubitemSelf").val();
@@ -335,7 +335,7 @@ function sendPvgsToServer() {
     var addval = $("#chkAdd")[0].checked;
 
     if ($status != null) {
-        $status.html("傳送中...");
+        $status.html(status_sending + "...");
     }
 
     dao.TempStoreRolePvg(roleName, opId, itemVal,
@@ -366,9 +366,9 @@ function sendPvgsToServer() {
                 refreshTags($subitemCrewTags, $pvgOfSubitemCrew.val());
                 refreshTags($subitemOthersTags, $pvgOfSubitemOthers.val());
 
-                $status.html("已暫存");
+                $status.html(status_temporarily_stored);
             } else {
-                $status.html("傳送失敗");
+                $status.html(status_sent_failed);
                 alert(cr.err);
             }
         });

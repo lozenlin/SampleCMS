@@ -41,8 +41,11 @@
                         <asp:Literal ID="ltrSeqno" runat="server"></asp:Literal>
                     </td>
                     <td class="op-name">
-                        <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
-                        <span class="name"><asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal></span>
+                        <span class="subject">
+                            <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                            <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
+                        </span>
+                        <asp:Literal ID="ltrLastUpdateInfo" runat="server"></asp:Literal>
                     </td>
                     <td class="item">
                         <div class="tags"><asp:Literal ID="ltrPvgOfItem" runat="server"></asp:Literal></div>
@@ -71,8 +74,11 @@
                             <asp:Literal ID="ltrSeqno" runat="server"></asp:Literal>
                         </td>
                         <td class="op-name">
-                            <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
-                            <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
+                            <span class="subject">
+                                <img id="imgOpItem" runat="server" src="BPimages/icon/vectory_mini/basic/028.png" align="absmiddle" style="width:16px; height:16px;" alt="*"/> 
+                                <asp:Literal ID="ltrOpItemSubject" runat="server"></asp:Literal>
+                            </span>
+                            <asp:Literal ID="ltrLastUpdateInfo" runat="server"></asp:Literal>
                         </td>
                         <td class="item">
                             <div class="tags"><asp:Literal ID="ltrPvgOfItem" runat="server"></asp:Literal></div>
@@ -173,6 +179,7 @@
     <script src="Common/noUiSlider/nouislider.js"></script>
     <script>
         $(".pvg-badge").tooltip();
+        $(".mdf-info").tooltip();
     </script>
     <script src="Common/js/dao.js"></script>
     <script>
@@ -183,6 +190,10 @@
         var tagHtmlEdit = '<%= GetTagHtml(PvgTagNameEnum.Edit) %>';
         var tagHtmlAdd = '<%= GetTagHtml(PvgTagNameEnum.Add) %>';
         var tagHtmlDelete = '<%= GetTagHtml(PvgTagNameEnum.Delete) %>';
+
+        var status_sending = '<%= Resources.Lang.PvgStatus_Sending %>';
+        var status_temporarily_stored = '<%= Resources.Lang.PvgStatus_TempStored %>';
+        var status_sent_failed = '<%= Resources.Lang.PvgStatus_SentFailed %>';
     </script>
     <script src="Common/js/Role-Privilege.js"></script>
 </asp:Content>

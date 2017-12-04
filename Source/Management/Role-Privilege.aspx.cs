@@ -159,6 +159,20 @@ public partial class Role_Privilege : System.Web.UI.Page
         bool canEditSubItemOfOthers = drvTemp.To<bool>("CanEditSubItemOfOthers", false);
         bool canDelSubItemOfOthers = drvTemp.To<bool>("CanDelSubItemOfOthers", false);
 
+        string lastMdfAccount = "";
+        DateTime? lastMdfDate = null;
+
+        if (!Convert.IsDBNull(drvTemp["MdfDate"]))
+        {
+            lastMdfAccount = drvTemp.ToSafeStr("MdfAccount");
+            lastMdfDate = Convert.ToDateTime(drvTemp["MdfDate"]);
+        }
+        else if (!Convert.IsDBNull(drvTemp["PostDate"]))
+        {
+            lastMdfAccount = drvTemp.ToSafeStr("PostAccount");
+            lastMdfDate = Convert.ToDateTime(drvTemp["PostDate"]);
+        }
+
         HtmlTableRow OpArea = (HtmlTableRow)e.Item.FindControl("OpArea");
         OpArea.Attributes.Add("opid", opId.ToString());
 
@@ -185,6 +199,16 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         Literal ltrOpItemSubject = (Literal)e.Item.FindControl("ltrOpItemSubject");
         ltrOpItemSubject.Text = opSubject;
+
+        if (lastMdfDate.HasValue)
+        {
+            Literal ltrLastUpdateInfo = (Literal)e.Item.FindControl("ltrLastUpdateInfo");
+
+            string modificationInfo = string.Format(
+                "<span class='mdf-info text-info' title='{0}: {1}, {2:yyyy-MM-dd HH:mm:ss}'><i class='fa fa-info-circle'></i></span>",
+                Resources.Lang.Col_LastUpdate, lastMdfAccount, lastMdfDate);
+            ltrLastUpdateInfo.Text = " " + modificationInfo;
+        }
 
         Literal ltrPvgOfItem = (Literal)e.Item.FindControl("ltrPvgOfItem");
         HtmlInputHidden hidPvgOfItem = (HtmlInputHidden)e.Item.FindControl("hidPvgOfItem");
