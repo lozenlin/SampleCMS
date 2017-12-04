@@ -45,6 +45,9 @@
         var lang = '<%= afmLang  %>';
         var listType = $.QueryString["listtype"];
         var fnSelected = $.QueryString["fnSelected"];
+        var ckEditorFuncNum = $.QueryString["CKEditorFuncNum"];
+
+        if (listType == undefined) listType = "";
 
         var basicServiceUrl = '../afmService.ashx?listtype=' + listType;
 
@@ -77,14 +80,14 @@
                     .replace('%s', item.fullPath());
                     window.alert(msg);
                     */
+                    var parentWin = window.opener;
 
-                    if (fnSelected != null && fnSelected != "") {
-                        var parentWin = window.opener;
+                    if (parentWin == null) {
+                        window.parent;
+                    }
 
-                        if (parentWin == null) {
-                            window.parent;
-                        }
-
+                    if (fnSelected != undefined && fnSelected != "") {
+                        // to this system
                         if (parentWin != null) {
                             var iconPath = item.fullPath();
 
@@ -97,6 +100,18 @@
 
                             window.close();
                         }
+                    } else if (ckEditorFuncNum != undefined) {
+                        // to ckeditor
+                        // reference: https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_file_browser_api
+                        var filePath = item.fullPath();
+
+                        if (listType == "UserFiles") {
+                            filePath = "/UserFiles" + filePath;
+                        }
+
+                        parentWin.CKEDITOR.tools.callFunction(ckEditorFuncNum, filePath);
+
+                        window.close();
                     }
                 },
 

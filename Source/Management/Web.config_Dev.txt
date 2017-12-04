@@ -18,6 +18,20 @@
       </authorization>
     </system.web>
   </location>
+  <!--需要編輯html的頁面-->
+  <location path="Article-Config.aspx">
+    <system.web>
+      <httpRuntime requestValidationMode="2.0"/>
+    </system.web>
+  </location>
+  <!--
+    如需 .NET 4.5 web.config 變更的說明，請參閱 http://go.microsoft.com/fwlink/?LinkId=235367。
+
+    您可以在 <httpRuntime>  標記上設定下列屬性。
+      <system.Web>
+        <httpRuntime targetFramework="4.5" />
+      </system.Web>
+  -->
   <system.web>
     <compilation debug="true" targetFramework="4.5"/>
     <!--

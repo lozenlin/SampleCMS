@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterConfig.master" AutoEventWireup="true" CodeFile="Article-Config.aspx.cs" Inherits="Article_Config" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterConfig.master" AutoEventWireup="true" CodeFile="Article-Config.aspx.cs" ValidateRequest="false" Inherits="Article_Config" %>
 <%@ MasterType TypeName="MasterConfig" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
@@ -202,7 +202,7 @@
     <a href="#" class="btn btn-light" onclick="closeThisForm(); return false;"><%= Resources.Lang.ConfigForm_btnCancel %></a>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
-    <script src="ckeditor/ckeditor.js"></script>
+    <script src="ckeditor/ckeditor.js?t=20171204"></script>
     <script>
         //取得過濾掉多餘路徑的檔名
         function GetSievedFileName(fileUrl) {

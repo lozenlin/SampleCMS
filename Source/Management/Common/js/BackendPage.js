@@ -80,6 +80,15 @@ function popWinOut(link, w, h) {
     popWinCore(link, w, h);
 }
 
+// Helper function to get parameters from the query string.
+// reference: https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_file_browser_api
+function getUrlParam(paramName) {
+    var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i');
+    var match = window.location.search.match(reParam);
+
+    return (match && match.length > 1) ? match[1] : null;
+}
+
 // SearchPanel
 var $searchPanel = $(".search-panel");
 var $btnCollapseSearchPanel= $("#btnCollapseSearchPanel");

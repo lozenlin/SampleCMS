@@ -8,6 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
+    config.filebrowserImageBrowseUrl = "angularFileManager/Index.aspx?listtype=UserFiles";
     config.enterMode = CKEDITOR.ENTER_BR;    // CKEDITOR.ENTER_P
     config.extraPlugins = 'sourcedialog,codemirror';
     config.toolbarGroups = [
