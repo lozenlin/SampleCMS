@@ -370,7 +370,7 @@
     <comment>正常</comment>
   </data>
   <data name="SearchOption_AccessDenied" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access is denied</value>
     <comment>已停權</comment>
   </data>
   <data name="Col_Seqno" xml:space="preserve">
@@ -414,11 +414,11 @@
     <comment>帳號</comment>
   </data>
   <data name="Col_AccessDenied" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access is denied</value>
     <comment>停權</comment>
   </data>
   <data name="Col_AccessDenied_Hint" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access is denied</value>
     <comment>停權</comment>
   </data>
   <data name="Col_Status" xml:space="preserve">
@@ -562,11 +562,11 @@
     <comment>排程中</comment>
   </data>
   <data name="Status_AccessDeniedOrExpired" xml:space="preserve">
-    <value>Access denied or Expired</value>
+    <value>Access is denied or Expired</value>
     <comment>已停權或過期</comment>
   </data>
   <data name="Status_AccessDenied" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access is denied</value>
     <comment>已停權</comment>
   </data>
   <data name="Status_Online" xml:space="preserve">
@@ -622,7 +622,7 @@
     <comment>格式不正確</comment>
   </data>
   <data name="Account_chkIsAccessDenied" xml:space="preserve">
-    <value>Set as Access denied</value>
+    <value>deny access</value>
     <comment>設定為停權</comment>
   </data>
   <data name="ErrMsg_InvalidDate" xml:space="preserve">

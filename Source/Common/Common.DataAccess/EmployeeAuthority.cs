@@ -97,7 +97,7 @@ namespace Common.DataAccess.EmployeeAuthority
         // Output parameter needs attribute [OutputPara]
         public int DeptId;  //0:all
         public string Kw;
-        public int ListMode;    //清單內容模式(0:all, 1:normal, 2:access denied)
+        public int ListMode;    //清單內容模式(0:all, 1:normal, 2:access is denied)
         public int BeginNum;
         public int EndNum;
         public string SortField;

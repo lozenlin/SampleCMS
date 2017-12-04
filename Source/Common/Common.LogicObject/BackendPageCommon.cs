@@ -476,7 +476,7 @@ namespace Common.LogicObject
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
-        /// 帳號狀態(0:all, 1:normal, 2:access denied)
+        /// 帳號狀態(0:all, 1:normal, 2:access is denied)
         /// </summary>
         public int qsEmpRange
         {

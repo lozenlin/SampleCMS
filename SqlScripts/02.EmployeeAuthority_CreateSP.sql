@@ -102,7 +102,7 @@ select @RowCount
 alter procedure dbo.spEmployee_GetList
 @DeptId int=0	-- 0:all
 ,@Kw nvarchar(52)=''
-,@ListMode int=0	--清單內容模式(0:all, 1:normal, 2:access denied)
+,@ListMode int=0	--清單內容模式(0:all, 1:normal, 2:access is denied)
 ,@BeginNum int
 ,@EndNum int
 ,@SortField nvarchar(20)=''
