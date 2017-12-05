@@ -103,6 +103,52 @@ go
 set identity_insert dbo.ArticleMultiLang off
 go
 
+----------------------------------------------------------------------------
+-- dbo.AttachFile 附件檔案	
+----------------------------------------------------------------------------
+create table dbo.AttachFile(
+	AttId	uniqueidentifier	Not Null
+	,SeqnoForCluster	int	Not Null	identity
+	,ArticleId	uniqueidentifier
+	,FilePath	nvarchar(150)
+	,FileSavedName	nvarchar(500)		
+	,FileSize	int	Not Null	Default(0)
+	,SortNo	int		
+	,FileMIME	varchar(255)		
+	,DontDelete	bit	Not Null	Default(0)
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime		
+	,constraint PK_AttachFile primary key nonclustered(AttId)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_AttachFile on dbo.AttachFile (SeqnoForCluster)
+go
+
+----------------------------------------------------------------------------
+-- dbo.AttachFileMultiLang 附件檔案的多國語系資料	
+----------------------------------------------------------------------------
+create table dbo.AttachFileMultiLang(
+	AttId	uniqueidentifier	Not Null
+	,CultureName	varchar(10)	Not Null
+	,SeqnoForCluster	int	Not Null	identity
+	,AttSubject	nvarchar(200)		
+	,ReadCount	int	Not Null	Default(0)
+	,IsShowInLang	bit	Not Null	Default(1)
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime		
+	,constraint PK_AttachFileMultiLang primary key nonclustered(AttId, CultureName)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_AttachFileMultiLang on dbo.AttachFileMultiLang (SeqnoForCluster)
+go
+
+
 
 go
 ----------------------------------------------------------------------------
