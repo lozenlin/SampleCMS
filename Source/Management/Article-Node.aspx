@@ -141,8 +141,71 @@
             </asp:Repeater>
         </tbody>
     </table>
-
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
+
+    <hr class="content-divider" />
+    <div class="sys-subtitle container-fluid">
+        <div class="form-row">
+            <div class="col-sm-2">附件檔案</div>
+            <div class="col-sm-2">
+                <a id="btnUploadAttachFile" runat="server" href="#" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadAttachFile" runat="server" Text="上傳"></asp:Literal></a>
+            </div>
+        </div>
+    </div>
+    <table class="table table-responsive-md table-bordered table-sm table-striped table-hover bg-white subitem-list">
+        <thead>
+            <tr>
+                <th title="序號" style="width:3%">&nbsp;</th>
+                <th title="調整順序" style="width:6%" colspan="2">順序</th>
+                <th title="名稱">名稱</th>
+                <th title="檔案名稱" style="width:20%">檔案名稱</th>
+                <th title="語言" style="width:10%">語言</th>
+                <th title="上傳者" style="width:10%">上傳者</th>
+                <th title="上傳日期" style="width:12%">上傳日期</th>
+                <th title="類型" style="width:6%">類型</th>
+                <th title="管理功能" style="width:20%">管理功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>
+                    <a href="#" title="往下">
+                        <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
+                </td>
+                <td>
+                    <a href="#" title="往上">
+                        <span class="fa fa-arrow-up fa-lg text-info"></span></a>
+                </td>
+                <td>
+                    附件名稱
+                </td>
+                <td>
+                    檔案名稱.doc
+                </td>
+                <td>
+                    <span class="badge badge-light text-info border border-info">中</span>
+                    <span class="badge badge-light text-info border border-info">Eng</span>
+                    <span class="badge badge-light text-secondary">日</span>
+                </td>
+                <td>
+                    admin
+                </td>
+                <td>
+                    <span class="small">2017-10-19</span>
+                </td>
+                <td>
+                    <img src="BPimages/FileExtIcon/doc.png" alt="*" style="width:24px;" />
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                    <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                    <a href="#" class="btn btn-sm btn-info"><i class="fa fa-download"></i> 下載</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>

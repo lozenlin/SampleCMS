@@ -55,6 +55,7 @@ public partial class Article_Node : BasePage
 
             LoadUIData();
             DisplayArticle();
+            DisplayAttachFiles();
         }
         else
         {
@@ -494,5 +495,14 @@ public partial class Article_Node : BasePage
         Response.Redirect(c.BuildUrlOfListPage(c.qsArtId,
             c.qsKw, sortField, isSortDesc,
             c.qsPageCode, c.qsPageCodeOfParents, c.qsKwOfParent));
+    }
+
+    private void DisplayAttachFiles()
+    {
+        btnUploadAttachFile.Attributes["onclick"] = 
+            string.Format("popWin('Article-Attach.aspx?act={0}&artid={1}', 700, 600); return false;", 
+                ConfigFormAction.add, c.qsArtId);
+
+
     }
 }
