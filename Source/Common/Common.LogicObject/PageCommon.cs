@@ -135,6 +135,10 @@ namespace Common.LogicObject
         protected HttpContext context;
         protected StateBag viewState;
         protected ILog logger = null;
+        /// <summary>
+        /// 讓 QueryStringToSafeStr() 可依照前台、後台去調整過濾方式
+        /// </summary>
+        protected bool isBackendPage = false;
 
         #region 工具屬性
 
@@ -183,6 +187,7 @@ namespace Common.LogicObject
             this.context = context;
             this.viewState = viewState;
             logger = LogManager.GetLogger(this.GetType());
+            isBackendPage = (this is BackendPageCommon);
         }
 
         /// <summary>
@@ -202,6 +207,7 @@ namespace Common.LogicObject
             if (value == null)
                 return null;
 
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(value);
             return value;
         }
@@ -213,6 +219,7 @@ namespace Common.LogicObject
             if (value == null)
                 return null;
 
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(value);
             return value;
         }
@@ -226,6 +233,7 @@ namespace Common.LogicObject
 
             string value = Convert.ToString(obj);
 
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(value);
             return value;
         }

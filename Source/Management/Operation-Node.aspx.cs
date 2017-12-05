@@ -29,6 +29,7 @@ public partial class Operation_Node : BasePage
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
+        isBackendPage = true;
 
         if (c.seCultureNameOfBackend == "en")
         {

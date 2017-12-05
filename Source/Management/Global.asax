@@ -16,6 +16,8 @@
         //使用Forms驗證: 設定false時,「帳號」和「身分識別」使用Session值
         BackendPageCommon.UseFormsAuthentication = false;
 
+        // 讓 ToSafeStr() 可依照前台、後台去調整過濾方式 
+        GetSafeStringExtensions.IsBackendPage = true;
     }
     
     void Application_End(object sender, EventArgs e) 

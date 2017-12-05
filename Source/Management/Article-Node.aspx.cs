@@ -30,6 +30,7 @@ public partial class Article_Node : BasePage
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
+        isBackendPage = true;
     }
 
     protected void Page_Init(object sender, EventArgs e)

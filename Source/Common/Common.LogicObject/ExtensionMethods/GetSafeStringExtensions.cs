@@ -8,6 +8,16 @@ namespace Common.LogicObject
 {
     public static class GetSafeStringExtensions
     {
+        /// <summary>
+        /// 讓 ToSafeStr() 可依照前台、後台去調整過濾方式
+        /// </summary>
+        public static bool IsBackendPage
+        {
+            get { return isBackendPage; }
+            set { isBackendPage = value; }
+        }
+        private static bool isBackendPage = false;
+
         public static string ToSafeStr(this DataRow dr, string columnName)
         {
             object obj = dr[columnName];
@@ -15,6 +25,7 @@ namespace Common.LogicObject
             if (obj == null)
                 return null;
 
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(obj.ToString());
             return obj.ToString();
         }
@@ -26,12 +37,14 @@ namespace Common.LogicObject
             if (obj == null)
                 return null;
 
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(obj.ToString());
             return obj.ToString();
         }
 
         public static string ToSafeStr(string value)
         {
+            //if (!isBackendPage)
             //return AntiXss.GetSafeHtmlFragment(value);
             return value;
         }
@@ -53,6 +66,7 @@ namespace Common.LogicObject
 
             if (obj is string && obj != null)
             {
+                //if (!isBackendPage)
                 //result = (T)Convert.ChangeType(AntiXss.GetSafeHtmlFragment(obj.ToString()), typeof(T));
             }
 

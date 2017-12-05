@@ -24,6 +24,7 @@ public partial class Role_List : BasePage
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
+        isBackendPage = true;
     }
 
     protected void Page_Init(object sender, EventArgs e)

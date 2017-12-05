@@ -7,6 +7,11 @@ namespace Common.LogicObject
 {
     public class BasePage : System.Web.UI.Page
     {
+        /// <summary>
+        /// 讓 EvalToSafeStr() 可依照前台、後台去調整過濾方式 
+        /// </summary>
+        protected bool isBackendPage = false;
+
         public string EvalToSafeStr(string expression)
         {
             return EvalToSafeStr(expression, null);
@@ -21,6 +26,7 @@ namespace Common.LogicObject
             else
                 result = Eval(expression, format);
 
+            //if (!isBackendPage)
             //result = AntiXss.GetSafeHtmlFragment(result).Replace("&amp;", "&");
 
             return result;

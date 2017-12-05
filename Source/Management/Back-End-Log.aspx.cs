@@ -23,6 +23,7 @@ public partial class Back_End_Log : BasePage
         empAuth.InitialAuthorizationResultOfTopPage();
 
         hud = Master.GetHeadUpDisplay();
+        isBackendPage = true;
     }
 
     protected void Page_Init(object sender, EventArgs e)
