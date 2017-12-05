@@ -11,6 +11,7 @@ public partial class Article_Attach : System.Web.UI.Page
     protected ArticleCommonOfBackend c;
     protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
+    protected AttachFileManagerLogic attFileMgr;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -22,10 +23,18 @@ public partial class Article_Attach : System.Web.UI.Page
         empAuth = new EmployeeAuthorityLogic(c);
         empAuth.SetCustomEmployeeAuthorizationResult(artPub);
         empAuth.InitialAuthorizationResultOfSubPages();
+
+        attFileMgr = new AttachFileManagerLogic(this.Context);
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!attFileMgr.Initialize(c.qsAttId, c.qsArtId))
+        {
+            Master.ShowErrorMsg("初始化附件資料失敗");
+            return;
+        }
+
         if (!IsPostBack)
         {
             // Authenticate
