@@ -316,6 +316,41 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region AttachFile DataAccess functions
+
+        /// <summary>
+        /// 取得後台用附件檔案資料
+        /// </summary>
+        public DataSet GetAttachFileDataForBackend(Guid attId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_GetDataForBackend cmdInfo = new spAttachFile_GetDataForBackend() { AttId = attId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得後台用附件檔案的多國語系資料
+        /// </summary>
+        public DataSet GetAttachFileMultiLangDataForBackend(Guid attId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFileMultiLang_GetDataForBackend cmdInfo = new spAttachFileMultiLang_GetDataForBackend()
+            {
+                AttId = attId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

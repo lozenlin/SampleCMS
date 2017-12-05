@@ -7,6 +7,7 @@
     <!-- 定義語言號碼(for pic dir, queryString) -->
     <add key="LangNoZHTW" value="1"/>
     <add key="LangNoEN" value="2"/>
+    <add key="AttRootDir" value="Attachments/"/>
   </appSettings>
   <!--
     如需 .NET 4.5 web.config 變更的說明，請參閱 http://go.microsoft.com/fwlink/?LinkId=235367。

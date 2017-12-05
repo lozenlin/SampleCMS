@@ -343,4 +343,53 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     #endregion
+
+    #region 附件檔案
+
+    /// <summary>
+    /// 取得後台用附件檔案資料
+    /// </summary>
+    public class spAttachFile_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid AttId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spAttachFile_GetDataForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 取得後台用附件檔案的多國語系資料
+    /// </summary>
+    public class spAttachFileMultiLang_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid AttId;
+        public string CultureName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spAttachFileMultiLang_GetDataForBackend";
+        }
+    }
+
+    #endregion
 }

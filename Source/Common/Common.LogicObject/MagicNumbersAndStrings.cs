@@ -32,4 +32,14 @@ namespace Common.LogicObject
         public const string images = "images";
         public const string UserFiles = "UserFiles";
     }
+
+    /// <summary>
+    /// error state of AttachFileManager
+    /// </summary>
+    public enum AttFileErrState
+    {
+        None = 0,
+        LoadDataFailed,
+        LoadMultiLangDataFailed
+    }
 }

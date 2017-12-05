@@ -707,6 +707,56 @@ begin
 end
 go
 
+----------------------------------------------------------------------------
+-- 附件檔案
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/05>
+-- Description: <取得後台用附件檔案資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_GetDataForBackend
+@AttId	uniqueidentifier
+as
+begin
+	select
+		ArticleId, FilePath, FileSavedName, 
+		FileSize, SortNo, FileMIME, 
+		DontDelete, PostAccount, PostDate, 
+		MdfAccount, MdfDate
+	from dbo.AttachFile
+	where AttId=@AttId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/05>
+-- Description: <取得後台用附件檔案的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFileMultiLang_GetDataForBackend
+@AttId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	select
+		AttSubject, ReadCount, IsShowInLang, 
+		PostAccount, PostDate, MdfAccount, 
+		MdfDate
+	from dbo.AttachFileMultiLang
+	where AttId=@AttId
+		and CultureName=@CultureName
+end
+go
+
 
 
 
@@ -718,7 +768,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/01>
+-- Create date: <2017/12/05>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

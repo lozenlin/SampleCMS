@@ -12,6 +12,8 @@
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -143,6 +145,12 @@ namespace Common.LogicObject
         }
         protected List<string> fileMimeLimitations = null;
 
+        public string FileFullName
+        {
+            get { return fileFullName; }
+        }
+        protected string fileFullName;
+
         public string PostAccount
         {
             get { return postAccount; }
@@ -173,6 +181,7 @@ namespace Common.LogicObject
         protected ILog logger = null;
         protected Guid nullArticleId;
         protected string errMsg = "";
+        protected AttFileErrState errState = AttFileErrState.None;
 
         /// <summary>
         /// 附件檔案管理
@@ -217,6 +226,11 @@ namespace Common.LogicObject
             return errMsg;
         }
 
+        public AttFileErrState GetErrState()
+        {
+            return errState;
+        }
+
         /// <summary>
         /// 依照文章代碼初使化預設值
         /// </summary>
@@ -254,7 +268,124 @@ namespace Common.LogicObject
         {
             bool result = false;
 
+            if (attId != Guid.Empty)
+            {
+                ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+                DataSet dsAtt = artPub.GetAttachFileDataForBackend(attId);
+
+                if (dsAtt == null || dsAtt.Tables[0].Rows.Count == 0)
+                {
+                    errState = AttFileErrState.LoadDataFailed;
+                    return false;
+                }
+
+                DataRow drFirst = dsAtt.Tables[0].Rows[0];
+
+                contextId = (Guid)drFirst["ArticleId"];
+                filePath = drFirst.ToSafeStr("FilePath");
+                fileSavedName = drFirst.ToSafeStr("FileSavedName");
+                fileSize = Convert.ToInt32(drFirst["FileSize"]);
+                sortNo = Convert.ToInt32(drFirst["SortNo"]);
+                fileMIME = drFirst.ToSafeStr("FileMIME");
+                dontDelete = Convert.ToBoolean(drFirst["DontDelete"]);
+                fileFullName = string.Format("{0}{1}/{2}", GetAttRootDirectoryFullName(), filePath, fileSavedName);
+                postAccount = drFirst.ToSafeStr("PostAccount");
+                postDate = Convert.ToDateTime(drFirst["PostDate"]);
+
+                if (!Convert.IsDBNull(drFirst["MdfDate"]))
+                {
+                    mdfAccount = drFirst.ToSafeStr("MdfAccount");
+                    mdfDate = Convert.ToDateTime("MdfDate");
+                }
+                
+                //zh-TW
+                if (LangManager.IsEnableEditLangZHTW())
+                {
+                    DataSet dsAttZhTw = artPub.GetAttachFileMultiLangDataForBackend(attId, LangManager.CultureNameZHTW);
+
+                    if (dsAttZhTw == null || dsAttZhTw.Tables[0].Rows.Count == 0)
+                    {
+                        errState = AttFileErrState.LoadMultiLangDataFailed;
+                        return false;
+                    }
+
+                    DataRow drZhTw = dsAttZhTw.Tables[0].Rows[0];
+
+                    attSubjectZhTw = drZhTw.ToSafeStr("ArticleSubject");
+                    isShowInLangZhTw = Convert.ToBoolean(drZhTw["IsShowInLang"]);
+                    readCountZhTw = Convert.ToInt32(drZhTw["ReadCount"]);
+
+                    if (!Convert.IsDBNull(drZhTw["MdfDate"]))
+                    {
+                        DateTime mdfDateZhTw = Convert.ToDateTime(drZhTw["MdfDate"]);
+
+                        if (!mdfDate.HasValue || mdfDateZhTw > mdfDate.Value)
+                        {
+                            mdfAccount = drZhTw.ToSafeStr("MdfAccount");
+                            mdfDate = mdfDateZhTw;
+                        }
+                    }
+                }
+
+                //en
+                if (LangManager.IsEnableEditLangEN())
+                {
+                    DataSet dsAttEn = artPub.GetAttachFileMultiLangDataForBackend(attId, LangManager.CultureNameEN);
+
+                    if (dsAttEn == null || dsAttEn.Tables[0].Rows.Count == 0)
+                    {
+                        errState = AttFileErrState.LoadMultiLangDataFailed;
+                        return false;
+                    }
+
+                    DataRow drEn = dsAttEn.Tables[0].Rows[0];
+
+                    attSubjectEn = drEn.ToSafeStr("ArticleSubject");
+                    isShowInLangEn = Convert.ToBoolean(drEn["IsShowInLang"]);
+                    readCountEn = Convert.ToInt32(drEn["ReadCount"]);
+
+                    if (!Convert.IsDBNull(drEn["MdfDate"]))
+                    {
+                        DateTime mdfDateEn = Convert.ToDateTime(drEn["MdfDate"]);
+
+                        if (!mdfDate.HasValue || mdfDateEn > mdfDate.Value)
+                        {
+                            mdfAccount = drEn.ToSafeStr("MdfAccount");
+                            mdfDate = mdfDateEn;
+                        }
+                    }
+                }
+
+                result = true;
+            }
+            else if (contextId != nullArticleId)
+            {
+                // new one
+                sortNo = GetNextSortNo();
+
+                result = true;
+            }
+
             return result;
+        }
+
+        /// <summary>
+        /// 取得附件根目錄的完整路徑
+        /// </summary>
+        protected virtual string GetAttRootDirectoryFullName()
+        {
+            return Server.MapPath(string.Format("~/{0}", ConfigurationManager.AppSettings["AttRootDir"]));
+        }
+
+        /// <summary>
+        /// 取得下一個排序編號
+        /// </summary>
+        public virtual int GetNextSortNo()
+        {
+            int newSortNo = 0;
+            //todo by lozen
+
+            return newSortNo;
         }
 
     }
