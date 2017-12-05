@@ -111,12 +111,14 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/30>
+-- History:
+--	2017/12/05, lozen_lin, modify, @ArticleAlias 重覆判斷範圍改為所有文章
 -- Description: <新增網頁內容>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spArticle_InsertData
+alter procedure dbo.spArticle_InsertData
 @ArticleId	uniqueidentifier
 ,@ParentId	uniqueidentifier
 ,@ArticleAlias	varchar(50)
@@ -146,7 +148,7 @@ begin
 	end
 
 	-- check alias
-	if exists(select * from dbo.Article where ParentId=@ParentId and ArticleAlias=@ArticleAlias)
+	if exists(select * from dbo.Article where ArticleAlias=@ArticleAlias)
 	begin
 		raiserror(N'ArticleAlias has been used.', 11, 3)
 		return
@@ -216,6 +218,7 @@ go
 -- Create date: <2017/11/30>
 -- History:
 --	2017/12/01, lozen_lin, modify, 修正別名誤判問題
+--	2017/12/05, lozen_lin, modify, @ArticleAlias 重覆判斷範圍改為所有文章
 -- Description: <更新網頁內容>
 -- Test:
 /*
@@ -248,7 +251,7 @@ begin
 	where ArticleId=@ArticleId
 
 	-- check alias
-	if exists(select * from dbo.Article where ParentId=@ParentId and ArticleId<>@ArticleId and ArticleAlias=@ArticleAlias)
+	if exists(select * from dbo.Article where ArticleId<>@ArticleId and ArticleAlias=@ArticleAlias)
 	begin
 		raiserror(N'ArticleAlias has been used.', 11, 3)
 		return
