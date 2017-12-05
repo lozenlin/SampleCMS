@@ -65,6 +65,34 @@ public partial class Article_Config : System.Web.UI.Page
         chkIsHideSelf.Text = Resources.Lang.Article_chkIsHideSelf;
         chkIsHideChild.Text = Resources.Lang.Article_chkIsHideChild;
         chkDontDelete.Text = Resources.Lang.Article_chkDontDelete;
+
+        SetupLangRelatedFields();
+    }
+
+    /// <summary>
+    /// 設定語系相關欄位
+    /// </summary>
+    private void SetupLangRelatedFields()
+    {
+        if (!LangManager.IsEnableEditLangZHTW())
+        {
+            ArticleSubjectZhTwArea.Visible = false;
+            PreviewBannerZhTwArea.Visible = false;
+            chkIsShowInLangZhTw.Checked = false;
+            chkIsShowInLangZhTw.Visible = false;
+            ContextTabZhTwArea.Visible = false;
+            ContextPnlZhTwArea.Visible = false;
+        }
+
+        if (!LangManager.IsEnableEditLangEN())
+        {
+            ArticleSubjectEnArea.Visible = false;
+            PreviewBannerEnArea.Visible = false;
+            chkIsShowInLangEn.Checked = false;
+            chkIsShowInLangEn.Visible = false;
+            ContextTabEnArea.Visible = false;
+            ContextPnlEnArea.Visible = false;
+        }
     }
 
     private void LoadLayoutModeUIData()
@@ -129,38 +157,44 @@ public partial class Article_Config : System.Web.UI.Page
                 }
 
                 //zh-TW
-                DataSet dsZhTw = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameZHTW);
-
-                if (dsZhTw != null && dsZhTw.Tables[0].Rows.Count > 0)
+                if (LangManager.IsEnableEditLangZHTW())
                 {
-                    DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
+                    DataSet dsZhTw = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameZHTW);
 
-                    txtArticleSubjectZhTw.Text = drZhTw.ToSafeStr("ArticleSubject");
-                    chkIsShowInLangZhTw.Checked = Convert.ToBoolean(drZhTw["IsShowInLang"]);
-                    txtCkeContextZhTw.Text = drZhTw["ArticleContext"].ToString();
-
-                    if (!Convert.IsDBNull(drZhTw["MdfDate"]) && Convert.ToDateTime(drZhTw["MdfDate"]) > mdfDate)
+                    if (dsZhTw != null && dsZhTw.Tables[0].Rows.Count > 0)
                     {
-                        mdfAccount = drZhTw.ToSafeStr("MdfAccount");
-                        mdfDate = Convert.ToDateTime(drZhTw["MdfDate"]);
+                        DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
+
+                        txtArticleSubjectZhTw.Text = drZhTw.ToSafeStr("ArticleSubject");
+                        chkIsShowInLangZhTw.Checked = Convert.ToBoolean(drZhTw["IsShowInLang"]);
+                        txtCkeContextZhTw.Text = drZhTw["ArticleContext"].ToString();
+
+                        if (!Convert.IsDBNull(drZhTw["MdfDate"]) && Convert.ToDateTime(drZhTw["MdfDate"]) > mdfDate)
+                        {
+                            mdfAccount = drZhTw.ToSafeStr("MdfAccount");
+                            mdfDate = Convert.ToDateTime(drZhTw["MdfDate"]);
+                        }
                     }
                 }
 
                 //en
-                DataSet dsEn = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameEN);
-
-                if (dsEn != null && dsEn.Tables[0].Rows.Count > 0)
+                if (LangManager.IsEnableEditLangEN())
                 {
-                    DataRow drEn = dsEn.Tables[0].Rows[0];
+                    DataSet dsEn = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameEN);
 
-                    txtArticleSubjectEn.Text = drEn.ToSafeStr("ArticleSubject");
-                    chkIsShowInLangEn.Checked = Convert.ToBoolean(drEn["IsShowInLang"]);
-                    txtCkeContextEn.Text = drEn["ArticleContext"].ToString();
-
-                    if (!Convert.IsDBNull(drEn["MdfDate"]) && Convert.ToDateTime(drEn["MdfDate"]) > mdfDate)
+                    if (dsEn != null && dsEn.Tables[0].Rows.Count > 0)
                     {
-                        mdfAccount = drEn.ToSafeStr("MdfAccount");
-                        mdfDate = Convert.ToDateTime(drEn["MdfDate"]);
+                        DataRow drEn = dsEn.Tables[0].Rows[0];
+
+                        txtArticleSubjectEn.Text = drEn.ToSafeStr("ArticleSubject");
+                        chkIsShowInLangEn.Checked = Convert.ToBoolean(drEn["IsShowInLang"]);
+                        txtCkeContextEn.Text = drEn["ArticleContext"].ToString();
+
+                        if (!Convert.IsDBNull(drEn["MdfDate"]) && Convert.ToDateTime(drEn["MdfDate"]) > mdfDate)
+                        {
+                            mdfAccount = drEn.ToSafeStr("MdfAccount");
+                            mdfDate = Convert.ToDateTime(drEn["MdfDate"]);
+                        }
                     }
                 }
 
@@ -262,14 +296,14 @@ public partial class Article_Config : System.Web.UI.Page
                 if (result)
                 {
                     //ZhTw
-                    if (result)
+                    if (result && LangManager.IsEnableEditLangZHTW())
                     {
                         paramZhTw.ArticleId = param.ArticleId;
                         result = artPub.InsertArticleMultiLangData(paramZhTw);
                     }
 
                     //En
-                    if (result)
+                    if (result && LangManager.IsEnableEditLangEN())
                     {
                         paramEn.ArticleId = param.ArticleId;
                         result = artPub.InsertArticleMultiLangData(paramEn);
@@ -310,14 +344,14 @@ public partial class Article_Config : System.Web.UI.Page
                 if (result)
                 {
                     //ZhTw
-                    if (result)
+                    if (result && LangManager.IsEnableEditLangZHTW())
                     {
                         paramZhTw.ArticleId = param.ArticleId;
                         result = artPub.UpdateArticleMultiLangData(paramZhTw);
                     }
 
                     //En
-                    if (result)
+                    if (result && LangManager.IsEnableEditLangEN())
                     {
                         paramEn.ArticleId = param.ArticleId;
                         result = artPub.UpdateArticleMultiLangData(paramEn);

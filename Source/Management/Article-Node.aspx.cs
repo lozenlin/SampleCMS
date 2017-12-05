@@ -307,8 +307,8 @@ public partial class Article_Node : BasePage
 
         Guid articleId = (Guid)drvTemp["ArticleId"];
         string articleSubject = drvTemp.ToSafeStr("ArticleSubject");
-        bool isShowInLangZhTw = Convert.ToBoolean(drvTemp["IsShowInLangZhTw"]);
-        bool isShowInLangEn = Convert.ToBoolean(drvTemp["IsShowInLangEn"]);
+        bool isShowInLangZhTw = drvTemp.To<bool>("IsShowInLangZhTw", false);
+        bool isShowInLangEn = drvTemp.To<bool>("IsShowInLangEn", false);
         bool isHideSelf = Convert.ToBoolean(drvTemp["IsHideSelf"]);
         DateTime startDate = Convert.ToDateTime(drvTemp["StartDate"]);
         DateTime endDate = Convert.ToDateTime(drvTemp["EndDate"]);
@@ -347,9 +347,12 @@ public partial class Article_Node : BasePage
             1, StringUtility.GetNumOfParentsForChild(c.qsPageCode, c.qsPageCodeOfParents), c.qsKw);
 
         HtmlGenericControl ctlIsShowInLangZhTw = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangZhTw");
-        HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
         ctlIsShowInLangZhTw.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangZhTw);
+        ctlIsShowInLangZhTw.Visible = LangManager.IsEnableEditLangZHTW();
+
+        HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
         ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
+        ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
 
         HtmlTableRow ItemArea = (HtmlTableRow)e.Item.FindControl("ItemArea");
 

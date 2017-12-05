@@ -38,13 +38,13 @@
             <tr>
                 <th><span class="required-symbol"><%= Resources.Lang.Col_Subject %></span></th>
                 <td colspan="3">
-                    <div class="config-textbox-lang">
+                    <div id="ArticleSubjectZhTwArea" runat="server" class="config-textbox-lang">
                         <span class="lang-label">中:</span>
                         <asp:TextBox ID="txtArticleSubjectZhTw" runat="server" MaxLength="200" style="width:90%;"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvArticleSubjectZhTw" runat="server" ControlToValidate="txtArticleSubjectZhTw" CssClass="text-danger"
                             Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                     </div>
-                    <div class="config-textbox-lang">
+                    <div id="ArticleSubjectEnArea" runat="server" class="config-textbox-lang">
                         <span class="lang-label">Eng:</span>
                         <asp:TextBox ID="txtArticleSubjectEn" runat="server" MaxLength="200" style="width:90%;"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvArticleSubjectEn" runat="server" ControlToValidate="txtArticleSubjectEn" CssClass="text-danger"
@@ -63,8 +63,12 @@
                     </div>
                     <div class="mt-2">
                         <%= Resources.Lang.Operation_lblPreview %> -
-                        中: <img id="imgBannerPicZhTw" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
-                        Eng: <img id="imgBannerPicEn" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
+                        <asp:PlaceHolder ID="PreviewBannerZhTwArea" runat="server">
+                            中: <img id="imgBannerPicZhTw" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
+                        </asp:PlaceHolder>
+                        <asp:PlaceHolder ID="PreviewBannerEnArea" runat="server">
+                            Eng: <img id="imgBannerPicEn" src="images/default.png" alt="*" style="min-height:32px; max-height:96px;" />
+                        </asp:PlaceHolder>
                     </div>
                 </td>
             </tr>
@@ -145,21 +149,25 @@
     <div class="sys-subtitle">
         <%= Resources.Lang.GroupLabel_ContextEditor %>
     </div>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
+    <ul class="nav nav-tabs context-tabs">
+        <li id="ContextTabZhTwArea" runat="server" class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#pnlZhTw">正體中文</a>
         </li>
-        <li class="nav-item">
+        <li id="ContextTabEnArea" runat="server" class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#pnlEn">English</a>
         </li>
     </ul>
     <div class="tab-content bg-white p-3 border border-top-0">
-        <div class="tab-pane fade show active" id="pnlZhTw">
-            <asp:TextBox ID="txtCkeContextZhTw" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
-        </div>
-        <div class="tab-pane fade" id="pnlEn">
-            <asp:TextBox ID="txtCkeContextEn" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
-        </div>
+        <asp:PlaceHolder ID="ContextPnlZhTwArea" runat="server">
+            <div class="tab-pane fade show active" id="pnlZhTw">
+                <asp:TextBox ID="txtCkeContextZhTw" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
+            </div>
+        </asp:PlaceHolder>
+        <asp:PlaceHolder ID="ContextPnlEnArea" runat="server">
+            <div class="tab-pane fade" id="pnlEn">
+                <asp:TextBox ID="txtCkeContextEn" runat="server" TextMode="MultiLine" Rows="5" Width="90%" ClientIDMode="Static"></asp:TextBox>
+            </div>
+        </asp:PlaceHolder>
     </div>
     <hr class="content-divider" />
     <div class="sys-subtitle">
@@ -274,15 +282,21 @@
         }
 
         // article context
-        CKEDITOR.replace("txtCkeContextZhTw", {
-            allowedContent: true,
-            width: "90%"
-        });
+        if ($("#txtCkeContextZhTw").length > 0) {
+            CKEDITOR.replace("txtCkeContextZhTw", {
+                allowedContent: true,
+                width: "90%"
+            });
+        }
 
-        CKEDITOR.replace("txtCkeContextEn", {
-            allowedContent: true,
-            width: "90%"
-        });
+        if ($("#txtCkeContextEn").length > 0) {
+            CKEDITOR.replace("txtCkeContextEn", {
+                allowedContent: true,
+                width: "90%"
+            });
+        }
+
+        $(".context-tabs a:first").click();
     </script>
 </asp:Content>
 

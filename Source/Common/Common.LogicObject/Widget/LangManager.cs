@@ -19,8 +19,8 @@ namespace Common.LogicObject
               <add key="LangNoZHTW" value="1"/>
               <add key="LangNoEN" value="2"/>
 
-              <!-- 設定後台啟用的語言版本 -->
-              <add key="EnableBackendLangEN" value="true"/>
+              <!-- 設定可以在後台編輯的語言版本 -->
+              <add key="EnableEditLangEN" value="true"/>
             </appSettings>
         </configuration>
      */
@@ -75,27 +75,42 @@ namespace Common.LogicObject
         public static string LangNoEN { get { return ConfigurationManager.AppSettings["LangNoEN"]; } }
 
         /// <summary>
-        /// 是否有啟用後台英文版
+        /// 是否有啟用編輯中文版
         /// </summary>
-        public static bool IsEnableBackendLangEN()
+        public static bool IsEnableEditLangZHTW()
         {
             bool isEnabled = false;
 
-            if (ConfigurationManager.AppSettings["EnableBackendLangZHTW"] != null)
+            if (ConfigurationManager.AppSettings["EnableEditLangZHTW"] != null)
             {
-                bool.TryParse(ConfigurationManager.AppSettings["EnableBackendLangZHTW"], out isEnabled);
+                bool.TryParse(ConfigurationManager.AppSettings["EnableEditLangZHTW"], out isEnabled);
             }
 
             return isEnabled;
         }
 
         /// <summary>
-        /// 是否有啟用後台其他語言
+        /// 是否有啟用編輯英文版
         /// </summary>
-        public static bool IsEnableBackendOtherLanguages()
+        public static bool IsEnableEditLangEN()
         {
-            //是否啟用英文版
-            if (IsEnableBackendLangEN())
+            bool isEnabled = false;
+
+            if (ConfigurationManager.AppSettings["EnableEditLangEN"] != null)
+            {
+                bool.TryParse(ConfigurationManager.AppSettings["EnableEditLangEN"], out isEnabled);
+            }
+
+            return isEnabled;
+        }
+
+        /// <summary>
+        /// 是否有啟用編輯(中文版以外的)其他語言
+        /// </summary>
+        public static bool IsEnableEditOtherLanguages()
+        {
+            //是否啟用編輯英文版
+            if (IsEnableEditLangEN())
                 return true;
 
             return false;
