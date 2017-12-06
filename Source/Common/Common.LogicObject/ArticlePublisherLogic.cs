@@ -364,6 +364,107 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 新增附件檔案資料
+        /// </summary>
+        public bool InsertAttachFileData(AttachFileParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_InsertData cmdInfo = new spAttachFile_InsertData()
+            {
+                AttId = param.AttId,
+                ArticleId = param.ArticleId,
+                FilePath = param.FilePath,
+                FileSavedName = param.FileSavedName,
+                FileSize = param.FileSize,
+                SortNo = param.SortNo,
+                FileMIME = param.FileMIME,
+                DontDelete = param.DontDelete,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增附件檔案的多國語系資料
+        /// </summary>
+        public bool InsertAttachFileMultiLangData(AttachFileMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFileMultiLang_InsertData cmdInfo = new spAttachFileMultiLang_InsertData()
+            {
+                AttId = param.AttId,
+                CultureName = param.CultureName,
+                AttSubject = param.AttSubject,
+                IsShowInLang = param.IsShowInLang,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新附件檔案資料
+        /// </summary>
+        public bool UpdateAttachFileData(AttachFileParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_UpdateData cmdInfo = new spAttachFile_UpdateData()
+            {
+                AttId = param.AttId,
+                FilePath = param.FilePath,
+                FileSavedName = param.FileSavedName,
+                FileSize = param.FileSize,
+                SortNo = param.SortNo,
+                FileMIME = param.FileMIME,
+                DontDelete = param.DontDelete,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新附件檔案的多國語系資料
+        /// </summary>
+        public bool UpdateAttachFileMultiLangData(AttachFileMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFileMultiLang_UpdateData cmdInfo = new spAttachFileMultiLang_UpdateData()
+            {
+                AttId = param.AttId,
+                CultureName = param.CultureName,
+                AttSubject = param.AttSubject,
+                IsShowInLang = param.IsShowInLang,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 刪除附件檔案資料
+        /// </summary>
+        public bool DeleteAttachFileData(Guid attId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_DeleteData cmdInfo = new spAttachFile_DeleteData() { AttId = attId };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>

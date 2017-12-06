@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,6 +147,50 @@ public partial class Article_Attach : System.Web.UI.Page
         }
     }
 
+    private string GetErrMsgOfAttFileErrState(AttFileErrState errState)
+    {
+        string errMsg = "";
+
+        switch (attFileMgr.GetErrState())
+        {
+            case AttFileErrState.LoadDataFailed:
+                errMsg = "載入資料失敗";
+                break;
+            case AttFileErrState.LoadMultiLangDataFailed:
+                errMsg = "載入多語系資料失敗";
+                break;
+            case AttFileErrState.AttachFileIsRequired:
+                errMsg = "請上傳檔案";
+                break;
+            case AttFileErrState.InvalidFileExt:
+                errMsg = "不允許的檔案類型";
+                break;
+            case AttFileErrState.NoInitialize:
+                errMsg = "請先執行初始化";
+                break;
+            case AttFileErrState.DeletePhysicalFileFailed:
+                errMsg = "刪除實體檔案失敗";
+                break;
+            case AttFileErrState.SavePhysicalFileFailed:
+                errMsg = "儲存實體檔案失敗";
+                break;
+            case AttFileErrState.InsertDataFailed:
+                errMsg = "新增附件資料失敗";
+                break;
+            case AttFileErrState.InsertMultiLangDataFailed:
+                errMsg = "新增附件多語系資料失敗";
+                break;
+            case AttFileErrState.UpdateDataFailed:
+                errMsg = "更新附件資料失敗";
+                break;
+            case AttFileErrState.UpdateMultiLangDataFailed:
+                errMsg = "更新附件多語系資料失敗";
+                break;
+        }
+
+        return errMsg;
+    }
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Master.ShowErrorMsg("");
@@ -169,7 +214,23 @@ public partial class Article_Attach : System.Web.UI.Page
             attFileMgr.IsShowInLangEn = chkIsShowInLangEn.Checked;
             attFileMgr.DontDelete = chkDontDelete.Checked;
 
-            
+            result = attFileMgr.SaveData(fuPickedFile, c.GetEmpAccount());
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Attach"), true);
+            }
+            else
+            {
+                string errMsg = GetErrMsgOfAttFileErrState(attFileMgr.GetErrState());
+
+                if (errMsg == "")
+                {
+                    errMsg = "儲存附件失敗";
+                }
+
+                Master.ShowErrorMsg(errMsg);
+            }
 
             //新增後端操作記錄
             string description = string.Format("．{0}　．儲存附件/Save attach file[{1}][{2}]" +

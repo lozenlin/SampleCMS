@@ -42,6 +42,15 @@ namespace Common.LogicObject
         LoadDataFailed,
         LoadMultiLangDataFailed,
         AttachFileIsRequired,
-        InvalidFileExt
+        InvalidFileExt,
+        NoInitialize,
+        DeleteDataFailed,
+        DeletePhysicalFileFailed,
+        SavePhysicalFileFailed,
+        InsertDataFailed,
+        InsertMultiLangDataFailed,
+        UpdateDataFailed,
+        UpdateMultiLangDataFailed,
+        AttIdIsRequired
     }
 }

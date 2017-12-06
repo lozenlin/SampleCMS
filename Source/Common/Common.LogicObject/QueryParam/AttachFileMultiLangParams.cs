@@ -10,7 +10,6 @@ namespace Common.LogicObject
         public Guid AttId;
         public string CultureName;
         public string AttSubject;
-        public int ReadCount;
         public bool IsShowInLang;
         public string PostAccount;
     }

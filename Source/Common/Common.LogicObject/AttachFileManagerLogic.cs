@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -324,7 +326,6 @@ namespace Common.LogicObject
 
         public virtual bool SaveData(HttpPostedFile postedFile, string mdfAccount)
         {
-            bool result = false;
             bool hasFile = (postedFile != null && postedFile.ContentLength > 0);
 
             filePath = GetDirectoryName();
@@ -341,17 +342,30 @@ namespace Common.LogicObject
                 // update
                 if (hasFile)
                 {
+                    // delete old file
+                    if (!DeletePhysicalFileData())
+                    {
+                        return false;
+                    }
+
+                    if (!CheckExtAndExtractFileInfo(postedFile))
+                    {
+                        return false;
+                    }
+
                     // save to disk
-
-                    // save to db
+                    //儲存實體檔案(視條件縮圖)
+                    if (!SavePhysicalFileDataAndShrinkImage(postedFile))
+                    {
+                        return false;
+                    }
                 }
-                else
+
+                // save to db
+                if (!UpdateData(mdfAccount))
                 {
-                    // save to db
+                    return false;
                 }
-
-                // save multi-language
-
             }
             else if (contextId.HasValue)
             {
@@ -362,36 +376,55 @@ namespace Common.LogicObject
                     return false;
                 }
 
-                string uploadedFileName = Path.GetFileName(postedFile.FileName);
-                string ext = Path.GetFileName(postedFile.FileName);
-
-                if (ext.StartsWith("."))
+                if (!CheckExtAndExtractFileInfo(postedFile))
                 {
-                    ext = ext.Substring(1);
-                }
-
-                if (!IsFileExtValid(ext))
-                {
-                    errState = AttFileErrState.InvalidFileExt;
                     return false;
                 }
 
-                fileSavedName = string.Format("{0:yyyyMMdd_HHmmssfff}.{1}", DateTime.Now, ext);
-                fileSize = postedFile.ContentLength;
-
-                if (fileSize > 0)
+                // save to disk
+                //儲存實體檔案(視條件縮圖)
+                if (!SavePhysicalFileDataAndShrinkImage(postedFile))
                 {
-                    fileSize = (int)Math.Round(fileSize / 1024f, MidpointRounding.AwayFromZero);
+                    return false;
                 }
 
-                fileMIME = postedFile.ContentType;
-                fileFullName = pathDirFullName + "\\" + fileSavedName;
-
-                // save to disk
-
                 // save to db
+                if (!InsertData(mdfAccount))
+                {
+                    return false;
+                }
+            }
 
-                // save multi-language
+            return true;
+        }
+
+        public virtual bool DeleteData()
+        {
+            if (attId == Guid.Empty)
+            {
+                errState = AttFileErrState.AttIdIsRequired;
+                return false;
+            }
+
+            if (fileFullName == "")
+            {
+                errState = AttFileErrState.NoInitialize;
+                return false;
+            }
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.DeleteAttachFileData(attId);
+
+            if (result)
+            {
+                if (!DeletePhysicalFileData())
+                {
+                    logger.InfoFormat("can't delete physical file [{0}]", fileFullName);
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.DeleteDataFailed;
             }
 
             return result;
@@ -430,7 +463,7 @@ namespace Common.LogicObject
                 if (!Convert.IsDBNull(drFirst["MdfDate"]))
                 {
                     mdfAccount = drFirst.ToSafeStr("MdfAccount");
-                    mdfDate = Convert.ToDateTime("MdfDate");
+                    mdfDate = Convert.ToDateTime(drFirst["MdfDate"]);
                 }
                 
                 //zh-TW
@@ -446,7 +479,7 @@ namespace Common.LogicObject
 
                     DataRow drZhTw = dsAttZhTw.Tables[0].Rows[0];
 
-                    attSubjectZhTw = drZhTw.ToSafeStr("ArticleSubject");
+                    attSubjectZhTw = drZhTw.ToSafeStr("AttSubject");
                     isShowInLangZhTw = Convert.ToBoolean(drZhTw["IsShowInLang"]);
                     readCountZhTw = Convert.ToInt32(drZhTw["ReadCount"]);
 
@@ -475,7 +508,7 @@ namespace Common.LogicObject
 
                     DataRow drEn = dsAttEn.Tables[0].Rows[0];
 
-                    attSubjectEn = drEn.ToSafeStr("ArticleSubject");
+                    attSubjectEn = drEn.ToSafeStr("AttSubject");
                     isShowInLangEn = Convert.ToBoolean(drEn["IsShowInLang"]);
                     readCountEn = Convert.ToInt32(drEn["ReadCount"]);
 
@@ -551,6 +584,338 @@ namespace Common.LogicObject
         protected virtual string GetDirectoryName()
         {
             return string.Format("{0:yyyyMM}", DateTime.Today);
+        }
+
+        protected virtual bool CheckExtAndExtractFileInfo(HttpPostedFile postedFile)
+        {
+            string pathDirFullName = GetAttRootDirectoryFullName() + filePath;
+            string uploadedFileName = Path.GetFileName(postedFile.FileName);
+            string ext = Path.GetExtension(postedFile.FileName);
+
+            if (ext.StartsWith("."))
+            {
+                ext = ext.Substring(1);
+            }
+
+            if (!IsFileExtValid(ext))
+            {
+                errState = AttFileErrState.InvalidFileExt;
+                return false;
+            }
+
+            fileSavedName = string.Format("{0:yyyyMMdd_HHmmssfff}.{1}", DateTime.Now, ext);
+            fileSize = postedFile.ContentLength;
+
+            if (fileSize > 0)
+            {
+                fileSize = (int)Math.Round(fileSize / 1024f, MidpointRounding.AwayFromZero);
+            }
+
+            fileMIME = postedFile.ContentType;
+            fileFullName = pathDirFullName + "\\" + fileSavedName;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 儲存實體檔案(視條件縮圖)
+        /// </summary>
+        protected virtual bool SavePhysicalFileDataAndShrinkImage(HttpPostedFile postedFile)
+        {
+            try
+            {
+                string fileExt = Path.GetExtension(fileSavedName);
+                string contentType = "application/octet-stream";
+                ImageFormat contentImageFormat = ImageFormat.Jpeg;
+
+                switch (fileExt.ToLower())
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        contentType = "image/jpeg";
+                        contentImageFormat = ImageFormat.Jpeg;
+                        break;
+                    case ".bmp":
+                        contentType = "image/bmp";
+                        contentImageFormat = ImageFormat.Bmp;
+                        break;
+                    case ".gif":
+                        contentType = "image/gif";
+                        contentImageFormat = ImageFormat.Gif;
+                        break;
+                    case ".png":
+                        contentType = "image/png";
+                        contentImageFormat = ImageFormat.Png;
+                        break;
+                    case ".tiff":
+                    case ".tif":
+                        contentType = "image/tiff";
+                        contentImageFormat = ImageFormat.Tiff;
+                        break;
+                }
+
+                if (contentType == "application/octet-stream")
+                {
+                    // save normal file
+                    postedFile.SaveAs(fileFullName);
+                    return true;
+                }
+
+                //載入圖片,檢查是否需要縮圖
+                System.Drawing.Image img = System.Drawing.Image.FromStream(postedFile.InputStream);
+
+                int maxWidth = 1920;
+                int maxHeight = 1440;
+                bool isHeightMoreThanWidth = false;
+                bool needsToShrink = false;
+
+                if (img.Height > img.Width)
+                {
+                    isHeightMoreThanWidth = true;
+                }
+
+                if (img.Width * img.Height > maxWidth * maxHeight)
+                {
+                    needsToShrink = true;
+                }
+
+                if (needsToShrink)
+                {
+                    //等比例縮圖
+                    float widthRate, heightRate;
+
+                    if (isHeightMoreThanWidth)
+                    {
+                        widthRate = img.Width / (float)maxHeight;
+                        heightRate = img.Height / (float)maxWidth;
+                    }
+                    else
+                    {
+                        widthRate = img.Width / (float)maxWidth;
+                        heightRate = img.Height / (float)maxHeight;
+                    }
+
+                    int fitWidth, fitHeight;
+
+                    if (widthRate > heightRate)
+                    {
+                        fitWidth = Convert.ToInt32(img.Width / widthRate);
+                        fitHeight = Convert.ToInt32(img.Height / widthRate);
+                    }
+                    else
+                    {
+                        fitWidth = Convert.ToInt32(img.Width / heightRate);
+                        fitHeight = Convert.ToInt32(img.Height / heightRate);
+                    }
+
+                    System.Drawing.Image imgFit = new Bitmap(img, new Size(fitWidth, fitHeight));
+
+                    //還原旋轉方向
+                    // reference: https://forums.asp.net/t/2016582.aspx?Resize+script+is+rotating+image+sometimes+
+                    if (new List<int>(img.PropertyIdList).Contains(0x112))
+                    {
+                        PropertyItem prop = img.GetPropertyItem(0x112);
+
+                        if (prop.Type == 3 && prop.Len == 2)
+                        {
+                            UInt16 orientationExif = BitConverter.ToUInt16(prop.Value, 0);
+
+                            switch (orientationExif)
+                            {
+                                case 8:
+                                    imgFit.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                                    break;
+                                case 3:
+                                    imgFit.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                                    break;
+                                case 6:
+                                    imgFit.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                    break;
+                            }
+                        }
+                    }
+
+                    imgFit.Save(fileFullName, contentImageFormat);
+                    imgFit.Dispose();
+                }
+                else
+                {
+                    //不用縮圖,直接存檔
+                    postedFile.SaveAs(fileFullName);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("", ex);
+                errState = AttFileErrState.SavePhysicalFileFailed;
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 刪除實體檔案
+        /// </summary>
+        protected virtual bool DeletePhysicalFileData()
+        {
+            if (fileFullName == "")
+            {
+                errState = AttFileErrState.NoInitialize;
+                return false;
+            }
+
+            try
+            {
+                FileInfo fi = new FileInfo(fileFullName);
+
+                if (fi.Exists)
+                    fi.Delete();
+            }
+            catch (Exception ex)
+            {
+                logger.Error("", ex);
+                errState = AttFileErrState.DeletePhysicalFileFailed;
+
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 新增附件資料
+        /// </summary>
+        protected virtual bool InsertData(string postAccount)
+        {
+            Guid newAttId = Guid.NewGuid();
+
+            AttachFileParams param = new AttachFileParams()
+            {
+                AttId = newAttId,
+                ArticleId = contextId.Value,
+                FilePath = filePath,
+                FileSavedName = fileSavedName,
+                FileSize = fileSize,
+                SortNo = sortNo,
+                FileMIME = fileMIME,
+                DontDelete = dontDelete,
+                PostAccount = postAccount
+            };
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.InsertAttachFileData(param);
+
+            if (result)
+            {
+                attId = newAttId;
+
+                //zh-TW
+                if (result && LangManager.IsEnableEditLangZHTW())
+                {
+                    AttachFileMultiLangParams paramZhTw = new AttachFileMultiLangParams()
+                    {
+                        AttId = attId,
+                        CultureName = LangManager.CultureNameZHTW,
+                        AttSubject = attSubjectZhTw,
+                        IsShowInLang = isShowInLangZhTw,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.InsertAttachFileMultiLangData(paramZhTw);
+                }
+
+                //en
+                if (result && LangManager.IsEnableEditLangEN())
+                {
+                    AttachFileMultiLangParams paramEn = new AttachFileMultiLangParams()
+                    {
+                        AttId = attId,
+                        CultureName = LangManager.CultureNameEN,
+                        AttSubject = attSubjectEn,
+                        IsShowInLang = isShowInLangEn,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.InsertAttachFileMultiLangData(paramEn);
+                }
+
+                if (!result)
+                {
+                    errState = AttFileErrState.InsertMultiLangDataFailed;
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.InsertDataFailed;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新附件資料
+        /// </summary>
+        protected virtual bool UpdateData(string mdfAccount)
+        {
+            AttachFileParams param = new AttachFileParams()
+            {
+                AttId = attId,
+                FilePath = filePath,
+                FileSavedName = fileSavedName,
+                FileSize = fileSize,
+                SortNo = sortNo,
+                FileMIME = fileMIME,
+                DontDelete = dontDelete,
+                PostAccount = postAccount
+            };
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.UpdateAttachFileData(param);
+
+            if (result)
+            {
+                //zh-TW
+                if (result && LangManager.IsEnableEditLangZHTW())
+                {
+                    AttachFileMultiLangParams paramZhTw = new AttachFileMultiLangParams()
+                    {
+                        AttId = attId,
+                        CultureName = LangManager.CultureNameZHTW,
+                        AttSubject = attSubjectZhTw,
+                        IsShowInLang = isShowInLangZhTw,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.UpdateAttachFileMultiLangData(paramZhTw);
+                }
+
+                //en
+                if (result && LangManager.IsEnableEditLangEN())
+                {
+                    AttachFileMultiLangParams paramEn = new AttachFileMultiLangParams()
+                    {
+                        AttId = attId,
+                        CultureName = LangManager.CultureNameEN,
+                        AttSubject = attSubjectEn,
+                        IsShowInLang = isShowInLangEn,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.UpdateAttachFileMultiLangData(paramEn);
+                }
+
+                if (!result)
+                {
+                    errState = AttFileErrState.UpdateMultiLangDataFailed;
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.UpdateDataFailed;
+            }
+
+            return result;
         }
     }
 }

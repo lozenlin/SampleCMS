@@ -777,6 +777,170 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <新增附件檔案資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_InsertData
+@AttId	uniqueidentifier
+,@ArticleId	uniqueidentifier
+,@FilePath	nvarchar(150)
+,@FileSavedName	nvarchar(500)
+,@FileSize	int
+,@SortNo	int
+,@FileMIME	varchar(255)
+,@DontDelete	bit
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.AttachFile(
+		AttId, ArticleId, FilePath, 
+		FileSavedName, FileSize, SortNo, 
+		FileMIME, DontDelete, PostAccount,
+		PostDate
+		)
+	values(
+		@AttId, @ArticleId, @FilePath, 
+		@FileSavedName, @FileSize, @SortNo, 
+		@FileMIME, @DontDelete, @PostAccount,
+		getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <新增附件檔案的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFileMultiLang_InsertData
+@AttId	uniqueidentifier
+,@CultureName	varchar(10)
+,@AttSubject	nvarchar(200)
+,@IsShowInLang	bit
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.AttachFileMultiLang(
+		AttId, CultureName, AttSubject, 
+		IsShowInLang, PostAccount, PostDate
+		)
+	values(
+		@AttId, @CultureName, @AttSubject, 
+		@IsShowInLang, @PostAccount, getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <更新附件檔案資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_UpdateData
+@AttId	uniqueidentifier
+,@FilePath	nvarchar(150)
+,@FileSavedName	nvarchar(500)
+,@FileSize	int
+,@SortNo	int
+,@FileMIME	varchar(255)
+,@DontDelete	bit
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.AttachFile
+	set FilePath=@FilePath
+		,FileSavedName=@FileSavedName
+		,FileSize=@FileSize
+		,SortNo=@SortNo
+		,FileMIME=@FileMIME
+		,DontDelete=@DontDelete
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@AttId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <更新附件檔案的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFileMultiLang_UpdateData
+@AttId	uniqueidentifier
+,@CultureName	varchar(10)
+,@AttSubject	nvarchar(200)
+,@IsShowInLang	bit
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.AttachFileMultiLang
+	set AttSubject=@AttSubject
+		,IsShowInLang=@IsShowInLang
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@AttId
+		and CultureName=@CultureName
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <刪除附件檔案資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_DeleteData
+@AttId uniqueidentifier
+as
+begin
+	begin transaction
+	begin try
+		-- delete multi language data
+		delete from dbo.AttachFileMultiLang
+		where AttId=@AttId
+
+		-- delete main data
+		delete from dbo.AttachFile
+		where AttId=@AttId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
+end
+go
+
 
 
 
