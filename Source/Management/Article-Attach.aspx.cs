@@ -56,7 +56,7 @@ public partial class Article_Attach : System.Web.UI.Page
     private void LoadUIData()
     {
         SetupLangRelatedFields();
-        LoadExtLimitations();
+        LoadExtAndMimeLimitations();
     }
 
     /// <summary>
@@ -79,13 +79,19 @@ public partial class Article_Attach : System.Web.UI.Page
         }
     }
 
-    private void LoadExtLimitations()
+    private void LoadExtAndMimeLimitations()
     {
-        if (attFileMgr.FileExtLimitations != null)
+        if (attFileMgr.FileExtLimitations != null && attFileMgr.FileExtLimitations.Count > 0)
         {
             string extCombined = string.Join(", ", attFileMgr.FileExtLimitations.ToArray());
             ltrExtLimitations.Text = extCombined;
             ExtLimitationsArea.Visible = true;
+
+            if (attFileMgr.FileMimeLimitations != null && attFileMgr.FileMimeLimitations.Count > 0)
+            {
+                string acceptList = string.Join(",", attFileMgr.FileMimeLimitations.ToArray());
+                fuPickedFile.Attributes.Add("accept", acceptList);
+            }
         }
     }
 
@@ -163,13 +169,7 @@ public partial class Article_Attach : System.Web.UI.Page
             attFileMgr.IsShowInLangEn = chkIsShowInLangEn.Checked;
             attFileMgr.DontDelete = chkDontDelete.Checked;
 
-            if (c.qsAct == ConfigFormAction.add)
-            {
-
-            }
-            else if (c.qsAct == ConfigFormAction.edit)
-            {
-            }
+            
 
             //新增後端操作記錄
             string description = string.Format("．{0}　．儲存附件/Save attach file[{1}][{2}]" +

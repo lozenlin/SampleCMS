@@ -14,9 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace Common.LogicObject
 {
@@ -233,11 +235,6 @@ namespace Common.LogicObject
             fileExtLimitations = new List<string>();
             fileMimeLimitations = new List<string>();
 
-            //octet-stream
-            fileExtLimitations.Add("csv");
-            fileExtLimitations.Add("rar");
-            fileMimeLimitations.Add("application/octet-stream");
-
             //doc
             fileExtLimitations.Add("doc");
             fileMimeLimitations.Add("application/msword");
@@ -272,6 +269,9 @@ namespace Common.LogicObject
             fileExtLimitations.Add("txt");
             fileMimeLimitations.Add("text/plain");
 
+            fileExtLimitations.Add("csv");
+            fileMimeLimitations.Add("text/csv");
+
             //graphic
             fileExtLimitations.Add("jpg");
             fileMimeLimitations.Add("image/jpeg");
@@ -288,6 +288,9 @@ namespace Common.LogicObject
             //compression
             fileExtLimitations.Add("zip");
             fileMimeLimitations.Add("application/x-zip-compressed");
+
+            fileExtLimitations.Add("rar");
+            fileMimeLimitations.Add("application/x-rar-compressed");
 
             //audio
             fileExtLimitations.Add("wav");
@@ -312,6 +315,86 @@ namespace Common.LogicObject
             fileExtLimitations.Add("wmv");
             fileMimeLimitations.Add("video/x-ms-wmv");
 
+        }
+
+        public bool SaveData(FileUpload fu, string mdfAccount)
+        {
+            return SaveData(fu.PostedFile, mdfAccount);
+        }
+
+        public virtual bool SaveData(HttpPostedFile postedFile, string mdfAccount)
+        {
+            bool result = false;
+            bool hasFile = (postedFile != null && postedFile.ContentLength > 0);
+
+            filePath = GetDirectoryName();
+            string pathDirFullName = GetAttRootDirectoryFullName() + filePath;
+            DirectoryInfo diPathDir = new DirectoryInfo(pathDirFullName);
+
+            if (!diPathDir.Exists)
+            {
+                diPathDir.Create();
+            }
+
+            if (attId != Guid.Empty)
+            {
+                // update
+                if (hasFile)
+                {
+                    // save to disk
+
+                    // save to db
+                }
+                else
+                {
+                    // save to db
+                }
+
+                // save multi-language
+
+            }
+            else if (contextId.HasValue)
+            {
+                // add
+                if (!hasFile)
+                {
+                    errState = AttFileErrState.AttachFileIsRequired;
+                    return false;
+                }
+
+                string uploadedFileName = Path.GetFileName(postedFile.FileName);
+                string ext = Path.GetFileName(postedFile.FileName);
+
+                if (ext.StartsWith("."))
+                {
+                    ext = ext.Substring(1);
+                }
+
+                if (!IsFileExtValid(ext))
+                {
+                    errState = AttFileErrState.InvalidFileExt;
+                    return false;
+                }
+
+                fileSavedName = string.Format("{0:yyyyMMdd_HHmmssfff}.{1}", DateTime.Now, ext);
+                fileSize = postedFile.ContentLength;
+
+                if (fileSize > 0)
+                {
+                    fileSize = (int)Math.Round(fileSize / 1024f, MidpointRounding.AwayFromZero);
+                }
+
+                fileMIME = postedFile.ContentType;
+                fileFullName = pathDirFullName + "\\" + fileSavedName;
+
+                // save to disk
+
+                // save to db
+
+                // save multi-language
+            }
+
+            return result;
         }
 
         #endregion
@@ -462,5 +545,12 @@ namespace Common.LogicObject
             return isValid;
         }
 
+        /// <summary>
+        /// 取得目錄名稱
+        /// </summary>
+        protected virtual string GetDirectoryName()
+        {
+            return string.Format("{0:yyyyMM}", DateTime.Today);
+        }
     }
 }

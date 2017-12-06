@@ -40,6 +40,8 @@ namespace Common.LogicObject
     {
         None = 0,
         LoadDataFailed,
-        LoadMultiLangDataFailed
+        LoadMultiLangDataFailed,
+        AttachFileIsRequired,
+        InvalidFileExt
     }
 }
