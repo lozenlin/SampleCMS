@@ -349,6 +349,21 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得附件檔案的最大排序編號
+        /// </summary>
+        public int GetAttachFileMaxSortNo(Guid? articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_GetMaxSortNo cmdInfo = new spAttachFile_GetMaxSortNo() { ArticleId = articleId };
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>
@@ -428,7 +443,6 @@ namespace Common.LogicObject
         {
             EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
 
-            bool gotOpId = false;
             bool gotOpAuth = false;
             Guid initArticleId= authCondition.GetArticleId();
             Guid curArticleId = initArticleId;
@@ -481,7 +495,6 @@ namespace Common.LogicObject
                 {
                     DataRow drOpInfo = dsOpInfo.Tables[0].Rows[0];
                     int opId = Convert.ToInt32(drOpInfo["OpId"]);
-                    gotOpId = true;
 
                     // get authorizations
 

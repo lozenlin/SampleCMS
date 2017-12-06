@@ -757,6 +757,26 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/06>
+-- Description: <取得附件檔案的最大排序編號>
+-- Test:
+/*
+exec dbo.spAttachFile_GetMaxSortNo null
+*/
+-- =============================================
+create procedure dbo.spAttachFile_GetMaxSortNo
+@ArticleId	uniqueidentifier
+as
+begin
+	select
+		isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.AttachFile
+	where ArticleId=@ArticleId
+end
+go
+
 
 
 
@@ -768,7 +788,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/05>
+-- Create date: <2017/12/06>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

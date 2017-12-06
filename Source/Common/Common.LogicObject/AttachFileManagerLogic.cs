@@ -34,12 +34,12 @@ namespace Common.LogicObject
         }
         protected Guid attId;
 
-        public Guid ContextId
+        public Guid? ContextId
         {
             get { return contextId; }
             set { contextId = value; }
         }
-        protected Guid contextId;
+        protected Guid? contextId;
 
         public string FilePath
         {
@@ -179,8 +179,6 @@ namespace Common.LogicObject
 
         protected HttpContext context;
         protected ILog logger = null;
-        protected Guid nullArticleId;
-        protected string errMsg = "";
         protected AttFileErrState errState = AttFileErrState.None;
 
         /// <summary>
@@ -190,7 +188,6 @@ namespace Common.LogicObject
         {
             this.context = context;
             logger = LogManager.GetLogger(this.GetType());
-            nullArticleId = new Guid("683F6132-CF89-413D-9503-FB2F3E47E4EF");
         }
 
         #region 工具屬性
@@ -213,17 +210,14 @@ namespace Common.LogicObject
             this.attId = attId;
             this.contextId = contextId;
 
-            return LoadData();
-        }
+            bool result = LoadData();
 
-        public Guid GetNullArticleId()
-        {
-            return nullArticleId;
-        }
+            if (result)
+            {
+                InitialDefaultValue(contextId);
+            }
 
-        public string GetErrMsg()
-        {
-            return errMsg;
+            return result;
         }
 
         public AttFileErrState GetErrState()
@@ -234,32 +228,90 @@ namespace Common.LogicObject
         /// <summary>
         /// 依照文章代碼初使化預設值
         /// </summary>
-        public virtual void InitialDefaultValue(Guid? contextId)
+        public virtual void InitialDefaultValue(Guid? specificId)
         {
-            //fileExtLimitations = new List<string>();
-            //fileMimeLimitations = new List<string>();
-        }
+            fileExtLimitations = new List<string>();
+            fileMimeLimitations = new List<string>();
 
-        /// <summary>
-        /// 檢查副檔名是否允許
-        /// </summary>
-        public bool IsFileExtValid(string ext)
-        {
-            if (fileExtLimitations == null)
-                return true;
+            //octet-stream
+            fileExtLimitations.Add("csv");
+            fileExtLimitations.Add("rar");
+            fileMimeLimitations.Add("application/octet-stream");
 
-            bool isValid = false;
+            //doc
+            fileExtLimitations.Add("doc");
+            fileMimeLimitations.Add("application/msword");
+            fileExtLimitations.Add("docx");
+            fileMimeLimitations.Add("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
-            foreach (string validFileExt in fileExtLimitations)
-            {
-                if (string.Compare(ext, validFileExt, true) == 0)
-                {
-                    isValid = true;
-                    break;
-                }
-            }
+            fileExtLimitations.Add("xls");
+            fileMimeLimitations.Add("application/vnd.ms-excel");
+            fileExtLimitations.Add("xlsx");
+            fileMimeLimitations.Add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-            return isValid;
+            fileExtLimitations.Add("ppt");
+            fileExtLimitations.Add("pps");
+            fileMimeLimitations.Add("application/vnd.ms-powerpoint");
+            fileExtLimitations.Add("pptx");
+            fileMimeLimitations.Add("application/vnd.openxmlformats-officedocument.presentationml.presentation");
+            fileExtLimitations.Add("ppsx");
+            fileMimeLimitations.Add("application/vnd.openxmlformats-officedocument.presentationml.slideshow");
+
+            fileExtLimitations.Add("odt");
+            fileMimeLimitations.Add("application/vnd.oasis.opendocument.text");
+
+            fileExtLimitations.Add("ods");
+            fileMimeLimitations.Add("application/vnd.oasis.opendocument.spreadsheet");
+
+            fileExtLimitations.Add("odp");
+            fileMimeLimitations.Add("application/vnd.oasis.opendocument.presentation");
+
+            fileExtLimitations.Add("pdf");
+            fileMimeLimitations.Add("application/pdf");
+
+            fileExtLimitations.Add("txt");
+            fileMimeLimitations.Add("text/plain");
+
+            //graphic
+            fileExtLimitations.Add("jpg");
+            fileMimeLimitations.Add("image/jpeg");
+
+            fileExtLimitations.Add("gif");
+            fileMimeLimitations.Add("image/gif");
+
+            fileExtLimitations.Add("png");
+            fileMimeLimitations.Add("image/png");
+
+            fileExtLimitations.Add("bmp");
+            fileMimeLimitations.Add("image/bmp");
+
+            //compression
+            fileExtLimitations.Add("zip");
+            fileMimeLimitations.Add("application/x-zip-compressed");
+
+            //audio
+            fileExtLimitations.Add("wav");
+            fileMimeLimitations.Add("audio/wav");
+
+            fileExtLimitations.Add("mp3");
+            fileMimeLimitations.Add("audio/mpeg");
+
+            fileExtLimitations.Add("wma");
+            fileMimeLimitations.Add("audio/x-ms-wma");
+
+            //video: avi, mov, mp4, wmv
+            fileExtLimitations.Add("avi");
+            fileMimeLimitations.Add("video/avi");
+
+            fileExtLimitations.Add("mov");
+            fileMimeLimitations.Add("video/quicktime");
+
+            fileExtLimitations.Add("mp4");
+            fileMimeLimitations.Add("video/mp4");
+
+            fileExtLimitations.Add("wmv");
+            fileMimeLimitations.Add("video/x-ms-wmv");
+
         }
 
         #endregion
@@ -358,7 +410,7 @@ namespace Common.LogicObject
 
                 result = true;
             }
-            else if (contextId != nullArticleId)
+            else if (contextId != null)
             {
                 // new one
                 sortNo = GetNextSortNo();
@@ -380,12 +432,34 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得下一個排序編號
         /// </summary>
-        public virtual int GetNextSortNo()
+        protected virtual int GetNextSortNo()
         {
-            int newSortNo = 0;
-            //todo by lozen
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            int newSortNo = artPub.GetAttachFileMaxSortNo(contextId) + 10;
 
             return newSortNo;
+        }
+
+        /// <summary>
+        /// 檢查副檔名是否允許
+        /// </summary>
+        protected bool IsFileExtValid(string ext)
+        {
+            if (fileExtLimitations == null)
+                return true;
+
+            bool isValid = false;
+
+            foreach (string validFileExt in fileExtLimitations)
+            {
+                if (string.Compare(ext, validFileExt, true) == 0)
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+
+            return isValid;
         }
 
     }
