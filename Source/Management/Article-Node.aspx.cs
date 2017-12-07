@@ -69,6 +69,10 @@ public partial class Article_Node : BasePage
                     DisplayArticle();
                     Master.RefreshOpMenu();
                 }
+                else if (Master.FlagValue == "Attach")
+                {
+                    DisplayAttachFiles();
+                }
 
                 Master.FlagValue = "";
             }
@@ -503,6 +507,125 @@ public partial class Article_Node : BasePage
             string.Format("popWin('Article-Attach.aspx?act={0}&artid={1}', 700, 600); return false;", 
                 ConfigFormAction.add, c.qsArtId);
 
+        AttachFileListQueryParams param = new AttachFileListQueryParams()
+        {
+            ArticleId = c.qsArtId,
+            CultureName = c.seCultureNameOfBackend,
+            Kw = ""
+        };
+
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 1,
+            EndNum = 999999999,
+            SortField = "",
+            IsSortDesc = false
+        };
+
+        param.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
+        DataSet dsAttachFiles = artPub.GetAttachFileMultiLangListForBackend(param);
+
+        if (dsAttachFiles != null)
+        {
+            rptAttachFiles.DataSource = dsAttachFiles.Tables[0];
+            rptAttachFiles.DataBind();
+        }
+    }
+
+    protected void rptAttachFiles_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid attId = (Guid)drvTemp["AttId"];
+        string attSubject = drvTemp.ToSafeStr("AttSubject");
+        bool isShowInLangZhTw = drvTemp.To<bool>("IsShowInLangZhTw", false);
+        bool isShowInLangEn = drvTemp.To<bool>("IsShowInLangEn", false);
+        bool dontDelete = Convert.ToBoolean(drvTemp["DontDelete"]);
+        string mdfAccount = "";
+        DateTime mdfDate = DateTime.MinValue;
+
+        if(Convert.IsDBNull(drvTemp["MdfDate"]))
+        {
+            mdfAccount = drvTemp.ToSafeStr("PostAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["PostDate"]);
+        }
+        else
+        {
+            mdfAccount = drvTemp.ToSafeStr("MdfAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["MdfDate"]);
+        }
+        
+        LinkButton btnMoveDown = (LinkButton)e.Item.FindControl("btnMoveDown");
+        btnMoveDown.ToolTip = Resources.Lang.btnMoveDown;
+
+        LinkButton btnMoveUp = (LinkButton)e.Item.FindControl("btnMoveUp");
+        btnMoveUp.ToolTip = Resources.Lang.btnMoveUp;
+
+        int total = drvTemp.DataView.Count;
+        int itemNum = e.Item.ItemIndex + 1;
+
+        if (itemNum == 1)
+        {
+            btnMoveUp.Visible = false;
+        }
+
+        if (itemNum == total)
+        {
+            btnMoveDown.Visible = false;
+        }
+
+        HtmlGenericControl ctlIsShowInLangZhTw = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangZhTw");
+        ctlIsShowInLangZhTw.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangZhTw);
+        ctlIsShowInLangZhTw.Visible = LangManager.IsEnableEditLangZHTW();
+
+        HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
+        ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
+        ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
+
+        HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Article-Attach.aspx?act={0}&attid={1}', 700, 600); return false;", ConfigFormAction.edit, attId);
+        btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
+
+        Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
+        ltrEdit.Text = Resources.Lang.Main_btnEdit;
+
+        LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
+        btnDelete.CommandArgument = string.Join(",", attId.ToString(), attSubject);
+        btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
+        btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Article_ConfirmDelete_Format + "');",
+            attSubject, attId);
+
+        if (dontDelete)
+        {
+            HtmlGenericControl ctlDontDelete = (HtmlGenericControl)e.Item.FindControl("ctlDontDelete");
+            ctlDontDelete.Attributes["title"] = Resources.Lang.Status_DontDelete;
+            ctlDontDelete.Visible = true;
+            btnDelete.Visible = false;
+        }
+
+        string ownerAccount = drvTemp.ToSafeStr("PostAccount");
+        int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
+
+        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+
+        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId))
+        {
+            btnDelete.Visible = false;
+        }
+
+    }
+
+    protected void rptAttachFiles_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
 
     }
 }

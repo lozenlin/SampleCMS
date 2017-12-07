@@ -29,7 +29,7 @@
                         <asp:LinkButton ID="btnSortSortNo" runat="server" CommandArgument="SortNo" Text="排序編號" OnClick="btnSort_Click"></asp:LinkButton>
                         <asp:Literal ID="hidSortSortNo" runat="server" Visible="false" Text="排序編號"></asp:Literal>
                     </th>
-                    <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:26%"><%= Resources.Lang.Col_Management_Hint %></th>
+                    <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:26%"><%= Resources.Lang.Col_Management %></th>
                 </tr>
             </thead>
             <tbody>

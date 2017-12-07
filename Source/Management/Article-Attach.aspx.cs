@@ -168,6 +168,9 @@ public partial class Article_Attach : System.Web.UI.Page
             case AttFileErrState.NoInitialize:
                 errMsg = "請先執行初始化";
                 break;
+            case AttFileErrState.DeleteDataFailed:
+                errMsg = "刪除附件失敗";
+                break;
             case AttFileErrState.DeletePhysicalFileFailed:
                 errMsg = "刪除實體檔案失敗";
                 break;
@@ -185,6 +188,9 @@ public partial class Article_Attach : System.Web.UI.Page
                 break;
             case AttFileErrState.UpdateMultiLangDataFailed:
                 errMsg = "更新附件多語系資料失敗";
+                break;
+            case AttFileErrState.AttIdIsRequired:
+                errMsg = "請提供 AttId";
                 break;
         }
 

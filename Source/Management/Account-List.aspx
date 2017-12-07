@@ -72,7 +72,7 @@
                     <asp:LinkButton ID="btnSortOwnerName" runat="server" CommandArgument="OwnerName" Text="擁有者" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortOwnerName" runat="server" Visible="false" Text="擁有者"></asp:Literal>
                 </th>
-                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management_Hint %></th>
+                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management %></th>
             </tr>
         </thead>
         <tbody>

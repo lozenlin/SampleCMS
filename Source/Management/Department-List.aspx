@@ -47,7 +47,7 @@
                     <asp:LinkButton ID="btnSortEmpTotal" runat="server" CommandArgument="EmpTotal" Text="帳號總數" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortEmpTotal" runat="server" Visible="false" Text="帳號總數"></asp:Literal>
                 </th>
-                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:26%"><%= Resources.Lang.Col_Management_Hint %></th>
+                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:26%"><%= Resources.Lang.Col_Management %></th>
             </tr>
         </thead>
         <tbody>

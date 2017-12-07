@@ -80,7 +80,7 @@
                     <asp:LinkButton ID="btnSortPostDeptName" runat="server" CommandArgument="PostDeptName" Text="部門" OnClick="btnSort_Click"></asp:LinkButton>
                     <asp:Literal ID="hidSortPostDeptName" runat="server" Visible="false" Text="部門"></asp:Literal>
                 </th>
-                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management_Hint %></th>
+                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management %></th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
             <ItemTemplate>
                 <tr id="ItemArea" runat="server">
                     <td>
-                            <%# EvalToSafeStr("RowNum") %>
+                        <%# EvalToSafeStr("RowNum") %>
                     </td>
                     <td>
                         <asp:LinkButton ID="btnMoveDown" runat="server" ToolTip="往下" CommandName="MoveDown" CommandArgument='<%# EvalToSafeStr("ArticleId") %>'>
@@ -156,54 +156,66 @@
     <table class="table table-responsive-md table-bordered table-sm table-striped table-hover bg-white subitem-list">
         <thead>
             <tr>
-                <th title="序號" style="width:3%">&nbsp;</th>
-                <th title="調整順序" style="width:6%" colspan="2">順序</th>
-                <th title="名稱">名稱</th>
+                <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
+                <th title="<%= Resources.Lang.Col_AdjustSortNo_Hint %>" style="width:6%" colspan="2"><%= Resources.Lang.Col_AdjustSortNo %></th>
+                <th title="<%= Resources.Lang.Col_Subject_Hint %>"><%= Resources.Lang.Col_Subject %></th>
                 <th title="檔案名稱" style="width:20%">檔案名稱</th>
-                <th title="語言" style="width:10%">語言</th>
+                <th title="<%= Resources.Lang.Col_Language_Hint %>" style="width:10%"><%= Resources.Lang.Col_Language %></th>
                 <th title="上傳者" style="width:10%">上傳者</th>
                 <th title="上傳日期" style="width:12%">上傳日期</th>
                 <th title="類型" style="width:6%">類型</th>
-                <th title="管理功能" style="width:20%">管理功能</th>
+                <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management %></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>
-                    <a href="#" title="往下">
-                        <span class="fa fa-arrow-down fa-lg text-secondary"></span></a>
-                </td>
-                <td>
-                    <a href="#" title="往上">
-                        <span class="fa fa-arrow-up fa-lg text-info"></span></a>
-                </td>
-                <td>
-                    附件名稱
-                </td>
-                <td>
-                    檔案名稱.doc
-                </td>
-                <td>
-                    <span class="badge badge-light text-info border border-info">中</span>
-                    <span class="badge badge-light text-info border border-info">Eng</span>
-                    <span class="badge badge-light text-secondary">日</span>
-                </td>
-                <td>
-                    admin
-                </td>
-                <td>
-                    <span class="small">2017-10-19</span>
-                </td>
-                <td>
-                    <img src="BPimages/FileExtIcon/doc.png" alt="*" style="width:24px;" />
-                </td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                    <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                    <a href="#" class="btn btn-sm btn-info"><i class="fa fa-download"></i> 下載</a>
-                </td>
-            </tr>
+            <asp:Repeater ID="rptAttachFiles" runat="server" OnItemDataBound="rptAttachFiles_ItemDataBound" OnItemCommand="rptAttachFiles_ItemCommand">
+            <ItemTemplate>
+                <tr>
+                    <td>
+                        <%# EvalToSafeStr("RowNum") %>
+                    </td>
+                    <td>
+                        <asp:LinkButton ID="btnMoveDown" runat="server" ToolTip="往下" CommandName="MoveDown" CommandArgument='<%# EvalToSafeStr("AttId") %>'>
+                            <span class="fa fa-arrow-down fa-lg text-secondary"></span></asp:LinkButton>
+                    </td>
+                    <td>
+                        <asp:LinkButton ID="btnMoveUp" runat="server" ToolTip="往上" CommandName="MoveUp" CommandArgument='<%# EvalToSafeStr("AttId") %>'>
+                            <span class="fa fa-arrow-up fa-lg text-info"></span></asp:LinkButton>
+                    </td>
+                    <td>
+                        <%# EvalToSafeStr("AttSubject") %>
+                    </td>
+                    <td>
+                        <%# EvalToSafeStr("FileSavedName") %>
+                    </td>
+                    <td>
+                        <span id="ctlIsShowInLangZhTw" runat="server" class="badge badge-light text-secondary">中</span>
+                        <span id="ctlIsShowInLangEn" runat="server" class="badge badge-light text-secondary">Eng</span>
+                    </td>
+                    <td>
+                        <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
+                    </td>
+                    <td>
+                        <span class="small"><asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
+                    </td>
+                    <td>
+                        <img id="imgExt" runat="server" src="BPimages/FileExtIcon/generic.png" alt="*" style="width:24px;" />
+                    </td>
+                    <td>
+                        <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
+                            <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
+                        </a>
+                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
+                            <i class="fa fa-trash-o"></i> 刪除
+                        </asp:LinkButton>
+                        <span id="ctlDontDelete" runat="server" visible="false"
+                            class="badge badge-warning text-white" title="禁止刪除"><i class="fa fa-lock fa-lg"></i></span>
+                        <a id="btnDownload" runat="server" href="#" class="btn btn-sm btn-info">
+                            <i class="fa fa-download"></i> <asp:Literal ID="ltrDownload" runat="server" Text="下載"></asp:Literal></a>
+                    </td>
+                </tr>
+            </ItemTemplate>
+            </asp:Repeater>
         </tbody>
     </table>
 
