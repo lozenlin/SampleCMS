@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.LogicObject;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -170,4 +171,55 @@ public static class ResUtility
 
         return result;
     }
+
+    public static string GetErrMsgOfAttFileErrState(AttFileErrState errState)
+    {
+        string errMsg = "";
+
+        switch (errState)
+        {
+            case AttFileErrState.LoadDataFailed:
+                errMsg = "載入資料失敗";
+                break;
+            case AttFileErrState.LoadMultiLangDataFailed:
+                errMsg = "載入多語系資料失敗";
+                break;
+            case AttFileErrState.AttachFileIsRequired:
+                errMsg = "請上傳檔案";
+                break;
+            case AttFileErrState.InvalidFileExt:
+                errMsg = "不允許的檔案類型";
+                break;
+            case AttFileErrState.NoInitialize:
+                errMsg = "請先執行初始化";
+                break;
+            case AttFileErrState.DeleteDataFailed:
+                errMsg = "刪除附件失敗";
+                break;
+            case AttFileErrState.DeletePhysicalFileFailed:
+                errMsg = "刪除實體檔案失敗";
+                break;
+            case AttFileErrState.SavePhysicalFileFailed:
+                errMsg = "儲存實體檔案失敗";
+                break;
+            case AttFileErrState.InsertDataFailed:
+                errMsg = "新增附件資料失敗";
+                break;
+            case AttFileErrState.InsertMultiLangDataFailed:
+                errMsg = "新增附件多語系資料失敗";
+                break;
+            case AttFileErrState.UpdateDataFailed:
+                errMsg = "更新附件資料失敗";
+                break;
+            case AttFileErrState.UpdateMultiLangDataFailed:
+                errMsg = "更新附件多語系資料失敗";
+                break;
+            case AttFileErrState.AttIdIsRequired:
+                errMsg = "請提供 AttId";
+                break;
+        }
+
+        return errMsg;
+    }
+
 }

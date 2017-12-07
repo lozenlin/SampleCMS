@@ -639,6 +639,62 @@ public partial class Article_Node : BasePage
 
     protected void rptAttachFiles_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+        bool result = false;
+        Guid attId;
 
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                attId = new Guid(args[0]);
+                string attSubject = args[1];
+
+                AttachFileManagerLogic attFileMgr = new AttachFileManagerLogic(this.Context);
+                if (!attFileMgr.Initialize(attId, c.qsArtId))
+                {
+                    string errMsg = ResUtility.GetErrMsgOfAttFileErrState(attFileMgr.GetErrState());
+
+                    if (errMsg == "")
+                    {
+                        errMsg = "刪除附件失敗";
+                    }
+
+                    Master.ShowErrorMsg(errMsg);
+                    return;
+                }
+
+                result = attFileMgr.DeleteData();
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．刪除附件/Delete attach file　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", attId, attSubject, result),
+                    IP = c.GetClientIP()
+                });
+
+                // log to file
+                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "attach file-[" + attId.ToString() + "]-" + attSubject, result);
+
+                if (!result)
+                {
+                    Master.ShowErrorMsg("刪除附件失敗");
+                }
+
+                break;
+            case "MoveUp":
+                attId = new Guid(e.CommandArgument.ToString());
+                result = false;
+                break;
+            case "MoveDown":
+                attId = new Guid(e.CommandArgument.ToString());
+                result = false;
+                break;
+        }
+
+        if (result)
+        {
+            DisplayAttachFiles();
+        }
     }
 }
