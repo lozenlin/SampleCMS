@@ -3,6 +3,7 @@ using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -589,6 +590,18 @@ public partial class Article_Node : BasePage
         HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
         ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
         ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
+
+        Literal ltrMdfAccount = (Literal)e.Item.FindControl("ltrMdfAccount");
+        ltrMdfAccount.Text = mdfAccount;
+
+        Literal ltrMdfDate = (Literal)e.Item.FindControl("ltrMdfDate");
+        ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", mdfDate);
+
+        string fileSavedName = drvTemp.ToSafeStr("FileSavedName");
+        HtmlImage imgExt = (HtmlImage)e.Item.FindControl("imgExt");
+        imgExt.Src = "BPimages/FileExtIcon/" + ResUtility.GetExtIconFileName(fileSavedName);
+        imgExt.Alt = ResUtility.GetExtIconText(fileSavedName);
+        imgExt.Attributes["title"] = imgExt.Alt;
 
         HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
         btnEdit.Attributes["onclick"] = string.Format("popWin('Article-Attach.aspx?act={0}&attid={1}', 700, 600); return false;", ConfigFormAction.edit, attId);
