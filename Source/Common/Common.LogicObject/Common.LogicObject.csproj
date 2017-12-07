@@ -68,6 +68,7 @@
     <Compile Include="DataClass\RoleOpPvg.cs" />
     <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
     <Compile Include="ExtensionMethods\GetSafeStringExtensions.cs" />
+    <Compile Include="FileDownloadCommon.cs" />
     <Compile Include="Interface\IAfmServiceHandler.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />

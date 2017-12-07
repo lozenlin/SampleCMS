@@ -210,7 +210,7 @@
                         </asp:LinkButton>
                         <span id="ctlDontDelete" runat="server" visible="false"
                             class="badge badge-warning text-white" title="禁止刪除"><i class="fa fa-lock fa-lg"></i></span>
-                        <a id="btnDownload" runat="server" href="#" class="btn btn-sm btn-info">
+                        <a id="btnDownload" runat="server" href="#" target="_blank" class="btn btn-sm btn-info">
                             <i class="fa fa-download"></i> <asp:Literal ID="ltrDownload" runat="server" Text="下載"></asp:Literal></a>
                     </td>
                 </tr>

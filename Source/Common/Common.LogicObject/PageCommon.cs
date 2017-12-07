@@ -69,6 +69,15 @@ namespace Common.LogicObject
             }
         }
 
+        public string qsCultureNameOfLangNo
+        {
+            get
+            {
+                string result = new LangManager().GetCultureName(qsLangNo.ToString());
+                return result;
+            }
+        }
+
         /// <summary>
         /// 語言代碼(l或lang,l優先)
         /// </summary>
@@ -127,6 +136,24 @@ namespace Common.LogicObject
                     nResult = 0;
 
                 return nResult;
+            }
+        }
+
+        /// <summary>
+        /// Attach file id
+        /// </summary>
+        public Guid qsAttId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("attid") ?? "";
+                Guid result = Guid.Empty;
+
+                if (str != "" && Guid.TryParse(str, out result))
+                {
+                }
+
+                return result;
             }
         }
 

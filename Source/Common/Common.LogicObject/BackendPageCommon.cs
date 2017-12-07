@@ -106,24 +106,6 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// Attach file id
-        /// </summary>
-        public Guid qsAttId
-        {
-            get
-            {
-                string str = QueryStringToSafeStr("attid") ?? "";
-                Guid result = Guid.Empty;
-
-                if (str != "" && Guid.TryParse(str, out result))
-                {
-                }
-
-                return result;
-            }
-        }
-
-        /// <summary>
         /// 所有父層頁碼(以逗號分開) e.g., 2,1,1
         /// </summary>
         public string qsPageCodeOfParents

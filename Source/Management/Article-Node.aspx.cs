@@ -625,6 +625,9 @@ public partial class Article_Node : BasePage
             btnDelete.Visible = false;
         }
 
+        HtmlAnchor btnDownload = (HtmlAnchor)e.Item.FindControl("btnDownload");
+        btnDownload.HRef = string.Format("~/FileAtt.ashx?attid={0}", attId);
+
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
 

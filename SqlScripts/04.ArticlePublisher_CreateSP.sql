@@ -1246,6 +1246,26 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/07>
+-- Description: <增加附件檔案的多國語系資料被點閱次數>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFileMultiLang_IncreaseReadCount
+@AttId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	update dbo.AttachFileMultiLang
+	set ReadCount += 1
+	where AttId=@AttId
+		and CultureName=@CultureName
+end
+go
+
 
 
 
