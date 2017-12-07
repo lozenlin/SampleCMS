@@ -1106,6 +1106,146 @@ order by RowNum'
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/07>
+-- Description: <加大附件檔案的排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_IncreaseSortNo
+@AttId uniqueidentifier
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ArticleId uniqueidentifier
+	declare @SortNo int
+
+	select
+		@ArticleId=ArticleId, @SortNo=SortNo
+	from dbo.AttachFile
+	where AttId=@AttId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get bigger one
+	declare @BiggerSortNo int
+	declare @BiggerAttId uniqueidentifier
+
+	select top 1
+		@BiggerSortNo=SortNo, @BiggerAttId=AttId
+	from dbo.AttachFile
+	where ArticleId=@ArticleId
+		and AttId<>@AttId
+		and SortNo>=@SortNo
+	order by SortNo
+
+	-- there is no bigger one, exit
+	if @BiggerAttId is null
+	begin
+		return
+	end
+
+	if @BiggerSortNo is null
+	begin
+		set @BiggerSortNo += 1
+	end
+
+	-- when the values area the same
+	if @SortNo=@BiggerSortNo
+	begin
+		set @BiggerSortNo += 1
+	end
+
+	-- swap
+	update dbo.AttachFile
+	set SortNo=@BiggerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@AttId
+
+	update dbo.AttachFile
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@BiggerAttId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/07>
+-- Description: <減小附件檔案的排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spAttachFile_DecreaseSortNo
+@AttId uniqueidentifier
+,@MdfAccount varchar(20)
+as
+begin
+	declare @ArticleId uniqueidentifier
+	declare @SortNo int
+
+	select
+		@ArticleId=ArticleId, @SortNo=SortNo
+	from dbo.AttachFile
+	where AttId=@AttId
+
+	if @SortNo is null
+	begin
+		set @SortNo=0
+	end
+
+	-- get smaller one
+	declare @SmallerSortNo int
+	declare @SmallerAttId uniqueidentifier
+
+	select top 1
+		@SmallerSortNo=SortNo, @SmallerAttId=AttId
+	from dbo.AttachFile
+	where ArticleId=@ArticleId
+		and AttId<>@AttId
+		and SortNo<=@SortNo
+	order by SortNo desc
+
+	-- there is no smaller one, exit
+	if @SmallerAttId is null
+	begin
+		return
+	end
+
+	if @SmallerSortNo is null
+	begin
+		set @SmallerSortNo=0
+	end
+
+	-- when the values are the same
+	if @SortNo=@SmallerSortNo
+	begin
+		set @SortNo += 1
+	end
+
+	-- swap
+	update dbo.AttachFile
+	set SortNo=@SmallerSortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@AttId
+
+	update dbo.AttachFile
+	set SortNo=@SortNo
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where AttId=@SmallerAttId
+end
+go
+
 
 
 

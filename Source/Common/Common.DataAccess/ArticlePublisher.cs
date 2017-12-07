@@ -581,5 +581,51 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 加大附件檔案的排序編號
+    /// </summary>
+    public class spAttachFile_IncreaseSortNo : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid AttId;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spAttachFile_IncreaseSortNo";
+        }
+    }
+
+    /// <summary>
+    /// 減小附件檔案的排序編號
+    /// </summary>
+    public class spAttachFile_DecreaseSortNo : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid AttId;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spAttachFile_DecreaseSortNo";
+        }
+    }
+
     #endregion
 }

@@ -684,11 +684,11 @@ public partial class Article_Node : BasePage
                 break;
             case "MoveUp":
                 attId = new Guid(e.CommandArgument.ToString());
-                result = false;
+                result = artPub.DecreaseAttachFileSortNo(attId, c.GetEmpAccount());
                 break;
             case "MoveDown":
                 attId = new Guid(e.CommandArgument.ToString());
-                result = false;
+                result = artPub.IncreaseAttachFileSortNo(attId, c.GetEmpAccount());
                 break;
         }
 

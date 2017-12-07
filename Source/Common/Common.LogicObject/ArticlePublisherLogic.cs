@@ -493,6 +493,40 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 加大附件檔案的排序編號
+        /// </summary>
+        public bool IncreaseAttachFileSortNo(Guid attId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_IncreaseSortNo cmdInfo = new spAttachFile_IncreaseSortNo()
+            {
+                AttId = attId,
+                MdfAccount = mdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 減小附件檔案的排序編號
+        /// </summary>
+        public bool DecreaseAttachFileSortNo(Guid attId, string mdfAccount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_DecreaseSortNo cmdInfo = new spAttachFile_DecreaseSortNo()
+            {
+                AttId = attId,
+                MdfAccount = mdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>
