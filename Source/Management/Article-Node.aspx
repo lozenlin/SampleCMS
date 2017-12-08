@@ -146,7 +146,7 @@
     <hr class="content-divider" />
     <div class="sys-subtitle container-fluid">
         <div class="form-row">
-            <div class="col-sm-2">附件檔案</div>
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_Attachments %></div>
             <div class="col-sm-2">
                 <a id="btnUploadAttachFile" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadAttachFile" runat="server" Text="上傳"></asp:Literal></a>
@@ -159,11 +159,11 @@
                 <th title="<%= Resources.Lang.Col_Seqno_Hint %>" style="width:3%">&nbsp;</th>
                 <th title="<%= Resources.Lang.Col_AdjustSortNo_Hint %>" style="width:6%" colspan="2"><%= Resources.Lang.Col_AdjustSortNo %></th>
                 <th title="<%= Resources.Lang.Col_Subject_Hint %>"><%= Resources.Lang.Col_Subject %></th>
-                <th title="檔案名稱" style="width:20%">檔案名稱</th>
+                <th title="<%= Resources.Lang.Col_FileName_Hint %>" style="width:20%"><%= Resources.Lang.Col_FileName %></th>
                 <th title="<%= Resources.Lang.Col_Language_Hint %>" style="width:10%"><%= Resources.Lang.Col_Language %></th>
-                <th title="上傳者" style="width:10%">上傳者</th>
-                <th title="上傳日期" style="width:12%">上傳日期</th>
-                <th title="類型" style="width:6%">類型</th>
+                <th title="<%= Resources.Lang.Col_MdfAccount_Hint %>" style="width:10%"><%= Resources.Lang.Col_MdfAccount %></th>
+                <th title="<%= Resources.Lang.Col_MdfDate_Hint %>" style="width:12%"><%= Resources.Lang.Col_MdfDate %></th>
+                <th title="<%= Resources.Lang.Col_FileType_Hint %>" style="width:6%"><%= Resources.Lang.Col_FileType %></th>
                 <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management %></th>
             </tr>
         </thead>
@@ -210,8 +210,8 @@
                         </asp:LinkButton>
                         <span id="ctlDontDelete" runat="server" visible="false"
                             class="badge badge-warning text-white" title="禁止刪除"><i class="fa fa-lock fa-lg"></i></span>
-                        <a id="btnDownload" runat="server" href="#" target="_blank" class="btn btn-sm btn-info">
-                            <i class="fa fa-download"></i> <asp:Literal ID="ltrDownload" runat="server" Text="下載"></asp:Literal></a>
+                        <a id="btnDownloadAtt" runat="server" href="#" target="_blank" class="btn btn-sm btn-info">
+                            <i class="fa fa-download"></i> <asp:Literal ID="ltrDownloadAtt" runat="server" Text="下載"></asp:Literal></a>
                     </td>
                 </tr>
             </ItemTemplate>

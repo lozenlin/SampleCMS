@@ -1501,4 +1501,84 @@
     <value>RAR file</value>
     <comment>RAR 壓縮檔</comment>
   </data>
+  <data name="GroupLabel_Attachments" xml:space="preserve">
+    <value>Attachments</value>
+    <comment>附件檔案</comment>
+  </data>
+  <data name="Col_FileName" xml:space="preserve">
+    <value>File name</value>
+    <comment>檔案名稱</comment>
+  </data>
+  <data name="Col_FileName_Hint" xml:space="preserve">
+    <value>File name</value>
+    <comment>檔案名稱</comment>
+  </data>
+  <data name="Col_FileType" xml:space="preserve">
+    <value>Type</value>
+    <comment>檔案類型</comment>
+  </data>
+  <data name="Col_FileType_Hint" xml:space="preserve">
+    <value>File type</value>
+    <comment>檔案類型</comment>
+  </data>
+  <data name="Article_btnUploadAttachFile" xml:space="preserve">
+    <value>Upload</value>
+    <comment>上傳</comment>
+  </data>
+  <data name="Article_btnUploadAttachFile_Hint" xml:space="preserve">
+    <value>Upload attachment</value>
+    <comment>上傳附件檔案</comment>
+  </data>
+  <data name="Article_btnDownloadAtt" xml:space="preserve">
+    <value>Download</value>
+    <comment>下載</comment>
+  </data>
+  <data name="Article_btnDownloadAtt_Hint" xml:space="preserve">
+    <value>Download attachment</value>
+    <comment>下載附件檔案</comment>
+  </data>
+  <data name="ErrMsg_DeleteAttachmentFailed" xml:space="preserve">
+    <value>delete attachment failed</value>
+    <comment>刪除附件失敗</comment>
+  </data>
+  <data name="Col_BrowseFile" xml:space="preserve">
+    <value>Browse file</value>
+    <comment>瀏覽檔案</comment>
+  </data>
+  <data name="Col_BrowseFile_Hint" xml:space="preserve">
+    <value>Browse file</value>
+    <comment>瀏覽檔案</comment>
+  </data>
+  <data name="Col_CurrentFile" xml:space="preserve">
+    <value>Current file</value>
+    <comment>目前檔案</comment>
+  </data>
+  <data name="Col_CurrentFile_Hint" xml:space="preserve">
+    <value>Current file</value>
+    <comment>目前檔案</comment>
+  </data>
+  <data name="Col_ExtLimitations" xml:space="preserve">
+    <value>File type limitations</value>
+    <comment>檔案類型限制為</comment>
+  </data>
+  <data name="Col_ExtLimitations_Hint" xml:space="preserve">
+    <value>File type limitations</value>
+    <comment>檔案類型限制為</comment>
+  </data>
+  <data name="Attachment_fuPickedFile_Notice" xml:space="preserve">
+    <value>When uploading a graphic file, if the file resolution exceeds 1920x1080, the system will automatically reduce and save the file to 1920x1080 or less</value>
+    <comment>上傳圖檔時，若圖檔解析度超過1920x1080，則系統將自動縮小並儲存圖檔至1920x1080以內</comment>
+  </data>
+  <data name="Attachment_Title_AddNew_Format" xml:space="preserve">
+    <value>Add an attachment of article - article id:{0}</value>
+    <comment>新增網頁附件 - 網頁id:{0}</comment>
+  </data>
+  <data name="Attachment_Title_Edit_Format" xml:space="preserve">
+    <value>Edit attachment of article - file id:{0}</value>
+    <comment>修改網頁附件 - 附件id:{0}</comment>
+  </data>
+  <data name="ErrMsg_SaveFailed" xml:space="preserve">
+    <value>Save data failed</value>
+    <comment>儲存失敗</comment>
+  </data>
 </root>

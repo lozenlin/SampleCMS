@@ -44,17 +44,20 @@
                 </td>
             </tr>
             <tr>
-                <th>瀏覽檔案</th>
+                <th><%= Resources.Lang.Col_BrowseFile %></th>
                 <td colspan="3">
-                    <div class="text-success">(上傳圖檔時，若圖檔解析度超過1920x1080，則系統將自動縮小並儲存圖檔至1920x1080以內)</div>
+                    <div class="text-success">(<%= Resources.Lang.Attachment_fuPickedFile_Notice %>)</div>
                     <asp:FileUpload ID="fuPickedFile" runat="server" />
                     <asp:RequiredFieldValidator ID="rfvPickedFile" runat="server" ControlToValidate="fuPickedFile" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
-                    <div id="ExtLimitationsArea" runat="server" class="text-info" visible="false">
-                        檔案類型限制為 <asp:Literal ID="ltrExtLimitations" runat="server"></asp:Literal>
+                    <div id="ExtLimitationsArea" runat="server" visible="false">
+                        <span class="text-info"><%= Resources.Lang.Col_ExtLimitations %>:</span> <asp:Literal ID="ltrExtLimitations" runat="server"></asp:Literal>
                     </div>
                     <div id="CurFileArea" runat="server" visible="false">
-                        目前檔案: <asp:Literal ID="ltrFileSavedName" runat="server"></asp:Literal>
+                        <span class="text-info"><%= Resources.Lang.Col_CurrentFile %>:</span> <asp:Literal ID="ltrFileSavedName" runat="server"></asp:Literal>
+                        &nbsp;
+                        <a id="btnDownloadAtt" runat="server" href="#" target="_blank" class="btn btn-sm btn-info">
+                            <i class="fa fa-download"></i> <asp:Literal ID="ltrDownloadAtt" runat="server" Text="下載"></asp:Literal></a>
                     </div>
                 </td>
             </tr>

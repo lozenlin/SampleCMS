@@ -504,6 +504,8 @@ public partial class Article_Node : BasePage
 
     private void DisplayAttachFiles()
     {
+        ltrUploadAttachFile.Text = Resources.Lang.Article_btnUploadAttachFile;
+        btnUploadAttachFile.Title = Resources.Lang.Article_btnUploadAttachFile_Hint;
         btnUploadAttachFile.Attributes["onclick"] = 
             string.Format("popWin('Article-Attach.aspx?act={0}&artid={1}', 700, 600); return false;", 
                 ConfigFormAction.add, c.qsArtId);
@@ -625,8 +627,12 @@ public partial class Article_Node : BasePage
             btnDelete.Visible = false;
         }
 
-        HtmlAnchor btnDownload = (HtmlAnchor)e.Item.FindControl("btnDownload");
-        btnDownload.HRef = string.Format("~/FileAtt.ashx?attid={0}", attId);
+        HtmlAnchor btnDownloadAtt = (HtmlAnchor)e.Item.FindControl("btnDownloadAtt");
+        btnDownloadAtt.HRef = string.Format("~/FileAtt.ashx?attid={0}", attId);
+        btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadAtt_Hint;
+
+        Literal ltrDownloadAtt = (Literal)e.Item.FindControl("ltrDownloadAtt");
+        ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadAtt;
 
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
@@ -653,35 +659,34 @@ public partial class Article_Node : BasePage
                 string attSubject = args[1];
 
                 AttachFileManagerLogic attFileMgr = new AttachFileManagerLogic(this.Context);
-                if (!attFileMgr.Initialize(attId, c.qsArtId))
+                result = attFileMgr.Initialize(attId, c.qsArtId);
+
+                if (result)
+                {
+                    result = attFileMgr.DeleteData();
+
+                    //新增後端操作記錄
+                    empAuth.InsertBackEndLogData(new BackEndLogData()
+                    {
+                        EmpAccount = c.GetEmpAccount(),
+                        Description = string.Format("．刪除附件/Delete attach file　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", attId, attSubject, result),
+                        IP = c.GetClientIP()
+                    });
+
+                    // log to file
+                    c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "attach file-[" + attId.ToString() + "]-" + attSubject, result);
+                }
+
+                if (!result)
                 {
                     string errMsg = ResUtility.GetErrMsgOfAttFileErrState(attFileMgr.GetErrState());
 
                     if (errMsg == "")
                     {
-                        errMsg = "刪除附件失敗";
+                        errMsg = Resources.Lang.ErrMsg_DeleteAttachmentFailed;
                     }
 
                     Master.ShowErrorMsg(errMsg);
-                    return;
-                }
-
-                result = attFileMgr.DeleteData();
-
-                //新增後端操作記錄
-                empAuth.InsertBackEndLogData(new BackEndLogData()
-                {
-                    EmpAccount = c.GetEmpAccount(),
-                    Description = string.Format("．刪除附件/Delete attach file　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", attId, attSubject, result),
-                    IP = c.GetClientIP()
-                });
-
-                // log to file
-                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "attach file-[" + attId.ToString() + "]-" + attSubject, result);
-
-                if (!result)
-                {
-                    Master.ShowErrorMsg("刪除附件失敗");
                 }
 
                 break;

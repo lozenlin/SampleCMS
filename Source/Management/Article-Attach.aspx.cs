@@ -32,7 +32,8 @@ public partial class Article_Attach : System.Web.UI.Page
     {
         if (!attFileMgr.Initialize(c.qsAttId, c.qsArtId))
         {
-            Master.ShowErrorMsg("初始化附件資料失敗");
+            string errMsg = ResUtility.GetErrMsgOfAttFileErrState(attFileMgr.GetErrState());
+            Master.ShowErrorMsg(errMsg);
             return;
         }
 
@@ -56,6 +57,13 @@ public partial class Article_Attach : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvAttSubjectZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvAttSubjectEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPickedFile.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        chkDontDelete.Text = Resources.Lang.Article_chkDontDelete;
+
         SetupLangRelatedFields();
         LoadExtAndMimeLimitations();
     }
@@ -99,9 +107,9 @@ public partial class Article_Attach : System.Web.UI.Page
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = string.Format("新增網頁附件 - 網頁id:{0}", c.qsArtId);
+            Title = string.Format(Resources.Lang.Attachment_Title_AddNew_Format, c.qsArtId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改網頁附件 - 附件id:{0}", c.qsAttId);
+            Title = string.Format(Resources.Lang.Attachment_Title_Edit_Format, c.qsAttId);
     }
 
     private void DisplayAttachFileData()
@@ -114,6 +122,9 @@ public partial class Article_Attach : System.Web.UI.Page
             ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", attFileMgr.PostDate);
             CurFileArea.Visible = true;
             ltrFileSavedName.Text = attFileMgr.FileSavedName;
+            ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadAtt;
+            btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadAtt_Hint;
+            btnDownloadAtt.HRef = string.Format("FileAtt.ashx?attid={0}", c.qsAttId);
 
             // cancel required field rule
             rfvPickedFile.ValidationGroup = "none";
@@ -182,7 +193,7 @@ public partial class Article_Attach : System.Web.UI.Page
 
                 if (errMsg == "")
                 {
-                    errMsg = "儲存附件失敗";
+                    errMsg = Resources.Lang.ErrMsg_SaveFailed;
                 }
 
                 Master.ShowErrorMsg(errMsg);
