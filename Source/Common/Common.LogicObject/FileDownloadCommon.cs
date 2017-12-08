@@ -34,14 +34,14 @@ namespace Common.LogicObject
 
                 if (str != null && int.TryParse(str, out nResult))
                 {
-                    int MaxWidth = 1920;
+                    int maxWidth = 1920;
 
-                    if (nResult > MaxWidth)
-                        nResult = MaxWidth;
+                    if (nResult > maxWidth)
+                        nResult = maxWidth;
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
 
                 return nResult;
@@ -57,13 +57,13 @@ namespace Common.LogicObject
 
                 if (str != null && int.TryParse(str, out nResult))
                 {
-                    int MaxHeight = 1440;
-                    if (nResult > MaxHeight)
-                        nResult = MaxHeight;
+                    int maxHeight = 1440;
+                    if (nResult > maxHeight)
+                        nResult = maxHeight;
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
 
                 return nResult;
@@ -93,7 +93,7 @@ namespace Common.LogicObject
                 }
                 else
                 {
-                    return 1;
+                    return -1;
                 }
 
                 return nResult;
@@ -123,7 +123,7 @@ namespace Common.LogicObject
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
 
                 return nResult;
@@ -153,7 +153,7 @@ namespace Common.LogicObject
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
 
                 return nResult;
@@ -175,14 +175,14 @@ namespace Common.LogicObject
         protected bool isSaveAs = true;
 
         /// <summary>
-        /// 圖片要變更至指定大小，只會縮小
+        /// 啟用圖片可變更至指定大小
         /// </summary>
-        public bool IsPicFitToSize
+        public bool EnabledPicResize
         {
-            get { return isPicFitToSize; }
-            set { isPicFitToSize = value; }
+            get { return enabledPicResize; }
+            set { enabledPicResize = value; }
         }
-        protected bool isPicFitToSize = false;
+        protected bool enabledPicResize = false;
 
         /// <summary>
         /// 圖片可以放大到指定大小
@@ -305,7 +305,7 @@ namespace Common.LogicObject
 
             byte[] bytes;
 
-            if (contentType.StartsWith("image") && isPicFitToSize)
+            if (contentType.StartsWith("image") && enabledPicResize)
             {
                 //檢查快取
                 string cacheKey = string.Format("{0}:id{1}:w{2}:s{3}:f{4}",
@@ -315,7 +315,7 @@ namespace Common.LogicObject
                 //只對認識的圖片大小做快取
                 //在後台管理系統中不使用快取
                 bool useCacheFunction = false;
-                List<int> cachedWidthList = new List<int>(new int[] { 640, 800, 1024, 1280, 1920 });
+                List<int> cachedWidthList = new List<int>(new int[] { 120, 640, 800, 1024, 1280, 1920 });
                 useCacheFunction = (!isInBackend && cachedWidthList.Contains(picFitSize.Width));
 
                 object cachedImageBytes = null;
@@ -391,7 +391,7 @@ namespace Common.LogicObject
                     {
                         System.Drawing.Image imgFit;
 
-                        if (destSize.Width * destSize.Height <= 140 * 140)
+                        if (destSize.Width * destSize.Height <= 120 * 120)
                         {
                             //低品質
                             imgFit = img.GetThumbnailImage(destSize.Width, destSize.Height,
@@ -502,7 +502,10 @@ namespace Common.LogicObject
         public AttDownloadCommon(HttpContext context, StateBag viewState)
             : base(context, viewState)
         {
-            isSaveAs = (qsSaveAs == 1);
+            if (qsSaveAs != -1)
+            {
+                isSaveAs = (qsSaveAs == 1);
+            }
         }
 
         protected override string GetFileFullName(Guid attId)
@@ -532,5 +535,41 @@ namespace Common.LogicObject
 
             return fileFullName;
         }
+    }
+
+    /// <summary>
+    /// 附件檔案(以直接檢視的方式)下載功能的共用元件
+    /// </summary>
+    public class AttViewDownloadCommon : AttDownloadCommon
+    {
+        public AttViewDownloadCommon(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+            isSaveAs = false;
+            enabledPicResize = true;
+            picFitSize.Width = 1920;
+            picFitSize.Height = 1080;
+
+            if (qsWidth > 0)
+            {
+                picFitSize.Width = qsWidth;
+            }
+
+            if (qsHeight > 0)
+            {
+                picFitSize.Height = qsHeight;
+            }
+
+            if (qsPicStretchToSize != -1)
+            {
+                isPicStretchToSize = (qsPicStretchToSize == 1);
+            }
+
+            if (qsPicFlexable != -1)
+            {
+                isPicFlexable = (qsPicFlexable == 1);
+            }
+        }
+
     }
 }
