@@ -148,6 +148,48 @@ go
 create clustered index IX_AttachFileMultiLang on dbo.AttachFileMultiLang (SeqnoForCluster)
 go
 
+----------------------------------------------------------------------------
+-- dbo.ArticlePicture 網頁內容照片區	
+----------------------------------------------------------------------------
+create table dbo.ArticlePicture(
+	PicId	uniqueidentifier	Not Null
+	,SeqnoForCluster	int	Not Null	identity
+	,ArticleId	uniqueidentifier
+	,FileSavedName	nvarchar(500)		
+	,FileSize	int	Not Null	Default(0)
+	,SortNo	int		
+	,FileMIME	varchar(255)		
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime		
+	,constraint PK_ArticlePicture primary key nonclustered(PicId)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_ArticlePicture on dbo.ArticlePicture (SeqnoForCluster)
+go
+
+----------------------------------------------------------------------------
+-- dbo.ArticlePictureMultiLang 網頁內容照片區的多國語系資料	
+----------------------------------------------------------------------------
+create table dbo.ArticlePictureMultiLang(
+	PicId	uniqueidentifier	Not Null	
+	,CultureName	varchar(10)	Not Null	
+	,SeqnoForCluster	int	Not Null	identity
+	,PicSubject	nvarchar(200)		
+	,IsShowInLang	bit	Not Null	Default(1)
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime		
+	,constraint PK_ArticlePictureMultiLang primary key nonclustered(PicId, CultureName)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_ArticlePictureMultiLang on dbo.ArticlePictureMultiLang (SeqnoForCluster)
+go
+
 
 
 go
