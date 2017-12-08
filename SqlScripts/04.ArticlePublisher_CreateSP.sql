@@ -1266,6 +1266,73 @@ begin
 end
 go
 
+----------------------------------------------------------------------------
+-- 網頁照片
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/08>
+-- Description: <取得後台用網頁照片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_GetDataForBackend
+@PicId uniqueidentifier
+as
+begin
+	select
+		ArticleId, FileSavedName, FileSize, 
+		SortNo, FileMIME, PostAccount, 
+		PostDate, MdfAccount, MdfDate
+	from dbo.ArticlePicture
+	where PicId=@PicId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/08>
+-- Description: <取得後台用網頁照片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePictureMultiLang_GetDataForBackend
+@PicId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	select
+		PicSubject, IsShowInLang, PostAccount, 
+		PostDate, MdfAccount, MdfDate
+	from dbo.ArticlePictureMultiLang
+	where PicId=@PicId
+		and CultureName=@CultureName
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/08>
+-- Description: <取得網頁照片的最大排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_GetMaxSortNo
+@ArticleId	uniqueidentifier
+as
+begin
+	select
+		isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.ArticlePicture
+	where ArticleId=@ArticleId
+end
+go
+
 
 
 
@@ -1277,7 +1344,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/07>
+-- Create date: <2017/12/08>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

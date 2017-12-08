@@ -918,4 +918,163 @@ namespace Common.LogicObject
             return result;
         }
     }
+
+    /// <summary>
+    /// 網頁照片管理
+    /// </summary>
+    public class ArticlePictureManagerLogic : AttachFileManagerLogic
+    {
+        public ArticlePictureManagerLogic(HttpContext context)
+            : base(context)
+        {
+        }
+
+        #region Public methods
+
+        /// <summary>
+        /// 依照文章代碼初使化預設值
+        /// </summary>
+        public override void InitialDefaultValue(Guid? specificId)
+        {
+            fileExtLimitations = new List<string>();
+            fileMimeLimitations = new List<string>();
+
+            //graphic
+            fileExtLimitations.Add("jpg");
+            fileMimeLimitations.Add("image/jpeg");
+
+            fileExtLimitations.Add("gif");
+            fileMimeLimitations.Add("image/gif");
+
+            fileExtLimitations.Add("png");
+            fileMimeLimitations.Add("image/png");
+
+            fileExtLimitations.Add("bmp");
+            fileMimeLimitations.Add("image/bmp");
+        }
+
+        #endregion
+
+        protected override bool LoadData()
+        {
+            bool result = false;
+
+            if (attId != Guid.Empty)
+            {
+                ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+                DataSet dsPic = artPub.GetArticlePictureDataForBackend(attId);
+
+                if (dsPic == null || dsPic.Tables[0].Rows.Count == 0)
+                {
+                    errState = AttFileErrState.LoadDataFailed;
+                    return false;
+                }
+
+                DataRow drFirst = dsPic.Tables[0].Rows[0];
+
+                contextId = (Guid)drFirst["ArticleId"];
+                filePath = GetDirectoryName();
+                fileSavedName = drFirst.ToSafeStr("FileSavedName");
+                fileSize = Convert.ToInt32(drFirst["FileSize"]);
+                sortNo = Convert.ToInt32(drFirst["SortNo"]);
+                fileMIME = drFirst.ToSafeStr("FileMIME");
+                fileFullName = string.Format("{0}{1}/{2}", GetAttRootDirectoryFullName(), filePath, fileSavedName);
+                postAccount = drFirst.ToSafeStr("PostAccount");
+                postDate = Convert.ToDateTime(drFirst["PostDate"]);
+
+                if (!Convert.IsDBNull(drFirst["MdfDate"]))
+                {
+                    mdfAccount = drFirst.ToSafeStr("MdfAccount");
+                    mdfDate = Convert.ToDateTime(drFirst["MdfDate"]);
+                }
+
+                //zh-TW
+                if (LangManager.IsEnableEditLangZHTW())
+                {
+                    DataSet dsPicZhTw = artPub.GetArticlePictureMultiLangDataForBackend(attId, LangManager.CultureNameZHTW);
+
+                    if (dsPicZhTw == null || dsPicZhTw.Tables[0].Rows.Count == 0)
+                    {
+                        errState = AttFileErrState.LoadMultiLangDataFailed;
+                        return false;
+                    }
+
+                    DataRow drZhTw = dsPicZhTw.Tables[0].Rows[0];
+
+                    attSubjectZhTw = drZhTw.ToSafeStr("AttSubject");
+                    isShowInLangZhTw = Convert.ToBoolean(drZhTw["IsShowInLang"]);
+
+                    if (!Convert.IsDBNull(drZhTw["MdfDate"]))
+                    {
+                        DateTime mdfDateZhTw = Convert.ToDateTime(drZhTw["MdfDate"]);
+
+                        if (!mdfDate.HasValue || mdfDateZhTw > mdfDate.Value)
+                        {
+                            mdfAccount = drZhTw.ToSafeStr("MdfAccount");
+                            mdfDate = mdfDateZhTw;
+                        }
+                    }
+                }
+
+                //en
+                if (LangManager.IsEnableEditLangEN())
+                {
+                    DataSet dsPicEn = artPub.GetArticlePictureMultiLangDataForBackend(attId, LangManager.CultureNameEN);
+
+                    if (dsPicEn == null || dsPicEn.Tables[0].Rows.Count == 0)
+                    {
+                        errState = AttFileErrState.LoadMultiLangDataFailed;
+                        return false;
+                    }
+
+                    DataRow drEn = dsPicEn.Tables[0].Rows[0];
+
+                    attSubjectEn = drEn.ToSafeStr("AttSubject");
+                    isShowInLangEn = Convert.ToBoolean(drEn["IsShowInLang"]);
+
+                    if (!Convert.IsDBNull(drEn["MdfDate"]))
+                    {
+                        DateTime mdfDateEn = Convert.ToDateTime(drEn["MdfDate"]);
+
+                        if (!mdfDate.HasValue || mdfDateEn > mdfDate.Value)
+                        {
+                            mdfAccount = drEn.ToSafeStr("MdfAccount");
+                            mdfDate = mdfDateEn;
+                        }
+                    }
+                }
+
+                result = true;
+            }
+            else if (contextId != null)
+            {
+                // new one
+                sortNo = GetNextSortNo();
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得下一個排序編號
+        /// </summary>
+        protected override int GetNextSortNo()
+        {
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            int newSortNo = artPub.GetArticlePictureMaxSortNo(contextId) + 10;
+
+            return newSortNo;
+        }
+
+        /// <summary>
+        /// 取得目錄名稱
+        /// </summary>
+        protected override string GetDirectoryName()
+        {
+            return string.Format("ArticlePictures/{0}", contextId);
+        }
+
+    }
 }

@@ -546,6 +546,56 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region ArticlePicture DataAccess functions
+
+        /// <summary>
+        /// 取得後台用網頁照片資料
+        /// </summary>
+        public DataSet GetArticlePictureDataForBackend(Guid picId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePicture_GetDataForBackend cmdInfo = new spArticlePicture_GetDataForBackend() { PicId = picId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得後台用網頁照片的多國語系資料
+        /// </summary>
+        public DataSet GetArticlePictureMultiLangDataForBackend(Guid picId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePictureMultiLang_GetDataForBackend cmdInfo = new spArticlePictureMultiLang_GetDataForBackend()
+            {
+                PicId = picId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得網頁照片的最大排序編號
+        /// </summary>
+        public int GetArticlePictureMaxSortNo(Guid? articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePicture_GetMaxSortNo cmdInfo = new spArticlePicture_GetMaxSortNo() { ArticleId = articleId };
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

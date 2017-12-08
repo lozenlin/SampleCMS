@@ -218,6 +218,17 @@
             </asp:Repeater>
         </tbody>
     </table>
+    
+    <hr class="content-divider" />
+    <div class="sys-subtitle container-fluid">
+        <div class="form-row">
+            <div class="col-sm-2">照片區</div>
+            <div class="col-sm-2">
+                <a id="btnUploadPicture" runat="server" href="#" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadPicture" runat="server" Text="上傳"></asp:Literal></a>
+            </div>
+        </div>
+    </div>
 
     <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>

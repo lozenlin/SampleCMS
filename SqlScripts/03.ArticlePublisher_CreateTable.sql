@@ -149,7 +149,7 @@ create clustered index IX_AttachFileMultiLang on dbo.AttachFileMultiLang (SeqnoF
 go
 
 ----------------------------------------------------------------------------
--- dbo.ArticlePicture 網頁內容照片區	
+-- dbo.ArticlePicture 網頁照片	
 ----------------------------------------------------------------------------
 create table dbo.ArticlePicture(
 	PicId	uniqueidentifier	Not Null
@@ -171,7 +171,7 @@ create clustered index IX_ArticlePicture on dbo.ArticlePicture (SeqnoForCluster)
 go
 
 ----------------------------------------------------------------------------
--- dbo.ArticlePictureMultiLang 網頁內容照片區的多國語系資料	
+-- dbo.ArticlePictureMultiLang 網頁照片的多國語系資料	
 ----------------------------------------------------------------------------
 create table dbo.ArticlePictureMultiLang(
 	PicId	uniqueidentifier	Not Null	

@@ -57,6 +57,7 @@ public partial class Article_Node : BasePage
             LoadUIData();
             DisplayArticle();
             DisplayAttachFiles();
+            DisplayPictures();
         }
         else
         {
@@ -73,6 +74,10 @@ public partial class Article_Node : BasePage
                 else if (Master.FlagValue == "Attach")
                 {
                     DisplayAttachFiles();
+                }
+                else if (Master.FlagValue == "Picture")
+                {
+                    DisplayPictures();
                 }
 
                 Master.FlagValue = "";
@@ -704,5 +709,13 @@ public partial class Article_Node : BasePage
         {
             DisplayAttachFiles();
         }
+    }
+
+    private void DisplayPictures()
+    {
+        btnUploadPicture.Attributes["onclick"] =
+            string.Format("popWin('Article-Picture.aspx?act={0}&artid={1}', 700, 600); return false;",
+                ConfigFormAction.add, c.qsArtId);
+
     }
 }

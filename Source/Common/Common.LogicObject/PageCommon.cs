@@ -157,6 +157,24 @@ namespace Common.LogicObject
             }
         }
 
+        /// <summary>
+        /// Picture id
+        /// </summary>
+        public Guid qsPicId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("picid") ?? "";
+                Guid result = Guid.Empty;
+
+                if (str != "" && Guid.TryParse(str, out result))
+                {
+                }
+
+                return result;
+            }
+        }
+
         #endregion
 
         protected HttpContext context;

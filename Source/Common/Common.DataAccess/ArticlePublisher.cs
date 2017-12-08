@@ -651,4 +651,75 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     #endregion
+
+    #region 網頁照片
+
+    /// <summary>
+    /// 取得後台用網頁照片資料
+    /// </summary>
+    public class spArticlePicture_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePicture_GetDataForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 取得後台用網頁照片的多國語系資料
+    /// </summary>
+    public class spArticlePictureMultiLang_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+        public string CultureName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePictureMultiLang_GetDataForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 取得網頁照片的最大排序編號
+    /// </summary>
+    public class spArticlePicture_GetMaxSortNo : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid? ArticleId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePicture_GetMaxSortNo";
+        }
+    }
+
+    #endregion
 }
