@@ -3,6 +3,8 @@
 <%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
+    <link href="/Management/Common/slick/slick.css" rel="stylesheet" />
+    <link href="/Management/Common/slick/slick-theme.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <ul class="sys-info list-inline">
@@ -229,10 +231,123 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row pic-carousel">
+            <div class="col-md-3 col-sm-4">
+                <div class="card PicThumbnail">
+                    <a href="#">
+                        <img class="card-img-top" src="BPimages/SamplePic/1.JPG" />
+                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
+                    </a>
+                    <div class="text-center">
+                        <span class="badge badge-light text-info border border-info">中</span>
+                        <span class="badge badge-light text-info border border-info">Eng</span>
+                        <span class="badge badge-light text-secondary">日</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">標題</h5>
+                        <p>
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4">
+                <div class="card PicThumbnail">
+                    <a href="#">
+                        <img class="card-img-top" src="BPimages/SamplePic/2.JPG" />
+                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
+                    </a>
+                    <div class="text-center">
+                        <span class="badge badge-light text-info border border-info">中</span>
+                        <span class="badge badge-light text-info border border-info">Eng</span>
+                        <span class="badge badge-light text-secondary">日</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">標題</h5>
+                        <p>
+                            說明說明說明
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4">
+                <div class="card PicThumbnail">
+                    <a href="#">
+                        <img class="card-img-top" src="BPimages/SamplePic/3.JPG" />
+                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
+                    </a>
+                    <div class="text-center">
+                        <span class="badge badge-light text-info border border-info">中</span>
+                        <span class="badge badge-light text-info border border-info">Eng</span>
+                        <span class="badge badge-light text-secondary">日</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">標題</h5>
+                        <p>
+                            說明說明說明
+                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <hr class="content-divider" />
+    <div class="sys-subtitle container-fluid">
+        <div class="form-row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+    </div>
 
     <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
+    <script src="Common/slick/slick.min.js"></script>
+    <script>
+        $(function () {
+            var usePicCarousel = true;
+            var winWidth = window.innerWidth;
+
+            if (winWidth > 767 && $(".pic-carousel>div").length <= 4
+                || winWidth > 575 && $(".pic-carousel>div").length <= 3
+                || winWidth <= 575 && $(".pic-carousel>div").length == 0) {
+                usePicCarousel = false;
+            }
+            
+            if (usePicCarousel) {
+                $(".pic-carousel").slick({
+                    dots: true,
+                    infinite: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    responsive: [
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3,
+                            }
+                        },
+                        {
+                            breakpoint: 575,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+    </script>
 </asp:Content>
 
