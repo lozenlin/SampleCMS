@@ -1333,6 +1333,162 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <刪除網頁照片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_DeleteData
+@PicId uniqueidentifier
+as
+begin
+	begin transaction
+	begin try
+		-- delete multi language data
+		delete from dbo.ArticlePictureMultiLang
+		where PicId=@PicId
+
+		-- delete main data
+		delete from dbo.ArticlePicture
+		where PicId=@PicId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <新增網頁照片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_InsertData
+@PicId	uniqueidentifier
+,@ArticleId	uniqueidentifier
+,@FileSavedName	nvarchar(500)
+,@FileSize	int
+,@SortNo	int
+,@FileMIME	varchar(255)
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.ArticlePicture(
+		PicId, ArticleId, FileSavedName, 
+		FileSize, SortNo, FileMIME, 
+		PostAccount, PostDate
+		)
+	values(
+		@PicId, @ArticleId, @FileSavedName, 
+		@FileSize, @SortNo, @FileMIME, 
+		@PostAccount, getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <新增網頁照片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePictureMultiLang_InsertData
+@PicId	uniqueidentifier
+,@CultureName	varchar(10)
+,@PicSubject	nvarchar(200)
+,@IsShowInLang	bit
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.ArticlePictureMultiLang(
+		PicId, CultureName, PicSubject, 
+		IsShowInLang, PostAccount, PostDate
+		)
+	values(
+		@PicId, @CultureName, @PicSubject, 
+		@IsShowInLang, @PostAccount, getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <更新網頁照片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_UpdateData
+@PicId	uniqueidentifier
+,@FileSavedName	nvarchar(500)
+,@FileSize	int
+,@SortNo	int
+,@FileMIME	varchar(255)
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.ArticlePicture
+	set FileSavedName=@FileSavedName
+		,FileSize=@FileSize
+		,SortNo=@SortNo
+		,FileMIME=@FileMIME
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where PicId=@PicId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <更新網頁照片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticlePictureMultiLang_UpdateData
+@PicId	uniqueidentifier
+,@CultureName	varchar(10)
+,@PicSubject	nvarchar(200)
+,@IsShowInLang	bit
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.ArticlePictureMultiLang
+	set PicSubject=@PicSubject
+		,IsShowInLang=@IsShowInLang
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where PicId=@PicId
+		and CultureName=@CultureName
+end
+go
+
 
 
 
@@ -1344,7 +1500,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/08>
+-- Create date: <2017/12/11>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -721,5 +721,134 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 刪除網頁照片資料
+    /// </summary>
+    public class spArticlePicture_DeleteData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePicture_DeleteData";
+        }
+    }
+
+    /// <summary>
+    /// 新增網頁照片資料
+    /// </summary>
+    public class spArticlePicture_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+        public Guid ArticleId;
+        public string FileSavedName;
+        public int FileSize;
+        public int SortNo;
+        public string FileMIME;
+        public string PostAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePicture_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 新增網頁照片的多國語系資料
+    /// </summary>
+    public class spArticlePictureMultiLang_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+        public string CultureName;
+        public string PicSubject;
+        public bool IsShowInLang;
+        public string PostAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePictureMultiLang_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 更新網頁照片資料
+    /// </summary>
+    public class spArticlePicture_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+        public string FileSavedName;
+        public int FileSize;
+        public int SortNo;
+        public string FileMIME;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePicture_UpdateData";
+        }
+    }
+
+    /// <summary>
+    /// 更新網頁照片的多國語系資料
+    /// </summary>
+    public class spArticlePictureMultiLang_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid PicId;
+        public string CultureName;
+        public string PicSubject;
+        public bool IsShowInLang;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticlePictureMultiLang_UpdateData";
+        }
+    }
+
     #endregion
 }

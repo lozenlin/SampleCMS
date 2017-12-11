@@ -594,6 +594,103 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 刪除網頁照片資料
+        /// </summary>
+        public bool DeleteArticlePictureData(Guid picId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePicture_DeleteData cmdInfo = new spArticlePicture_DeleteData() { PicId = picId };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增網頁照片資料
+        /// </summary>
+        public bool InsertArticlePictureData(ArticlePictureParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePicture_InsertData cmdInfo = new spArticlePicture_InsertData()
+            {
+                PicId = param.PicId,
+                ArticleId = param.ArticleId,
+                FileSavedName = param.FileSavedName,
+                FileSize = param.FileSize,
+                SortNo = param.SortNo,
+                FileMIME = param.FileMIME,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增網頁照片的多國語系資料
+        /// </summary>
+        public bool InsertArticlePictureMultiLangData(ArticlePictureMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePictureMultiLang_InsertData cmdInfo = new spArticlePictureMultiLang_InsertData()
+            {
+                PicId = param.PicId,
+                CultureName = param.CultureName,
+                PicSubject = param.PicSubject,
+                IsShowInLang = param.IsShowInLang,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁照片資料
+        /// </summary>
+        public bool UpdateArticlePictureData(ArticlePictureParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePicture_UpdateData cmdInfo = new spArticlePicture_UpdateData()
+            {
+                PicId = param.PicId,
+                FileSavedName = param.FileSavedName,
+                FileSize = param.FileSize,
+                SortNo = param.SortNo,
+                FileMIME = param.FileMIME,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁照片的多國語系資料
+        /// </summary>
+        public bool UpdateArticlePictureMultiLangData(ArticlePictureMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticlePictureMultiLang_UpdateData cmdInfo = new spArticlePictureMultiLang_UpdateData()
+            {
+                PicId = param.PicId,
+                CultureName = param.CultureName,
+                PicSubject = param.PicSubject,
+                IsShowInLang = param.IsShowInLang,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>

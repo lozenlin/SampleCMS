@@ -572,4 +572,67 @@ namespace Common.LogicObject
         }
 
     }
+
+    /// <summary>
+    /// 網頁照片下載功能的共用元件
+    /// </summary>
+    public class ArtPicDownloadCommon : FileDownloadCommon
+    {
+        public ArtPicDownloadCommon(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+            isSaveAs = false;
+            enabledPicResize = true;
+            picFitSize.Width = 1920;
+            picFitSize.Height = 1080;
+
+            if (qsSaveAs != -1)
+            {
+                isSaveAs = (qsSaveAs == 1);
+            }
+
+            if (qsWidth > 0)
+            {
+                picFitSize.Width = qsWidth;
+            }
+
+            if (qsHeight > 0)
+            {
+                picFitSize.Height = qsHeight;
+            }
+
+            if (qsPicStretchToSize != -1)
+            {
+                isPicStretchToSize = (qsPicStretchToSize == 1);
+            }
+
+            if (qsPicFlexable != -1)
+            {
+                isPicFlexable = (qsPicFlexable == 1);
+            }
+        }
+
+        protected override string GetFileFullName(Guid attId)
+        {
+            string fileFullName = "";
+            string attRootDir = Server.MapPath(string.Format("~/{0}", ConfigurationManager.AppSettings["AttRootDir"]));
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            DataSet dsPic = artPub.GetArticlePictureDataForBackend(attId);
+
+            if (dsPic == null && dsPic.Tables[0].Rows.Count == 0)
+            {
+                logger.ErrorFormat("can't get data of attId[{0}]", attId);
+                return "";
+            }
+
+            DataRow drPic = dsPic.Tables[0].Rows[0];
+            string filePath = "ArticlePictures";
+            string articleId = drPic.ToSafeStr("ArticleId");
+            string fileSavedName = drPic.ToSafeStr("fileSavedName");
+
+            fileFullName = string.Format("{0}{1}/{2}/{3}", attRootDir, filePath, articleId, fileSavedName);
+
+            return fileFullName;
+        }
+    }
 }

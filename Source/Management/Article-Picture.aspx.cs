@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ public partial class Article_Picture : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!artPicFileMgr.Initialize(c.qsAttId, c.qsArtId))
+        if (!artPicFileMgr.Initialize(c.qsPicId, c.qsArtId))
         {
             string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicFileMgr.GetErrState());
             Master.ShowErrorMsg(errMsg);
@@ -116,7 +117,7 @@ public partial class Article_Picture : System.Web.UI.Page
             ltrFileSavedName.Text = artPicFileMgr.FileSavedName;
             ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadAtt;
             btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadAtt_Hint;
-            btnDownloadAtt.HRef = string.Format("FileAtt.ashx?attid={0}", c.qsAttId);
+            btnDownloadAtt.HRef = string.Format("FileArtPic.ashx?attid={0}&saveas=1", c.qsPicId);
 
             // cancel required field rule
             rfvPickedFile.ValidationGroup = "none";
@@ -152,6 +153,61 @@ public partial class Article_Picture : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        Master.ShowErrorMsg("");
 
+        if (!IsValid)
+            return;
+
+        if (c.qsAct == ConfigFormAction.add && !fuPickedFile.HasFile)
+            return;
+
+        try
+        {
+            bool result = false;
+            txtPicSubjectZhTw.Text = txtPicSubjectZhTw.Text.Trim();
+            txtPicSubjectEn.Text = txtPicSubjectEn.Text.Trim();
+
+            artPicFileMgr.SortNo = Convert.ToInt32(txtSortNo.Text);
+            artPicFileMgr.AttSubjectZhTw = txtPicSubjectZhTw.Text;
+            artPicFileMgr.AttSubjectEn = txtPicSubjectEn.Text;
+            artPicFileMgr.IsShowInLangZhTw = chkIsShowInLangZhTw.Checked;
+            artPicFileMgr.IsShowInLangEn = chkIsShowInLangEn.Checked;
+
+            result = artPicFileMgr.SaveData(fuPickedFile, c.GetEmpAccount());
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Picture"), true);
+            }
+            else
+            {
+                string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicFileMgr.GetErrState());
+
+                if (errMsg == "")
+                {
+                    errMsg = Resources.Lang.ErrMsg_SaveFailed;
+                }
+
+                Master.ShowErrorMsg(errMsg);
+            }
+
+            //新增後端操作記錄
+            string description = string.Format("．{0}　．儲存網頁照片/Save article picture[{1}][{2}]" +
+                "　有檔案/has file[{3}]　結果/result[{4}]",
+                Title, txtPicSubjectZhTw.Text, txtPicSubjectEn.Text,
+                fuPickedFile.HasFile, result);
+
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = description,
+                IP = c.GetClientIP()
+            });
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            Master.ShowErrorMsg(ex.Message);
+        }
     }
 }

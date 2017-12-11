@@ -953,6 +953,38 @@ namespace Common.LogicObject
             fileMimeLimitations.Add("image/bmp");
         }
 
+        public override bool DeleteData()
+        {
+            if (attId == Guid.Empty)
+            {
+                errState = AttFileErrState.AttIdIsRequired;
+                return false;
+            }
+
+            if (fileFullName == "")
+            {
+                errState = AttFileErrState.NoInitialize;
+                return false;
+            }
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.DeleteArticlePictureData(attId);
+
+            if (result)
+            {
+                if (!DeletePhysicalFileData())
+                {
+                    logger.InfoFormat("can't delete physical file [{0}]", fileFullName);
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.DeleteDataFailed;
+            }
+
+            return result;
+        }
+
         #endregion
 
         protected override bool LoadData()
@@ -1001,7 +1033,7 @@ namespace Common.LogicObject
 
                     DataRow drZhTw = dsPicZhTw.Tables[0].Rows[0];
 
-                    attSubjectZhTw = drZhTw.ToSafeStr("AttSubject");
+                    attSubjectZhTw = drZhTw.ToSafeStr("PicSubject");
                     isShowInLangZhTw = Convert.ToBoolean(drZhTw["IsShowInLang"]);
 
                     if (!Convert.IsDBNull(drZhTw["MdfDate"]))
@@ -1029,7 +1061,7 @@ namespace Common.LogicObject
 
                     DataRow drEn = dsPicEn.Tables[0].Rows[0];
 
-                    attSubjectEn = drEn.ToSafeStr("AttSubject");
+                    attSubjectEn = drEn.ToSafeStr("PicSubject");
                     isShowInLangEn = Convert.ToBoolean(drEn["IsShowInLang"]);
 
                     if (!Convert.IsDBNull(drEn["MdfDate"]))
@@ -1074,6 +1106,137 @@ namespace Common.LogicObject
         protected override string GetDirectoryName()
         {
             return string.Format("ArticlePictures/{0}", contextId);
+        }
+
+        /// <summary>
+        /// 新增附件資料
+        /// </summary>
+        protected override bool InsertData(string postAccount)
+        {
+            Guid newPicId = Guid.NewGuid();
+
+            ArticlePictureParams param = new ArticlePictureParams()
+            {
+                PicId = newPicId,
+                ArticleId = contextId.Value,
+                FileSavedName = fileSavedName,
+                FileSize = fileSize,
+                SortNo = sortNo,
+                FileMIME = fileMIME,
+                PostAccount = postAccount
+            };
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.InsertArticlePictureData(param);
+
+            if (result)
+            {
+                attId = newPicId;
+
+                //zh-TW
+                if (result && LangManager.IsEnableEditLangZHTW())
+                {
+                    ArticlePictureMultiLangParams paramZhTw = new ArticlePictureMultiLangParams()
+                    {
+                        PicId = attId,
+                        CultureName = LangManager.CultureNameZHTW,
+                        PicSubject = attSubjectZhTw,
+                        IsShowInLang = isShowInLangZhTw,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.InsertArticlePictureMultiLangData(paramZhTw);
+                }
+
+                //en
+                if (result && LangManager.IsEnableEditLangEN())
+                {
+                    ArticlePictureMultiLangParams paramEn = new ArticlePictureMultiLangParams()
+                    {
+                        PicId = attId,
+                        CultureName = LangManager.CultureNameEN,
+                        PicSubject = attSubjectEn,
+                        IsShowInLang = isShowInLangEn,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.InsertArticlePictureMultiLangData(paramEn);
+                }
+
+                if (!result)
+                {
+                    errState = AttFileErrState.InsertMultiLangDataFailed;
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.InsertDataFailed;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新附件資料
+        /// </summary>
+        protected override bool UpdateData(string mdfAccount)
+        {
+            ArticlePictureParams param = new ArticlePictureParams()
+            {
+                PicId = attId,
+                FileSavedName = fileSavedName,
+                FileSize = fileSize,
+                SortNo = sortNo,
+                FileMIME = fileMIME,
+                PostAccount = postAccount
+            };
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            bool result = artPub.UpdateArticlePictureData(param);
+
+            if (result)
+            {
+                //zh-TW
+                if (result && LangManager.IsEnableEditLangZHTW())
+                {
+                    ArticlePictureMultiLangParams paramZhTw = new ArticlePictureMultiLangParams()
+                    {
+                        PicId = attId,
+                        CultureName = LangManager.CultureNameZHTW,
+                        PicSubject = attSubjectZhTw,
+                        IsShowInLang = isShowInLangZhTw,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.UpdateArticlePictureMultiLangData(paramZhTw);
+                }
+
+                //en
+                if (result && LangManager.IsEnableEditLangEN())
+                {
+                    ArticlePictureMultiLangParams paramEn = new ArticlePictureMultiLangParams()
+                    {
+                        PicId = attId,
+                        CultureName = LangManager.CultureNameEN,
+                        PicSubject = attSubjectEn,
+                        IsShowInLang = isShowInLangEn,
+                        PostAccount = postAccount
+                    };
+
+                    result = artPub.UpdateArticlePictureMultiLangData(paramEn);
+                }
+
+                if (!result)
+                {
+                    errState = AttFileErrState.UpdateMultiLangDataFailed;
+                }
+            }
+            else
+            {
+                errState = AttFileErrState.UpdateDataFailed;
+            }
+
+            return result;
         }
 
     }
