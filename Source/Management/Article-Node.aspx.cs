@@ -717,5 +717,98 @@ public partial class Article_Node : BasePage
             string.Format("popWin('Article-Picture.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
 
+        ArticlePictureListQueryParams param = new ArticlePictureListQueryParams()
+        {
+            ArticleId = c.qsArtId,
+            CultureName = c.seCultureNameOfBackend,
+            Kw = ""
+        };
+
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 1,
+            EndNum = 999999999,
+            SortField = "",
+            IsSortDesc = false
+        };
+
+        param.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
+        DataSet dsArticlePictures = artPub.GetArticlePicutreMultiLangListForBackend(param);
+
+        if (dsArticlePictures != null)
+        {
+            rptArticlePictures.DataSource = dsArticlePictures.Tables[0];
+            rptArticlePictures.DataBind();
+        }
+    }
+    protected void rptArticlePictures_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid picId = (Guid)drvTemp["PicId"];
+        string picSubject = drvTemp.ToSafeStr("PicSubject");
+        bool isShowInLangZhTw = drvTemp.To<bool>("IsShowInLangZhTw", false);
+        bool isShowInLangEn = drvTemp.To<bool>("IsShowInLangEn", false);
+        string mdfAccount = "";
+        DateTime mdfDate = DateTime.MinValue;
+
+        if (Convert.IsDBNull(drvTemp["MdfDate"]))
+        {
+            mdfAccount = drvTemp.ToSafeStr("PostAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["PostDate"]);
+        }
+        else
+        {
+            mdfAccount = drvTemp.ToSafeStr("MdfAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["MdfDate"]);
+        }
+
+        HtmlAnchor btnView = (HtmlAnchor)e.Item.FindControl("btnView");
+        btnView.HRef = string.Format("FileArtPic.ashx?attid={0}", picId);
+
+        HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
+        imgPic.Src = string.Format("FileArtPic.ashx?attid={0}&w=320&h=240", picId);
+        imgPic.Alt = picSubject;
+
+        HtmlGenericControl ctlIsShowInLangZhTw = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangZhTw");
+        ctlIsShowInLangZhTw.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangZhTw);
+        ctlIsShowInLangZhTw.Visible = LangManager.IsEnableEditLangZHTW();
+
+        HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
+        ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
+        ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
+
+        HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Article-Picture.aspx?act={0}&picid={1}', 700, 600); return false;", ConfigFormAction.edit, picId);
+        btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
+
+        Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
+        ltrEdit.Text = Resources.Lang.Main_btnEdit;
+
+        LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
+        btnDelete.CommandArgument = string.Join(",", picId.ToString(), picSubject);
+        btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
+        btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Article_ConfirmDelete_Format + "');",
+            picSubject, picId);
+
+        string ownerAccount = drvTemp.ToSafeStr("PostAccount");
+        int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
+
+        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+
+        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId))
+        {
+            btnDelete.Visible = false;
+        }
+
     }
 }

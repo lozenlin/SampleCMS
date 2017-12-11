@@ -233,68 +233,33 @@
     </div>
     <div class="container-fluid">
         <div class="row pic-carousel">
-            <div class="col-md-3 col-sm-4">
-                <div class="card PicThumbnail">
-                    <a href="#">
-                        <img class="card-img-top" src="BPimages/SamplePic/1.JPG" />
-                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
-                    </a>
-                    <div class="text-center">
-                        <span class="badge badge-light text-info border border-info">中</span>
-                        <span class="badge badge-light text-info border border-info">Eng</span>
-                        <span class="badge badge-light text-secondary">日</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">標題</h5>
-                        <p>
-                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-4">
-                <div class="card PicThumbnail">
-                    <a href="#">
-                        <img class="card-img-top" src="BPimages/SamplePic/2.JPG" />
-                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
-                    </a>
-                    <div class="text-center">
-                        <span class="badge badge-light text-info border border-info">中</span>
-                        <span class="badge badge-light text-info border border-info">Eng</span>
-                        <span class="badge badge-light text-secondary">日</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">標題</h5>
-                        <p>
-                            說明說明說明
-                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                        </p>
+            <asp:Repeater ID="rptArticlePictures" runat="server" OnItemDataBound="rptArticlePictures_ItemDataBound">
+            <ItemTemplate>
+                <div class="col-md-3 col-sm-4">
+                    <div class="card PicThumbnail">
+                        <a id="btnView" runat="server" href="#" target="_blank">
+                            <img id="imgPic" runat="server" class="card-img-top" alt="*" />
+                            <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
+                        </a>
+                        <div class="text-center">
+                            <span id="ctlIsShowInLangZhTw" runat="server" class="badge badge-light text-secondary">中</span>
+                            <span id="ctlIsShowInLangEn" runat="server" class="badge badge-light text-secondary">Eng</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><%# EvalToSafeStr("PicSubject") %></h5>
+                            <p>
+                                <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
+                                    <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
+                                </a>
+                                <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
+                                    <i class="fa fa-trash-o"></i> 刪除
+                                </asp:LinkButton>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-4">
-                <div class="card PicThumbnail">
-                    <a href="#">
-                        <img class="card-img-top" src="BPimages/SamplePic/3.JPG" />
-                        <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
-                    </a>
-                    <div class="text-center">
-                        <span class="badge badge-light text-info border border-info">中</span>
-                        <span class="badge badge-light text-info border border-info">Eng</span>
-                        <span class="badge badge-light text-secondary">日</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">標題</h5>
-                        <p>
-                            說明說明說明
-                            <a href="#" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 刪除</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            </ItemTemplate>
+            </asp:Repeater>
         </div>
     </div>
         

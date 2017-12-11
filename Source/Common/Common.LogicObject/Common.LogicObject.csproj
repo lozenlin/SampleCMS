@@ -80,6 +80,7 @@
     <Compile Include="QueryParam\ArticleListQueryParams.cs" />
     <Compile Include="QueryParam\ArticleMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticleParams.cs" />
+    <Compile Include="QueryParam\ArticlePictureListQueryParams.cs" />
     <Compile Include="QueryParam\ArticlePictureMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticlePictureParams.cs" />
     <Compile Include="QueryParam\AttachFileListQueryParams.cs" />

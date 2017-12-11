@@ -59,6 +59,34 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <網頁照片在指定語系是否顯示>
+-- Test:
+/*
+select dbo.fnArticlePicture_IsShowInLang('C2FC6EE9-D018-4A0C-B927-3362DDB5D902', 'zh-TW')
+*/
+-- =============================================
+create function dbo.fnArticlePicture_IsShowInLang(
+@PicId uniqueidentifier
+,@CultureName varchar(10)
+)
+returns bit
+as
+begin
+	declare @IsShowInLang bit
+
+	select
+		@IsShowInLang=IsShowInLang
+	from dbo.ArticlePictureMultiLang
+	where PicId=@PicId
+		and CultureName=@CultureName
+
+	return @IsShowInLang
+end
+go
+
 -- sp
 go
 ----------------------------------------------------------------------------
@@ -1486,6 +1514,144 @@ begin
 		,MdfDate=getdate()
 	where PicId=@PicId
 		and CultureName=@CultureName
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/11>
+-- Description: <取得後台用指定語系的網頁照片清單>
+-- Test:
+/*
+declare @RowCount int
+exec dbo.spArticlePictureMultiLang_GetListForBackend '00000000-0000-0000-0000-000000000000', 'zh-TW', N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
+*/
+-- =============================================
+alter procedure dbo.spArticlePictureMultiLang_GetListForBackend
+@ArticleId uniqueidentifier
+,@CultureName varchar(10)
+,@Kw nvarchar(52)=''
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N' and ap.ArticleId=@ArticleId and apm.CultureName=@CultureName '
+
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and apm.PostAccount=@MyAccount) '
+	
+	if @Kw<>N''
+	begin
+		set @conditions += N' and apm.PicSubject like @Kw '
+	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.ArticlePictureMultiLang apm
+	join dbo.ArticlePicture ap on apm.PicId=ap.PicId
+	left join dbo.Employee e on apm.PostAccount=e.EmpAccount
+where 1=1 ' + @conditions
+
+	--參數定義
+	set @parmDef=N'
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+,@Kw nvarchar(52)
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	set @Kw = N'%'+@Kw+N'%'
+
+	exec sp_executesql @sql, @parmDefForTotal, 
+		@ArticleId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'PicSubject', N'SortNo', N'PostDate', N'PostDeptName')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by SortNo'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			apm.PicId, apm.PicSubject, 
+			dbo.fnArticlePicture_IsShowInLang(apm.PicId, ''zh-TW'') as IsShowInLangZhTw,
+			dbo.fnArticlePicture_IsShowInLang(apm.PicId, ''en'') as IsShowInLangEn, 
+			apm.PostAccount, apm.PostDate, apm.MdfAccount, 
+			apm.MdfDate, isnull(e.DeptId, 0) as PostDeptId, d.DeptName as PostDeptName,
+			ap.FileSavedName, ap.FileSize, 
+			ap.SortNo, ap.FileMIME
+		from dbo.ArticlePictureMultiLang apm
+			join dbo.ArticlePicture ap on apm.PicId=ap.PicId
+			left join dbo.Employee e on apm.PostAccount=e.EmpAccount
+			left join dbo.Department d on e.DeptId=d.DeptId
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+	exec sp_executesql @sql, @parmDef, 
+		@ArticleId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@BeginNum
+		,@EndNum
 end
 go
 
