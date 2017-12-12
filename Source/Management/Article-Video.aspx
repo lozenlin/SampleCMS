@@ -41,7 +41,7 @@
                 <td colspan="3">
                     <asp:TextBox ID="txtVidLinkUrl" runat="server" MaxLength="2048" style="width:90%;"></asp:TextBox>
                     <div class="my-2">
-                        <asp:LinkButton ID="btnGetYoutubeId" runat="server" CssClass="btn btn-sm btn-primary">
+                        <asp:LinkButton ID="btnGetYoutubeId" runat="server" CssClass="btn btn-sm btn-primary" OnClick="btnGetYoutubeId_Click">
                             <i class="fa fa-arrow-down"></i> 抓出 Youtube 影片代碼</asp:LinkButton>
                     </div>
                 </td>

@@ -886,4 +886,75 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     #endregion
+
+    #region 網頁影片
+
+    /// <summary>
+    /// 取得後台用網頁影片資料
+    /// </summary>
+    public class spArticleVideo_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideo_GetDataForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 取得後台用網頁影片的多國語系資料
+    /// </summary>
+    public class spArticleVideoMultiLang_GetDataForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+        public string CultureName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideoMultiLang_GetDataForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 取得網頁影片的最大排序編號
+    /// </summary>
+    public class spArticleVideo_GetMaxSortNo : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ArticleId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideo_GetMaxSortNo";
+        }
+    }
+
+    #endregion
 }

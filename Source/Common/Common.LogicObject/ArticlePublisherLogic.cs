@@ -721,6 +721,56 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region ArticleVideo DataAccess functions
+
+        /// <summary>
+        /// 取得後台用網頁影片資料
+        /// </summary>
+        public DataSet GetArticleVideoDataForBackend(Guid vidId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideo_GetDataForBackend cmdInfo = new spArticleVideo_GetDataForBackend() { VidId = vidId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得後台用網頁影片的多國語系資料
+        /// </summary>
+        public DataSet GetArticleVideoMultiLangDataForBackend(Guid vidId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideoMultiLang_GetDataForBackend cmdInfo = new spArticleVideoMultiLang_GetDataForBackend()
+            {
+                VidId = vidId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 取得網頁影片的最大排序編號
+        /// </summary>
+        public int GetArticleVideoMaxSortNo(Guid articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideo_GetMaxSortNo cmdInfo = new spArticleVideo_GetMaxSortNo() { ArticleId = articleId };
+
+            int errCode = -1;
+            int result = cmd.ExecuteScalar<int>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

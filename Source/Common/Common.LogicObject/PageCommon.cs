@@ -175,6 +175,24 @@ namespace Common.LogicObject
             }
         }
 
+        /// <summary>
+        /// Video id
+        /// </summary>
+        public Guid qsVidId
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("vidid") ?? "";
+                Guid result = Guid.Empty;
+
+                if (str != "" && Guid.TryParse(str, out result))
+                {
+                }
+
+                return result;
+            }
+        }
+
         #endregion
 
         protected HttpContext context;

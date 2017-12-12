@@ -401,5 +401,54 @@ namespace Common.Utility
 
             return nResult;
         }
+
+        /// <summary>
+        /// 從網址找出 Youtube 影片代碼
+        /// </summary>
+        public static string GetYoutubeIdFromUrl(string url)
+        {
+            string youtubeId = "";
+            string source = url;
+
+            if (source.Contains("youtube.com"))
+            {
+                if (source.Contains("v="))
+                {
+                    //e.g., https://www.youtube.com/watch?v=FrM22iqsdpE
+
+                    source = source.Split(new string[] { "v=" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                    youtubeId = source;
+                }
+                else if(source.Contains("/embed/"))
+                {
+                    //e.g., https://www.youtube.com/embed/FrM22iqsdpE
+
+                    string[] tokens = source.Split('/');
+                    source = tokens[tokens.Length - 1];
+                    youtubeId = source;
+                }
+            }
+            else if (source.Contains("youtu.be"))
+            {
+                //e.g., https://youtu.be/FrM22iqsdpE
+
+                string[] tokens = source.Split('/');
+                source = tokens[tokens.Length - 1];
+                youtubeId = source;
+            }
+
+            if (source.Contains("?") || source.Contains("&") || source.Contains("#"))
+            {
+                //e.g., https://www.youtube.com/watch?v=FrM22iqsdpE&feature=youtu.be&t=150
+                //e.g., https://www.youtube.com/embed/FrM22iqsdpE?start=120
+                //e.g., https://youtu.be/FrM22iqsdpE?t=150
+
+                source = source.Split('?', '&', '#')[0];
+                youtubeId = source;
+            }
+
+            return youtubeId;
+        }
+
     }
 }

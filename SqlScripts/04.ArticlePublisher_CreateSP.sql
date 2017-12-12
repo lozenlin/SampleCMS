@@ -1655,6 +1655,74 @@ order by RowNum'
 end
 go
 
+----------------------------------------------------------------------------
+-- 網頁影片
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <取得後台用網頁影片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_GetDataForBackend
+@VidId	uniqueidentifier
+as
+begin
+	select
+		ArticleId, SortNo, VidLinkUrl, 
+		SourceVideoId, PostAccount, PostDate, 
+		MdfAccount, MdfDate
+	from dbo.ArticleVideo
+	where VidId=@VidId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <取得後台用網頁影片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideoMultiLang_GetDataForBackend
+@VidId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	select
+		VidSubject, VidDesc, IsShowInLang, 
+		PostAccount, PostDate, MdfAccount,
+		MdfDate
+	from dbo.ArticleVideoMultiLang
+	where VidId=@VidId
+		and CultureName=@CultureName
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <取得網頁影片的最大排序編號>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_GetMaxSortNo
+@ArticleId	uniqueidentifier
+as
+begin
+	select
+		isnull(max(SortNo), 0) as MaxSortNo
+	from dbo.ArticleVideo
+	where ArticleId=@ArticleId
+end
+go
+
 
 
 
@@ -1666,7 +1734,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/11>
+-- Create date: <2017/12/12>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*
