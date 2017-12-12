@@ -163,7 +163,7 @@
                 <th title="<%= Resources.Lang.Col_Subject_Hint %>"><%= Resources.Lang.Col_Subject %></th>
                 <th title="<%= Resources.Lang.Col_FileName_Hint %>" style="width:20%"><%= Resources.Lang.Col_FileName %></th>
                 <th title="<%= Resources.Lang.Col_Language_Hint %>" style="width:10%"><%= Resources.Lang.Col_Language %></th>
-                <th title="<%= Resources.Lang.Col_MdfAccount_Hint %>" style="width:10%"><%= Resources.Lang.Col_MdfAccount %></th>
+                <th title="<%= Resources.Lang.Col_SortNo_Hint %>" style="width:10%"><%= Resources.Lang.Col_SortNo %></th>
                 <th title="<%= Resources.Lang.Col_MdfDate_Hint %>" style="width:12%"><%= Resources.Lang.Col_MdfDate %></th>
                 <th title="<%= Resources.Lang.Col_FileType_Hint %>" style="width:6%"><%= Resources.Lang.Col_FileType %></th>
                 <th title="<%= Resources.Lang.Col_Management_Hint %>" style="width:20%"><%= Resources.Lang.Col_Management %></th>
@@ -195,7 +195,7 @@
                         <span id="ctlIsShowInLangEn" runat="server" class="badge badge-light text-secondary">Eng</span>
                     </td>
                     <td>
-                        <asp:Literal ID="ltrMdfAccount" runat="server"></asp:Literal>
+                        <%# EvalToSafeStr("SortNo") %>
                     </td>
                     <td>
                         <span class="small"><asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
@@ -233,7 +233,7 @@
     </div>
     <div class="container-fluid">
         <div class="row pic-carousel">
-            <asp:Repeater ID="rptArticlePictures" runat="server" OnItemDataBound="rptArticlePictures_ItemDataBound">
+            <asp:Repeater ID="rptArticlePictures" runat="server" OnItemDataBound="rptArticlePictures_ItemDataBound" OnItemCommand="rptArticlePictures_ItemCommand">
             <ItemTemplate>
                 <div class="col-md-3 col-sm-4">
                     <div class="card PicThumbnail">
@@ -247,7 +247,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><%# EvalToSafeStr("PicSubject") %></h5>
-                            <p>
+                            <p class="mb-1">
                                 <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
                                     <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
                                 </a>
@@ -255,6 +255,9 @@
                                     <i class="fa fa-trash-o"></i> 刪除
                                 </asp:LinkButton>
                             </p>
+                            <div class="text-warning">
+                                <%= Resources.Lang.Col_SortNo %>: <%# EvalToSafeStr("SortNo") %>
+                            </div>
                         </div>
                     </div>
                 </div>

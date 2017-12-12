@@ -598,9 +598,6 @@ public partial class Article_Node : BasePage
         ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
         ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
 
-        Literal ltrMdfAccount = (Literal)e.Item.FindControl("ltrMdfAccount");
-        ltrMdfAccount.Text = mdfAccount;
-
         Literal ltrMdfDate = (Literal)e.Item.FindControl("ltrMdfDate");
         ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", mdfDate);
 
@@ -810,5 +807,57 @@ public partial class Article_Node : BasePage
             btnDelete.Visible = false;
         }
 
+    }
+
+    protected void rptArticlePictures_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        bool result = false;
+        Guid picId;
+
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                picId = new Guid(args[0]);
+                string picSubject = args[1];
+
+                ArticlePictureManagerLogic artPicMgr = new ArticlePictureManagerLogic(this.Context);
+                result = artPicMgr.Initialize(picId, c.qsArtId);
+
+                if (result)
+                {
+                    result = artPicMgr.DeleteData();
+
+                    //新增後端操作記錄
+                    empAuth.InsertBackEndLogData(new BackEndLogData()
+                    {
+                        EmpAccount = c.GetEmpAccount(),
+                        Description = string.Format("．刪除網頁照片/Delete article picture　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", picId, picSubject, result),
+                        IP = c.GetClientIP()
+                    });
+
+                    // log to file
+                    c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "article picture-[" + picId.ToString() + "]-" + picSubject, result);
+                }
+
+                if (!result)
+                {
+                    string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicMgr.GetErrState());
+
+                    if (errMsg == "")
+                    {
+                        errMsg = "刪除網頁照片失敗";
+                    }
+
+                    Master.ShowErrorMsg(errMsg);
+                }
+
+                break;
+        }
+
+        if (result)
+        {
+            DisplayPictures();
+        }
     }
 }

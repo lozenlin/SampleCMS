@@ -1611,7 +1611,7 @@ where 1=1 ' + @conditions
 	else
 	begin
 		--預設
-		set @SortExp=N' order by SortNo'
+		set @SortExp=N' order by SortNo desc'
 	end
 	
 	set @sql=N'

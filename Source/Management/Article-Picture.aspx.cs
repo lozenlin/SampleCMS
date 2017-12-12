@@ -12,7 +12,7 @@ public partial class Article_Picture : System.Web.UI.Page
     protected ArticleCommonOfBackend c;
     protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
-    protected ArticlePictureManagerLogic artPicFileMgr;
+    protected ArticlePictureManagerLogic artPicMgr;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
@@ -25,14 +25,14 @@ public partial class Article_Picture : System.Web.UI.Page
         empAuth.SetCustomEmployeeAuthorizationResult(artPub);
         empAuth.InitialAuthorizationResultOfSubPages();
 
-        artPicFileMgr = new ArticlePictureManagerLogic(this.Context);
+        artPicMgr = new ArticlePictureManagerLogic(this.Context);
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!artPicFileMgr.Initialize(c.qsPicId, c.qsArtId))
+        if (!artPicMgr.Initialize(c.qsPicId, c.qsArtId))
         {
-            string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicFileMgr.GetErrState());
+            string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicMgr.GetErrState());
             Master.ShowErrorMsg(errMsg);
             return;
         }
@@ -84,15 +84,15 @@ public partial class Article_Picture : System.Web.UI.Page
 
     private void LoadExtAndMimeLimitations()
     {
-        if (artPicFileMgr.FileExtLimitations != null && artPicFileMgr.FileExtLimitations.Count > 0)
+        if (artPicMgr.FileExtLimitations != null && artPicMgr.FileExtLimitations.Count > 0)
         {
-            string extCombined = string.Join(", ", artPicFileMgr.FileExtLimitations.ToArray());
+            string extCombined = string.Join(", ", artPicMgr.FileExtLimitations.ToArray());
             ltrExtLimitations.Text = extCombined;
             ExtLimitationsArea.Visible = true;
 
-            if (artPicFileMgr.FileMimeLimitations != null && artPicFileMgr.FileMimeLimitations.Count > 0)
+            if (artPicMgr.FileMimeLimitations != null && artPicMgr.FileMimeLimitations.Count > 0)
             {
-                string acceptList = string.Join(",", artPicFileMgr.FileMimeLimitations.ToArray());
+                string acceptList = string.Join(",", artPicMgr.FileMimeLimitations.ToArray());
                 fuPickedFile.Attributes.Add("accept", acceptList);
             }
         }
@@ -110,11 +110,11 @@ public partial class Article_Picture : System.Web.UI.Page
     {
         if (c.qsAct == ConfigFormAction.edit)
         {
-            txtSortNo.Text = artPicFileMgr.SortNo.ToString();
-            ltrPostAccount.Text = artPicFileMgr.PostAccount;
-            ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", artPicFileMgr.PostDate);
+            txtSortNo.Text = artPicMgr.SortNo.ToString();
+            ltrPostAccount.Text = artPicMgr.PostAccount;
+            ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", artPicMgr.PostDate);
             CurFileArea.Visible = true;
-            ltrFileSavedName.Text = artPicFileMgr.FileSavedName;
+            ltrFileSavedName.Text = artPicMgr.FileSavedName;
             ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadAtt;
             btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadAtt_Hint;
             btnDownloadAtt.HRef = string.Format("FileArtPic.ashx?attid={0}&saveas=1", c.qsPicId);
@@ -122,31 +122,31 @@ public partial class Article_Picture : System.Web.UI.Page
             // cancel required field rule
             rfvPickedFile.ValidationGroup = "none";
 
-            if (artPicFileMgr.MdfDate.HasValue)
+            if (artPicMgr.MdfDate.HasValue)
             {
-                ltrMdfAccount.Text = artPicFileMgr.MdfAccount;
-                ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", artPicFileMgr.MdfDate);
+                ltrMdfAccount.Text = artPicMgr.MdfAccount;
+                ltrMdfDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", artPicMgr.MdfDate);
             }
 
             //zh-TW
             if (LangManager.IsEnableEditLangZHTW())
             {
-                txtPicSubjectZhTw.Text = artPicFileMgr.AttSubjectZhTw;
-                chkIsShowInLangZhTw.Checked = artPicFileMgr.IsShowInLangZhTw;
+                txtPicSubjectZhTw.Text = artPicMgr.AttSubjectZhTw;
+                chkIsShowInLangZhTw.Checked = artPicMgr.IsShowInLangZhTw;
             }
 
             //en
             if (LangManager.IsEnableEditLangEN())
             {
-                txtPicSubjectEn.Text = artPicFileMgr.AttSubjectEn;
-                chkIsShowInLangEn.Checked = artPicFileMgr.IsShowInLangEn;
+                txtPicSubjectEn.Text = artPicMgr.AttSubjectEn;
+                chkIsShowInLangEn.Checked = artPicMgr.IsShowInLangEn;
             }
 
             btnSave.Visible = true;
         }
         else if (c.qsAct == ConfigFormAction.add)
         {
-            txtSortNo.Text = artPicFileMgr.SortNo.ToString();
+            txtSortNo.Text = artPicMgr.SortNo.ToString();
             btnSave.Visible = true;
         }
     }
@@ -167,13 +167,13 @@ public partial class Article_Picture : System.Web.UI.Page
             txtPicSubjectZhTw.Text = txtPicSubjectZhTw.Text.Trim();
             txtPicSubjectEn.Text = txtPicSubjectEn.Text.Trim();
 
-            artPicFileMgr.SortNo = Convert.ToInt32(txtSortNo.Text);
-            artPicFileMgr.AttSubjectZhTw = txtPicSubjectZhTw.Text;
-            artPicFileMgr.AttSubjectEn = txtPicSubjectEn.Text;
-            artPicFileMgr.IsShowInLangZhTw = chkIsShowInLangZhTw.Checked;
-            artPicFileMgr.IsShowInLangEn = chkIsShowInLangEn.Checked;
+            artPicMgr.SortNo = Convert.ToInt32(txtSortNo.Text);
+            artPicMgr.AttSubjectZhTw = txtPicSubjectZhTw.Text;
+            artPicMgr.AttSubjectEn = txtPicSubjectEn.Text;
+            artPicMgr.IsShowInLangZhTw = chkIsShowInLangZhTw.Checked;
+            artPicMgr.IsShowInLangEn = chkIsShowInLangEn.Checked;
 
-            result = artPicFileMgr.SaveData(fuPickedFile, c.GetEmpAccount());
+            result = artPicMgr.SaveData(fuPickedFile, c.GetEmpAccount());
 
             if (result)
             {
@@ -181,7 +181,7 @@ public partial class Article_Picture : System.Web.UI.Page
             }
             else
             {
-                string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicFileMgr.GetErrState());
+                string errMsg = ResUtility.GetErrMsgOfAttFileErrState(artPicMgr.GetErrState());
 
                 if (errMsg == "")
                 {
