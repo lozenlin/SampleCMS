@@ -1723,6 +1723,120 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <新增網頁影片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_InsertData
+@VidId	uniqueidentifier
+,@ArticleId	uniqueidentifier
+,@SortNo	int
+,@VidLinkUrl	nvarchar(2048)
+,@SourceVideoId	varchar(100)
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.ArticleVideo(
+		VidId, ArticleId, SortNo, 
+		VidLinkUrl, SourceVideoId, PostAccount,
+		PostDate
+		)
+	values(
+		@VidId, @ArticleId, @SortNo, 
+		@VidLinkUrl, @SourceVideoId, @PostAccount,
+		getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <新增網頁影片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideoMultiLang_InsertData
+@VidId	uniqueidentifier
+,@CultureName	varchar(10)
+,@VidSubject	nvarchar(200)
+,@VidDesc	nvarchar(500)
+,@IsShowInLang	bit
+,@PostAccount	varchar(20)
+as
+begin
+	insert into dbo.ArticleVideoMultiLang(
+		VidId, CultureName, VidSubject, 
+		VidDesc, IsShowInLang, PostAccount, 
+		PostDate
+		)
+	values(
+		@VidId, @CultureName, @VidSubject, 
+		@VidDesc, @IsShowInLang, @PostAccount, 
+		getdate()
+		)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <更新網頁影片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_UpdateData
+@VidId	uniqueidentifier
+,@SortNo	int
+,@VidLinkUrl	nvarchar(2048)
+,@SourceVideoId	varchar(100)
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.ArticleVideo
+	set SortNo=@SortNo
+		,VidLinkUrl=@VidLinkUrl
+		,SourceVideoId=@SourceVideoId
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where VidId=@VidId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/12>
+-- Description: <更新網頁影片的多國語系資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideoMultiLang_UpdateData
+@VidId	uniqueidentifier
+,@CultureName	varchar(10)
+,@VidSubject	nvarchar(200)
+,@VidDesc	nvarchar(500)
+,@IsShowInLang	bit
+,@MdfAccount	varchar(20)
+as
+begin
+	update dbo.ArticleVideoMultiLang
+	set VidSubject=@VidSubject
+		,VidDesc=@VidDesc
+		,IsShowInLang=@IsShowInLang
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where VidId=@VidId
+		and CultureName=@CultureName
+end
+go
+
 
 
 

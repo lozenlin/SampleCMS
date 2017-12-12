@@ -109,7 +109,7 @@ public partial class Article_Video : System.Web.UI.Page
                 //zh-TW
                 if (LangManager.IsEnableEditLangZHTW())
                 {
-                    DataSet dsZhTw = artPub.GetArticleVideoMultiLangDataForBackend(c.qsVidId, c.seCultureNameOfBackend);
+                    DataSet dsZhTw = artPub.GetArticleVideoMultiLangDataForBackend(c.qsVidId, LangManager.CultureNameZHTW);
 
                     if (dsZhTw != null && dsZhTw.Tables[0].Rows.Count > 0)
                     {
@@ -130,7 +130,7 @@ public partial class Article_Video : System.Web.UI.Page
                 //en
                 if (LangManager.IsEnableEditLangEN())
                 {
-                    DataSet dsEn = artPub.GetArticleVideoMultiLangDataForBackend(c.qsVidId, c.seCultureNameOfBackend);
+                    DataSet dsEn = artPub.GetArticleVideoMultiLangDataForBackend(c.qsVidId, LangManager.CultureNameEN);
 
                     if (dsEn != null && dsEn.Tables[0].Rows.Count > 0)
                     {
@@ -174,6 +174,134 @@ public partial class Article_Video : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        Master.ShowErrorMsg("");
 
+        if (!IsValid)
+            return;
+
+        try
+        {
+            txtVidLinkUrl.Text = txtVidLinkUrl.Text.Trim();
+            txtSourceVideoId.Text = txtSourceVideoId.Text.Trim();
+
+            ArticleVideoParams param = new ArticleVideoParams()
+            {
+                SortNo = Convert.ToInt32(txtSortNo.Text),
+                VidLinkUrl = txtVidLinkUrl.Text,
+                SourceVideoId = txtSourceVideoId.Text,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            txtVidSubjectZhTw.Text = txtVidSubjectZhTw.Text.Trim();
+            txtVidDescZhTw.Text = txtVidDescZhTw.Text.Trim();
+
+            ArticleVideoMultiLangParams paramZhTw = new ArticleVideoMultiLangParams()
+            {
+                CultureName = LangManager.CultureNameZHTW,
+                VidSubject = txtVidSubjectZhTw.Text,
+                IsShowInLang = chkIsShowInLangZhTw.Checked,
+                VidDesc = txtVidDescZhTw.Text,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            txtVidSubjectEn.Text = txtVidSubjectEn.Text.Trim();
+            txtVidDescEn.Text = txtVidDescEn.Text.Trim();
+
+            ArticleVideoMultiLangParams paramEn = new ArticleVideoMultiLangParams()
+            {
+                CultureName = LangManager.CultureNameEN,
+                VidSubject = txtVidSubjectEn.Text,
+                IsShowInLang = chkIsShowInLangEn.Checked,
+                VidDesc = txtVidDescEn.Text,
+                PostAccount = c.GetEmpAccount()
+            };
+
+            bool result = false;
+
+            if (c.qsAct == ConfigFormAction.add)
+            {
+                Guid newVidId = Guid.NewGuid();
+                param.VidId = newVidId;
+                param.ArticleId = c.qsArtId;
+
+                result = artPub.InsertArticleVideoData(param);
+
+                if (result)
+                {
+                    //zh-TW
+                    if (result && LangManager.IsEnableEditLangZHTW())
+                    {
+                        paramZhTw.VidId = param.VidId;
+                        result = artPub.InsertArticleVideoMultiLangData(paramZhTw);
+                    }
+
+                    //en
+                    if (result && LangManager.IsEnableEditLangEN())
+                    {
+                        paramEn.VidId = param.VidId;
+                        result = artPub.InsertArticleVideoMultiLangData(paramEn);
+                    }
+
+                    if (!result)
+                    {
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddMultiLangFailed);
+                    }
+                }
+                else
+                {
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_AddFailed);
+                }
+            }
+            else if (c.qsAct == ConfigFormAction.edit)
+            {
+                param.VidId = c.qsVidId;
+
+                result = artPub.UpdateArticleVideoData(param);
+
+                if (result)
+                {
+                    //zh-TW
+                    if (result && LangManager.IsEnableEditLangZHTW())
+                    {
+                        paramZhTw.VidId = param.VidId;
+                        result = artPub.UpdateArticleVideoMultiLangData(paramZhTw);
+                    }
+
+                    //en
+                    if (result && LangManager.IsEnableEditLangEN())
+                    {
+                        paramEn.VidId = param.VidId;
+                        result = artPub.UpdateArticleVideoMultiLangData(paramEn);
+                    }
+
+                    if (!result)
+                    {
+                        Master.ShowErrorMsg(Resources.Lang.ErrMsg_UpdateMultiLangFailed);
+                    }
+                }
+                else
+                {
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_UpdateFailed);
+                }
+            }
+
+            if (result)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Video"), true);
+            }
+
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = c.GetEmpAccount(),
+                Description = string.Format("．{0}　．儲存網頁影片/Save article video[{1}][{2}]　結果/result[{3}]", Title, txtVidSubjectZhTw.Text, txtVidSubjectEn.Text, result),
+                IP = c.GetClientIP()
+            });
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+            Master.ShowErrorMsg(ex.Message);
+        }
     }
 }

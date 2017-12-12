@@ -956,5 +956,112 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 新增網頁影片資料
+    /// </summary>
+    public class spArticleVideo_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+        public Guid ArticleId;
+        public int SortNo;
+        public string VidLinkUrl;
+        public string SourceVideoId;
+        public string PostAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideo_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 新增網頁影片的多國語系資料
+    /// </summary>
+    public class spArticleVideoMultiLang_InsertData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+        public string CultureName;
+        public string VidSubject;
+        public string VidDesc;
+        public bool IsShowInLang;
+        public string PostAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideoMultiLang_InsertData";
+        }
+    }
+
+    /// <summary>
+    /// 更新網頁影片資料
+    /// </summary>
+    public class spArticleVideo_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+        public int SortNo;
+        public string VidLinkUrl;
+        public string SourceVideoId;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideo_UpdateData";
+        }
+    }
+
+    /// <summary>
+    /// 更新網頁影片的多國語系資料
+    /// </summary>
+    public class spArticleVideoMultiLang_UpdateData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+        public string CultureName;
+        public string VidSubject;
+        public string VidDesc;
+        public bool IsShowInLang;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideoMultiLang_UpdateData";
+        }
+    }
+
     #endregion
 }

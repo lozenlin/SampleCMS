@@ -769,6 +769,89 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 新增網頁影片資料
+        /// </summary>
+        public bool InsertArticleVideoData(ArticleVideoParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideo_InsertData cmdInfo = new spArticleVideo_InsertData()
+            {
+                VidId = param.VidId,
+                ArticleId = param.ArticleId,
+                SortNo = param.SortNo,
+                VidLinkUrl = param.VidLinkUrl,
+                SourceVideoId = param.SourceVideoId,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增網頁影片的多國語系資料
+        /// </summary>
+        public bool InsertArticleVideoMultiLangData(ArticleVideoMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideoMultiLang_InsertData cmdInfo = new spArticleVideoMultiLang_InsertData()
+            {
+                VidId = param.VidId,
+                CultureName = param.CultureName,
+                VidSubject = param.VidSubject,
+                VidDesc = param.VidDesc,
+                IsShowInLang = param.IsShowInLang,
+                PostAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁影片資料
+        /// </summary>
+        public bool UpdateArticleVideoData(ArticleVideoParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideo_UpdateData cmdInfo = new spArticleVideo_UpdateData()
+            {
+                VidId = param.VidId,
+                SortNo = param.SortNo,
+                VidLinkUrl = param.VidLinkUrl,
+                SourceVideoId = param.SourceVideoId,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁影片的多國語系資料
+        /// </summary>
+        public bool UpdateArticleVideoMultiLangData(ArticleVideoMultiLangParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleVideoMultiLang_UpdateData cmdInfo = new spArticleVideoMultiLang_UpdateData()
+            {
+                VidId = param.VidId,
+                CultureName = param.CultureName,
+                VidSubject = param.VidSubject,
+                VidDesc = param.VidDesc,
+                IsShowInLang = param.IsShowInLang,
+                MdfAccount = param.PostAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         /// <summary>
