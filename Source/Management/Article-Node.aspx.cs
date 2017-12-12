@@ -710,6 +710,8 @@ public partial class Article_Node : BasePage
 
     private void DisplayPictures()
     {
+        ltrUploadPicture.Text = Resources.Lang.Article_btnUploadPicture;
+        btnUploadPicture.Title = Resources.Lang.Article_btnUploadPicture_Hint;
         btnUploadPicture.Attributes["onclick"] =
             string.Format("popWin('Article-Picture.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
@@ -770,6 +772,7 @@ public partial class Article_Node : BasePage
 
         HtmlAnchor btnView = (HtmlAnchor)e.Item.FindControl("btnView");
         btnView.HRef = string.Format("FileArtPic.ashx?attid={0}", picId);
+        btnView.Title = Resources.Lang.Main_btnClickToOpenInNewWin_Hint;
 
         HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
         imgPic.Src = string.Format("FileArtPic.ashx?attid={0}&w=320&h=240", picId);
@@ -846,7 +849,7 @@ public partial class Article_Node : BasePage
 
                     if (errMsg == "")
                     {
-                        errMsg = "刪除網頁照片失敗";
+                        errMsg = Resources.Lang.ErrMsg_DeleteArticlePictureFailed;
                     }
 
                     Master.ShowErrorMsg(errMsg);

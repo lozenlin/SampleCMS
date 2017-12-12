@@ -1581,6 +1581,46 @@
     <value>儲存失敗</value>
     <comment>儲存失敗</comment>
   </data>
+  <data name="GroupLabel_ArticlePictures" xml:space="preserve">
+    <value>照片區</value>
+    <comment>照片區</comment>
+  </data>
+  <data name="Main_btnClickToOpenInNewWin" xml:space="preserve">
+    <value>點擊另開</value>
+    <comment>點擊另開</comment>
+  </data>
+  <data name="Main_btnClickToOpenInNewWin_Hint" xml:space="preserve">
+    <value>點擊另開</value>
+    <comment>點擊另開</comment>
+  </data>
+  <data name="Article_btnUploadPicture" xml:space="preserve">
+    <value>上傳</value>
+    <comment>上傳</comment>
+  </data>
+  <data name="Article_btnUploadPicture_Hint" xml:space="preserve">
+    <value>上傳照片</value>
+    <comment>上傳照片</comment>
+  </data>
+  <data name="Article_btnDownloadArtPic" xml:space="preserve">
+    <value>下載</value>
+    <comment>下載</comment>
+  </data>
+  <data name="Article_btnDownloadArtPic_Hint" xml:space="preserve">
+    <value>下載照片檔案</value>
+    <comment>下載照片檔案</comment>
+  </data>
+  <data name="ArticlePicture_Title_AddNew_Format" xml:space="preserve">
+    <value>新增網頁照片 - 網頁id:{0}</value>
+    <comment>新增網頁照片 - 網頁id:{0}</comment>
+  </data>
+  <data name="ArticlePicture_Title_Edit_Format" xml:space="preserve">
+    <value>修改網頁照片 - 照片id:{0}</value>
+    <comment>修改網頁照片 - 照片id:{0}</comment>
+  </data>
+  <data name="ErrMsg_DeleteArticlePictureFailed" xml:space="preserve">
+    <value>刪除網頁照片失敗</value>
+    <comment>刪除網頁照片失敗</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

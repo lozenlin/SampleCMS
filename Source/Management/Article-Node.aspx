@@ -224,7 +224,7 @@
     <hr class="content-divider" />
     <div class="sys-subtitle container-fluid">
         <div class="form-row">
-            <div class="col-sm-2">照片區</div>
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_ArticlePictures %></div>
             <div class="col-sm-2">
                 <a id="btnUploadPicture" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadPicture" runat="server" Text="上傳"></asp:Literal></a>
@@ -239,7 +239,8 @@
                     <div class="card PicThumbnail">
                         <a id="btnView" runat="server" href="#" target="_blank">
                             <img id="imgPic" runat="server" class="card-img-top" alt="*" />
-                            <div class="PicLinkText"><i class="fa fa-share-square-o text-secondary"></i> 點擊另開</div>
+                            <div class="PicLinkText">
+                                <i class="fa fa-share-square-o text-secondary"></i> <%= Resources.Lang.Main_btnClickToOpenInNewWin %></div>
                         </a>
                         <div class="text-center">
                             <span id="ctlIsShowInLangZhTw" runat="server" class="badge badge-light text-secondary">中</span>

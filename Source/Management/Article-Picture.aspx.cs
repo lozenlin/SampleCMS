@@ -57,6 +57,11 @@ public partial class Article_Picture : System.Web.UI.Page
 
     private void LoadUIData()
     {
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvPicSubjectZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPicSubjectEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPickedFile.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
 
         SetupLangRelatedFields();
         LoadExtAndMimeLimitations();
@@ -101,9 +106,9 @@ public partial class Article_Picture : System.Web.UI.Page
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = string.Format("新增網頁照片 - 網頁id:{0}", c.qsArtId);
+            Title = string.Format(Resources.Lang.ArticlePicture_Title_AddNew_Format, c.qsArtId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改網頁照片 - 照片id:{0}", c.qsPicId);
+            Title = string.Format(Resources.Lang.ArticlePicture_Title_Edit_Format, c.qsPicId);
     }
 
     private void DisplayArticlePictureData()
@@ -115,8 +120,8 @@ public partial class Article_Picture : System.Web.UI.Page
             ltrPostDate.Text = string.Format("{0:yyyy-MM-dd HH:mm:ss}", artPicMgr.PostDate);
             CurFileArea.Visible = true;
             ltrFileSavedName.Text = artPicMgr.FileSavedName;
-            ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadAtt;
-            btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadAtt_Hint;
+            ltrDownloadAtt.Text = Resources.Lang.Article_btnDownloadArtPic;
+            btnDownloadAtt.Title = Resources.Lang.Article_btnDownloadArtPic_Hint;
             btnDownloadAtt.HRef = string.Format("FileArtPic.ashx?attid={0}&saveas=1", c.qsPicId);
 
             // cancel required field rule
