@@ -190,6 +190,48 @@ go
 create clustered index IX_ArticlePictureMultiLang on dbo.ArticlePictureMultiLang (SeqnoForCluster)
 go
 
+----------------------------------------------------------------------------
+-- dbo.ArticleVideo 網頁影片	
+----------------------------------------------------------------------------
+create table dbo.ArticleVideo(
+	VidId	uniqueidentifier	Not Null
+	,SeqnoForCluster	int	Not Null	identity
+	,ArticleId	uniqueidentifier
+	,SortNo	int		
+	,VidLinkUrl	nvarchar(2048)		
+	,SourceVideoId	varchar(100)
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime	
+	,constraint PK_ArticleVideo primary key nonclustered (VidId)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_ArticleVideo on dbo.ArticleVideo (SeqnoForCluster)
+go
+
+----------------------------------------------------------------------------
+-- dbo.ArticleVideoMultiLang 網頁影片的多國語系資料	
+----------------------------------------------------------------------------
+create table dbo.ArticleVideoMultiLang(
+	VidId	uniqueidentifier	Not Null
+	,CultureName	varchar(10)	Not Null
+	,SeqnoForCluster	int	Not Null	identity
+	,VidSubject	nvarchar(200)		
+	,VidDesc	nvarchar(500)		
+	,IsShowInLang	bit	Not Null	Default(1)
+	,PostAccount	varchar(20)		
+	,PostDate	datetime		
+	,MdfAccount	varchar(20)		
+	,MdfDate	datetime		
+	,constraint PK_ArticleVideoMultiLang primary key nonclustered (VidId, CultureName)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_ArticleVideoMultiLang on dbo.ArticleVideoMultiLang (SeqnoForCluster)
+go
+
 
 
 go
