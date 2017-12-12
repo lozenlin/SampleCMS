@@ -58,6 +58,7 @@ public partial class Article_Node : BasePage
             DisplayArticle();
             DisplayAttachFiles();
             DisplayPictures();
+            DisplayVideos();
         }
         else
         {
@@ -78,6 +79,10 @@ public partial class Article_Node : BasePage
                 else if (Master.FlagValue == "Picture")
                 {
                     DisplayPictures();
+                }
+                else if (Master.FlagValue == "Video")
+                {
+                    DisplayVideos();
                 }
 
                 Master.FlagValue = "";
@@ -862,5 +867,13 @@ public partial class Article_Node : BasePage
         {
             DisplayPictures();
         }
+    }
+
+    private void DisplayVideos()
+    {
+        btnAddVideo.Attributes["onclick"] =
+            string.Format("popWin('Article-Video.aspx?act={0}&artid={1}', 700, 600); return false;",
+                ConfigFormAction.add, c.qsArtId);
+
     }
 }
