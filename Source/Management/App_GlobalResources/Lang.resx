@@ -1633,6 +1633,62 @@
     <value>確定刪除[{0}][{1}]?</value>
     <comment>確定刪除[{0}][{1}]?</comment>
   </data>
+  <data name="GroupLabel_ArticleVideos" xml:space="preserve">
+    <value>Youtube 影片</value>
+    <comment>Youtube 影片</comment>
+  </data>
+  <data name="Article_btnAddVideo" xml:space="preserve">
+    <value>新增</value>
+    <comment>新增</comment>
+  </data>
+  <data name="Article_btnAddVideo_Hint" xml:space="preserve">
+    <value>新增 Youtube 影片</value>
+    <comment>新增 Youtube 影片</comment>
+  </data>
+  <data name="ErrMsg_DeleteArticleVideoFailed" xml:space="preserve">
+    <value>刪除網頁影片失敗</value>
+    <comment>刪除網頁影片失敗</comment>
+  </data>
+  <data name="Col_YoutubeVideoUrl" xml:space="preserve">
+    <value>Youtube 影片網址</value>
+    <comment>Youtube 影片網址</comment>
+  </data>
+  <data name="Col_YoutubeVideoUrl_Hint" xml:space="preserve">
+    <value>Youtube 影片網址</value>
+    <comment>Youtube 影片網址</comment>
+  </data>
+  <data name="ArticleVideo_btnGetYoutubeId" xml:space="preserve">
+    <value>抓出 Youtube 影片代碼</value>
+    <comment>抓出 Youtube 影片代碼</comment>
+  </data>
+  <data name="ArticleVideo_btnGetYoutubeId_Confirm" xml:space="preserve">
+    <value>確定要替換目前的 Youtube 影片代碼?</value>
+    <comment>確定要替換目前的 Youtube 影片代碼?</comment>
+  </data>
+  <data name="Col_YoutubeVideoId" xml:space="preserve">
+    <value>Youtube 影片代碼</value>
+    <comment>Youtube 影片代碼</comment>
+  </data>
+  <data name="Col_YoutubeVideoId_Hint" xml:space="preserve">
+    <value>Youtube 影片代碼</value>
+    <comment>Youtube 影片代碼</comment>
+  </data>
+  <data name="Col_VideoDesc" xml:space="preserve">
+    <value>影片說明</value>
+    <comment>影片說明</comment>
+  </data>
+  <data name="Col_VideoDesc_Hint" xml:space="preserve">
+    <value>影片說明</value>
+    <comment>影片說明</comment>
+  </data>
+  <data name="ArticleVideo_Title_AddNew_Format" xml:space="preserve">
+    <value>新增 Youtube 影片 - 網頁id:{0}</value>
+    <comment>新增 Youtube 影片 - 網頁id:{0}</comment>
+  </data>
+  <data name="ArticleVideo_Title_Edit_Format" xml:space="preserve">
+    <value>修改 Youtube 影片 - 影片id:{0}</value>
+    <comment>修改 Youtube 影片 - 影片id:{0}</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

@@ -871,6 +871,8 @@ public partial class Article_Node : BasePage
 
     private void DisplayVideos()
     {
+        ltrAddVideo.Text = Resources.Lang.Article_btnAddVideo;
+        btnAddVideo.Title = Resources.Lang.Article_btnAddVideo_Hint;
         btnAddVideo.Attributes["onclick"] =
             string.Format("popWin('Article-Video.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
@@ -999,7 +1001,7 @@ public partial class Article_Node : BasePage
 
                 if (!result)
                 {
-                    Master.ShowErrorMsg("刪除網頁影片失敗");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteArticleVideoFailed);
                 }
                 
                 break;

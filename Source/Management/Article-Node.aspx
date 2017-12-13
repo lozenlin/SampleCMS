@@ -270,7 +270,7 @@
     <hr class="content-divider" />
     <div class="sys-subtitle container-fluid">
         <div class="form-row">
-            <div class="col-sm-2">Youtube 影片</div>
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_ArticleVideos %></div>
             <div class="col-sm-2">
                 <a id="btnAddVideo" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-plus"></i> <asp:Literal ID="ltrAddVideo" runat="server" Text="新增"></asp:Literal></a>

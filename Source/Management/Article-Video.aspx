@@ -37,17 +37,17 @@
                 </td>
             </tr>
             <tr>
-                <th>Youtube 影片網址</th>
+                <th><%= Resources.Lang.Col_YoutubeVideoUrl %></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtVidLinkUrl" runat="server" MaxLength="2048" style="width:90%;"></asp:TextBox>
                     <div class="my-2">
                         <asp:LinkButton ID="btnGetYoutubeId" runat="server" CssClass="btn btn-sm btn-primary" OnClick="btnGetYoutubeId_Click">
-                            <i class="fa fa-arrow-down"></i> 抓出 Youtube 影片代碼</asp:LinkButton>
+                            <i class="fa fa-arrow-down"></i> <%= Resources.Lang.ArticleVideo_btnGetYoutubeId %></asp:LinkButton>
                     </div>
                 </td>
             </tr>
             <tr>
-                <th><span class="required-symbol">Youtube 影片代碼</span></th>
+                <th><span class="required-symbol"><%= Resources.Lang.Col_YoutubeVideoId %></span></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtSourceVideoId" runat="server" MaxLength="100" style="width:10rem;"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvSourceVideoId" runat="server" ControlToValidate="txtSourceVideoId" CssClass="text-danger"
@@ -62,7 +62,7 @@
                 </td>
             </tr>
             <tr>
-                <th>影片說明</th>
+                <th><%= Resources.Lang.Col_VideoDesc %></th>
                 <td colspan="3">
                     <div id="VidDescZhTwArea" runat="server" class="config-textbox-lang">
                         <span class="lang-label">中:</span>

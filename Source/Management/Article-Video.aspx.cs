@@ -48,7 +48,12 @@ public partial class Article_Video : System.Web.UI.Page
 
     private void LoadUIData()
     {
-        btnGetYoutubeId.OnClientClick = "return confirm('確定要替換目前的 Youtube 影片代碼?');";
+        rfvSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covSortNo.ErrorMessage = "*" + Resources.Lang.ErrMsg_IntegerOnly;
+        rfvVidSubjectZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvVidSubjectEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvSourceVideoId.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        btnGetYoutubeId.OnClientClick = "return confirm('" + Resources.Lang.ArticleVideo_btnGetYoutubeId_Confirm + "');";
 
         SetupLangRelatedFields();
     }
@@ -78,9 +83,9 @@ public partial class Article_Video : System.Web.UI.Page
     private void LoadTitle()
     {
         if (c.qsAct == ConfigFormAction.add)
-            Title = string.Format("新增 Youtube 影片 - 網頁id:{0}", c.qsArtId);
+            Title = string.Format(Resources.Lang.ArticleVideo_Title_AddNew_Format, c.qsArtId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format("修改 Youtube 影片 - 影片id:{0}", c.qsPicId);
+            Title = string.Format(Resources.Lang.ArticleVideo_Title_Edit_Format, c.qsPicId);
     }
 
     private void DisplayArticleVideoData()
