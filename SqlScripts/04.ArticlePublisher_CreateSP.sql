@@ -13,7 +13,7 @@ go
 select dbo.fnArticle_IsShowInLang('00000000-0000-0000-0000-000000000000', 'zh-TW')
 */
 -- =============================================
-create function dbo.fnArticle_IsShowInLang(
+alter function dbo.fnArticle_IsShowInLang(
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -28,7 +28,7 @@ begin
 	where ArticleId=@ArticleId
 		and CultureName=@CultureName
 
-	return @IsShowInLang
+	return isnull(@IsShowInLang, 0)
 end
 go
 
@@ -40,7 +40,7 @@ go
 /*
 */
 -- =============================================
-create function dbo.fnAttachFile_IsShowInLang(
+alter function dbo.fnAttachFile_IsShowInLang(
 @AttId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -55,7 +55,7 @@ begin
 	where AttId=@AttId
 		and CultureName=@CultureName
 
-	return @IsShowInLang
+	return isnull(@IsShowInLang, 0)
 end
 go
 
@@ -68,7 +68,7 @@ go
 select dbo.fnArticlePicture_IsShowInLang('C2FC6EE9-D018-4A0C-B927-3362DDB5D902', 'zh-TW')
 */
 -- =============================================
-create function dbo.fnArticlePicture_IsShowInLang(
+alter function dbo.fnArticlePicture_IsShowInLang(
 @PicId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -83,7 +83,35 @@ begin
 	where PicId=@PicId
 		and CultureName=@CultureName
 
-	return @IsShowInLang
+	return isnull(@IsShowInLang, 0)
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/13>
+-- Description: <網頁影片在指定語系是否顯示>
+-- Test:
+/*
+select dbo.fnArticleVideo_IsShowInLang('68480C66-8F2F-4CEB-BC21-CD770B34B2F4', 'zh-TW')
+*/
+-- =============================================
+create function dbo.fnArticleVideo_IsShowInLang(
+@VidId uniqueidentifier
+,@CultureName varchar(10)
+)
+returns bit
+as
+begin
+	declare @IsShowInLang bit
+
+	select
+		@IsShowInLang=IsShowInLang
+	from dbo.ArticleVideoMultiLang
+	where VidId=@VidId
+		and CultureName=@CultureName
+
+	return isnull(@IsShowInLang, 0)
 end
 go
 
@@ -1837,6 +1865,187 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/13>
+-- Description: <取得後台用指定語系的網頁影片清單>
+-- Test:
+/*
+declare @RowCount int
+exec dbo.spArticleVideoMultiLang_GetListForBackend '00000000-0000-0000-0000-000000000000', 'zh-TW', N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
+select @RowCount
+*/
+-- =============================================
+create procedure dbo.spArticleVideoMultiLang_GetListForBackend
+@ArticleId uniqueidentifier
+,@CultureName varchar(10)
+,@Kw nvarchar(52)=''
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@CanReadSubItemOfOthers bit=1	--可閱讀任何人的子項目
+,@CanReadSubItemOfCrew bit=1	--可閱讀同部門的子項目
+,@CanReadSubItemOfSelf bit=1	--可閱讀自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N' and av.ArticleId=@ArticleId and avm.CultureName=@CultureName '
+
+	set @conditions += N'
+ and (@CanReadSubItemOfOthers=1
+	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
+	or @CanReadSubItemOfSelf=1 and avm.PostAccount=@MyAccount) '
+	
+	if @Kw<>N''
+	begin
+		set @conditions += N' and avm.VidSubject like @Kw '
+	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.ArticleVideoMultiLang avm
+	join dbo.ArticleVideo av on avm.VidId=av.VidId
+	left join dbo.Employee e on avm.PostAccount=e.EmpAccount
+where 1=1 ' + @conditions
+
+	--參數定義
+	set @parmDef=N'
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+,@Kw nvarchar(52)
+,@CanReadSubItemOfOthers bit
+,@CanReadSubItemOfCrew bit
+,@CanReadSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	set @Kw = N'%'+@Kw+N'%'
+
+	exec sp_executesql @sql, @parmDefForTotal, 
+		@ArticleId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'VidSubject', N'SortNo', N'PostDate', N'PostDeptName')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by SortNo desc'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			avm.VidId, avm.VidSubject, avm.VidDesc, 
+			dbo.fnArticleVideo_IsShowInLang(avm.VidId, ''zh-TW'') as IsShowInLangZhTw,
+			dbo.fnArticleVideo_IsShowInLang(avm.VidId, ''en'') as IsShowInLangEn, 
+			avm.PostAccount, avm.PostDate, avm.MdfAccount, 
+			avm.MdfDate, isnull(e.DeptId, 0) as PostDeptId, d.DeptName as PostDeptName,
+			av.SortNo, av.VidLinkUrl, av.SourceVideoId
+		from dbo.ArticleVideoMultiLang avm
+			join dbo.ArticleVideo av on avm.VidId=av.VidId
+			left join dbo.Employee e on avm.PostAccount=e.EmpAccount
+			left join dbo.Department d on e.DeptId=d.DeptId
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+	exec sp_executesql @sql, @parmDef, 
+		@ArticleId
+		,@CultureName
+		,@Kw
+		,@CanReadSubItemOfOthers
+		,@CanReadSubItemOfCrew
+		,@CanReadSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+		,@BeginNum
+		,@EndNum
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/13>
+-- Description: <刪除網頁影片資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_DeleteData
+@VidId uniqueidentifier
+as
+begin
+	begin transaction
+	begin try
+		-- delete multi language data
+		delete from dbo.ArticleVideoMultiLang
+		where VidId=@VidId
+
+		-- delete main data
+		delete from dbo.ArticleVideo
+		where VidId=@VidId
+
+		commit transaction
+	end try
+	begin catch
+		if xact_state()<>0
+		begin
+			rollback transaction
+		end
+
+		--forward error message
+		declare @errMessage nvarchar(4000)
+		declare @errSeverity int
+		declare @errState int
+
+		set @errMessage=error_message()
+		set @errSeverity=error_severity()
+		set @errState=error_state()
+
+		raiserror(@errMessage, @errSeverity, @errState)
+	end catch
+end
+go
+
 
 
 
@@ -1848,7 +2057,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/12>
+-- Create date: <2017/12/13>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

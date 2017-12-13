@@ -1621,4 +1621,16 @@
     <value>delete picture failed</value>
     <comment>刪除網頁照片失敗</comment>
   </data>
+  <data name="Attachment_ConfirmDelete_Format" xml:space="preserve">
+    <value>delete data of [{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="ArticlePicture_ConfirmDelete_Format" xml:space="preserve">
+    <value>delete data of [{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
+  <data name="ArticleVideo_ConfirmDelete_Format" xml:space="preserve">
+    <value>delete data of [{0}][{1}]?</value>
+    <comment>確定刪除[{0}][{1}]?</comment>
+  </data>
 </root>

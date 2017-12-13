@@ -623,7 +623,7 @@ public partial class Article_Node : BasePage
         btnDelete.CommandArgument = string.Join(",", attId.ToString(), attSubject);
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
-        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Article_ConfirmDelete_Format + "');",
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Attachment_ConfirmDelete_Format + "');",
             attSubject, attId);
 
         if (dontDelete)
@@ -802,7 +802,7 @@ public partial class Article_Node : BasePage
         btnDelete.CommandArgument = string.Join(",", picId.ToString(), picSubject);
         btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
-        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Article_ConfirmDelete_Format + "');",
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.ArticlePicture_ConfirmDelete_Format + "');",
             picSubject, picId);
 
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
@@ -875,5 +875,139 @@ public partial class Article_Node : BasePage
             string.Format("popWin('Article-Video.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
 
+        ArticleVideoListQueryParams param = new ArticleVideoListQueryParams()
+        {
+            ArticleId = c.qsArtId,
+            CultureName = c.seCultureNameOfBackend,
+            Kw = ""
+        };
+
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 1,
+            EndNum = 999999999,
+            SortField = "",
+            IsSortDesc = false
+        };
+
+        param.AuthParams = new AuthenticationQueryParams()
+        {
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            MyAccount = c.GetEmpAccount(),
+            MyDeptId = c.GetDeptId()
+        };
+
+        DataSet dsArticleVideos = artPub.GetArticleVideoMultiLangListForBackend(param);
+
+        if (dsArticleVideos != null)
+        {
+            rptArticleVideos.DataSource = dsArticleVideos.Tables[0];
+            rptArticleVideos.DataBind();
+        }
+    }
+
+    protected void rptArticleVideos_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid vidId = (Guid)drvTemp["VidId"];
+        string vidSubject = drvTemp.ToSafeStr("VidSubject");
+        string sourceVideoId = drvTemp.ToSafeStr("SourceVideoId");
+        bool isShowInLangZhTw = drvTemp.To<bool>("IsShowInLangZhTw", false);
+        bool isShowInLangEn = drvTemp.To<bool>("IsShowInLangEn", false);
+        string mdfAccount = "";
+        DateTime mdfDate = DateTime.MinValue;
+
+        if (Convert.IsDBNull(drvTemp["MdfDate"]))
+        {
+            mdfAccount = drvTemp.ToSafeStr("PostAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["PostDate"]);
+        }
+        else
+        {
+            mdfAccount = drvTemp.ToSafeStr("MdfAccount");
+            mdfDate = Convert.ToDateTime(drvTemp["MdfDate"]);
+        }
+
+        HtmlAnchor btnView = (HtmlAnchor)e.Item.FindControl("btnView");
+        btnView.HRef = string.Format("https://www.youtube.com/watch?v={0}", sourceVideoId);
+        btnView.Title = Resources.Lang.Main_btnClickToOpenInNewWin_Hint;
+
+        HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
+        imgPic.Src = string.Format("http://i.ytimg.com/vi/{0}/default.jpg", sourceVideoId);
+        imgPic.Alt = vidSubject;
+
+        HtmlGenericControl ctlIsShowInLangZhTw = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangZhTw");
+        ctlIsShowInLangZhTw.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangZhTw);
+        ctlIsShowInLangZhTw.Visible = LangManager.IsEnableEditLangZHTW();
+
+        HtmlGenericControl ctlIsShowInLangEn = (HtmlGenericControl)e.Item.FindControl("ctlIsShowInLangEn");
+        ctlIsShowInLangEn.Attributes["class"] = StringUtility.GetCssClassOfIconIsShowInLang(isShowInLangEn);
+        ctlIsShowInLangEn.Visible = LangManager.IsEnableEditLangEN();
+
+        HtmlAnchor btnEdit = (HtmlAnchor)e.Item.FindControl("btnEdit");
+        btnEdit.Attributes["onclick"] = string.Format("popWin('Article-Video.aspx?act={0}&vidid={1}', 700, 600); return false;", ConfigFormAction.edit, vidId);
+        btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
+
+        Literal ltrEdit = (Literal)e.Item.FindControl("ltrEdit");
+        ltrEdit.Text = Resources.Lang.Main_btnEdit;
+
+        LinkButton btnDelete = (LinkButton)e.Item.FindControl("btnDelete");
+        btnDelete.CommandArgument = string.Join(",", vidId.ToString(), vidSubject);
+        btnDelete.Text = "<i class='fa fa-trash-o'></i> " + Resources.Lang.Main_btnDelete;
+        btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
+        btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.ArticleVideo_ConfirmDelete_Format + "');",
+            vidSubject, vidId);
+
+        string ownerAccount = drvTemp.ToSafeStr("PostAccount");
+        int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
+
+        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+
+        if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId))
+        {
+            btnDelete.Visible = false;
+        }
+    }
+
+    protected void rptArticleVideos_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        bool result = false;
+        Guid vidId;
+
+        switch (e.CommandName)
+        {
+            case "Del":
+                string[] args = e.CommandArgument.ToString().Split(',');
+                vidId = new Guid(args[0]);
+                string vidSubject = args[1];
+
+                result = artPub.DeleteArticleVideoData(vidId);
+
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = c.GetEmpAccount(),
+                    Description = string.Format("．刪除網頁影片/Delete article video　．代碼/id[{0}]　標題/subject[{1}]　結果/result[{2}]", vidId, vidSubject, result),
+                    IP = c.GetClientIP()
+                });
+
+                // log to file
+                c.LoggerOfUI.InfoFormat("{0} deletes {1}, result: {2}", c.GetEmpAccount(), "article video-[" + vidId.ToString() + "]-" + vidSubject, result);
+
+                if (!result)
+                {
+                    Master.ShowErrorMsg("刪除網頁影片失敗");
+                }
+                
+                break;
+        }
+
+        if (result)
+        {
+            DisplayVideos();
+        }
     }
 }

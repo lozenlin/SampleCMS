@@ -83,6 +83,7 @@
     <Compile Include="QueryParam\ArticlePictureListQueryParams.cs" />
     <Compile Include="QueryParam\ArticlePictureMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticlePictureParams.cs" />
+    <Compile Include="QueryParam\ArticleVideoListQueryParams.cs" />
     <Compile Include="QueryParam\ArticleVideoMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticleVideoParams.cs" />
     <Compile Include="QueryParam\AttachFileListQueryParams.cs" />

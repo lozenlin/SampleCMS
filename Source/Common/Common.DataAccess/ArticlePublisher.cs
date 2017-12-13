@@ -1063,5 +1063,62 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 取得後台用指定語系的網頁影片清單
+    /// </summary>
+    public class spArticleVideoMultiLang_GetListForBackend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ArticleId;
+        public string CultureName;
+        public string Kw;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        public bool CanReadSubItemOfOthers;
+        public bool CanReadSubItemOfCrew;
+        public bool CanReadSubItemOfSelf;
+        public string MyAccount;
+        public int MyDeptId;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideoMultiLang_GetListForBackend";
+        }
+    }
+
+    /// <summary>
+    /// 刪除網頁影片資料
+    /// </summary>
+    public class spArticleVideo_DeleteData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid VidId;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticleVideo_DeleteData";
+        }
+    }
+
     #endregion
 }

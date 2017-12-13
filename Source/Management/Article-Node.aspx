@@ -277,6 +277,42 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row vid-carousel">
+            <asp:Repeater ID="rptArticleVideos" runat="server" OnItemDataBound="rptArticleVideos_ItemDataBound" OnItemCommand="rptArticleVideos_ItemCommand">
+            <ItemTemplate>
+                <div class="col-md-4 col-sm-6">
+                    <div class="card PicThumbnail">
+                        <a id="btnView" runat="server" href="#" target="_blank">
+                            <img id="imgPic" runat="server" class="card-img-top" alt="*" />
+                            <div class="PicLinkText">
+                                <i class="fa fa-share-square-o text-secondary"></i> <%= Resources.Lang.Main_btnClickToOpenInNewWin %></div>
+                        </a>
+                        <div class="text-center">
+                            <span id="ctlIsShowInLangZhTw" runat="server" class="badge badge-light text-secondary">中</span>
+                            <span id="ctlIsShowInLangEn" runat="server" class="badge badge-light text-secondary">Eng</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><%# EvalToSafeStr("VidSubject") %></h5>
+                            <p class="mb-1">
+                                <span class="small text-info descText"><%# EvalToSafeStr("VidDesc") %></span>
+                                <a id="btnEdit" runat="server" href="#" class="btn btn-sm btn-success">
+                                    <i class="fa fa-pencil-square-o"></i> <asp:Literal ID="ltrEdit" runat="server" Text="修改"></asp:Literal>
+                                </a>
+                                <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-danger" CommandName="Del">
+                                    <i class="fa fa-trash-o"></i> 刪除
+                                </asp:LinkButton>
+                            </p>
+                            <div class="text-warning">
+                                <%= Resources.Lang.Col_SortNo %>: <%# EvalToSafeStr("SortNo") %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+            </asp:Repeater>
+        </div>
+    </div>
 
     <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>
@@ -285,8 +321,10 @@
     <script src="Common/slick/slick.min.js"></script>
     <script>
         $(function () {
-            var usePicCarousel = true;
             var winWidth = window.innerWidth;
+
+            // pic-carousel
+            var usePicCarousel = true;
 
             if (winWidth > 767 && $(".pic-carousel>div").length <= 4
                 || winWidth > 575 && $(".pic-carousel>div").length <= 3
@@ -306,6 +344,40 @@
                             settings: {
                                 slidesToShow: 3,
                                 slidesToScroll: 3,
+                            }
+                        },
+                        {
+                            breakpoint: 575,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                            }
+                        }
+                    ]
+                });
+            }
+
+            // vid-carousel
+            var useVidCarousel = true;
+
+            if (winWidth > 767 && $(".vid-carousel>div").length <= 3
+                || winWidth > 575 && $(".vid-carousel>div").length <= 2
+                || winWidth <= 575 && $(".vid-carousel>div").length == 0) {
+                useVidCarousel = false;
+            }
+
+            if (useVidCarousel) {
+                $(".vid-carousel").slick({
+                    dots: true,
+                    infinite: true,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    responsive: [
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
                             }
                         },
                         {

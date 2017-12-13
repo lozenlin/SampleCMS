@@ -23,7 +23,7 @@ namespace Common.DataAccess
         /// <summary>
         /// 連線字串提取名稱
         /// </summary>
-        private string _connectionStringName = "DBConnString";
+        private string connectionStringName = "DBConnString";
 
         /// <summary>
         /// connectionString is default value "DBConnString"
@@ -32,9 +32,9 @@ namespace Common.DataAccess
         {
         }
 
-        public DataAccessSource(string connectionString)
+        public DataAccessSource(string connectionStringName)
         {
-            _connectionStringName = connectionString;
+            this.connectionStringName = connectionStringName;
         }
 
         #region 連線字串相關 ConnectionStringName
@@ -44,7 +44,7 @@ namespace Common.DataAccess
         /// </summary>
         public virtual string GetConnectionStringName()
         {
-            return _connectionStringName;
+            return connectionStringName;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Common.DataAccess
         /// </summary>
         public virtual void SetConnectionStringName(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            this.connectionStringName = connectionStringName;
         }
 
         #endregion
