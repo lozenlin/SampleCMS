@@ -146,7 +146,7 @@
         </tbody>
     </table>
     <hr class="content-divider" />
-    <div class="sys-subtitle">
+    <div id="ContextEditor" class="sys-subtitle">
         <%= Resources.Lang.GroupLabel_ContextEditor %>
     </div>
     <ul class="nav nav-tabs context-tabs">

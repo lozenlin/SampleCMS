@@ -1689,6 +1689,18 @@
     <value>修改 Youtube 影片 - 影片id:{0}</value>
     <comment>修改 Youtube 影片 - 影片id:{0}</comment>
   </data>
+  <data name="GroupLabel_Context" xml:space="preserve">
+    <value>內文</value>
+    <comment>內文</comment>
+  </data>
+  <data name="Article_btnEditContext" xml:space="preserve">
+    <value>編輯</value>
+    <comment>編輯</comment>
+  </data>
+  <data name="Article_btnEditContext_Hint" xml:space="preserve">
+    <value>編輯內文</value>
+    <comment>編輯內文</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

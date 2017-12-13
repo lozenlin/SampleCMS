@@ -314,6 +314,37 @@
         </div>
     </div>
 
+    <hr class="content-divider" />
+    <div class="sys-subtitle container-fluid">
+        <div class="form-row">
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_Context %></div>
+            <div class="col-sm-2">
+                <a id="btnEditContext" runat="server" href="#" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.Article_btnEditContext %></a>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs context-tabs">
+        <li id="ContextTabZhTwArea" runat="server" class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#pnlZhTw">正體中文</a>
+        </li>
+        <li id="ContextTabEnArea" runat="server" class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#pnlEn">English</a>
+        </li>
+    </ul>
+    <div class="tab-content bg-white p-3 border border-top-0">
+        <asp:PlaceHolder ID="ContextPnlZhTwArea" runat="server">
+            <div class="tab-pane fade show active" id="pnlZhTw">
+                <asp:Literal ID="ltrContextZhTw" runat="server"></asp:Literal>
+            </div>
+        </asp:PlaceHolder>
+        <asp:PlaceHolder ID="ContextPnlEnArea" runat="server">
+            <div class="tab-pane fade" id="pnlEn">
+                <asp:Literal ID="ltrContextEn" runat="server"></asp:Literal>
+            </div>
+        </asp:PlaceHolder>
+    </div>
+
     <asp:Literal ID="hidParentId" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false"></asp:Literal>
 </asp:Content>
@@ -391,6 +422,9 @@
                 });
             }
         });
+
+        // context area
+        $(".context-tabs a:first").click();
     </script>
 </asp:Content>
 

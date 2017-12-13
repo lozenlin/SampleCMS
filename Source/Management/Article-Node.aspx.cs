@@ -184,10 +184,35 @@ public partial class Article_Node : BasePage
             "ArticleSubject", "SortNo", "StartDate", 
             "PostDeptName"
         });
+
+        SetupLangRelatedFields();
+    }
+
+    /// <summary>
+    /// 設定語系相關欄位
+    /// </summary>
+    private void SetupLangRelatedFields()
+    {
+        if (!LangManager.IsEnableEditLangZHTW())
+        {
+            ContextTabZhTwArea.Visible = false;
+            ContextPnlZhTwArea.Visible = false;
+        }
+
+        if (!LangManager.IsEnableEditLangEN())
+        {
+            ContextTabEnArea.Visible = false;
+            ContextPnlEnArea.Visible = false;
+        }
     }
 
     private void DisplayArticle()
     {
+        btnEditContext.Title = Resources.Lang.Article_btnEditContext_Hint;
+        btnEditContext.Visible = empAuth.CanEditThisPage();
+        btnEditContext.Attributes["onclick"] = 
+            string.Format("popWin('Article-Config.aspx?act={0}&artid={1}', 700, 600);", ConfigFormAction.edit, c.qsArtId);
+
         DataSet dsArticle = artPub.GetArticleDataForBackend(c.qsArtId);
 
         if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
@@ -254,6 +279,32 @@ public partial class Article_Node : BasePage
 
                 ltrMdfName.Text = mdfAccount;
                 ltrMdfDate.Text = mdfDate.ToString("yyyy-MM-dd");
+            }
+
+            //zh-TW
+            if (LangManager.IsEnableEditLangZHTW())
+            {
+                DataSet dsZhTw = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameZHTW);
+
+                if (dsZhTw != null && dsZhTw.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
+
+                    ltrContextZhTw.Text = drZhTw.ToSafeStr("ArticleContext");
+                }
+            }
+
+            //en
+            if (LangManager.IsEnableEditLangEN())
+            {
+                DataSet dsEn = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, LangManager.CultureNameEN);
+
+                if (dsEn != null && dsEn.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drEn = dsEn.Tables[0].Rows[0];
+
+                    ltrContextEn.Text = drEn.ToSafeStr("ArticleContext");
+                }
             }
         }
 
@@ -519,6 +570,7 @@ public partial class Article_Node : BasePage
         btnUploadAttachFile.Attributes["onclick"] = 
             string.Format("popWin('Article-Attach.aspx?act={0}&artid={1}', 700, 600); return false;", 
                 ConfigFormAction.add, c.qsArtId);
+        btnUploadAttachFile.Visible = empAuth.CanAddSubItemInThisPage();
 
         AttachFileListQueryParams param = new AttachFileListQueryParams()
         {
@@ -720,6 +772,7 @@ public partial class Article_Node : BasePage
         btnUploadPicture.Attributes["onclick"] =
             string.Format("popWin('Article-Picture.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
+        btnUploadPicture.Visible = empAuth.CanAddSubItemInThisPage();
 
         ArticlePictureListQueryParams param = new ArticlePictureListQueryParams()
         {
@@ -876,6 +929,7 @@ public partial class Article_Node : BasePage
         btnAddVideo.Attributes["onclick"] =
             string.Format("popWin('Article-Video.aspx?act={0}&artid={1}', 700, 600); return false;",
                 ConfigFormAction.add, c.qsArtId);
+        btnAddVideo.Visible = empAuth.CanAddSubItemInThisPage();
 
         ArticleVideoListQueryParams param = new ArticleVideoListQueryParams()
         {
