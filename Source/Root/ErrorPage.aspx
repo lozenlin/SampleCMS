@@ -4,11 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>PAGE NOT FOUND</title>
-    <link href="/Management/Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -18,7 +15,7 @@
             <hr class="my-4"/>
             <p>visit the</p>
             <p class="lead">
-                <a class="btn btn-primary" href="/Management/Dashboard.aspx" role="button">HOMEPAGE</a>
+                <a class="btn btn-primary" href="/" role="button">HOMEPAGE</a>
             </p>
         </div>
     </form>

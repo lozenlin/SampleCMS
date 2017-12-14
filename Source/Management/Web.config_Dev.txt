@@ -19,6 +19,14 @@
       </authorization>
     </system.web>
   </location>
+  <!--錯誤頁不用驗證-->
+  <location path="ErrorPage.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
   <!--需要編輯html的頁面-->
   <location path="Article-Config.aspx">
     <system.web>
