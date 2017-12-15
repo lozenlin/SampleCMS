@@ -24,7 +24,7 @@
             var historyApi = !!(window.history && history.replaceState);
 
             //Events
-            $(this).bind('tabactivate', function (e, currentTab) {
+            $(this).on('tabactivate', function (e, currentTab) {
                 if (typeof options.activate === 'function') {
                     options.activate.call(currentTab, e)
                 }
