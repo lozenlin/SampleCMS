@@ -1365,9 +1365,12 @@ Components
   margin: 0 0 .5em 0;
   list-style: none;
 }
-.fh5co-nav-links ul li.active a {
+.fh5co-nav-links ul li.active>a {
   color: #2e2e2e;
   border-bottom: 2px solid #28bbf8;
+}
+.fh5co-nav-links ul.subitems{
+  padding-left: 1rem; /* 2017/12/15, lozen_lin */
 }
 
 /* Owl Override Style */
