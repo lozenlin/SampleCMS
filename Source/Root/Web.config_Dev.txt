@@ -8,6 +8,8 @@
     <add key="LangNoZHTW" value="1"/>
     <add key="LangNoEN" value="2"/>
     <add key="AttRootDir" value="Attachments/"/>
+    <add key="WebsiteUrl" value="http://SampleCMS.dev.com"/>
+    <add key="BackendUrl" value="http://SampleCMS.dev.com/Management"/>
   </appSettings>
   <!--
     如需 .NET 4.5 web.config 變更的說明，請參閱 http://go.microsoft.com/fwlink/?LinkId=235367。

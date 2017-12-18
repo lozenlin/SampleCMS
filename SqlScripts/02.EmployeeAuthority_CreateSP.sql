@@ -643,12 +643,12 @@ go
 /*
 */
 -- =============================================
-create procedure dbo.spOperations_GetOpInfoByLinkUrl
+alter procedure dbo.spOperations_GetOpInfoByLinkUrl
 @LinkUrl nvarchar(100)
 as
 begin
 	select top 1
-		o.OpId
+		o.OpId, o.IsNewWindow
 	from dbo.Operations o
 	where o.LinkUrl=@LinkUrl
 end

@@ -153,7 +153,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 後端語言號碼
+        /// 後台語言號碼
         /// </summary>
         public int seLangNoOfBackend
         {
@@ -177,7 +177,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 後端語言文化名稱
+        /// 後台語言文化名稱
         /// </summary>
         public string seCultureNameOfBackend
         {
@@ -776,9 +776,9 @@ namespace Common.LogicObject
     }
 
     /// <summary>
-    /// 後端操作記錄頁的共用元件
+    /// 後台操作記錄頁的共用元件
     /// </summary>
-    [Description("後端操作記錄頁的共用元件")]
+    [Description("後台操作記錄頁的共用元件")]
     public class BackEndLogCommonOfBackend : BackendPageCommon
     {
         public BackEndLogCommonOfBackend(HttpContext context, StateBag viewState)
@@ -904,9 +904,9 @@ namespace Common.LogicObject
     }
 
     /// <summary>
-    /// 後端作業選項管理頁的共用元件
+    /// 後台作業選項管理頁的共用元件
     /// </summary>
-    [Description("後端作業選項管理頁的共用元件")]
+    [Description("後台作業選項管理頁的共用元件")]
     public class OperationCommonOfBackend : BackendPageCommon
     {
         public OperationCommonOfBackend(HttpContext context, StateBag viewState)
@@ -925,9 +925,9 @@ namespace Common.LogicObject
     }
 
     /// <summary>
-    /// 後端網站架構管理頁的共用元件
+    /// 後台網站架構管理頁的共用元件
     /// </summary>
-    [Description("後端網站架構管理頁的共用元件")]
+    [Description("後台網站架構管理頁的共用元件")]
     public class ArticleCommonOfBackend : BackendPageCommon
     {
         public ArticleCommonOfBackend(HttpContext context, StateBag viewState)
@@ -1055,6 +1055,63 @@ namespace Common.LogicObject
                 artid,
                 kw, sortfield, isSortDesc,
                 p, pParents, pkw);
+        }
+
+    }
+
+    /// <summary>
+    /// 後台內嵌內容頁面的共用元件
+    /// </summary>
+    [Description("後台內嵌內容頁面的共用元件")]
+    public class EmbeddedContentCommonOfBackend : BackendPageCommon
+    {
+        public EmbeddedContentCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 網址
+        /// </summary>
+        public string qsUrl
+        {
+            get
+            {
+                return QueryStringToSafeStr("url") ?? "";
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public override int GetOpIdOfPage()
+        {
+            if (opIdOfPage < 1 && qsUrl != "")
+            {
+                IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+                Common.DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl cmdInfo = new DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl()
+                {
+                    LinkUrl = qsUrl
+                };
+                DataSet dsOpInfo = cmd.ExecuteDataset(cmdInfo);
+
+                if (dsOpInfo != null)
+                {
+                    dsOpInfo.Tables[0].DefaultView.RowFilter = "IsNewWindow=0";
+
+                    if (dsOpInfo.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow drOpInfo = dsOpInfo.Tables[0].Rows[0];
+                        opIdOfPage = Convert.ToInt32(drOpInfo["OpId"]);
+                    }
+                }
+            }
+
+            return opIdOfPage;
         }
 
     }

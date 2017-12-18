@@ -1146,8 +1146,8 @@
     <comment>請將圖示檔案放至網站目錄[ BPimages/icon ]中</comment>
   </data>
   <data name="Operation_txtLinkUrl_Notice" xml:space="preserve">
-    <value>．{dns} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</value>
-    <comment>．{dns} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</comment>
+    <value>．{website_url} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</value>
+    <comment>．{website_url} = 帶入前台完整網址. e.g., http://SampleCMS.dev.com &lt;br /&gt;．{backend_url} = 帶入後台完整網址. e.g., https://SampleCMS.dev.com/Management</comment>
   </data>
   <data name="Operation_chkIsNewWindow" xml:space="preserve">
     <value>開啟在新視窗</value>
