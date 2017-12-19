@@ -34,6 +34,20 @@ go
 -- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
 create clustered index IX_Article on dbo.Article (SeqnoForCluster)
 go
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
+alter table dbo.Article add SubjectAtBannerArea	bit		Default(1)
+alter table dbo.Article add PublishDate	datetime		
+alter table dbo.Article add IsShowInUnitArea	bit		Default(0)
+alter table dbo.Article add IsShowInSitemap	bit		Default(1)
+alter table dbo.Article add SortFieldOfFrontStage	varchar(50)		
+alter table dbo.Article add IsSortDescOfFrontStage	bit		Default(0)
+alter table dbo.Article add IsListAreaShowInFrontStage	bit		Default(1)
+alter table dbo.Article add IsAttAreaShowInFrontStage	bit		Default(0)
+alter table dbo.Article add IsPicAreaShowInFrontStage	bit		Default(0)
+alter table dbo.Article add IsVideoAreaShowInFrontStage	bit		Default(0)
+alter table dbo.Article add SubItemLinkUrl	nvarchar(2048)		
+go
+
 -- 預設內容
 set identity_insert dbo.Article on
 insert into dbo.Article(
@@ -74,6 +88,11 @@ go
 -- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
 create clustered index IX_ArticleMultiLang on dbo.ArticleMultiLang (SeqnoForCluster)
 go
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
+alter table dbo.ArticleMultiLang add Subtitle	nvarchar(500)
+alter table dbo.ArticleMultiLang add PublisherName	nvarchar(50)
+go
+
 -- 預設內容
 set identity_insert dbo.ArticleMultiLang on
 insert into dbo.ArticleMultiLang(
