@@ -150,16 +150,26 @@
                         <asp:RadioButtonList ID="rdolShowType" runat="server" RepeatLayout="Flow" RepeatDirection="Horizontal" ClientIDMode="Static">
                         </asp:RadioButtonList>
                     </div>
-                    <div id="LinkUrlArea" class="config-textbox-lang" style="display:none;">
+                    <div id="ShowTypeNormalArea" class="config-textbox-lang show-type-detail" style="display:none;">
+                        <img src="BPimages/ShowType/Normal.png" alt="*" style="border:1px solid #ccc;" />
+                    </div>
+                    <div id="ShowTypeToSubPageArea" class="config-textbox-lang show-type-detail" style="display:none;">
+                        <img src="BPimages/ShowType/ToSubPage.png" alt="*" style="border:1px solid #ccc;" />
+                    </div>
+                    <div id="LinkUrlArea" class="config-textbox-lang show-type-detail" style="display:none;">
                         <div class="text-success">
                             (<%= Resources.Lang.Article_txtLinkUrl_Notice %>)
                         </div>
-                        <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" Width="90%"></asp:TextBox>
+                        <span class="ctrl-label">超連結:</span>
+                        <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
                         <div class="mt-2 IsNewWindow">
+                            <span style="display:inline-block;width:9rem;"></span>
                             <asp:CheckBox ID="chkIsNewWindow" runat="server" Text="開啟在新視窗" ClientIDMode="Static" />
                         </div>
+                        <span class="ctrl-label">子項目預設超連結:</span>
+                        <asp:TextBox ID="txtSubItemLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
                     </div>
-                    <div id="ControlNameArea" class="config-textbox-lang" style="display:none;">
+                    <div id="ControlNameArea" class="config-textbox-lang show-type-detail" style="display:none;">
                         <div class="text-success">
                             (<%= Resources.Lang.Article_txtControlName_Notice %>)
                         </div>
@@ -184,6 +194,18 @@
                 <th><%= Resources.Lang.Col_NotAllowedToDelete %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkDontDelete" runat="server" Text="隱藏刪除鈕" />
+                </td>
+            </tr>
+            <tr id="IsShowInUnitArea" runat="server">
+                <th>在單元區呈現</th>
+                <td colspan="3">
+                    <asp:CheckBox ID="chkIsShowInUnitArea" runat="server" Text="是否在單元區呈現" />
+                </td>
+            </tr>
+            <tr id="IsShowInSitemapArea" runat="server">
+                <th>在網站導覽呈現</th>
+                <td colspan="3">
+                    <asp:CheckBox ID="chkIsShowInSitemap" runat="server" Text="是否在網站導覽呈現" Checked="true" />
                 </td>
             </tr>
         </tbody>
@@ -301,17 +323,28 @@
 
         // show type
         function setShowTypeDetailArea(showTypeId) {
+            var $ShowTypeNormalArea = $("#ShowTypeNormalArea");
+            var $ShowTypeToSubPageArea = $("#ShowTypeToSubPageArea");
             var $LinkUrlArea = $("#LinkUrlArea");
             var $ControlNameArea = $("#ControlNameArea");
 
-            $LinkUrlArea.hide();
-            $ControlNameArea.hide();
+            $(".show-type-detail").hide();
 
-            if (showTypeId == 3) {
-                $LinkUrlArea.slideDown("fast");
-            } else if (showTypeId == 4) {
-                $ControlNameArea.slideDown("fast");
+            switch (showTypeId) {
+                case "1":
+                    $ShowTypeNormalArea.slideDown("fast");
+                    break;
+                case "2":
+                    $ShowTypeToSubPageArea.slideDown("fast");
+                    break;
+                case "3":
+                    $LinkUrlArea.slideDown("fast");
+                    break;
+                case "4":
+                    $ControlNameArea.slideDown("fast");
+                    break;
             }
+
         }
 
         $("#rdolShowType>input:radio").change(function () {
