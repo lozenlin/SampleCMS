@@ -333,6 +333,7 @@ go
 -- History:
 --	2017/12/01, lozen_lin, modify, 修正別名誤判問題
 --	2017/12/05, lozen_lin, modify, @ArticleAlias 重覆判斷範圍改為所有文章
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <更新網頁內容>
 -- Test:
 /*
@@ -355,6 +356,17 @@ alter procedure dbo.spArticle_UpdateData
 ,@SortNo	int
 ,@DontDelete	bit
 ,@MdfAccount	varchar(20)
+,@SubjectAtBannerArea	bit
+,@PublishDate	datetime
+,@IsShowInUnitArea	bit
+,@IsShowInSitemap	bit
+,@SortFieldOfFrontStage	varchar(50)
+,@IsSortDescOfFrontStage	bit
+,@IsListAreaShowInFrontStage	bit
+,@IsAttAreaShowInFrontStage	bit
+,@IsPicAreaShowInFrontStage	bit
+,@IsVideoAreaShowInFrontStage	bit
+,@SubItemLinkUrl	nvarchar(2048)
 as
 begin
 	declare @ParentId uniqueidentifier
@@ -389,6 +401,17 @@ begin
 		,DontDelete=@DontDelete
 		,MdfAccount=@MdfAccount
 		,MdfDate=getdate()
+		,SubjectAtBannerArea=@SubjectAtBannerArea
+		,PublishDate=@PublishDate
+		,IsShowInUnitArea=@IsShowInUnitArea
+		,IsShowInSitemap=@IsShowInSitemap
+		,SortFieldOfFrontStage=@SortFieldOfFrontStage
+		,IsSortDescOfFrontStage=@IsSortDescOfFrontStage
+		,IsListAreaShowInFrontStage=@IsListAreaShowInFrontStage
+		,IsAttAreaShowInFrontStage=@IsAttAreaShowInFrontStage
+		,IsPicAreaShowInFrontStage=@IsPicAreaShowInFrontStage
+		,IsVideoAreaShowInFrontStage=@IsVideoAreaShowInFrontStage
+		,SubItemLinkUrl=@SubItemLinkUrl
 	where ArticleId=@ArticleId
 end
 go
@@ -396,18 +419,22 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/30>
+-- History:
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <更新網頁內容的多國語系資料>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spArticleMultiLang_UpdateData
+alter procedure dbo.spArticleMultiLang_UpdateData
 @ArticleId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@ArticleSubject	nvarchar(200)
 ,@ArticleContext	nvarchar(max)
 ,@IsShowInLang	bit
 ,@MdfAccount	varchar(20)
+,@Subtitle	nvarchar(500)
+,@PublisherName	nvarchar(50)
 as
 begin
 	update dbo.ArticleMultiLang
@@ -417,6 +444,8 @@ begin
 		,IsShowInLang=@IsShowInLang
 		,MdfAccount=@MdfAccount
 		,MdfDate=getdate()
+		,Subtitle=@Subtitle
+		,PublisherName=@PublisherName
 	where ArticleId=@ArticleId
 		and CultureName=@CultureName
 

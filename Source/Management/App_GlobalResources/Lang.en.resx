@@ -1354,7 +1354,7 @@
     <comment>禁止刪除</comment>
   </data>
   <data name="Article_chkDontDelete" xml:space="preserve">
-    <value>hide button of delete</value>
+    <value>Hide button of delete</value>
     <comment>隱藏刪除鈕</comment>
   </data>
   <data name="LayoutModeOption_WideContent" xml:space="preserve">
@@ -1700,5 +1700,69 @@
   <data name="Article_btnEditContext_Hint" xml:space="preserve">
     <value>Edit context</value>
     <comment>編輯內文</comment>
+  </data>
+  <data name="Article_chkSubjectAtBannerArea" xml:space="preserve">
+    <value>Make the subject position in the banner area</value>
+    <comment>標題位置在橫幅區</comment>
+  </data>
+  <data name="Article_chkSubjectAtBannerArea_Notice" xml:space="preserve">
+    <value>Otherwise the position in the content area</value>
+    <comment>取消則位置在內容區</comment>
+  </data>
+  <data name="Col_Subtitle" xml:space="preserve">
+    <value>Subtitle</value>
+    <comment>副標題</comment>
+  </data>
+  <data name="Col_Subtitle_Hint" xml:space="preserve">
+    <value>Subtitle</value>
+    <comment>副標題</comment>
+  </data>
+  <data name="Col_Publisher" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>發佈者</comment>
+  </data>
+  <data name="Col_Publisher_Hint" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>發佈者</comment>
+  </data>
+  <data name="Col_PublishDate" xml:space="preserve">
+    <value>Release date</value>
+    <comment>發佈日期</comment>
+  </data>
+  <data name="Col_PublishDate_Hint" xml:space="preserve">
+    <value>Release date</value>
+    <comment>發佈日期</comment>
+  </data>
+  <data name="Article_lblLinkUrl" xml:space="preserve">
+    <value>URL</value>
+    <comment>超連結</comment>
+  </data>
+  <data name="Article_lblSubItemLinkUrl" xml:space="preserve">
+    <value>Sub-item default URL</value>
+    <comment>子項目預設超連結</comment>
+  </data>
+  <data name="Col_IsShowInUnitArea" xml:space="preserve">
+    <value>Appear in the unit area</value>
+    <comment>在單元區呈現</comment>
+  </data>
+  <data name="Col_IsShowInUnitArea_Hint" xml:space="preserve">
+    <value>Appear in the unit area</value>
+    <comment>在單元區呈現</comment>
+  </data>
+  <data name="Col_IsShowInSitemap" xml:space="preserve">
+    <value>Appear in the sitemap</value>
+    <comment>在網站導覽呈現</comment>
+  </data>
+  <data name="Col_IsShowInSitemap_Hint" xml:space="preserve">
+    <value>Appear in the sitemap</value>
+    <comment>在網站導覽呈現</comment>
+  </data>
+  <data name="Article_chkIsShowInUnitArea" xml:space="preserve">
+    <value>Appear in the unit area</value>
+    <comment>是否在單元區呈現</comment>
+  </data>
+  <data name="Article_chkIsShowInSitemap" xml:space="preserve">
+    <value>Appear in the sitemap</value>
+    <comment>是否在網站導覽呈現</comment>
   </data>
 </root>

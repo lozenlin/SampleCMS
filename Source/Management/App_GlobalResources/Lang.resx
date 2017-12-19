@@ -1701,6 +1701,70 @@
     <value>編輯內文</value>
     <comment>編輯內文</comment>
   </data>
+  <data name="Article_chkSubjectAtBannerArea" xml:space="preserve">
+    <value>標題位置在橫幅區</value>
+    <comment>標題位置在橫幅區</comment>
+  </data>
+  <data name="Article_chkSubjectAtBannerArea_Notice" xml:space="preserve">
+    <value>取消則位置在內容區</value>
+    <comment>取消則位置在內容區</comment>
+  </data>
+  <data name="Col_Subtitle" xml:space="preserve">
+    <value>副標題</value>
+    <comment>副標題</comment>
+  </data>
+  <data name="Col_Subtitle_Hint" xml:space="preserve">
+    <value>副標題</value>
+    <comment>副標題</comment>
+  </data>
+  <data name="Col_Publisher" xml:space="preserve">
+    <value>發佈者</value>
+    <comment>發佈者</comment>
+  </data>
+  <data name="Col_Publisher_Hint" xml:space="preserve">
+    <value>發佈者</value>
+    <comment>發佈者</comment>
+  </data>
+  <data name="Col_PublishDate" xml:space="preserve">
+    <value>發佈日期</value>
+    <comment>發佈日期</comment>
+  </data>
+  <data name="Col_PublishDate_Hint" xml:space="preserve">
+    <value>發佈日期</value>
+    <comment>發佈日期</comment>
+  </data>
+  <data name="Article_lblLinkUrl" xml:space="preserve">
+    <value>超連結</value>
+    <comment>超連結</comment>
+  </data>
+  <data name="Article_lblSubItemLinkUrl" xml:space="preserve">
+    <value>子項目預設超連結</value>
+    <comment>子項目預設超連結</comment>
+  </data>
+  <data name="Col_IsShowInUnitArea" xml:space="preserve">
+    <value>在單元區呈現</value>
+    <comment>在單元區呈現</comment>
+  </data>
+  <data name="Col_IsShowInUnitArea_Hint" xml:space="preserve">
+    <value>在單元區呈現</value>
+    <comment>在單元區呈現</comment>
+  </data>
+  <data name="Col_IsShowInSitemap" xml:space="preserve">
+    <value>在網站導覽呈現</value>
+    <comment>在網站導覽呈現</comment>
+  </data>
+  <data name="Col_IsShowInSitemap_Hint" xml:space="preserve">
+    <value>在網站導覽呈現</value>
+    <comment>在網站導覽呈現</comment>
+  </data>
+  <data name="Article_chkIsShowInUnitArea" xml:space="preserve">
+    <value>是否在單元區呈現</value>
+    <comment>是否在單元區呈現</comment>
+  </data>
+  <data name="Article_chkIsShowInSitemap" xml:space="preserve">
+    <value>是否在網站導覽呈現</value>
+    <comment>是否在網站導覽呈現</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

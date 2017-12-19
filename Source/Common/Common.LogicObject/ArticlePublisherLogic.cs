@@ -197,7 +197,18 @@ namespace Common.LogicObject
                 EndDate = param.EndDate,
                 SortNo = param.SortNo,
                 DontDelete = param.DontDelete,
-                MdfAccount = param.PostAccount
+                MdfAccount = param.PostAccount,
+                SubjectAtBannerArea = param.SubjectAtBannerArea,
+                PublishDate = param.PublishDate,
+                IsShowInUnitArea = param.IsShowInUnitArea,
+                IsShowInSitemap = param.IsShowInSitemap,
+                SortFieldOfFrontStage = param.SortFieldOfFrontStage,
+                IsSortDescOfFrontStage = param.IsSortDescOfFrontStage,
+                IsListAreaShowInFrontStage = param.IsListAreaShowInFrontStage,
+                IsAttAreaShowInFrontStage = param.IsAttAreaShowInFrontStage,
+                IsPicAreaShowInFrontStage = param.IsPicAreaShowInFrontStage,
+                IsVideoAreaShowInFrontStage = param.IsVideoAreaShowInFrontStage,
+                SubItemLinkUrl = param.SubItemLinkUrl
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();
@@ -226,7 +237,9 @@ namespace Common.LogicObject
                 ArticleSubject = param.ArticleSubject,
                 ArticleContext = param.ArticleContext,
                 IsShowInLang = param.IsShowInLang,
-                MdfAccount = param.PostAccount
+                MdfAccount = param.PostAccount,
+                Subtitle = param.Subtitle,
+                PublisherName = param.PublisherName
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();

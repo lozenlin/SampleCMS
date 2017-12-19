@@ -57,6 +57,10 @@ public partial class Article_Config : System.Web.UI.Page
         covEndDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
         rfvArticleSubjectZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
         rfvArticleSubjectEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPublisherNameZhTw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPublisherNameEn.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        rfvPublishDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
+        covPublishDate.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidDate;
 
         LoadLayoutModeUIData();
         LoadShowTypeUIData();
@@ -65,6 +69,9 @@ public partial class Article_Config : System.Web.UI.Page
         chkIsHideSelf.Text = Resources.Lang.Article_chkIsHideSelf;
         chkIsHideChild.Text = Resources.Lang.Article_chkIsHideChild;
         chkDontDelete.Text = Resources.Lang.Article_chkDontDelete;
+        chkSubjectAtBannerArea.Text = Resources.Lang.Article_chkSubjectAtBannerArea;
+        chkIsShowInUnitArea.Text = Resources.Lang.Article_chkIsShowInUnitArea;
+        chkIsShowInSitemap.Text = Resources.Lang.Article_chkIsShowInSitemap;
 
         SetupLangRelatedFields();
     }

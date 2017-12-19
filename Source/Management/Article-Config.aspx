@@ -53,12 +53,12 @@
                     <div class="config-textbox-lang pt-1">
                         <span class="lang-label"></span>
                         <asp:CheckBox ID="chkSubjectAtBannerArea" runat="server" Text="標題位置在橫幅區" Checked="true" />
-                        <span class="text-success">(取消則位置在內容區)</span>
+                        <span class="text-success">(<%= Resources.Lang.Article_chkSubjectAtBannerArea_Notice %>)</span>
                     </div>
                 </td>
             </tr>
             <tr>
-                <th>副標題</th>
+                <th><%= Resources.Lang.Col_Subtitle %></th>
                 <td colspan="3">
                     <div id="SubtitleZhTwArea" runat="server" class="config-textbox-lang">
                         <span class="lang-label">中:</span>
@@ -104,7 +104,7 @@
                 </td>
             </tr>
             <tr>
-                <th style="width:15%;"><span class="required-symbol">發佈者</span></th>
+                <th style="width:15%;"><span class="required-symbol"><%= Resources.Lang.Col_Publisher %></span></th>
                 <td style="width:35%;">
                     <div id="PublisherNameAreaZhTw" runat="server" class="config-textbox-lang">
                         <span class="lang-label">中:</span>
@@ -119,7 +119,7 @@
                             Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                     </div>
                 </td>
-                <th style="width:15%;"><span class="required-symbol">發佈日期</span></th>
+                <th style="width:15%;"><span class="required-symbol"><%= Resources.Lang.Col_PublishDate %></span></th>
                 <td style="width:35%;">
                     <asp:TextBox ID="txtPublishDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvPublishDate" runat="server" ControlToValidate="txtPublishDate" CssClass="text-danger"
@@ -160,13 +160,13 @@
                         <div class="text-success">
                             (<%= Resources.Lang.Article_txtLinkUrl_Notice %>)
                         </div>
-                        <span class="ctrl-label">超連結:</span>
+                        <span class="ctrl-label"><%= Resources.Lang.Article_lblLinkUrl %>:</span>
                         <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
                         <div class="mt-2 IsNewWindow">
                             <span style="display:inline-block;width:9rem;"></span>
                             <asp:CheckBox ID="chkIsNewWindow" runat="server" Text="開啟在新視窗" ClientIDMode="Static" />
                         </div>
-                        <span class="ctrl-label">子項目預設超連結:</span>
+                        <span class="ctrl-label"><%= Resources.Lang.Article_lblSubItemLinkUrl %>:</span>
                         <asp:TextBox ID="txtSubItemLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
                     </div>
                     <div id="ControlNameArea" class="config-textbox-lang show-type-detail" style="display:none;">
@@ -197,13 +197,13 @@
                 </td>
             </tr>
             <tr id="IsShowInUnitArea" runat="server">
-                <th>在單元區呈現</th>
+                <th><%= Resources.Lang.Col_IsShowInUnitArea %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsShowInUnitArea" runat="server" Text="是否在單元區呈現" />
                 </td>
             </tr>
             <tr id="IsShowInSitemapArea" runat="server">
-                <th>在網站導覽呈現</th>
+                <th><%= Resources.Lang.Col_IsShowInSitemap %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsShowInSitemap" runat="server" Text="是否在網站導覽呈現" Checked="true" />
                 </td>
