@@ -205,6 +205,7 @@ go
 -- Create date: <2017/11/30>
 -- History:
 --	2017/12/05, lozen_lin, modify, @ArticleAlias 重覆判斷範圍改為所有文章
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <新增網頁內容>
 -- Test:
 /*
@@ -228,6 +229,17 @@ alter procedure dbo.spArticle_InsertData
 ,@SortNo	int
 ,@DontDelete	bit
 ,@PostAccount	varchar(20)
+,@SubjectAtBannerArea	bit
+,@PublishDate	datetime
+,@IsShowInUnitArea	bit
+,@IsShowInSitemap	bit
+,@SortFieldOfFrontStage	varchar(50)
+,@IsSortDescOfFrontStage	bit
+,@IsListAreaShowInFrontStage	bit
+,@IsAttAreaShowInFrontStage	bit
+,@IsPicAreaShowInFrontStage	bit
+,@IsVideoAreaShowInFrontStage	bit
+,@SubItemLinkUrl	nvarchar(2048)
 as
 begin
 	declare @ArticleLevelNo	int
@@ -261,7 +273,10 @@ begin
 		ControlName, SubItemControlName, IsHideSelf, 
 		IsHideChild, StartDate, EndDate, 
 		SortNo, DontDelete, PostAccount, 
-		PostDate
+		PostDate, SubjectAtBannerArea, PublishDate, 
+		IsShowInUnitArea, IsShowInSitemap, SortFieldOfFrontStage, 
+		IsSortDescOfFrontStage, IsListAreaShowInFrontStage, IsAttAreaShowInFrontStage, 
+		IsPicAreaShowInFrontStage, IsVideoAreaShowInFrontStage, SubItemLinkUrl
 		)
 	values(
 		@ArticleId, @ParentId, @ArticleLevelNo, 
@@ -270,7 +285,10 @@ begin
 		@ControlName, @SubItemControlName, @IsHideSelf, 
 		@IsHideChild, @StartDate, @EndDate, 
 		@SortNo, @DontDelete, @PostAccount, 
-		getdate()
+		getdate(), @SubjectAtBannerArea, @PublishDate, 
+		@IsShowInUnitArea, @IsShowInSitemap, @SortFieldOfFrontStage, 
+		@IsSortDescOfFrontStage, @IsListAreaShowInFrontStage, @IsAttAreaShowInFrontStage, 
+		@IsPicAreaShowInFrontStage, @IsVideoAreaShowInFrontStage, @SubItemLinkUrl
 		)
 end
 go
@@ -278,29 +296,33 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/30>
+-- History:
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <新增網頁內容的多國語系資料>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spArticleMultiLang_InsertData
+alter procedure dbo.spArticleMultiLang_InsertData
 @ArticleId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@ArticleSubject	nvarchar(200)
 ,@ArticleContext	nvarchar(max)
 ,@IsShowInLang	bit
 ,@PostAccount	varchar(20)
+,@Subtitle	nvarchar(500)
+,@PublisherName	nvarchar(50)
 as
 begin
 	insert into dbo.ArticleMultiLang(
 		ArticleId, CultureName, ArticleSubject, 
 		ArticleContext, IsShowInLang, PostAccount, 
-		PostDate
+		PostDate, Subtitle, PublisherName
 		)
 	values(
 		@ArticleId, @CultureName, @ArticleSubject, 
 		@ArticleContext, @IsShowInLang, @PostAccount, 
-		getdate()
+		getdate(), @Subtitle, @PublisherName
 		)
 end
 go

@@ -35,18 +35,19 @@ go
 create clustered index IX_Article on dbo.Article (SeqnoForCluster)
 go
 --	2017/12/19, lozen_lin, 增加額外設定用的欄位
-alter table dbo.Article add SubjectAtBannerArea	bit		Default(1)
+alter table dbo.Article add SubjectAtBannerArea	bit	Not Null	Default(1)
 alter table dbo.Article add PublishDate	datetime		
-alter table dbo.Article add IsShowInUnitArea	bit		Default(0)
-alter table dbo.Article add IsShowInSitemap	bit		Default(1)
+alter table dbo.Article add IsShowInUnitArea	bit	Not Null	Default(0)
+alter table dbo.Article add IsShowInSitemap	bit	Not Null	Default(1)
 alter table dbo.Article add SortFieldOfFrontStage	varchar(50)		
-alter table dbo.Article add IsSortDescOfFrontStage	bit		Default(0)
-alter table dbo.Article add IsListAreaShowInFrontStage	bit		Default(1)
-alter table dbo.Article add IsAttAreaShowInFrontStage	bit		Default(0)
-alter table dbo.Article add IsPicAreaShowInFrontStage	bit		Default(0)
-alter table dbo.Article add IsVideoAreaShowInFrontStage	bit		Default(0)
+alter table dbo.Article add IsSortDescOfFrontStage	bit	Not Null	Default(0)
+alter table dbo.Article add IsListAreaShowInFrontStage	bit	Not Null	Default(1)
+alter table dbo.Article add IsAttAreaShowInFrontStage	bit	Not Null	Default(0)
+alter table dbo.Article add IsPicAreaShowInFrontStage	bit	Not Null	Default(0)
+alter table dbo.Article add IsVideoAreaShowInFrontStage	bit	Not Null	Default(0)
 alter table dbo.Article add SubItemLinkUrl	nvarchar(2048)		
 go
+
 
 -- 預設內容
 set identity_insert dbo.Article on

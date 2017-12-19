@@ -113,6 +113,18 @@ namespace Common.DataAccess.ArticlePublisher
         public int SortNo;
         public bool DontDelete;
         public string PostAccount;
+        public bool SubjectAtBannerArea;
+        public DateTime PublishDate;
+        public bool IsShowInUnitArea;
+        public bool IsShowInSitemap;
+        public string SortFieldOfFrontStage;
+        public bool IsSortDescOfFrontStage;
+        public bool IsListAreaShowInFrontStage;
+        public bool IsAttAreaShowInFrontStage;
+        public bool IsPicAreaShowInFrontStage;
+        public bool IsVideoAreaShowInFrontStage;
+        public string SubItemLinkUrl;
+
 
         public CommandType GetCommandType()
         {
@@ -140,6 +152,8 @@ namespace Common.DataAccess.ArticlePublisher
         public string ArticleContext;
         public bool IsShowInLang;
         public string PostAccount;
+        public string Subtitle;
+        public string PublisherName;
 
         public CommandType GetCommandType()
         {

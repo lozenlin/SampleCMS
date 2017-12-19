@@ -24,6 +24,17 @@ namespace Common.LogicObject
         public int SortNo;
         public bool DontDelete;
         public string PostAccount;
+        public bool SubjectAtBannerArea;
+        public DateTime PublishDate;
+        public bool IsShowInUnitArea;
+        public bool IsShowInSitemap;
+        public string SortFieldOfFrontStage;
+        public bool IsSortDescOfFrontStage;
+        public bool IsListAreaShowInFrontStage;
+        public bool IsAttAreaShowInFrontStage;
+        public bool IsPicAreaShowInFrontStage;
+        public bool IsVideoAreaShowInFrontStage;
+        public string SubItemLinkUrl;
         /// <summary>
         /// return:網頁代碼是否重覆
         /// </summary>

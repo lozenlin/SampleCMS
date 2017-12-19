@@ -156,6 +156,18 @@ public partial class Article_Config : System.Web.UI.Page
                     mdfDate = Convert.ToDateTime(drFirst["MdfDate"]);
                 }
 
+                chkSubjectAtBannerArea.Checked = Convert.ToBoolean(drFirst["SubjectAtBannerArea"]);
+                txtPublishDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["PublishDate"]);
+                chkIsShowInUnitArea.Checked = Convert.ToBoolean(drFirst["IsShowInUnitArea"]);
+                chkIsShowInSitemap.Checked = Convert.ToBoolean(drFirst["IsShowInSitemap"]);
+                hidSortFieldOfFrontStage.Text = drFirst.ToSafeStr("SortFieldOfFrontStage");
+                hidIsSortDescOfFrontStage.Text = Convert.ToBoolean(drFirst["IsSortDescOfFrontStage"]).ToString();
+                hidIsListAreaShowInFrontStage.Text = Convert.ToBoolean(drFirst["IsListAreaShowInFrontStage"]).ToString();
+                hidIsAttAreaShowInFrontStage.Text = Convert.ToBoolean(drFirst["IsAttAreaShowInFrontStage"]).ToString();
+                hidIsPicAreaShowInFrontStage.Text = Convert.ToBoolean(drFirst["IsPicAreaShowInFrontStage"]).ToString();
+                hidIsVideoAreaShowInFrontStage.Text = Convert.ToBoolean(drFirst["IsVideoAreaShowInFrontStage"]).ToString();
+                txtSubItemLinkUrl.Text = drFirst.ToSafeStr("SubItemLinkUrl");
+
                 //zh-TW
                 if (LangManager.IsEnableEditLangZHTW())
                 {
@@ -168,6 +180,8 @@ public partial class Article_Config : System.Web.UI.Page
                         txtArticleSubjectZhTw.Text = drZhTw.ToSafeStr("ArticleSubject");
                         chkIsShowInLangZhTw.Checked = Convert.ToBoolean(drZhTw["IsShowInLang"]);
                         txtCkeContextZhTw.Text = drZhTw["ArticleContext"].ToString();
+                        txtSubtitleZhTw.Text = drZhTw.ToSafeStr("Subtitle");
+                        txtPublisherNameZhTw.Text = drZhTw.ToSafeStr("PublisherName");
 
                         if (!Convert.IsDBNull(drZhTw["MdfDate"]) && Convert.ToDateTime(drZhTw["MdfDate"]) > mdfDate)
                         {
@@ -189,6 +203,8 @@ public partial class Article_Config : System.Web.UI.Page
                         txtArticleSubjectEn.Text = drEn.ToSafeStr("ArticleSubject");
                         chkIsShowInLangEn.Checked = Convert.ToBoolean(drEn["IsShowInLang"]);
                         txtCkeContextEn.Text = drEn["ArticleContext"].ToString();
+                        txtSubtitleEn.Text = drEn.ToSafeStr("Subtitle");
+                        txtPublisherNameEn.Text = drEn.ToSafeStr("PublisherName");
 
                         if (!Convert.IsDBNull(drEn["MdfDate"]) && Convert.ToDateTime(drEn["MdfDate"]) > mdfDate)
                         {
@@ -215,6 +231,9 @@ public partial class Article_Config : System.Web.UI.Page
             DateTime endDate = startDate.AddYears(10);
             txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", startDate);
             txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", endDate);
+            txtPublisherNameZhTw.Text = c.seLoginEmpData.EmpName;
+            txtPublisherNameEn.Text = c.seLoginEmpData.EmpName;
+            txtPublishDate.Text = txtStartDate.Text;
 
             btnSave.Visible = true;
         }
@@ -234,6 +253,7 @@ public partial class Article_Config : System.Web.UI.Page
             txtLinkUrl.Text = txtLinkUrl.Text.Trim();
             txtControlName.Text = txtControlName.Text.Trim();
             txtSubItemControlName.Text = txtSubItemControlName.Text.Trim();
+            txtSubItemLinkUrl.Text = txtSubItemLinkUrl.Text.Trim();
 
             ArticleParams param = new ArticleParams()
             {
@@ -251,11 +271,24 @@ public partial class Article_Config : System.Web.UI.Page
                 EndDate = Convert.ToDateTime(txtEndDate.Text),
                 SortNo = Convert.ToInt32(txtSortNo.Text),
                 DontDelete = chkDontDelete.Checked,
-                PostAccount = c.GetEmpAccount()
+                PostAccount = c.GetEmpAccount(),
+                SubjectAtBannerArea = chkSubjectAtBannerArea.Checked,
+                PublishDate = Convert.ToDateTime(txtPublishDate.Text),
+                IsShowInUnitArea = chkIsShowInUnitArea.Checked,
+                IsShowInSitemap = chkIsShowInSitemap.Checked,
+                SortFieldOfFrontStage = hidSortFieldOfFrontStage.Text,
+                IsSortDescOfFrontStage = Convert.ToBoolean(hidIsSortDescOfFrontStage.Text),
+                IsListAreaShowInFrontStage = Convert.ToBoolean(hidIsListAreaShowInFrontStage.Text),
+                IsAttAreaShowInFrontStage = Convert.ToBoolean(hidIsAttAreaShowInFrontStage.Text),
+                IsPicAreaShowInFrontStage = Convert.ToBoolean(hidIsPicAreaShowInFrontStage.Text),
+                IsVideoAreaShowInFrontStage = Convert.ToBoolean(hidIsVideoAreaShowInFrontStage.Text),
+                SubItemLinkUrl = txtSubItemLinkUrl.Text
             };
 
             txtArticleSubjectZhTw.Text = txtArticleSubjectZhTw.Text.Trim();
             txtCkeContextZhTw.Text = StringUtility.GetSievedHtmlEditorValue(txtCkeContextZhTw.Text);
+            txtSubtitleZhTw.Text = txtSubtitleZhTw.Text.Trim();
+            txtPublisherNameZhTw.Text = txtPublisherNameZhTw.Text.Trim();
 
             ArticleMultiLangParams paramZhTw = new ArticleMultiLangParams()
             {
@@ -263,11 +296,15 @@ public partial class Article_Config : System.Web.UI.Page
                 ArticleSubject = txtArticleSubjectZhTw.Text,
                 ArticleContext = txtCkeContextZhTw.Text,
                 IsShowInLang = chkIsShowInLangZhTw.Checked,
-                PostAccount = c.GetEmpAccount()
+                PostAccount = c.GetEmpAccount(),
+                Subtitle = txtSubtitleZhTw.Text,
+                PublisherName = txtPublisherNameZhTw.Text
             };
 
             txtArticleSubjectEn.Text = txtArticleSubjectEn.Text.Trim();
             txtCkeContextEn.Text = StringUtility.GetSievedHtmlEditorValue(txtCkeContextEn.Text);
+            txtSubtitleEn.Text = txtSubtitleEn.Text.Trim();
+            txtPublisherNameEn.Text = txtPublisherNameEn.Text.Trim();
 
             ArticleMultiLangParams paramEn = new ArticleMultiLangParams()
             {
@@ -275,7 +312,9 @@ public partial class Article_Config : System.Web.UI.Page
                 ArticleSubject = txtArticleSubjectEn.Text,
                 ArticleContext = txtCkeContextEn.Text,
                 IsShowInLang = chkIsShowInLangEn.Checked,
-                PostAccount = c.GetEmpAccount()
+                PostAccount = c.GetEmpAccount(),
+                Subtitle = txtSubtitleEn.Text,
+                PublisherName = txtPublisherNameEn.Text
             };
 
             bool result = false;

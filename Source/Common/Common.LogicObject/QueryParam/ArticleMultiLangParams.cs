@@ -13,5 +13,7 @@ namespace Common.LogicObject
         public string ArticleContext;
         public bool IsShowInLang;
         public string PostAccount;
+        public string Subtitle;
+        public string PublisherName;
     }
 }

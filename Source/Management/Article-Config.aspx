@@ -262,6 +262,12 @@
             </tr>
         </tbody>
     </table>
+    <asp:Literal ID="hidSortFieldOfFrontStage" runat="server" Visible="false"></asp:Literal>
+    <asp:Literal ID="hidIsSortDescOfFrontStage" runat="server" Visible="false" Text="False"></asp:Literal>
+    <asp:Literal ID="hidIsListAreaShowInFrontStage" runat="server" Visible="false" Text="True"></asp:Literal>
+    <asp:Literal ID="hidIsAttAreaShowInFrontStage" runat="server" Visible="false" Text="False"></asp:Literal>
+    <asp:Literal ID="hidIsPicAreaShowInFrontStage" runat="server" Visible="false" Text="False"></asp:Literal>
+    <asp:Literal ID="hidIsVideoAreaShowInFrontStage" runat="server" Visible="false" Text="False"></asp:Literal>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphActionButtons" Runat="Server">
     <asp:LinkButton ID="btnSave" runat="server" CssClass="btn btn-success" ValidationGroup="g" Visible="false"
