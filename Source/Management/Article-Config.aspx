@@ -196,13 +196,13 @@
                     <asp:CheckBox ID="chkDontDelete" runat="server" Text="隱藏刪除鈕" />
                 </td>
             </tr>
-            <tr id="IsShowInUnitArea" runat="server">
+            <tr id="IsShowInUnitArea" runat="server" visible="false">
                 <th><%= Resources.Lang.Col_IsShowInUnitArea %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsShowInUnitArea" runat="server" Text="是否在單元區呈現" />
                 </td>
             </tr>
-            <tr id="IsShowInSitemapArea" runat="server">
+            <tr id="IsShowInSitemapArea" runat="server" visible="false">
                 <th><%= Resources.Lang.Col_IsShowInSitemap %></th>
                 <td colspan="3">
                     <asp:CheckBox ID="chkIsShowInSitemap" runat="server" Text="是否在網站導覽呈現" Checked="true" />
@@ -262,6 +262,7 @@
             </tr>
         </tbody>
     </table>
+    <asp:Literal ID="hidArticleLevelNo" runat="server" Visible="false" Text="0"></asp:Literal>
     <asp:Literal ID="hidSortFieldOfFrontStage" runat="server" Visible="false"></asp:Literal>
     <asp:Literal ID="hidIsSortDescOfFrontStage" runat="server" Visible="false" Text="False"></asp:Literal>
     <asp:Literal ID="hidIsListAreaShowInFrontStage" runat="server" Visible="false" Text="True"></asp:Literal>

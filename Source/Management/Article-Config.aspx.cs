@@ -138,6 +138,7 @@ public partial class Article_Config : System.Web.UI.Page
             {
                 DataRow drFirst = dsArticle.Tables[0].Rows[0];
 
+                hidArticleLevelNo.Text = drFirst.ToSafeStr("ArticleLevelNo");
                 txtSortNo.Text = drFirst.ToSafeStr("SortNo");
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["StartDate"]);
                 txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["EndDate"]);
@@ -232,17 +233,58 @@ public partial class Article_Config : System.Web.UI.Page
         }
         else if (c.qsAct == ConfigFormAction.add)
         {
-            int newSortNo = artPub.GetArticleMaxSortNo(c.qsArtId) + 10;
-            txtSortNo.Text = newSortNo.ToString();
-            DateTime startDate = DateTime.Today.AddDays(3);
-            DateTime endDate = startDate.AddYears(10);
-            txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", startDate);
-            txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", endDate);
-            txtPublisherNameZhTw.Text = c.seLoginEmpData.EmpName;
-            txtPublisherNameEn.Text = c.seLoginEmpData.EmpName;
-            txtPublishDate.Text = txtStartDate.Text;
+            // get parent data
+            DataSet dsParent = artPub.GetArticleDataForBackend(c.qsArtId);
 
-            btnSave.Visible = true;
+            if (dsParent != null && dsParent.Tables[0].Rows.Count > 0)
+            {
+                DataRow drParent = dsParent.Tables[0].Rows[0];
+
+                int parentArticleLevelNo = Convert.ToInt32(drParent["ArticleLevelNo"]);
+                hidArticleLevelNo.Text = (parentArticleLevelNo + 1).ToString();
+                int parentShowTypeId = Convert.ToInt32(drParent["ShowTypeId"]);
+
+                if (parentShowTypeId == 3)
+                {
+                    // setting Sub-item default URL
+                    string parentSubItemLinkUrl = drParent.ToSafeStr("SubItemLinkUrl");
+
+                    if (parentSubItemLinkUrl != "")
+                    {
+                        rdolShowType.SelectedValue = parentShowTypeId.ToString();
+                        txtLinkUrl.Text = parentSubItemLinkUrl;
+                    }
+                }
+                else if (parentShowTypeId == 4)
+                {
+                    // setting Sub-item default control
+                    string parentSubItemControlName = drParent.ToSafeStr("SubItemControlName");
+
+                    if (parentSubItemControlName != "")
+                    {
+                        rdolShowType.SelectedValue = parentShowTypeId.ToString();
+                        txtControlName.Text = parentSubItemControlName;
+                    }
+                }
+
+                int newSortNo = artPub.GetArticleMaxSortNo(c.qsArtId) + 10;
+                txtSortNo.Text = newSortNo.ToString();
+                DateTime startDate = DateTime.Today.AddDays(3);
+                DateTime endDate = startDate.AddYears(10);
+                txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", startDate);
+                txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", endDate);
+                txtPublisherNameZhTw.Text = c.seLoginEmpData.EmpName;
+                txtPublisherNameEn.Text = c.seLoginEmpData.EmpName;
+                txtPublishDate.Text = txtStartDate.Text;
+
+                btnSave.Visible = true;
+            }
+        }
+
+        if (Convert.ToInt32(hidArticleLevelNo.Text) == 1)
+        {
+            IsShowInUnitArea.Visible = true;
+            IsShowInSitemapArea.Visible = true;
         }
     }
 
