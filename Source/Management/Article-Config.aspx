@@ -50,6 +50,24 @@
                         <asp:RequiredFieldValidator ID="rfvArticleSubjectEn" runat="server" ControlToValidate="txtArticleSubjectEn" CssClass="text-danger"
                             Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                     </div>
+                    <div class="config-textbox-lang pt-1">
+                        <span class="lang-label"></span>
+                        <asp:CheckBox ID="chkSubjectAtBannerArea" runat="server" Text="標題位置在橫幅區" Checked="true" />
+                        <span class="text-success">(取消則位置在內容區)</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>副標題</th>
+                <td colspan="3">
+                    <div id="SubtitleZhTwArea" runat="server" class="config-textbox-lang">
+                        <span class="lang-label">中:</span>
+                        <asp:TextBox ID="txtSubtitleZhTw" runat="server" MaxLength="500" style="width:90%;"></asp:TextBox>
+                    </div>
+                    <div id="SubtitleEnArea" runat="server" class="config-textbox-lang">
+                        <span class="lang-label">Eng:</span>
+                        <asp:TextBox ID="txtSubtitleEn" runat="server" MaxLength="500" style="width:90%;"></asp:TextBox>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -83,6 +101,31 @@
                 <th><%= Resources.Lang.Col_ArticleAlias %></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtArticleAlias" runat="server" MaxLength="50" Width="90%"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <th style="width:15%;"><span class="required-symbol">發佈者</span></th>
+                <td style="width:35%;">
+                    <div id="PublisherNameAreaZhTw" runat="server" class="config-textbox-lang">
+                        <span class="lang-label">中:</span>
+                        <asp:TextBox ID="txtPublisherNameZhTw" runat="server" MaxLength="50" style="width:15rem;"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvPublisherNameZhTw" runat="server" ControlToValidate="txtPublisherNameZhTw" CssClass="text-danger"
+                            Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                    </div>
+                    <div id="PublisherNameAreaEn" runat="server" class="config-textbox-lang">
+                        <span class="lang-label">Eng:</span>
+                        <asp:TextBox ID="txtPublisherNameEn" runat="server" MaxLength="50" style="width:15rem;"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvPublisherNameEn" runat="server" ControlToValidate="txtPublisherNameEn" CssClass="text-danger"
+                            Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                    </div>
+                </td>
+                <th style="width:15%;"><span class="required-symbol">發佈日期</span></th>
+                <td style="width:35%;">
+                    <asp:TextBox ID="txtPublishDate" runat="server" CssClass="datepicker" style="width:10rem;"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvPublishDate" runat="server" ControlToValidate="txtPublishDate" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                    <asp:CompareValidator ID="covPublishDate" runat="server" ControlToValidate="txtPublishDate" CssClass="text-danger"
+                        Display="Dynamic" ErrorMessage="*" Operator="DataTypeCheck" SetFocusOnError="true" Type="Date" ValidationGroup="g"></asp:CompareValidator>
                 </td>
             </tr>
         </tbody>

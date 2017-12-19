@@ -125,6 +125,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/29>
+-- History:
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <取得後台用網頁內容資料>
 -- Test:
 /*
@@ -141,7 +143,11 @@ begin
 		a.SubItemControlName, a.IsHideSelf, a.IsHideChild, 
 		a.StartDate, a.EndDate, a.SortNo, 
 		a.DontDelete, a.PostAccount, a.PostDate, 
-		a.MdfAccount, a.MdfDate, isnull(e.DeptId, 0) as PostDeptId
+		a.MdfAccount, a.MdfDate, isnull(e.DeptId, 0) as PostDeptId, 
+		a.SubjectAtBannerArea, a.PublishDate, a.IsShowInUnitArea, 
+		a.IsShowInSitemap, a.SortFieldOfFrontStage, a.IsSortDescOfFrontStage, 
+		a.IsListAreaShowInFrontStage, a.IsAttAreaShowInFrontStage, a.IsPicAreaShowInFrontStage, 
+		a.IsVideoAreaShowInFrontStage, a.SubItemLinkUrl
 	from dbo.Article a
 		join dbo.Employee e on a.PostAccount=e.EmpAccount
 	where a.ArticleId=@ArticleId
@@ -151,12 +157,14 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/29>
+-- History:
+--	2017/12/19, lozen_lin, 增加額外設定用的欄位
 -- Description: <取得後台用網頁內容的多國語系資料>
 -- Test:
 /*
 */
 -- =============================================
-create procedure dbo.spArticleMultiLang_GetDataForBackend
+alter procedure dbo.spArticleMultiLang_GetDataForBackend
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 as
@@ -164,7 +172,8 @@ begin
 	select
 		am.ArticleSubject, am.ArticleContext, am.ReadCount, 
 		am.IsShowInLang, am.PostAccount, am.PostDate, 
-		am.MdfAccount, am.MdfDate
+		am.MdfAccount, am.MdfDate, am.Subtitle, 
+		am.PublisherName
 	from dbo.ArticleMultiLang am
 	where am.ArticleId=@ArticleId
 		and am.CultureName=@CultureName
