@@ -84,21 +84,25 @@ public partial class Article_Config : System.Web.UI.Page
         if (!LangManager.IsEnableEditLangZHTW())
         {
             ArticleSubjectZhTwArea.Visible = false;
+            SubtitleZhTwArea.Visible = false;
             PreviewBannerZhTwArea.Visible = false;
             chkIsShowInLangZhTw.Checked = false;
             chkIsShowInLangZhTw.Visible = false;
             ContextTabZhTwArea.Visible = false;
             ContextPnlZhTwArea.Visible = false;
+            PublisherNameAreaZhTw.Visible = false;
         }
 
         if (!LangManager.IsEnableEditLangEN())
         {
             ArticleSubjectEnArea.Visible = false;
+            SubtitleEnArea.Visible = false;
             PreviewBannerEnArea.Visible = false;
             chkIsShowInLangEn.Checked = false;
             chkIsShowInLangEn.Visible = false;
             ContextTabEnArea.Visible = false;
             ContextPnlEnArea.Visible = false;
+            PublisherNameAreaEn.Visible = false;
         }
     }
 

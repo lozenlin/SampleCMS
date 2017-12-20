@@ -30,8 +30,31 @@
                 <a id="btnShowTypeLinkUrl" runat="server" href="#" target="_blank" visible="false">超連結</a></span>
         </li>
     </ul>
-    <div class="sys-subtitle">
-        <%= Resources.Lang.GroupLabel_Subitems %>
+    <div class="sys-subtitle container-fluid">
+        <div class="form-row">
+            <div class="col-sm-2"><%= Resources.Lang.GroupLabel_Subitems %></div>
+            <div class="col-sm-4">
+                <span class="article-content-setting IsListAreaShowInFrontStageArea">
+                    <span class="title">在前台顯示:</span>
+                    <span id="ctlIsListAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
+                    <asp:HiddenField ID="hidIsListAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
+                    <a id="btnSwitchIsListAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
+                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                </span>
+            </div>
+            <div class="col-sm-6">
+                <span class="article-content-setting SortFieldOfFrontStageArea">
+                    <span class="title">在前台的排序:</span>
+                    <asp:DropDownList ID="ddlSortFieldOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlIsSortDescOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
+                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                </span>
+            </div>
+        </div>
     </div>
     <div class="sys-subtitle">
         <%= Resources.Lang.SearchPanel_Title %>
@@ -153,6 +176,17 @@
                 <a id="btnUploadAttachFile" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadAttachFile" runat="server" Text="上傳"></asp:Literal></a>
             </div>
+            <div class="col-sm-4">
+                <span class="article-content-setting IsAttAreaShowInFrontStageArea">
+                    <span class="title">在前台顯示:</span>
+                    <span id="ctlIsAttAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
+                    <asp:HiddenField ID="hidIsAttAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
+                    <a id="btnSwitchIsAttAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
+                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                </span>
+            </div>
         </div>
     </div>
     <table class="table table-responsive-md table-bordered table-sm table-striped table-hover bg-white subitem-list">
@@ -229,6 +263,17 @@
                 <a id="btnUploadPicture" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-upload"></i> <asp:Literal ID="ltrUploadPicture" runat="server" Text="上傳"></asp:Literal></a>
             </div>
+            <div class="col-sm-4">
+                <span class="article-content-setting IsPicAreaShowInFrontStageArea">
+                    <span class="title">在前台顯示:</span>
+                    <span id="ctlIsPicAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
+                    <asp:HiddenField ID="hidIsPicAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
+                    <a id="btnSwitchIsPicAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
+                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="container-fluid">
@@ -274,6 +319,17 @@
             <div class="col-sm-2">
                 <a id="btnAddVideo" runat="server" href="#" class="btn btn-sm btn-secondary">
                     <i class="fa fa-plus"></i> <asp:Literal ID="ltrAddVideo" runat="server" Text="新增"></asp:Literal></a>
+            </div>
+            <div class="col-sm-4">
+                <span class="article-content-setting IsVideoAreaShowInFrontStageArea">
+                    <span class="title">在前台顯示:</span>
+                    <span id="ctlIsVideoAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
+                    <asp:HiddenField ID="hidIsVideoAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
+                    <a id="btnSwitchIsVideoAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
+                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                </span>
             </div>
         </div>
     </div>

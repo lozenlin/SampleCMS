@@ -417,6 +417,20 @@
         padding-left:1rem;
     }
 
+/* Article content page */
+.article-content-setting > .title {
+    color:#17a2b8;
+}
+
+.article-content-setting > .status {
+    display:inline-block;
+    width:30px;
+}
+
+.article-content-setting > .tran-result {
+    display:none;
+}
+
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */
     .main-body {

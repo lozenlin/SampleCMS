@@ -185,7 +185,25 @@ public partial class Article_Node : BasePage
             "PostDeptName"
         });
 
+        LoadSortFieldOfFrontStageUIData();
         SetupLangRelatedFields();
+    }
+
+    private void LoadSortFieldOfFrontStageUIData()
+    {
+        ddlSortFieldOfFrontStage.Items.Clear();
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("(預設值)", ""));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("上架日期", "StartDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("排序編號", "SortNo"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("建立日期", "PostDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("更新日期", "MdfDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("發佈日期", "PublishDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem("標題", "ArticleSubject"));
+
+        ddlIsSortDescOfFrontStage.Items.Clear();
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("(預設值)", ""));
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("由小至大", "False"));
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("由大至小", "True"));
     }
 
     /// <summary>
@@ -257,6 +275,32 @@ public partial class Article_Node : BasePage
                     break;
             }
 
+            // article-content-setting
+            string sortFieldOfFrontStage = drFirst.ToSafeStr("SortFieldOfFrontStage");
+            bool isSortDescOfFrontStage = Convert.ToBoolean(drFirst["IsSortDescOfFrontStage"]);
+
+            if (sortFieldOfFrontStage != "")
+            {
+                ddlSortFieldOfFrontStage.SelectedValue = sortFieldOfFrontStage;
+                ddlIsSortDescOfFrontStage.SelectedValue = isSortDescOfFrontStage.ToString();
+            }
+
+            bool isListAreaShowInFrontStage = Convert.ToBoolean(drFirst["IsListAreaShowInFrontStage"]);
+            hidIsListAreaShowInFrontStage.Value = isListAreaShowInFrontStage.ToString();
+            SetupStatusHtmlOfArticleContentSetting(ctlIsListAreaShowInFrontStageStatus, isListAreaShowInFrontStage);
+
+            bool isAttAreaShowInFrontStage = Convert.ToBoolean(drFirst["IsAttAreaShowInFrontStage"]);
+            hidIsAttAreaShowInFrontStage.Value = isAttAreaShowInFrontStage.ToString();
+            SetupStatusHtmlOfArticleContentSetting(ctlIsAttAreaShowInFrontStageStatus, isAttAreaShowInFrontStage);
+
+            bool isPicAreaShowInFrontStage = Convert.ToBoolean(drFirst["IsPicAreaShowInFrontStage"]);
+            hidIsPicAreaShowInFrontStage.Value = isPicAreaShowInFrontStage.ToString();
+            SetupStatusHtmlOfArticleContentSetting(ctlIsPicAreaShowInFrontStageStatus, isPicAreaShowInFrontStage);
+
+            bool isVideoAreaShowInFrontStage = Convert.ToBoolean(drFirst["IsVideoAreaShowInFrontStage"]);
+            hidIsVideoAreaShowInFrontStage.Value = isVideoAreaShowInFrontStage.ToString();
+            SetupStatusHtmlOfArticleContentSetting(ctlIsVideoAreaShowInFrontStageStatus, isVideoAreaShowInFrontStage);
+
             DataSet dsArticleMultiLang = artPub.GetArticleMultiLangDataForBackend(c.qsArtId, c.seCultureNameOfBackend);
 
             if (dsArticleMultiLang != null && dsArticleMultiLang.Tables[0].Rows.Count > 0)
@@ -309,6 +353,20 @@ public partial class Article_Node : BasePage
         }
 
         DisplaySubitems();
+    }
+
+    private void SetupStatusHtmlOfArticleContentSetting(HtmlGenericControl ctlStatus, bool show)
+    {
+        if (show)
+        {
+            ctlStatus.Attributes["class"] = "status text-success";
+            ctlStatus.InnerHtml = "ON";
+        }
+        else
+        {
+            ctlStatus.Attributes["class"] = "status text-muted";
+            ctlStatus.InnerHtml = "OFF";
+        }
     }
 
     private void DisplaySubitems()
