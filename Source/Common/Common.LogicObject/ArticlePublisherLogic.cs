@@ -340,6 +340,44 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 更新網頁內容的指定區域是否在前台顯示
+        /// </summary>
+        public bool UpdateArticleIsAreaShowInFrontStage(ArticleUpdateIsAreaShowInFrontStageParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_UpdateIsAreaShowInFrontStage cmdInfo = new spArticle_UpdateIsAreaShowInFrontStage()
+            {
+                ArticleId = param.ArticleId,
+                AreaName = param.AreaName,
+                IsShowInFrontStage = param.IsShowInFrontStage,
+                MdfAccount = param.MdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 更新網頁內容的前台子項目排序欄位
+        /// </summary>
+        public bool UpdateArticleSortFieldOfFrontStage(ArticleUpdateSortFieldOfFrontStageParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_UpdateSortFieldOfFrontStage cmdInfo = new spArticle_UpdateSortFieldOfFrontStage()
+            {
+                ArticleId = param.ArticleId,
+                SortFieldOfFrontStage = param.SortFieldOfFrontStage,
+                IsSortDescOfFrontStage = param.IsSortDescOfFrontStage,
+                MdfAccount = param.MdfAccount
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions

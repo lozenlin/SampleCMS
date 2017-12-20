@@ -406,7 +406,11 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
     <script src="Common/slick/slick.min.js"></script>
+    <script src="Common/js/dao.js"></script>
     <script>
+        langNo = '<%= c.seLangNoOfBackend %>';
+        serviceUrl = "jsonService.ashx?l=" + langNo;
+
         $(function () {
             var winWidth = window.innerWidth;
 
@@ -477,6 +481,40 @@
                     ]
                 });
             }
+        });
+
+        // article-content-setting
+        var artId = getUrlParam("artid");
+
+        function setupTranResult(rootCssClass, state) {
+            $("." + rootCssClass + " .tran-result").hide();
+            $("." + rootCssClass + " .tran-" + state).show();
+        }
+
+        $("#btnSwitchIsListAreaShowInFrontStage").click(function () {
+            var isShow = !($("#hidIsListAreaShowInFrontStage").val() == "True");
+            var rootCssClass = "IsListAreaShowInFrontStageArea";
+            setupTranResult(rootCssClass, "loading");
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "ListArea", isShow, function (cr) {
+                if (cr.b) {
+                    if (isShow) {
+                        $("#hidIsListAreaShowInFrontStage").val("True");
+                        $("." + rootCssClass + " .status")
+                            .removeClass("text-muted")
+                            .addClass("text-success")
+                            .html("ON");
+                    } else {
+                        $("#hidIsListAreaShowInFrontStage").val("False");
+                        $("." + rootCssClass + " .status")
+                            .removeClass("text-success")
+                            .addClass("text-muted")
+                            .html("OFF");
+                    }
+                    setupTranResult(rootCssClass, "ok");
+                } else {
+                    setupTranResult(rootCssClass, "failed");
+                }
+            });
         });
 
         // context area

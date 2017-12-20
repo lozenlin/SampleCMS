@@ -369,6 +369,56 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 更新網頁內容的指定區域是否在前台顯示
+    /// </summary>
+    public class spArticle_UpdateIsAreaShowInFrontStage : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ArticleId;
+        public string AreaName;
+        public bool IsShowInFrontStage;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_UpdateIsAreaShowInFrontStage";
+        }
+    }
+
+    /// <summary>
+    /// 更新網頁內容的前台子項目排序欄位
+    /// </summary>
+    public class spArticle_UpdateSortFieldOfFrontStage : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ArticleId;
+        public string SortFieldOfFrontStage;
+        public bool IsSortDescOfFrontStage;
+        public string MdfAccount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_UpdateSortFieldOfFrontStage";
+        }
+    }
+
     #endregion
 
     #region 附件檔案

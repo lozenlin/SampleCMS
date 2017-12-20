@@ -29,5 +29,35 @@ var dao = {
         });
     },
 
+    //更新網頁內容的指定區域是否在前台顯示
+    UpdateArticleIsAreaShowInFrontStage: function (artId, areaName, isShow, crCallBack) {
+        $.post(serviceUrl, {
+            serviceName: "UpdateArticleIsAreaShowInFrontStage",
+            artId: artId,
+            areaName: areaName,
+            isShow: isShow
+        }, function (data) {
+            var cr = $.parseJSON(data);
+            crCallBack(cr);
+        }).fail(function () {
+            crCallBack({ b: false, err: "connect failed" });
+        });
+    },
+
+    //更新網頁內容的前台子項目排序欄位
+    UpdateArticleSortFieldOfFrontStage: function (artId, sortField, isSortDesc, crCallBack) {
+        $.post(serviceUrl, {
+            serviceName: "UpdateArticleSortFieldOfFrontStage",
+            artId: artId,
+            sortField: sortField,
+            isSortDesc: isSortDesc
+        }, function (data) {
+            var cr = $.parseJSON(data);
+            crCallBack(cr);
+        }).fail(function () {
+            crCallBack({ b: false, err: "connect failed" });
+        });
+    },
+
     emptyTail: 0
 };

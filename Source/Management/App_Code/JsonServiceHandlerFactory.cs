@@ -15,6 +15,12 @@ public static class JsonServiceHandlerFactory
             case "TempStoreRolePvg":
                 handler = new TemporarilyStoreRolePrivilege(context);
                 break;
+            case "UpdateArticleIsAreaShowInFrontStage":
+                handler = new UpdateArticleIsAreaShowInFrontStage(context);
+                break;
+            case "UpdateArticleSortFieldOfFrontStage":
+                handler = new UpdateArticleSortFieldOfFrontStage(context);
+                break;
         }
 
         return handler;

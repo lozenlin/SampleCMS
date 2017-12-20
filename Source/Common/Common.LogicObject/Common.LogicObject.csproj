@@ -83,6 +83,8 @@
     <Compile Include="QueryParam\ArticlePictureListQueryParams.cs" />
     <Compile Include="QueryParam\ArticlePictureMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticlePictureParams.cs" />
+    <Compile Include="QueryParam\ArticleUpdateIsAreaShowInFrontStageParams.cs" />
+    <Compile Include="QueryParam\ArticleUpdateSortFieldOfFrontStageParams.cs" />
     <Compile Include="QueryParam\ArticleVideoListQueryParams.cs" />
     <Compile Include="QueryParam\ArticleVideoMultiLangParams.cs" />
     <Compile Include="QueryParam\ArticleVideoParams.cs" />

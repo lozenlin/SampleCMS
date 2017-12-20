@@ -850,6 +850,85 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/20>
+-- Description: <更新網頁內容的指定區域是否在前台顯示>
+-- Test:
+/*
+exec dbo.spArticle_UpdateIsAreaShowInFrontStage '00000000-0000-0000-0000-000000000000', 'ListArea', 1, 'admin'
+*/
+-- =============================================
+create procedure dbo.spArticle_UpdateIsAreaShowInFrontStage
+@ArticleId uniqueidentifier
+,@AreaName varchar(20)
+,@IsShowInFrontStage bit
+,@MdfAccount varchar(20)
+as
+begin
+	declare @colName nvarchar(50)
+	set @colName = case @AreaName
+						when 'ListArea' then N'IsListAreaShowInFrontStage'
+						when 'AttArea' then N'IsAttAreaShowInFrontStage'
+						when 'PicArea' then N'IsPicAreaShowInFrontStage'
+						when 'VideoArea' then N'IsVideoAreaShowInFrontStage'
+						else N''
+					end
+
+	if @colName=N''
+	begin
+		raiserror(N'@AreaName is invalid.', 11, 1)
+		return
+	end
+
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+
+	set @sql = N'
+update dbo.Article
+set ' + @colName + N' = @IsShowInFrontStage
+	,MdfAccount=@MdfAccount
+	,MdfDate=getdate()
+where ArticleId=@ArticleId
+'
+
+	set @parmDef = N'
+@ArticleId uniqueidentifier
+,@IsShowInFrontStage bit
+,@MdfAccount varchar(20)
+'
+
+	exec sp_executesql @sql, @parmDef,
+		@ArticleId
+		,@IsShowInFrontStage
+		,@MdfAccount
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/20>
+-- Description: <更新網頁內容的前台子項目排序欄位>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticle_UpdateSortFieldOfFrontStage
+@ArticleId uniqueidentifier
+,@SortFieldOfFrontStage	varchar(50)
+,@IsSortDescOfFrontStage	bit
+,@MdfAccount varchar(20)
+as
+begin
+	update dbo.Article
+	set SortFieldOfFrontStage=@SortFieldOfFrontStage
+		,IsSortDescOfFrontStage=@IsSortDescOfFrontStage
+		,MdfAccount=@MdfAccount
+		,MdfDate=getdate()
+	where ArticleId=@ArticleId
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------
@@ -2117,7 +2196,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/13>
+-- Create date: <2017/12/20>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -34,6 +34,19 @@ namespace Common.LogicObject
     }
 
     /// <summary>
+    /// AreaName values for ArticleUpdateIsAreaShowInFrontStageParams
+    /// </summary>
+    public static class ArticleAreaNameOfFrontStage
+    {
+        public const string ListArea = "ListArea";
+        public const string AttArea = "AttArea";
+        public const string PicArea = "PicArea";
+        public const string VideoArea = "VideoArea";
+    }
+
+    #region enum
+
+    /// <summary>
     /// error state of AttachFileManager
     /// </summary>
     public enum AttFileErrState
@@ -53,4 +66,6 @@ namespace Common.LogicObject
         UpdateMultiLangDataFailed,
         AttIdIsRequired
     }
+
+    #endregion
 }

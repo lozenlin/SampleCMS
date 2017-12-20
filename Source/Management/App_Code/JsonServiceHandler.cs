@@ -138,3 +138,173 @@ public class TemporarilyStoreRolePrivilege : JsonServiceHandlerAbstract
         return pvg;
     }
 }
+
+/// <summary>
+/// 更新網頁內容的指定區域是否在前台顯示
+/// </summary>
+public class UpdateArticleIsAreaShowInFrontStage : JsonServiceHandlerAbstract
+{
+    protected BackendPageCommon c;
+
+    /// <summary>
+    /// 更新網頁內容的指定區域是否在前台顯示
+    /// </summary>
+    public UpdateArticleIsAreaShowInFrontStage(HttpContext context)
+        : base(context)
+    {
+        c = new BackendPageCommon(context, null);
+        c.InitialLoggerOfUI(this.GetType());
+    }
+
+    public override ClientResult ProcessRequest()
+    {
+        ClientResult cr = null;
+
+        string mdfAccount = c.GetEmpAccount();
+
+        if (string.IsNullOrEmpty(mdfAccount))
+        {
+            cr = new ClientResult()
+            {
+                b = false,
+                err = "invalid login status"
+            };
+
+            return cr;
+        }
+
+        string artId = GetParamValue("artId");
+        Guid articleId;
+
+        if (!Guid.TryParse(artId, out articleId))
+        {
+            cr = new ClientResult()
+            {
+                b = false,
+                err = "invalid artId"
+            };
+
+            return cr;
+        }
+
+        string areaName = GetParamValue("areaName");
+        bool isShow = Convert.ToBoolean(GetParamValue("isShow"));
+        ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+
+        bool result = artPub.UpdateArticleIsAreaShowInFrontStage(new ArticleUpdateIsAreaShowInFrontStageParams()
+        {
+            ArticleId = articleId,
+            AreaName = areaName,
+            IsShowInFrontStage = isShow,
+            MdfAccount = mdfAccount
+        });
+
+        if (result)
+        {
+            cr = new ClientResult() { b = true };
+        }
+        else
+        {
+            cr = new ClientResult() { b = false, err = "update failed" };
+        }
+
+        return cr;
+    }
+}
+
+/// <summary>
+/// 更新網頁內容的前台子項目排序欄位
+/// </summary>
+public class UpdateArticleSortFieldOfFrontStage : JsonServiceHandlerAbstract
+{
+    protected BackendPageCommon c;
+
+    /// <summary>
+    /// 更新網頁內容的前台子項目排序欄位
+    /// </summary>
+    public UpdateArticleSortFieldOfFrontStage(HttpContext context)
+        : base(context)
+    {
+        c = new BackendPageCommon(context, null);
+        c.InitialLoggerOfUI(this.GetType());
+    }
+
+    public override ClientResult ProcessRequest()
+    {
+        ClientResult cr = null;
+
+        string mdfAccount = c.GetEmpAccount();
+
+        if (string.IsNullOrEmpty(mdfAccount))
+        {
+            cr = new ClientResult()
+            {
+                b = false,
+                err = "invalid login status"
+            };
+
+            return cr;
+        }
+
+        string artId = GetParamValue("artId");
+        Guid articleId;
+
+        if (!Guid.TryParse(artId, out articleId))
+        {
+            cr = new ClientResult()
+            {
+                b = false,
+                err = "invalid artId"
+            };
+
+            return cr;
+        }
+
+        string sortField = GetParamValue("sortField");
+        string strIsSortDesc = GetParamValue("isSortDesc");
+        bool isSortDesc = false;
+
+        if (strIsSortDesc != "")
+        {
+            isSortDesc = Convert.ToBoolean(strIsSortDesc);
+        }
+
+        ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+
+        bool result = artPub.UpdateArticleSortFieldOfFrontStage(new ArticleUpdateSortFieldOfFrontStageParams()
+        {
+            ArticleId = articleId,
+            SortFieldOfFrontStage = sortField,
+            IsSortDescOfFrontStage = isSortDesc,
+            MdfAccount = mdfAccount
+        });
+
+        if (result)
+        {
+            SortFieldInfo sortFieldInfo = new SortFieldInfo()
+            {
+                sortField = sortField,
+                isSortDesc = strIsSortDesc
+            };
+
+            cr = new ClientResult()
+            {
+                b = true,
+                o = sortFieldInfo
+            };
+        }
+        else
+        {
+            cr = new ClientResult() { b = false, err = "update failed" };
+        }
+
+        return cr;
+
+    }
+
+    public class SortFieldInfo
+    {
+        public string sortField;
+        public string isSortDesc;
+    }
+}
