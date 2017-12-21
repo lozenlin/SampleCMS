@@ -192,18 +192,18 @@ public partial class Article_Node : BasePage
     private void LoadSortFieldOfFrontStageUIData()
     {
         ddlSortFieldOfFrontStage.Items.Clear();
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("(預設值)", ""));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("上架日期", "StartDate"));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("排序編號", "SortNo"));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("建立日期", "PostDate"));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("更新日期", "MdfDate"));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("發佈日期", "PublishDate"));
-        ddlSortFieldOfFrontStage.Items.Add(new ListItem("標題", "ArticleSubject"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Option_Default, ""));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_ValidationDate, "StartDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_SortNo, "SortNo"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_CreateDate, "PostDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_ModifyDate, "MdfDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_PublishDate, "PublishDate"));
+        ddlSortFieldOfFrontStage.Items.Add(new ListItem(Resources.Lang.Col_Subject, "ArticleSubject"));
 
         ddlIsSortDescOfFrontStage.Items.Clear();
-        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("(預設值)", ""));
-        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("由小至大", "False"));
-        ddlIsSortDescOfFrontStage.Items.Add(new ListItem("由大至小", "True"));
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.Option_Default, ""));
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.IsSortDescOption_asc, "False"));
+        ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.IsSortDescOption_desc, "True"));
     }
 
     /// <summary>

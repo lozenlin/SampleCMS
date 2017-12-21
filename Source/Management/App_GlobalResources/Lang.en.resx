@@ -1765,4 +1765,40 @@
     <value>Appear in the sitemap</value>
     <comment>是否在網站導覽呈現</comment>
   </data>
+  <data name="Article_lblShowInFrontStage" xml:space="preserve">
+    <value>Display in the front-stage</value>
+    <comment>在前台顯示</comment>
+  </data>
+  <data name="Article_lblSortFieldOfFrontStage" xml:space="preserve">
+    <value>Sort in the front-stage</value>
+    <comment>在前台的排序</comment>
+  </data>
+  <data name="Article_btnSwitchAreaShowInFrontStage" xml:space="preserve">
+    <value>Switch</value>
+    <comment>切換</comment>
+  </data>
+  <data name="Option_Default" xml:space="preserve">
+    <value>(default)</value>
+    <comment>(預設值)</comment>
+  </data>
+  <data name="IsSortDescOption_asc" xml:space="preserve">
+    <value>Ascending</value>
+    <comment>由小至大</comment>
+  </data>
+  <data name="IsSortDescOption_desc" xml:space="preserve">
+    <value>Descending</value>
+    <comment>由大至小</comment>
+  </data>
+  <data name="TranResult_saved" xml:space="preserve">
+    <value>Saved</value>
+    <comment>已儲存</comment>
+  </data>
+  <data name="TranResult_sending" xml:space="preserve">
+    <value>Sending</value>
+    <comment>傳送中</comment>
+  </data>
+  <data name="TranResult_failed" xml:space="preserve">
+    <value>Save failed</value>
+    <comment>儲存失敗</comment>
+  </data>
 </root>
