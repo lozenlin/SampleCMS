@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX 結構描述 
+    
+    2.0 版
+    
+     這個格式的主要目的是允許使用最容易理解的 
+    簡單 XML 格式。不同資料型別 
+    的產生和剖析是透過與資料型別關聯的 TypeConverter 
+    類別所完成。
+    
+    範例:
+    
+    ... ado.net/XML 標頭與結構描述 ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1">this is my long string</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        [base64 mime encoded serialized .NET Framework object]
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+    </data>
+                
+    其中有包含簡單名稱/值組的 "resheader" 資料列 
+    (列數不拘)。
+    
+    每個資料列都包含名稱和值。該資料列也會包含 
+    型別或 MIME 類型。型別會對應到支援 
+    透過 TypeConverter 架構進行文字/值轉換的 .NET 類別。 
+    不支援這項轉換的類別會經過序列化處理，並與 MIME 
+    類型組一起儲存。
+    
+    該 MIME 類型會用於序列化物件，並且告訴 
+    ResXResourceReader 如何取消保存該物件。目前該類型不具 
+    擴充性。若是特定 MIME 類型，就必須設定其值:
+    
+    注意 - application/x-microsoft.net.object.binary.base64 即是 
+    ResXResourceWriter 將會產生的格式，不過讀取器可以 
+    讀取下面所列任何一種格式。
+    
+    MIME 類型: application/x-microsoft.net.object.binary.base64
+    值   : 物件必須以 
+            : System.Serialization.Formatters.Binary.BinaryFormatter 序列化，
+            : 然後以 base64 編碼進行編碼。
+    
+    MIME 類型: application/x-microsoft.net.object.soap.base64
+    值   : 物件必須以 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter 序列化，
+            : 然後以 base64 編碼進行編碼。
+
+    MIME 類型: application/x-microsoft.net.object.bytearray.base64
+    值   : 物件必須序列化成位元組陣列，方法是 
+            : 使用 System.ComponentModel.TypeConverter，
+            : 然後以 base64 編碼進行編碼。
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WebsiteName" xml:space="preserve">
+    <value>SampleCMS Demo</value>
+    <comment>SampleCMS Demo</comment>
+  </data>
+  <data name="WebsiteNameShort" xml:space="preserve">
+    <value>SampleCMS</value>
+    <comment>SampleCMS</comment>
+  </data>
+</root>

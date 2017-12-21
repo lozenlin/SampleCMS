@@ -67,7 +67,7 @@
 			<div class="container">
 					
 				<!-- START #fh5co-logo -->
-				<h1 id="fh5co-logo" class="pull-left"><a href="index.html">Display</a></h1>
+				<h1 id="fh5co-logo" class="pull-left"><a href="index.html"><%= Resources.Lang.WebsiteName %></a></h1>
 					
 
 			</div>
