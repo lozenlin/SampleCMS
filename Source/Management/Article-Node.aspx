@@ -39,19 +39,19 @@
                     <span id="ctlIsListAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsListAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
                     <a id="btnSwitchIsListAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
-                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
-                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
-                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                    <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> 儲存失敗</span>
                 </span>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-sm-0 mt-1">
                 <span class="article-content-setting SortFieldOfFrontStageArea">
                     <span class="title">在前台的排序:</span>
                     <asp:DropDownList ID="ddlSortFieldOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
                     <asp:DropDownList ID="ddlIsSortDescOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
-                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
-                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
-                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                    <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> 儲存失敗</span>
                 </span>
             </div>
         </div>
@@ -182,9 +182,9 @@
                     <span id="ctlIsAttAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsAttAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
                     <a id="btnSwitchIsAttAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
-                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
-                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
-                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                    <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> 儲存失敗</span>
                 </span>
             </div>
         </div>
@@ -269,9 +269,9 @@
                     <span id="ctlIsPicAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsPicAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
                     <a id="btnSwitchIsPicAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
-                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
-                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
-                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                    <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> 儲存失敗</span>
                 </span>
             </div>
         </div>
@@ -326,9 +326,9 @@
                     <span id="ctlIsVideoAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsVideoAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
                     <a id="btnSwitchIsVideoAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary">切換</a>
-                    <span class="tran-result tran-ok badge badge-success"><i class="fa fa-check"></i> 已儲存</span>
-                    <span class="tran-result tran-loading badge badge-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
-                    <span class="tran-result tran-failed badge badge-danger"><i class="fa fa-times"></i> 儲存失敗</span>
+                    <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> 已儲存</span>
+                    <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> 傳送中</span>
+                    <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> 儲存失敗</span>
                 </span>
             </div>
         </div>
@@ -484,37 +484,124 @@
         });
 
         // article-content-setting
-        var artId = getUrlParam("artid");
+        var artId = '<%= c.qsArtId %>';
+
+        // article-content-setting / subitems-sort
+        var $ddlSortFieldOfFrontStage = $("#ddlSortFieldOfFrontStage");
+        var $ddlIsSortDescOfFrontStage = $("#ddlIsSortDescOfFrontStage");
+
+        function updateSortFieldOfFrontStage() {
+            var sortField = $ddlSortFieldOfFrontStage.val();
+            var isSortDesc = $ddlIsSortDescOfFrontStage.val();
+            var rootCssClass = "SortFieldOfFrontStageArea";
+            setupTranResult(rootCssClass, "loading");
+            dao.UpdateArticleSortFieldOfFrontStage(artId, sortField, isSortDesc, function (cr) {
+                if (cr.b) {
+                    $ddlSortFieldOfFrontStage.val(cr.o.sortField);
+                    $ddlIsSortDescOfFrontStage.val(cr.o.isSortDesc);
+
+                    setupTranResult(rootCssClass, "ok");
+                } else {
+                    setupTranResult(rootCssClass, "failed");
+                }
+            });
+        }
+
+        $ddlSortFieldOfFrontStage.change(function () {
+            updateSortFieldOfFrontStage();
+        });
+
+        $ddlIsSortDescOfFrontStage.change(function () {
+            updateSortFieldOfFrontStage();
+        });
 
         function setupTranResult(rootCssClass, state) {
             $("." + rootCssClass + " .tran-result").hide();
             $("." + rootCssClass + " .tran-" + state).show();
         }
 
+        function setupStatusOfAreaShowInFrontStage(hidCtlId, rootCssClass, isShow) {
+            if (isShow) {
+                $("#" + hidCtlId).val("True");
+                $("." + rootCssClass + " .status")
+                    .removeClass("text-muted")
+                    .addClass("text-success")
+                    .html("ON");
+            } else {
+                $("#" + hidCtlId).val("False");
+                $("." + rootCssClass + " .status")
+                    .removeClass("text-success")
+                    .addClass("text-muted")
+                    .html("OFF");
+            }
+        }
+
+        // article-content-setting / subitems
         $("#btnSwitchIsListAreaShowInFrontStage").click(function () {
             var isShow = !($("#hidIsListAreaShowInFrontStage").val() == "True");
             var rootCssClass = "IsListAreaShowInFrontStageArea";
             setupTranResult(rootCssClass, "loading");
             dao.UpdateArticleIsAreaShowInFrontStage(artId, "ListArea", isShow, function (cr) {
                 if (cr.b) {
-                    if (isShow) {
-                        $("#hidIsListAreaShowInFrontStage").val("True");
-                        $("." + rootCssClass + " .status")
-                            .removeClass("text-muted")
-                            .addClass("text-success")
-                            .html("ON");
-                    } else {
-                        $("#hidIsListAreaShowInFrontStage").val("False");
-                        $("." + rootCssClass + " .status")
-                            .removeClass("text-success")
-                            .addClass("text-muted")
-                            .html("OFF");
-                    }
+                    setupStatusOfAreaShowInFrontStage("hidIsListAreaShowInFrontStage", rootCssClass, isShow);
                     setupTranResult(rootCssClass, "ok");
                 } else {
                     setupTranResult(rootCssClass, "failed");
                 }
             });
+
+            return false;
+        });
+
+        // article-content-setting / attachments
+        $("#btnSwitchIsAttAreaShowInFrontStage").click(function () {
+            var isShow = !($("#hidIsAttAreaShowInFrontStage").val() == "True");
+            var rootCssClass = "IsAttAreaShowInFrontStageArea";
+            setupTranResult(rootCssClass, "loading");
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "AttArea", isShow, function (cr) {
+                if (cr.b) {
+                    setupStatusOfAreaShowInFrontStage("hidIsAttAreaShowInFrontStage", rootCssClass, isShow);
+                    setupTranResult(rootCssClass, "ok");
+                } else {
+                    setupTranResult(rootCssClass, "failed");
+                }
+            });
+
+            return false;
+        });
+
+        // article-content-setting / pictures
+        $("#btnSwitchIsPicAreaShowInFrontStage").click(function () {
+            var isShow = !($("#hidIsPicAreaShowInFrontStage").val() == "True");
+            var rootCssClass = "IsPicAreaShowInFrontStageArea";
+            setupTranResult(rootCssClass, "loading");
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "PicArea", isShow, function (cr) {
+                if (cr.b) {
+                    setupStatusOfAreaShowInFrontStage("hidIsPicAreaShowInFrontStage", rootCssClass, isShow);
+                    setupTranResult(rootCssClass, "ok");
+                } else {
+                    setupTranResult(rootCssClass, "failed");
+                }
+            });
+
+            return false;
+        });
+
+        // article-content-setting / videos
+        $("#btnSwitchIsVideoAreaShowInFrontStage").click(function () {
+            var isShow = !($("#hidIsVideoAreaShowInFrontStage").val() == "True");
+            var rootCssClass = "IsVideoAreaShowInFrontStageArea";
+            setupTranResult(rootCssClass, "loading");
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "VideoArea", isShow, function (cr) {
+                if (cr.b) {
+                    setupStatusOfAreaShowInFrontStage("hidIsVideoAreaShowInFrontStage", rootCssClass, isShow);
+                    setupTranResult(rootCssClass, "ok");
+                } else {
+                    setupTranResult(rootCssClass, "failed");
+                }
+            });
+
+            return false;
         });
 
         // context area

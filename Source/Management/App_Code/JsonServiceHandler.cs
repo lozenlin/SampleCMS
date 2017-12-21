@@ -264,9 +264,18 @@ public class UpdateArticleSortFieldOfFrontStage : JsonServiceHandlerAbstract
         string strIsSortDesc = GetParamValue("isSortDesc");
         bool isSortDesc = false;
 
-        if (strIsSortDesc != "")
+        if (strIsSortDesc == "")
+        {
+            strIsSortDesc = isSortDesc.ToString();
+        }
+        else
         {
             isSortDesc = Convert.ToBoolean(strIsSortDesc);
+        }
+
+        if (sortField == "")
+        {
+            strIsSortDesc = "";
         }
 
         ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
