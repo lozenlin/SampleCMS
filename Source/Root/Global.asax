@@ -1,10 +1,14 @@
 ﻿<%@ Application Language="C#" %>
+<%@ Import Namespace="Common.LogicObject" %>
 
 <script runat="server">
 
     void Application_Start(object sender, EventArgs e) 
     {
         // 在應用程式啟動時執行的程式碼
+
+        //載入log4net設定
+        log4net.Config.XmlConfigurator.Configure();
 
     }
     
@@ -37,7 +41,6 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
-        /*
         log4net.ILog logger = log4net.LogManager.GetLogger(this.GetType());
 
         try
@@ -45,13 +48,12 @@
             PageCommon c = new PageCommon(Context, null);
 
             //一律用 qsLangNo 處理後的值來重設語系
-            string cultureName = new LangManager().GetCultureName(c.qsLangNo);
+            string cultureName = new LangManager().GetCultureName(c.qsLangNo.ToString());
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
         }
         catch (Exception ex)
         {
             logger.Error("", ex);
         }
-         */
     }
 </script>
