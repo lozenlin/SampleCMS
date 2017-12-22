@@ -8,15 +8,22 @@ using System.Web.UI.WebControls;
 
 public partial class Index : FrontendBasePage
 {
-    protected FrontendPageCommon c;
+    protected OtherArticlePageCommon c;
+    protected ArticlePublisherLogic artPub;
     protected IMasterArticleSettings masterSettings;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        c = new FrontendPageCommon(this.Context, this.ViewState);
-        frontendPageCommon = c;
+        c = new OtherArticlePageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
+        if (!c.ExtractArticleIdAndInitialData(Guid.Empty))
+        {
+            Response.Redirect(c.ERROR_PAGE);
+        }
+
+        articleData = c.GetArticleData();
+        artPub = new ArticlePublisherLogic(null);
         masterSettings = (IMasterArticleSettings)this.Master;
         masterSettings.IsHomePage = true;
     }

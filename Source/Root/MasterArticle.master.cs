@@ -19,16 +19,18 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
     #endregion
 
-    protected FrontendBasePage basePage;
     protected FrontendPageCommon c;
+    protected FrontendBasePage basePage;
     protected ArticleData articleData;
     protected string bodyTagAttributes = "class=\"inner-page\"";
 
     protected void Page_Init(object sender, EventArgs e)
     {
+        c = new FrontendPageCommon(this.Context, this.ViewState);
+        c.InitialLoggerOfUI(this.GetType());
+
         basePage = (FrontendBasePage)this.Page;
-        c = basePage.GetFrontendPageCommon();
-        articleData = c.GetArticleData();
+        articleData = basePage.GetArticleData();
     }
 
     protected void Page_Load(object sender, EventArgs e)
