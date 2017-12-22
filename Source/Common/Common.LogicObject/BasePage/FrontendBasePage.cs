@@ -7,7 +7,7 @@ namespace Common.LogicObject
 {
     public class FrontendBasePage : BasePage
     {
-        protected FrontendPageCommon c;
+        protected FrontendPageCommon frontendPageCommon;
 
         public FrontendBasePage()
             : base()
@@ -16,12 +16,12 @@ namespace Common.LogicObject
 
         public void SetFrontendPageCommon(FrontendPageCommon frontendPageCommon)
         {
-            c = frontendPageCommon;
+            this.frontendPageCommon = frontendPageCommon;
         }
 
         public FrontendPageCommon GetFrontendPageCommon()
         {
-            return c;
+            return frontendPageCommon;
         }
     }
 }

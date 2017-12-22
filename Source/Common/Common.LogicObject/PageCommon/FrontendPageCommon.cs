@@ -23,12 +23,31 @@ namespace Common.LogicObject
     /// </summary>
     public class FrontendPageCommon : PageCommon
     {
+        public string WEBSITE_HOME = "Index.aspx";
+        public string ERROR_PAGE = "ErrorPage.aspx";
+
+        protected ArticlePublisherLogic artPub;
+        protected ArticleData articleData;
+
         /// <summary>
         /// 前台網頁的共用元件
         /// </summary>
         public FrontendPageCommon(HttpContext context, StateBag viewState)
             : base(context, viewState)
         {
+            artPub = new ArticlePublisherLogic(null);
+        }
+
+        public bool InitialArticleData()
+        {
+            bool result = false;
+
+            return result;
+        }
+
+        public ArticleData GetArticleData()
+        {
+            return articleData;
         }
     }
 }

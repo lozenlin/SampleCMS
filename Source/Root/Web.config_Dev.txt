@@ -53,6 +53,12 @@
         <!-- maxAllowedContentLength is in bytes. Defaults to 30,000,000 -->
       </requestFiltering>
     </security>
+    <defaultDocument>
+      <files>
+        <clear />
+        <add value="index.aspx" />
+      </files>
+    </defaultDocument>
     <!-- 修正 Win7 SP1, Win2008R2 SP1 的 IIS 預設文件失效的問題 -->
     <!--
     <handlers>

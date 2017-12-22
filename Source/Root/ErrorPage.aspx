@@ -44,7 +44,7 @@
 	
 
 	<!-- Theme Style -->
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/style.css"/>
 
 	
 	<!-- FOR IE9 below -->

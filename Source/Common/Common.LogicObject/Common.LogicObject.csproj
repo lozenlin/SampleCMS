@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AfmServiceHandlerAbstract.cs" />
+    <Compile Include="DataClass\ArticleData.cs" />
     <Compile Include="PageCommon\AfmServicePageCommon.cs" />
     <Compile Include="ArticlePublisherLogic.cs" />
     <Compile Include="PageCommon\BackendPageCommon.cs" />
