@@ -45,6 +45,31 @@
     <globalization uiCulture="auto" enableClientBasedCulture="true"/>
     <pages controlRenderingCompatibilityVersion="4.0"/>
   </system.web>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <!-- allowDoubleEscaping="true": 允許url中的加號(+) -->
+        <requestLimits maxAllowedContentLength="9000000"/>
+        <!-- maxAllowedContentLength is in bytes. Defaults to 30,000,000 -->
+      </requestFiltering>
+    </security>
+    <!-- 修正 Win7 SP1, Win2008R2 SP1 的 IIS 預設文件失效的問題 -->
+    <!--
+    <handlers>
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" />
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" />
+      <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+    </handlers>
+    -->
+    <httpProtocol>
+      <customHeaders>
+        <remove name="X-Powered-By"/>
+        <add name="X-Frame-Options" value="SAMEORIGIN"/>
+        <!-- 資安修正 Missing Cross-Frame Scripting Protection (Value: DENY, SAMEORIGIN, ALLOW-FROM http://domainName/) -->
+        <add name="Content-Security-Policy" value="frame-ancestors 'self' "/>
+      </customHeaders>
+    </httpProtocol>
+  </system.webServer>
   <log4net>
     <appender name="TraceAppender" type="log4net.Appender.TraceAppender">
       <layout type="log4net.Layout.PatternLayout">
