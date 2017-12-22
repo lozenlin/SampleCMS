@@ -12,6 +12,11 @@ namespace Common.LogicObject
         /// </summary>
         protected bool isBackendPage = false;
 
+        public BasePage()
+            : base()
+        {
+        }
+
         public string EvalToSafeStr(string expression)
         {
             return EvalToSafeStr(expression, null);

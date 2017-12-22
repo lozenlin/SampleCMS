@@ -51,10 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AfmServiceHandlerAbstract.cs" />
-    <Compile Include="AfmServicePageCommon.cs" />
+    <Compile Include="PageCommon\AfmServicePageCommon.cs" />
     <Compile Include="ArticlePublisherLogic.cs" />
-    <Compile Include="BackendPageCommon.cs" />
-    <Compile Include="BasePage.cs">
+    <Compile Include="PageCommon\BackendPageCommon.cs" />
+    <Compile Include="BasePage\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DataClass\AfmFileInfo.cs" />
@@ -66,9 +66,12 @@
     <Compile Include="DataClass\LoginEmployeeData.cs" />
     <Compile Include="DataClass\OperationHtmlAnchorData.cs" />
     <Compile Include="DataClass\RoleOpPvg.cs" />
-    <Compile Include="EmployeeAuthority\EmployeeAuthorityLogic.cs" />
+    <Compile Include="EmployeeAuthorityLogic.cs" />
     <Compile Include="ExtensionMethods\GetSafeStringExtensions.cs" />
-    <Compile Include="FileDownloadCommon.cs" />
+    <Compile Include="PageCommon\FileDownloadCommon.cs" />
+    <Compile Include="BasePage\FrontendBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Interface\IAfmServiceHandler.cs" />
     <Compile Include="Interface\IAuthenticationConditionProvider.cs" />
     <Compile Include="Interface\ICustomEmployeeAuthorizationResult.cs" />
@@ -106,9 +109,9 @@
     <Compile Include="Widget\DataPagerLogic.cs" />
     <Compile Include="DBs.cs" />
     <Compile Include="Widget\EmailSender.cs" />
-    <Compile Include="FrontendPageCommon.cs" />
+    <Compile Include="PageCommon\FrontendPageCommon.cs" />
     <Compile Include="Widget\LangManager.cs" />
-    <Compile Include="PageCommon.cs" />
+    <Compile Include="PageCommon\PageCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Widget\RandomImage.cs" />
   </ItemGroup>
