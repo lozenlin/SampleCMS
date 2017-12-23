@@ -286,6 +286,15 @@ namespace Common.LogicObject
             bool result = base.RetrieveArticleId();
 
             // get ArticleId by LinkUrl
+            string linkUrl = Request.AppRelativeCurrentExecutionFilePath;
+            articleData.ArticleId = artPub.GetArticleIdByLinkUrl(linkUrl);
+
+            result = articleData.ArticleId.HasValue;
+
+            if (!result)
+            {
+                logger.DebugFormat("can not get ArticleId of linkUrl[{0}]", linkUrl);
+            }
 
             return result;
         }

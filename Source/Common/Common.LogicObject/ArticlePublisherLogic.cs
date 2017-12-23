@@ -416,6 +416,26 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 依超連結網址取得網頁代碼
+        /// </summary>
+        public Guid? GetArticleIdByLinkUrl(string linkUrl)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetArticleIdByLinkUrl cmdInfo = new spArticle_GetArticleIdByLinkUrl() { LinkUrl = linkUrl };
+
+            Guid errCode = new Guid("093F6F50-FC1C-42A9-927B-595A39F6C8D9");
+            Guid result = cmd.ExecuteScalar<Guid>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result == errCode)
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 取得指定網頁內容的前幾層網頁代碼
         /// </summary>
         public DataSet GetArticleTopLevelIds(Guid articleId)

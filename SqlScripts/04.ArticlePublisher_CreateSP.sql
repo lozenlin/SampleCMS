@@ -970,7 +970,7 @@ go
 exec dbo.spArticle_GetArticleIdByAlias 'test1'
 */
 -- =============================================
-create procedure dbo.spArticle_GetArticleIdByAlias
+alter procedure dbo.spArticle_GetArticleIdByAlias
 @ArticleAlias	varchar(50)
 as
 begin
@@ -978,6 +978,29 @@ begin
 		ArticleId
 	from dbo.Article
 	where ArticleAlias=@ArticleAlias
+	order by PostDate
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/23>
+-- Description: <依超連結網址取得網頁代碼>
+-- Test:
+/*
+exec dbo.spArticle_GetArticleIdByLinkUrl '~/News.aspx'
+*/
+-- =============================================
+create procedure dbo.spArticle_GetArticleIdByLinkUrl
+@LinkUrl	nvarchar(2048)
+as
+begin
+	select top 1
+		ArticleId
+	from dbo.Article
+	where ShowTypeId=3 /* URL */
+		and LinkUrl=@LinkUrl
+	order by PostDate
 end
 go
 
