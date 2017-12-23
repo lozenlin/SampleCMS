@@ -44,9 +44,9 @@ namespace Common.LogicObject
         public DateTime PostDate;
         public string MdfAccount;
         public DateTime MdfDate;
-        public Guid Lv1Id;
-        public Guid Lv2Id;
-        public Guid Lv3Id;
+        public Guid? Lv1Id;
+        public Guid? Lv2Id;
+        public Guid? Lv3Id;
 
         public void ImportDataFrom(DataRow drArticle)
         {

@@ -981,6 +981,66 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/23>
+-- Description: <取得指定網頁內容的前幾層網頁代碼>
+-- Test:
+/*
+exec dbo.spArticle_GetTopLevelIds '90315AFD-20DE-4C9E-AD0C-2F3910862D94'
+exec dbo.spArticle_GetTopLevelIds 'b1d34d29-255a-42a2-b9af-c33911bcde9a'
+*/
+-- =============================================
+alter procedure dbo.spArticle_GetTopLevelIds
+@ArticleId uniqueidentifier
+as
+begin
+	create table #tbl(
+		Lv1Id uniqueidentifier
+		,Lv2Id uniqueidentifier
+		,Lv3Id uniqueidentifier
+	)
+
+	insert into #tbl default values
+
+	declare @CurLevelNo int
+	declare @CurArticleId uniqueidentifier = @ArticleId
+	declare @ParentId uniqueidentifier
+
+	while 1=1
+	begin
+		select
+			@CurLevelNo=ArticleLevelNo, 
+			@ParentId=ParentId
+		from dbo.Article
+		where ArticleId=@CurArticleId
+
+		if @CurLevelNo = 1
+		begin
+			update #tbl
+			set Lv1Id=@CurArticleId
+		end
+		else if @CurLevelNo = 2
+		begin
+			update #tbl
+			set Lv2Id=@CurArticleId
+		end
+		else if @CurLevelNo = 3
+		begin
+			update #tbl
+			set Lv3Id=@CurArticleId
+		end
+
+		if (@curLevelNo is null or @curLevelNo<=1) break
+
+		set @CurArticleId=@ParentId
+	end
+
+	select * from #tbl
+	drop table #tbl
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------

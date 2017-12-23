@@ -124,6 +124,10 @@ namespace Common.LogicObject
                 {
                     result = true;
                 }
+                else
+                {
+                    logger.DebugFormat("can not get ArticleId of alias[{0}]", qsAlias);
+                }
             }
             else if (qsArtId != null)
             {
@@ -185,13 +189,56 @@ namespace Common.LogicObject
                     {
                         isValid = true;
                     }
+                    else
+                    {
+                        logger.DebugFormat("The article (id:[{0}]) that client requires is disabled.", articleData.ArticleId);
+                    }
                 }
 
                 if (isValid)
                 {
-                    articleData.ImportDataFrom(drArticle);
-                    result = true;
+                    try
+                    {
+                        articleData.ImportDataFrom(drArticle);
+
+                        // get top level id's
+                        DataSet dsTopLevelIds = artPub.GetArticleTopLevelIds(articleData.ArticleId.Value);
+
+                        if (dsTopLevelIds != null && dsTopLevelIds.Tables[0].Rows.Count > 0)
+                        {
+                            DataRow drFirst = dsTopLevelIds.Tables[0].Rows[0];
+
+                            if (!Convert.IsDBNull(drFirst["Lv1Id"]))
+                            {
+                                articleData.Lv1Id = (Guid)drFirst["Lv1Id"];
+                            }
+
+                            if (!Convert.IsDBNull(drFirst["Lv2Id"]))
+                            {
+                                articleData.Lv2Id = (Guid)drFirst["Lv2Id"];
+                            }
+
+                            if (!Convert.IsDBNull(drFirst["Lv3Id"]))
+                            {
+                                articleData.Lv3Id = (Guid)drFirst["Lv3Id"];
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("dsTopLevelIds is empty");
+                        }
+
+                        result = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(string.Format("Import data to ArticleData failed (id:[{0}]).", articleData.ArticleId), ex);
+                    }
                 }
+            }
+            else
+            {
+                logger.DebugFormat("Article data (id:[{0}]) is empty.", articleData.ArticleId);
             }
 
             return result;

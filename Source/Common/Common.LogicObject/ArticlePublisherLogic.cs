@@ -415,6 +415,20 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得指定網頁內容的前幾層網頁代碼
+        /// </summary>
+        public DataSet GetArticleTopLevelIds(Guid articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetTopLevelIds cmdInfo = new spArticle_GetTopLevelIds() { ArticleId = articleId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions
