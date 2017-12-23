@@ -17,7 +17,7 @@ public partial class Index : FrontendBasePage
         c = new OtherArticlePageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
-        if (!c.ExtractArticleIdAndInitialData(Guid.Empty))
+        if (!c.RetrieveArticleIdAndData(Guid.Empty))
         {
             Response.Redirect(c.ERROR_PAGE);
         }

@@ -82,6 +82,23 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 取得前台用網頁內容資料
+        /// </summary>
+        public DataSet GetArticleDataForFrontend(Guid articleId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetDataForFrontend cmdInfo = new spArticle_GetDataForFrontend()
+            {
+                ArticleId = articleId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
+        /// <summary>
         /// 取得網頁內容最大排序編號
         /// </summary>
         public int GetArticleMaxSortNo(Guid parentId)
@@ -374,6 +391,26 @@ namespace Common.LogicObject
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 依網址別名取得網頁代碼
+        /// </summary>
+        public Guid? GetArticleIdByAlias(string articleAlias)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetArticleIdByAlias cmdInfo = new spArticle_GetArticleIdByAlias() { ArticleAlias = articleAlias };
+
+            Guid errCode = new Guid("093F6F50-FC1C-42A9-927B-595A39F6C8D9");
+            Guid result = cmd.ExecuteScalar<Guid>(cmdInfo, errCode);
+            dbErrMsg = cmd.GetErrMsg();
+
+            if (result == errCode)
+            {
+                return null;
+            }
 
             return result;
         }

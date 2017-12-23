@@ -17,7 +17,7 @@ public partial class Article : FrontendBasePage
         c = new FrontendPageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
-        if (!c.ExtractArticleIdAndInitialData())
+        if (!c.RetrieveArticleIdAndData())
         {
             Response.Redirect(c.ERROR_PAGE);
         }

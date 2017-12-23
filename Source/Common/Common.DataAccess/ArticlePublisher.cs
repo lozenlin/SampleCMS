@@ -66,6 +66,29 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     /// <summary>
+    /// 取得前台用網頁內容資料
+    /// </summary>
+    public class spArticle_GetDataForFrontend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ArticleId;
+        public string CultureName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_GetDataForFrontend";
+        }
+    }
+
+    /// <summary>
     /// 取得網頁內容最大排序編號
     /// </summary>
     public class spArticle_GetMaxSortNo : IDataAccessCommandInfo
@@ -416,6 +439,28 @@ namespace Common.DataAccess.ArticlePublisher
         public string GetCommandText()
         {
             return "dbo.spArticle_UpdateSortFieldOfFrontStage";
+        }
+    }
+
+    /// <summary>
+    /// 依網址別名取得網頁代碼
+    /// </summary>
+    public class spArticle_GetArticleIdByAlias : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public string ArticleAlias;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_GetArticleIdByAlias";
         }
     }
 

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -76,6 +77,7 @@ namespace Common.LogicObject
 
         protected ArticlePublisherLogic artPub;
         protected ArticleData articleData;
+        protected bool isPreviewMode = false;
 
         /// <summary>
         /// 前台網頁的共用元件
@@ -88,24 +90,24 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// Extract ArticleId and initial article data by querystring: preview, alias, artid
+        /// Retrieve ArticleId and initial article data by querystring: preview, alias, artid
         /// </summary>
-        public bool ExtractArticleIdAndInitialData()
+        public bool RetrieveArticleIdAndData()
         {
-            bool result = ExtractArticleId();
+            bool result = RetrieveArticleId();
 
             if (result)
             {
-                result = InitialArticleData();
+                result = RetrieveArticleData();
             }
 
             return result;
         }
 
         /// <summary>
-        /// Extract ArticleId by querystring: preview, alias, artid
+        /// Retrieve ArticleId by querystring: preview, alias, artid
         /// </summary>
-        public virtual bool ExtractArticleId()
+        public virtual bool RetrieveArticleId()
         {
             bool result = false;
 
@@ -115,6 +117,13 @@ namespace Common.LogicObject
             }
             else if (qsAlias != null)
             {
+                // get id by alias
+                articleData.ArticleId = artPub.GetArticleIdByAlias(qsAlias);
+
+                if (articleData.ArticleId.HasValue)
+                {
+                    result = true;
+                }
             }
             else if (qsArtId != null)
             {
@@ -125,10 +134,12 @@ namespace Common.LogicObject
             return result;
         }
 
-        protected void HandlePreviewToken()
+        protected bool HandlePreviewToken()
         {
+            bool result = false;
+
             if (qsPreview == null)
-                return;
+                return false;
 
             if (qsPreview == "1")
             {
@@ -139,11 +150,49 @@ namespace Common.LogicObject
                 // decrypt token
                 // articleData.ArticleId = 
             }
+
+            return result;
         }
 
-        protected bool InitialArticleData()
+        /// <summary>
+        /// Retrieve article data by ArticleId
+        /// </summary>
+        protected bool RetrieveArticleData()
         {
             bool result = false;
+
+            if (!articleData.ArticleId.HasValue)
+                return result;
+
+            DataSet dsArticle = artPub.GetArticleDataForFrontend(articleData.ArticleId.Value, qsCultureNameOfLangNo);
+
+            if (dsArticle != null && dsArticle.Tables[0].Rows.Count > 0)
+            {
+                DataRow drArticle = dsArticle.Tables[0].Rows[0];
+                bool isValid = false;
+
+                if (!isPreviewMode)
+                {
+                    // check validation date, isHideSelf, isShowInLang
+                    DateTime startDate = Convert.ToDateTime(drArticle["StartDate"]);
+                    DateTime endDate = Convert.ToDateTime(drArticle["EndDate"]);
+                    bool isHideSelf = Convert.ToBoolean(drArticle["IsHideSelf"]);
+                    bool isShowInLang = Convert.ToBoolean(drArticle["IsShowInLang"]);
+
+                    if (startDate <= DateTime.Today && DateTime.Today <= endDate
+                        && !isHideSelf
+                        && isShowInLang)
+                    {
+                        isValid = true;
+                    }
+                }
+
+                if (isValid)
+                {
+                    articleData.ImportDataFrom(drArticle);
+                    result = true;
+                }
+            }
 
             return result;
         }
@@ -168,26 +217,26 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// Extract ArticleId and initial article data by querystring: preview, alias, artid
+        /// Retrieve ArticleId and initial article data by querystring: preview, alias, artid
         /// </summary>
-        public bool ExtractArticleIdAndInitialData(Guid articleId)
+        public bool RetrieveArticleIdAndData(Guid articleId)
         {
-            bool result = ExtractArticleId(articleId);
+            bool result = RetrieveArticleId(articleId);
 
             if (result)
             {
-                result = InitialArticleData();
+                result = RetrieveArticleData();
             }
 
             return result;
         }
 
         /// <summary>
-        /// Extract ArticleId by querystring: preview, alias, artid
+        /// Retrieve ArticleId by querystring: preview, alias, artid
         /// </summary>
-        public override bool ExtractArticleId()
+        public override bool RetrieveArticleId()
         {
-            bool result = base.ExtractArticleId();
+            bool result = base.RetrieveArticleId();
 
             // get ArticleId by LinkUrl
 
@@ -195,9 +244,9 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// Extract ArticleId by querystring: preview, alias, artid
+        /// Retrieve ArticleId by querystring: preview, alias, artid
         /// </summary>
-        public virtual bool ExtractArticleId(Guid articleId)
+        public virtual bool RetrieveArticleId(Guid articleId)
         {
             bool result = false;
 

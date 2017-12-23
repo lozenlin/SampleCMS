@@ -182,6 +182,38 @@ go
 
 -- =============================================
 -- Author:      <lozen_lin>
+-- Create date: <2017/12/23>
+-- Description: <取得前台用網頁內容資料>
+-- Test:
+/*
+exec dbo.spArticle_GetDataForFrontend '23661d48-17e7-4c45-bb11-8ec29be941c3', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spArticle_GetDataForFrontend
+@ArticleId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	select
+		a.ParentId, a.ArticleLevelNo, a.ArticleAlias, 
+		a.BannerPicFileName, a.LayoutModeId, a.ShowTypeId, 
+		a.LinkUrl, a.LinkTarget, a.ControlName, 
+		a.IsHideSelf, a.IsHideChild, a.StartDate, 
+		a.EndDate, a.SortNo, a.PostAccount, a.PostDate, 
+		a.MdfAccount, a.MdfDate, a.SubjectAtBannerArea, 
+		a.PublishDate, a.IsShowInUnitArea, a.IsShowInSitemap, 
+		a.SortFieldOfFrontStage, a.IsSortDescOfFrontStage, a.IsListAreaShowInFrontStage, 
+		a.IsAttAreaShowInFrontStage, a.IsPicAreaShowInFrontStage, a.IsVideoAreaShowInFrontStage, 
+		am.ArticleSubject, am.ArticleContext, am.ReadCount, 
+		am.IsShowInLang, am.Subtitle, am.PublisherName
+	from dbo.Article a
+		left join dbo.ArticleMultiLang am on a.ArticleId=am.ArticleId and am.CultureName=@CultureName
+	where a.ArticleId=@ArticleId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
 -- Create date: <2017/11/29>
 -- Description: <取得網頁內容最大排序編號>
 -- Test:
@@ -926,6 +958,26 @@ begin
 		,MdfAccount=@MdfAccount
 		,MdfDate=getdate()
 	where ArticleId=@ArticleId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/23>
+-- Description: <依網址別名取得網頁代碼>
+-- Test:
+/*
+exec dbo.spArticle_GetArticleIdByAlias 'test1'
+*/
+-- =============================================
+create procedure dbo.spArticle_GetArticleIdByAlias
+@ArticleAlias	varchar(50)
+as
+begin
+	select top 1
+		ArticleId
+	from dbo.Article
+	where ArticleAlias=@ArticleAlias
 end
 go
 
@@ -2196,7 +2248,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/20>
+-- Create date: <2017/12/23>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*
