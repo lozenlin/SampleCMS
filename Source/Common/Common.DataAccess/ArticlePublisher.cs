@@ -302,6 +302,36 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     /// <summary>
+    /// 取得前台用的有效網頁內容清單
+    /// </summary>
+    public class spArticle_GetValidListForFrontend : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ParentId;
+        public string CultureName;
+        public string Kw;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_GetValidListForFrontend";
+        }
+    }
+
+    /// <summary>
     /// 刪除網頁內容
     /// </summary>
     public class spArticle_DeleteData : IDataAccessCommandInfo

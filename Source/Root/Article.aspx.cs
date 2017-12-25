@@ -1,6 +1,8 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -55,24 +57,24 @@ public partial class Article : FrontendBasePage
                 // URL
                 if (articleData.LinkUrl == "")
                 {
-                    string url = c.AppendCurrentQueryString(articleData.LinkUrl);
-                    Response.Redirect(url);
+                    DisplayArticle();
                 }
                 else
                 {
-                    DisplayArticle();
+                    string url = c.AppendCurrentQueryString(articleData.LinkUrl);
+                    Response.Redirect(url);
                 }
                 break;
             case 4:
                 // use control
                 if (articleData.ControlName == "")
                 {
-                    Control ctl = LoadControl("~/UserControls" + articleData.ControlName);
-                    ControlArea.Controls.Add(ctl);
+                    DisplayArticle();
                 }
                 else
                 {
-                    DisplayArticle();
+                    Control ctl = LoadControl("~/UserControls" + articleData.ControlName);
+                    ControlArea.Controls.Add(ctl);
                 }
                 break;
             default:
@@ -101,6 +103,53 @@ public partial class Article : FrontendBasePage
 
     private void RedirectToSubPage()
     {
+        PagedListQueryParams pagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 1,
+            EndNum = 999999999,
+            SortField = articleData.SortFieldOfFrontStage,
+            IsSortDesc = articleData.IsSortDescOfFrontStage
+        };
 
+        DataSet dsSubitems = artPub.GetArticleValidListForFrontend(new ArticleValidListQueryParams()
+        {
+            ParentId = articleData.ArticleId.Value,
+            CultureName = c.qsCultureNameOfLangNo,
+            Kw = "",
+            PagedParams = pagedParams
+        });
+
+        if (dsSubitems != null && dsSubitems.Tables[0].Rows.Count > 0)
+        {
+            DataRow drFirst = dsSubitems.Tables[0].Rows[0];
+
+            Guid articleId = (Guid)drFirst["ArticleId"];
+            int showTypeId = Convert.ToInt32(drFirst["ShowTypeId"]);
+            string linkUrl = drFirst.ToSafeStr("LinkUrl");
+            string destUrl = "";
+
+            if (showTypeId == 3 && linkUrl != "")
+            {
+                destUrl = linkUrl;
+
+                if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                    && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // inside page
+                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
+                }
+            }
+            else
+            {
+                destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
+            }
+
+            Response.Redirect(destUrl);
+        }
+        else
+        {
+            c.LoggerOfUI.InfoFormat("there is no sub-items of article(id:[{0}])", articleData.ArticleId.Value);
+            Response.Redirect(c.ERROR_PAGE);
+        }
     }
 }

@@ -624,6 +624,117 @@ go
 
 -- =============================================
 -- Author:      <lozen_lin>
+-- Create date: <2017/12/25>
+-- Description: <取得前台用的有效網頁內容清單>
+-- Test:
+/*
+declare @RowCount int
+exec dbo.spArticle_GetValidListForFrontend '00000000-0000-0000-0000-000000000000', 'zh-TW', N'', 1, 20, '', 0, @RowCount output
+select @RowCount
+*/
+-- =============================================
+create procedure dbo.spArticle_GetValidListForFrontend
+@ParentId	uniqueidentifier
+,@CultureName	varchar(10)
+,@Kw nvarchar(52)=''
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@RowCount int output
+as
+begin
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+
+	--條件定義
+	set @conditions=N' and a.ParentId=@ParentId and am.CultureName=@CultureName
+and a.IsHideSelf=0
+and a.StartDate <= getdate() and getdate() < a.EndDate+1
+and am.IsShowInLang=1
+'
+	
+	if @Kw<>N''
+	begin
+		set @conditions += N' and am.ArticleSubject like @Kw '
+	end
+	
+	--取得總筆數
+	set @sql = N'
+select @RowCount=count(*)
+from dbo.ArticleMultiLang am
+	join dbo.Article a on am.ArticleId=a.ArticleId
+where 1=1 ' + @conditions
+
+	--參數定義
+	set @parmDef=N'
+@ParentId	uniqueidentifier
+,@CultureName	varchar(10)
+,@Kw nvarchar(52)
+'
+
+	set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+	set @Kw = N'%'+@Kw+N'%'
+
+	exec sp_executesql @sql, @parmDefForTotal, 
+		@ParentId
+		,@CultureName
+		,@Kw
+		,@RowCount output
+
+	--取得指定排序和範圍的結果
+
+	--指定排序
+	declare @SortExp nvarchar(200)
+	set @SortExp=N' order by '
+
+	if @SortField in (N'StartDate', N'SortNo', N'PostDate', N'MdfDate', N'PublishDate', N'ArticleSubject')
+	begin
+		--允許的欄位
+		set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+	end
+	else
+	begin
+		--預設
+		set @SortExp=N' order by SortNo'
+	end
+	
+	set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			am.ArticleId, am.ArticleSubject, am.PublisherName,
+			a.ArticleAlias, a.ShowTypeId, a.LinkUrl, 
+			a.LinkTarget, a.StartDate, a.SortNo, 
+			a.PostDate, a.MdfDate, a.PublishDate
+		from dbo.ArticleMultiLang am
+			join dbo.Article a on am.ArticleId=a.ArticleId
+		where 1=1' + @conditions + N'
+	) main 
+) result 
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+	set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+	exec sp_executesql @sql, @parmDef, 
+		@ParentId
+		,@CultureName
+		,@Kw
+		,@BeginNum
+		,@EndNum
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
 -- Create date: <2017/12/01>
 -- Description: <刪除網頁內容>
 -- Test:
@@ -2331,7 +2442,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/23>
+-- Create date: <2017/12/25>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

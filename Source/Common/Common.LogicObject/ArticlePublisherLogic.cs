@@ -293,6 +293,29 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 取得前台用的有效網頁內容清單
+        /// </summary>
+        public DataSet GetArticleValidListForFrontend(ArticleValidListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetValidListForFrontend cmdInfo = new spArticle_GetValidListForFrontend()
+            {
+                ParentId = param.ParentId,
+                CultureName = param.CultureName,
+                Kw = param.Kw,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+            param.PagedParams.RowCount = cmdInfo.RowCount;
+
+            return ds;
+        }
+
+        /// <summary>
         /// 刪除網頁內容
         /// </summary>
         public bool DeleteArticleData(Guid articleId)
