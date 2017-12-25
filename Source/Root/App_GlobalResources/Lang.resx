@@ -115,6 +115,22 @@
     <value>SampleCMS</value>
     <comment>SampleCMS</comment>
   </data>
+  <data name="Pager_btnPrevious" xml:space="preserve">
+    <value>上一頁</value>
+    <comment>上一頁</comment>
+  </data>
+  <data name="Pager_btnPrevious_Hint" xml:space="preserve">
+    <value>上一頁</value>
+    <comment>上一頁</comment>
+  </data>
+  <data name="Pager_btnNext" xml:space="preserve">
+    <value>下一頁</value>
+    <comment>下一頁</comment>
+  </data>
+  <data name="Pager_btnNext_Hint" xml:space="preserve">
+    <value>下一頁</value>
+    <comment>下一頁</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

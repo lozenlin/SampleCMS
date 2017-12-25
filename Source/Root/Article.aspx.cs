@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class Article : FrontendBasePage
@@ -31,6 +32,10 @@ public partial class Article : FrontendBasePage
 
     protected void Page_Init(object sender, EventArgs e)
     {
+        ucDataPager.MaxItemCountOfPage = 10;
+        ucDataPager.MaxDisplayCountInPageCodeArea = 5;
+        ucDataPager.LinkUrlToReload = string.Concat(Request.AppRelativeCurrentExecutionFilePath, "?", Request.QueryString);
+        ucDataPager.Initialize(0, 0);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -98,7 +103,81 @@ public partial class Article : FrontendBasePage
         if (!SubitemsArea.Visible)
             return;
 
+        ArticleValidListQueryParams param = new ArticleValidListQueryParams()
+        {
+            ParentId = articleData.ArticleId.Value,
+            CultureName = c.qsCultureNameOfLangNo,
+            Kw = ""
+        };
 
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = 0,
+            EndNum = 0,
+            SortField = articleData.SortFieldOfFrontStage,
+            IsSortDesc = articleData.IsSortDescOfFrontStage
+        };
+
+        // get total of items
+        artPub.GetArticleValidListForFrontend(param);
+
+        // update pager and get begin end of item numbers
+        int itemTotalCount = param.PagedParams.RowCount;
+        ucDataPager.Initialize(itemTotalCount, c.qsPageCode);
+
+        param.PagedParams = new PagedListQueryParams()
+        {
+            BeginNum = ucDataPager.BeginItemNumberOfPage,
+            EndNum = ucDataPager.EndItemNumberOfPage,
+            SortField = articleData.SortFieldOfFrontStage,
+            IsSortDesc = articleData.IsSortDescOfFrontStage
+        };
+
+        DataSet dsSubitems = artPub.GetArticleValidListForFrontend(param);
+
+        if (dsSubitems != null)
+        {
+            rptSubitems.DataSource = dsSubitems.Tables[0];
+            rptSubitems.DataBind();
+        }
+    }
+
+    protected void rptSubitems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid articleId = (Guid)drvTemp["ArticleId"];
+        string articleSubject  =drvTemp.ToSafeStr("ArticleSubject");
+        int showTypeId = Convert.ToInt32(drvTemp["ShowTypeId"]);
+        string linkUrl = drvTemp.ToSafeStr("LinkUrl");
+        string linkTarget = drvTemp.ToSafeStr("LinkTarget");
+        string destUrl = "";
+
+        if (showTypeId == 3 && linkUrl != "")
+        {
+            destUrl = linkUrl;
+
+            if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
+            {
+                // inside page
+                destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
+                destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
+            }
+        }
+        else
+        {
+            destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
+        }
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.HRef = destUrl;
+        btnItem.Title = articleSubject;
+
+        if (linkTarget != "")
+        {
+            btnItem.Target = linkTarget;
+        }
     }
 
     private void RedirectToSubPage()
@@ -136,6 +215,7 @@ public partial class Article : FrontendBasePage
                     && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // inside page
+                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
                     destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
                 }
             }

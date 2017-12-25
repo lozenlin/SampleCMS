@@ -49,6 +49,30 @@ namespace Common.LogicObject
             return value;
         }
 
+        public static T To<T>(this DataRow dr, string columnName, T nullValue)
+        {
+            T result = default(T);
+
+            object obj = dr[columnName];
+
+            if (obj == null || Convert.IsDBNull(obj))
+            {
+                result = nullValue;
+            }
+            else
+            {
+                result = (T)obj;
+            }
+
+            if (obj is string && obj != null)
+            {
+                //if (!isBackendPage)
+                //result = (T)Convert.ChangeType(AntiXss.GetSafeHtmlFragment(obj.ToString()), typeof(T));
+            }
+
+            return result;
+        }
+
         public static T To<T>(this DataRowView drv, string property, T nullValue)
         {
             T result = default(T);

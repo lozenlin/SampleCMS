@@ -1,16 +1,4 @@
-﻿// ===============================================================================
-// wucDataPager(UserControl) of EmployeeAuthority of SampleCMS
-// https://github.com/lozenlin/SampleCMS
-//
-// wucDataPager.ascx
-// wucDataPager.ascx.cs
-//
-// ===============================================================================
-// Copyright (c) 2017 lozenlin
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
-// ===============================================================================
-
-using Common.LogicObject;
+﻿using Common.LogicObject;
 using Common.Utility;
 using System;
 using System.Collections.Generic;
@@ -82,7 +70,6 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
         {
             dataPager.ItemTotalCount = value;
             PaginationArea.Visible = value > 0;
-            PaginationInfoArea.Visible = PaginationArea.Visible;
         }
     }
 
@@ -162,17 +149,8 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
 
     private void LoadUIData()
     {
-        btnFirstPage.InnerHtml = Resources.Lang.Pager_btnFirstPage;
-        btnFirstPage.Title = Resources.Lang.Pager_btnFirstPage_Hint;
         btnPreviousPage.Title = Resources.Lang.Pager_btnPrevious_Hint;
         btnNextPage.Title = Resources.Lang.Pager_btnNext_Hint;
-        btnLastPage.InnerHtml = Resources.Lang.Pager_btnLast;
-        btnLastPage.Title = Resources.Lang.Pager_btnLast_Hint;
-        txtPageCode.ToolTip = Resources.Lang.Pager_txtPageCode_Hint;
-        rfvPageCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
-        rvPageCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_InvalidPageCode;
-        btnJumpToPage.Text = Resources.Lang.Pager_btnJumpToPage;
-        btnJumpToPage.ToolTip = Resources.Lang.Pager_btnJumpToPage_Hint;
     }
 
     #region Public methods
@@ -225,89 +203,27 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
         rptPagination.DataSource = dtPagination;
         rptPagination.DataBind();
 
-        // drop down list
-        DataTable dtPageSelect = new DataTable();
-        dtPageSelect.Columns.Add("Display");
-        dtPageSelect.Columns.Add("Value");
-
-        if (dataPager.PageTotalCount <= 50)
-        {
-            DataRow drNew = dtPageSelect.NewRow();
-            int pageSelectCount = dataPager.PageTotalCount;
-
-            if (pageSelectCount < 1)
-                pageSelectCount = 1;
-
-            for (int num = 1; num <= pageSelectCount; num++)
-            {
-                drNew = dtPageSelect.NewRow();
-                drNew["Display"] = string.Format("- {0} -", num);
-                drNew["Value"] = num;
-                dtPageSelect.Rows.Add(drNew);
-            }
-
-            ddlPageSelect.DataTextField = "Display";
-            ddlPageSelect.DataValueField = "Value";
-            ddlPageSelect.DataSource = dtPageSelect;
-            ddlPageSelect.DataBind();
-        }
-        else
-        {
-            //太多頁數時,改用輸入數字跳頁
-            ddlPageSelect.Visible = false;
-            TextCtrlArea.Visible = true;
-        }
-
-        ltrTotalCount.Text = string.Format(Resources.Lang.Pager_TotalCount_Format, dataPager.ItemTotalCount);
-        ltrLastPageCode.Text = dataPager.PageTotalCount.ToString();
-        ltrCurrentPageCode.Text = dataPager.CurrentPageCode.ToString();
-
-        if (ddlPageSelect.Items.FindByValue(ltrCurrentPageCode.Text) != null)
-            ddlPageSelect.SelectedValue = ltrCurrentPageCode.Text;
-
         // pager buttons
         if (dataPager.CanShowPreviousButton)
         {
-            PreviousPageArea.Attributes["class"] = "page-item";
+            PreviousPageArea.Attributes["class"] = "";
             btnPreviousPage.HRef = GetLinkUrlToReload(dataPager.CurrentPageCode - 1);
         }
         else
         {
-            PreviousPageArea.Attributes["class"] = "page-item disabled";
+            PreviousPageArea.Attributes["class"] = "disabled";
             btnPreviousPage.HRef = "";
         }
 
         if (dataPager.CanShowNextButton)
         {
-            NextPageArea.Attributes["class"] = "page-item";
+            NextPageArea.Attributes["class"] = "";
             btnNextPage.HRef = GetLinkUrlToReload(dataPager.CurrentPageCode + 1);
         }
         else
         {
-            NextPageArea.Attributes["class"] = "page-item disabled";
+            NextPageArea.Attributes["class"] = "disabled";
             btnNextPage.HRef = "";
-        }
-
-        if (dataPager.CanShowFirstButton)
-        {
-            btnFirstPage.Attributes["class"] = "";
-            btnFirstPage.HRef = GetLinkUrlToReload(1);
-        }
-        else
-        {
-            btnFirstPage.Attributes["class"] = "text-muted";
-            btnFirstPage.HRef = "";
-        }
-
-        if (dataPager.CanShowLastButton)
-        {
-            btnLastPage.Attributes["class"] = "";
-            btnLastPage.HRef = GetLinkUrlToReload(dataPager.PageTotalCount);
-        }
-        else
-        {
-            btnLastPage.Attributes["class"] = "text-muted";
-            btnLastPage.HRef = "";
         }
     }
 
@@ -324,8 +240,8 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
         if (dataPager.CurrentPageCode == pageCode)
         {
             HtmlGenericControl PageCodeArea = (HtmlGenericControl)e.Item.FindControl("PageCodeArea");
-            PageCodeArea.Attributes["class"] = "page-item active";
-            btnPageCode.HRef = "javascript:void(0);";            
+            PageCodeArea.Attributes["class"] = "active";
+            btnPageCode.HRef = "javascript:void(0);";
         }
     }
 
@@ -336,30 +252,5 @@ public partial class UserControls_wucDataPager : System.Web.UI.UserControl
     {
         //設定網址中的參數值
         return StringUtility.SetParaValueInUrl(linkUrlToReload, pageCodeParaName, pageCode.ToString());
-    }
-
-    protected void ddlPageSelect_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlPageSelect.SelectedIndex < 0)
-            return;
-
-        Response.Redirect(GetLinkUrlToReload(Convert.ToInt32(ddlPageSelect.SelectedValue)));
-    }
-
-    protected void btnJumpToPage_Click(object sender, EventArgs e)
-    {
-        if (TextCtrlArea.Visible)
-        {
-            if (!Page.IsValid || txtPageCode.Text.Trim() == "")
-                return;
-
-            int pageCode = Convert.ToInt32(txtPageCode.Text.Trim());
-            int pageTotalCount = Convert.ToInt32(ltrLastPageCode.Text);
-
-            if (pageCode > pageTotalCount)
-                pageCode = pageTotalCount;
-
-            Response.Redirect(GetLinkUrlToReload(pageCode));
-        }
     }
 }
