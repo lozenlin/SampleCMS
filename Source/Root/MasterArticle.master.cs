@@ -38,7 +38,13 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (!IsPostBack)
         {
             LoadUIData();
+            DisplayArticle();
+            DisplayAttachments();
+            DisplayPictures();
+            DisplayVideos();
         }
+
+        Page.Title = string.Format("{0} - {1}", articleData.ArticleSubject, Resources.Lang.WebsiteName);
     }
 
     private void LoadUIData()
@@ -47,5 +53,73 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         {
             bodyTagAttributes = "";
         }
+
+        HandleLayoutMode();
+    }
+
+    private void HandleLayoutMode()
+    {
+        switch (articleData.LayoutModeId)
+        {
+            case 1:
+                // Wide content
+                break;
+            case 2:
+                // 2-col content
+                Layout2ColContainerTagHead.Visible = true;
+                Layout2ColContainerTagTail.Visible = true;
+                Layout2ColMainTagHead.Visible = true;
+                Layout2ColMainTagTail.Visible = true;
+                Layout2ColSideSection.Visible = true;
+                break;
+            default:
+                c.LoggerOfUI.ErrorFormat("invalid layoutModeId:{0}", articleData.LayoutModeId);
+                Response.Redirect(c.ERROR_PAGE);
+                break;
+        }
+    }
+
+    private void DisplayArticle()
+    {
+        if (articleData.SubjectAtBannerArea)
+        {
+            ltrArticleSubjectInBanner.Text = articleData.ArticleSubject;
+        }
+        else
+        {
+            ltrArticleSubject.Text = articleData.ArticleSubject;
+        }
+
+        if (articleData.Subtitle != "")
+        {
+            SubtitleArea.Visible = true;
+            ltrSubtitle.Text = articleData.Subtitle;
+        }
+
+        SpacerAfterSubtitle.Visible = !articleData.IsListAreaShowInFrontStage;
+    }
+
+    private void DisplayAttachments()
+    {
+        AttachmentsArea.Visible = articleData.IsAttAreaShowInFrontStage;
+
+        if (!AttachmentsArea.Visible)
+            return;
+    }
+
+    private void DisplayPictures()
+    {
+        PicturesArea.Visible = articleData.IsPicAreaShowInFrontStage;
+
+        if (!PicturesArea.Visible)
+            return;
+    }
+
+    private void DisplayVideos()
+    {
+        VideosArea.Visible = articleData.IsVideoAreaShowInFrontStage;
+
+        if (!VideosArea.Visible)
+            return;
     }
 }

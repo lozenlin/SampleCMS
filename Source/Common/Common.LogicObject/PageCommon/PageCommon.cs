@@ -421,5 +421,34 @@ namespace Common.LogicObject
 
             return null;
         }
+
+        /// <summary>
+        /// 在傳入的連結後面附加目前的網址參數
+        /// </summary>
+        public string AppendCurrentQueryString(string linkUrl)
+        {
+            StringBuilder sbResult = new StringBuilder(linkUrl);
+            bool hasPara = linkUrl.IndexOf("?") != -1;
+            bool isFirstPara = true;
+
+            foreach (string key in Request.QueryString.AllKeys)
+            {
+                // add separator
+                if (isFirstPara && !hasPara)
+                {
+                    sbResult.Append("?");
+                    isFirstPara = false;
+                }
+                else
+                {
+                    sbResult.Append("&");
+                }
+
+                sbResult.AppendFormat("{0}={1}", key, Server.UrlEncode(Request.QueryString[key]));
+            }
+
+            return sbResult.ToString();
+        }
+
     }
 }

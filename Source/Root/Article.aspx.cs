@@ -35,6 +35,72 @@ public partial class Article : FrontendBasePage
     {
         if (!IsPostBack)
         {
+            HandleShowType();
         }
+    }
+
+    private void HandleShowType()
+    {
+        switch (articleData.ShowTypeId)
+        {
+            case 1:
+                // page
+                DisplayArticle();
+                break;
+            case 2:
+                // to sub-page
+                RedirectToSubPage();
+                break;
+            case 3:
+                // URL
+                if (articleData.LinkUrl == "")
+                {
+                    string url = c.AppendCurrentQueryString(articleData.LinkUrl);
+                    Response.Redirect(url);
+                }
+                else
+                {
+                    DisplayArticle();
+                }
+                break;
+            case 4:
+                // use control
+                if (articleData.ControlName == "")
+                {
+                    Control ctl = LoadControl("~/UserControls" + articleData.ControlName);
+                    ControlArea.Controls.Add(ctl);
+                }
+                else
+                {
+                    DisplayArticle();
+                }
+                break;
+            default:
+                c.LoggerOfUI.ErrorFormat("invalid showTypeId:{0}", articleData.ShowTypeId);
+                Response.Redirect(c.ERROR_PAGE);
+                break;
+        }
+    }
+
+    private void DisplayArticle()
+    {
+        DisplaySubitems();
+
+        ltrArticleContext.Text = articleData.ArticleContext;
+    }
+
+    private void DisplaySubitems()
+    {
+        SubitemsArea.Visible = articleData.IsListAreaShowInFrontStage;
+
+        if (!SubitemsArea.Visible)
+            return;
+
+
+    }
+
+    private void RedirectToSubPage()
+    {
+
     }
 }

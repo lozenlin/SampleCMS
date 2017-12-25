@@ -1,0 +1,9 @@
+﻿.item-list > a:nth-child(2n+1) {
+    background-color:#f5f5f9;
+}
+
+.item-date {
+    line-height:5rem;
+    text-align:center;
+    font-size:150%;
+}

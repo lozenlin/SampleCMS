@@ -32,6 +32,7 @@
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+    <link rel="stylesheet" href="/css/FrontendPage.css" />
     <asp:ContentPlaceHolder id="cphHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -155,10 +156,12 @@
 									<h1 class="h1 fh5co-heading fh5co-no-margin-bottom">
                                         <asp:Literal ID="ltrArticleSubject" runat="server"></asp:Literal>
 									</h1>
-									<h4 class="h5 fh5co-heading-sub">
-                                        <asp:Literal ID="ltrSubtitle" runat="server"></asp:Literal>
-									</h4>
-									<div class="fh5co-spacer fh5co-spacer-sm"></div>
+                                    <asp:PlaceHolder ID="SubtitleArea" runat="server" Visible="false">
+									    <h4 class="h5 fh5co-heading-sub">
+                                            <asp:Literal ID="ltrSubtitle" runat="server"></asp:Literal>
+									    </h4>
+                                    </asp:PlaceHolder>
+									<div id="SpacerAfterSubtitle" runat="server" class="fh5co-spacer fh5co-spacer-sm" visible="false"></div>
 								</div>
 								<div class="col-md-12">
                                     <!-- context start -->
@@ -167,86 +170,92 @@
                                     <!-- context end -->
 								</div>
 							</div>
-						    <div class="fh5co-spacer fh5co-spacer-sm"></div>
-						    <div class="row">
-							    <div class="col-md-12">
-								    <h2 class="fh5co-uppercase-heading-sm text-center">Attachments</h2>
-								    <table class="table table-striped table-bordered table-condensed">
-                                        <tr>
-									        <th>h</th>
-									        <th>h</th>
-									        <th>h</th>
-                                        </tr>
-                                        <tr>
-									        <td>d</td>
-									        <td>d</td>
-									        <td>d</td>
-                                        </tr>
-                                        <tr>
-									        <td>d</td>
-									        <td>d</td>
-									        <td>d</td>
-                                        </tr>
-                                        <tr>
-									        <td>d</td>
-									        <td>d</td>
-									        <td>d</td>
-                                        </tr>
-								    </table>
-							    </div>
-						    </div>
-						    <div class="fh5co-spacer fh5co-spacer-sm"></div>
-                            <div class="row">
-							    <div class="col-md-12">
-								    <h2 class="fh5co-uppercase-heading-sm text-center">Pictures</h2>
+                            <asp:PlaceHolder ID="AttachmentsArea" runat="server" Visible="false">
+						        <div class="fh5co-spacer fh5co-spacer-sm"></div>
+						        <div class="row">
+							        <div class="col-md-12">
+								        <h2 class="fh5co-uppercase-heading-sm text-center">Attachments</h2>
+								        <table class="table table-striped table-bordered table-condensed">
+                                            <tr>
+									            <th>h</th>
+									            <th>h</th>
+									            <th>h</th>
+                                            </tr>
+                                            <tr>
+									            <td>d</td>
+									            <td>d</td>
+									            <td>d</td>
+                                            </tr>
+                                            <tr>
+									            <td>d</td>
+									            <td>d</td>
+									            <td>d</td>
+                                            </tr>
+                                            <tr>
+									            <td>d</td>
+									            <td>d</td>
+									            <td>d</td>
+                                            </tr>
+								        </table>
+							        </div>
+						        </div>
+                            </asp:PlaceHolder>
+                            <asp:PlaceHolder ID="PicturesArea" runat="server" Visible="false">
+						        <div class="fh5co-spacer fh5co-spacer-sm"></div>
+                                <div class="row">
+							        <div class="col-md-12">
+								        <h2 class="fh5co-uppercase-heading-sm text-center">Pictures</h2>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
+                            </asp:PlaceHolder>
+                            <asp:PlaceHolder ID="VideosArea" runat="server" Visible="false">
+						        <div class="fh5co-spacer fh5co-spacer-sm"></div>
+                                <div class="row">
+							        <div class="col-md-12">
+								        <h2 class="fh5co-uppercase-heading-sm text-center">Videos</h2>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6">
+                                        <a href="#" class="thumbnail">
+                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                            </div>
-						    <div class="fh5co-spacer fh5co-spacer-sm"></div>
-                            <div class="row">
-							    <div class="col-md-12">
-								    <h2 class="fh5co-uppercase-heading-sm text-center">Videos</h2>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                                <div class="col-md-3 col-xs-6">
-                                    <a href="#" class="thumbnail">
-                                        <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                    </a>
-                                </div>
-                            </div>
+                            </asp:PlaceHolder>
 
 							<div class="fh5co-spacer fh5co-spacer-lg"></div>
 							<!-- main end -->
