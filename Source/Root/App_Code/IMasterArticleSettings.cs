@@ -21,4 +21,8 @@ public interface IMasterArticleSettings
     /// 設定回上層鈕的連結內容
     /// </summary>
     void SetReturnToListUrl(string returnToListUrl);
+    /// <summary>
+    /// 自訂橫幅標題區 html
+    /// </summary>
+    string CustomBannerSubjectHtml { get; set; }
 }

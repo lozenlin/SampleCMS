@@ -23,15 +23,23 @@ public partial class Index : FrontendBasePage
         }
 
         articleData = c.GetArticleData();
+        articleData.ArticleSubject = "";
         artPub = new ArticlePublisherLogic(null);
         masterSettings = (IMasterArticleSettings)this.Master;
         masterSettings.IsHomePage = true;
+        masterSettings.CustomBannerSubjectHtml = "<h2>We Are Creative People<span></span></h2><h1>Display Creative Studio</h1>";
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            DisplayContext();
         }
+    }
+
+    private void DisplayContext()
+    {
+        ltrContext.Text = articleData.ArticleContext;
     }
 }

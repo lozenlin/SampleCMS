@@ -114,13 +114,16 @@
 		</header>
 			
 		<!-- START #fh5co-hero -->
-		<aside id="fh5co-hero" style="background-image: url(images/hero2.jpg);">
+		<aside id="fh5co-hero" style="background-image: url(<%= bannerImageUrl %>);">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="fh5co-hero-wrap">
 							<div class="fh5co-hero-intro">
-								<h1><asp:Literal ID="ltrArticleSubjectInBanner" runat="server"></asp:Literal></h1>
+                                <asp:PlaceHolder ID="BannerSubjectArea" runat="server">
+								    <h1><asp:Literal ID="ltrArticleSubjectInBanner" runat="server"></asp:Literal></h1>
+                                </asp:PlaceHolder>
+                                <asp:Literal ID="ltrCustomBannerSubject" runat="server"></asp:Literal>
 							</div>
 						</div>
 					</div>
@@ -129,7 +132,7 @@
 		</aside>
 
 		<div id="fh5co-main">
-			<section>
+			<section id="InnerPageSection" runat="server">
 				<div class="container">
                     <div class="row">
                         <div class="col-md-8">
@@ -331,7 +334,8 @@
 					<div class="fh5co-spacer fh5co-spacer-md"></div>
 				</div>
 			</section>
-				
+            <asp:ContentPlaceHolder id="cphContentOfHomePage" runat="server">
+            </asp:ContentPlaceHolder>
 			<footer id="fh5co-footer">
 				<div class="container">
 						

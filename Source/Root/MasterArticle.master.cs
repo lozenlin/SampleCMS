@@ -36,12 +36,20 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         btnReturnToList.HRef = returnToListUrl;
     }
 
+    public string CustomBannerSubjectHtml
+    {
+        get { return customBannerSubjectHtml; }
+        set { customBannerSubjectHtml = value; }
+    }
+    protected string customBannerSubjectHtml = "";
+
     #endregion
 
     protected FrontendPageCommon c;
     protected FrontendBasePage basePage;
     protected ArticleData articleData;
     protected string bodyTagAttributes = "class=\"inner-page\"";
+    protected string bannerImageUrl = "images/hero2.jpg";
 
     protected void Page_Init(object sender, EventArgs e)
     {
@@ -63,7 +71,14 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
             DisplayVideos();
         }
 
-        Page.Title = string.Format("{0} - {1}", articleData.ArticleSubject, Resources.Lang.WebsiteName);
+        if (articleData.ArticleSubject == "")
+        {
+            Page.Title = Resources.Lang.WebsiteName;
+        }
+        else
+        {
+            Page.Title = string.Format("{0} - {1}", articleData.ArticleSubject, Resources.Lang.WebsiteName);
+        }
     }
 
     private void LoadUIData()
@@ -71,11 +86,27 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (isHomePage)
         {
             bodyTagAttributes = "";
+            InnerPageSection.Visible = false;
         }
 
+        LoadBannerSubjectUIData();
         HandleLayoutMode();
         ControlsBeforeFooterArea.Visible = showControlsBeforeFooterArea;
         btnReturnToList.Visible = showReturnToListButton;
+    }
+
+    private void LoadBannerSubjectUIData()
+    {
+        if (articleData.BannerPicFileName != "")
+        {
+            bannerImageUrl = string.Format("images/{0}/{1}", c.qsLangNo, articleData.BannerPicFileName);
+        }
+
+        if (customBannerSubjectHtml != "")
+        {
+            BannerSubjectArea.Visible = false;
+            ltrCustomBannerSubject.Text = customBannerSubjectHtml;
+        }
     }
 
     private void HandleLayoutMode()
@@ -102,6 +133,9 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
     private void DisplayArticle()
     {
+        if (isHomePage)
+            return;
+
         if (articleData.SubjectAtBannerArea)
         {
             ltrArticleSubjectInBanner.Text = articleData.ArticleSubject;
