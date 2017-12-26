@@ -183,7 +183,8 @@ namespace Common.LogicObject
                 IsShowInLang = param.IsShowInLang,
                 PostAccount = param.PostAccount,
                 Subtitle = param.Subtitle,
-                PublisherName = param.PublisherName
+                PublisherName = param.PublisherName,
+                TextContext = param.TextContext
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();
@@ -256,7 +257,8 @@ namespace Common.LogicObject
                 IsShowInLang = param.IsShowInLang,
                 MdfAccount = param.PostAccount,
                 Subtitle = param.Subtitle,
-                PublisherName = param.PublisherName
+                PublisherName = param.PublisherName,
+                TextContext = param.TextContext
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();

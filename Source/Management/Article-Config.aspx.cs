@@ -351,7 +351,8 @@ public partial class Article_Config : System.Web.UI.Page
                 IsShowInLang = chkIsShowInLangZhTw.Checked,
                 PostAccount = c.GetEmpAccount(),
                 Subtitle = txtSubtitleZhTw.Text,
-                PublisherName = txtPublisherNameZhTw.Text
+                PublisherName = txtPublisherNameZhTw.Text,
+                TextContext = StringUtility.RemoveHtmlTag(txtCkeContextZhTw.Text)
             };
 
             txtArticleSubjectEn.Text = txtArticleSubjectEn.Text.Trim();
@@ -367,7 +368,8 @@ public partial class Article_Config : System.Web.UI.Page
                 IsShowInLang = chkIsShowInLangEn.Checked,
                 PostAccount = c.GetEmpAccount(),
                 Subtitle = txtSubtitleEn.Text,
-                PublisherName = txtPublisherNameEn.Text
+                PublisherName = txtPublisherNameEn.Text,
+                TextContext = StringUtility.RemoveHtmlTag(txtCkeContextEn.Text)
             };
 
             bool result = false;

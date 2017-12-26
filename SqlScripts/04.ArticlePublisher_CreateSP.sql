@@ -330,6 +330,7 @@ go
 -- Create date: <2017/11/30>
 -- History:
 --	2017/12/19, lozen_lin, 增加額外設定用的欄位
+--	2017/12/26, lozen_lin, 增加欄位「純文字的網頁內容」
 -- Description: <新增網頁內容的多國語系資料>
 -- Test:
 /*
@@ -344,17 +345,20 @@ alter procedure dbo.spArticleMultiLang_InsertData
 ,@PostAccount	varchar(20)
 ,@Subtitle	nvarchar(500)
 ,@PublisherName	nvarchar(50)
+,@TextContext	nvarchar(max)
 as
 begin
 	insert into dbo.ArticleMultiLang(
 		ArticleId, CultureName, ArticleSubject, 
 		ArticleContext, IsShowInLang, PostAccount, 
-		PostDate, Subtitle, PublisherName
+		PostDate, Subtitle, PublisherName, 
+		TextContext
 		)
 	values(
 		@ArticleId, @CultureName, @ArticleSubject, 
 		@ArticleContext, @IsShowInLang, @PostAccount, 
-		getdate(), @Subtitle, @PublisherName
+		getdate(), @Subtitle, @PublisherName, 
+		@TextContext
 		)
 end
 go
@@ -453,6 +457,7 @@ go
 -- Create date: <2017/11/30>
 -- History:
 --	2017/12/19, lozen_lin, 增加額外設定用的欄位
+--	2017/12/26, lozen_lin, 增加欄位「純文字的網頁內容」
 -- Description: <更新網頁內容的多國語系資料>
 -- Test:
 /*
@@ -467,6 +472,7 @@ alter procedure dbo.spArticleMultiLang_UpdateData
 ,@MdfAccount	varchar(20)
 ,@Subtitle	nvarchar(500)
 ,@PublisherName	nvarchar(50)
+,@TextContext	nvarchar(max)
 as
 begin
 	update dbo.ArticleMultiLang
@@ -478,6 +484,7 @@ begin
 		,MdfDate=getdate()
 		,Subtitle=@Subtitle
 		,PublisherName=@PublisherName
+		,TextContext=@TextContext
 	where ArticleId=@ArticleId
 		and CultureName=@CultureName
 
@@ -625,6 +632,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/25>
+-- History:
+--	2017/12/26, lozen_lin, 增加欄位「純文字的網頁內容」
 -- Description: <取得前台用的有效網頁內容清單>
 -- Test:
 /*
@@ -633,7 +642,7 @@ exec dbo.spArticle_GetValidListForFrontend '00000000-0000-0000-0000-000000000000
 select @RowCount
 */
 -- =============================================
-create procedure dbo.spArticle_GetValidListForFrontend
+alter procedure dbo.spArticle_GetValidListForFrontend
 @ParentId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@Kw nvarchar(52)=''
@@ -711,7 +720,8 @@ from (
 			am.ArticleId, am.ArticleSubject, am.PublisherName,
 			a.ArticleAlias, a.ShowTypeId, a.LinkUrl, 
 			a.LinkTarget, a.StartDate, a.SortNo, 
-			a.PostDate, a.MdfDate, a.PublishDate
+			a.PostDate, a.MdfDate, a.PublishDate, 
+			am.TextContext
 		from dbo.ArticleMultiLang am
 			join dbo.Article a on am.ArticleId=a.ArticleId
 		where 1=1' + @conditions + N'

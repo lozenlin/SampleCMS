@@ -177,6 +177,7 @@ namespace Common.DataAccess.ArticlePublisher
         public string PostAccount;
         public string Subtitle;
         public string PublisherName;
+        public string TextContext;
 
         public CommandType GetCommandType()
         {
@@ -254,6 +255,7 @@ namespace Common.DataAccess.ArticlePublisher
         public string MdfAccount;
         public string Subtitle;
         public string PublisherName;
+        public string TextContext;
 
         public CommandType GetCommandType()
         {

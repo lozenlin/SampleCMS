@@ -92,6 +92,8 @@ go
 --	2017/12/19, lozen_lin, 增加額外設定用的欄位
 alter table dbo.ArticleMultiLang add Subtitle	nvarchar(500)
 alter table dbo.ArticleMultiLang add PublisherName	nvarchar(50)
+--	2017/12/26, lozen_lin, 增加欄位「純文字的網頁內容」
+alter table dbo.ArticleMultiLang add TextContext	nvarchar(max)
 go
 
 -- 預設內容

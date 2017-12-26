@@ -79,27 +79,6 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 語言代碼(l或lang,l優先)
-        /// </summary>
-        public string qsLang
-        {
-            get
-            {
-                string str = QueryStringToSafeStr("l");
-                if (str == null)
-                    str = QueryStringToSafeStr("lang");
-
-                if (str == null)
-                {
-                    //未指定,抓瀏覽器的
-                    str = GetAllowedUserCultureName();
-                }
-
-                return str;
-            }
-        }
-
-        /// <summary>
         /// 頁碼
         /// </summary>
         public int qsPageCode

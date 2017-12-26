@@ -28,6 +28,16 @@ public partial class Article : FrontendBasePage
         articleData = c.GetArticleData();
         artPub = new ArticlePublisherLogic(null);
         masterSettings = (IMasterArticleSettings)this.Master;
+        masterSettings.ShowReturnToListButton = true;
+
+        if (articleData.ParentId == Guid.Empty)
+        {
+            masterSettings.SetReturnToListUrl(string.Format("Index.aspx?l={0}", c.qsLangNo));
+        }
+        else
+        {
+            masterSettings.SetReturnToListUrl(string.Format("Article.aspx?artid={0}&l={1}", articleData.ParentId, c.qsLangNo));
+        }
     }
 
     protected void Page_Init(object sender, EventArgs e)

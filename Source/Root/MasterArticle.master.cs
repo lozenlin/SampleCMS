@@ -17,6 +17,25 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
     }
     protected bool isHomePage = false;
 
+    public bool ShowControlsBeforeFooterArea
+    {
+        get { return showControlsBeforeFooterArea; }
+        set { showControlsBeforeFooterArea = value; }
+    }
+    protected bool showControlsBeforeFooterArea = true;
+
+    public bool ShowReturnToListButton
+    {
+        get { return showReturnToListButton; }
+        set { showReturnToListButton = value; }
+    }
+    protected bool showReturnToListButton = false;
+
+    public void SetReturnToListUrl(string returnToListUrl)
+    {
+        btnReturnToList.HRef = returnToListUrl;
+    }
+
     #endregion
 
     protected FrontendPageCommon c;
@@ -55,6 +74,8 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         }
 
         HandleLayoutMode();
+        ControlsBeforeFooterArea.Visible = showControlsBeforeFooterArea;
+        btnReturnToList.Visible = showReturnToListButton;
     }
 
     private void HandleLayoutMode()

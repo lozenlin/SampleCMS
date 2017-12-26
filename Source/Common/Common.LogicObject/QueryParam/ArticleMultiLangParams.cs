@@ -15,5 +15,6 @@ namespace Common.LogicObject
         public string PostAccount;
         public string Subtitle;
         public string PublisherName;
+        public string TextContext;
     }
 }

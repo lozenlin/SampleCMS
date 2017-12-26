@@ -256,8 +256,19 @@
                                     </div>
                                 </div>
                             </asp:PlaceHolder>
+                            <asp:PlaceHolder ID="ControlsBeforeFooterArea" runat="server">
+						        <div class="fh5co-spacer fh5co-spacer-sm"></div>
+                                <div class="row">
+                                    <div class="col-md-12" style="text-align:center;">
+                                        <a id="btnReturnToList" runat="server" href="#" class="btn btn-outline">
+                                            <i class="glyphicon glyphicon-chevron-left"></i> 回上層</a>
+                                        <a id="btnTop" href="#" class="btn btn-warning">
+                                            <i class="glyphicon glyphicon-chevron-up"></i> TOP</a>
+                                    </div>
+                                </div>
+                            </asp:PlaceHolder>
 
-							<div class="fh5co-spacer fh5co-spacer-lg"></div>
+							<div class="fh5co-spacer fh5co-spacer-xs"></div>
 							<!-- main end -->
 						<asp:Literal ID="Layout2ColMainTagTail" runat="server" Text="</div>" Visible="false"></asp:Literal><%-- this tag is hidden at Content-1 --%>
                         <asp:PlaceHolder ID="Layout2ColSideSection" runat="server" Visible="false">
@@ -357,6 +368,13 @@
 		<script src="js/fastclick.js"></script>
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
+        <script src="js/FrontendPage.js"></script>
+        <script>
+            $("#btnTop").click(function () {
+                smoothUp();
+                return false;
+            });
+        </script>
     </form>
 
     <asp:ContentPlaceHolder ID="cphBeforeBodyTail" runat="server">

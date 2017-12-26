@@ -19,8 +19,8 @@
                         <h2 class="list-group-item-heading">
                             <span class="text-primary"><%# EvalToSafeStr("ArticleSubject") %></span>
                         </h2>
-                        <p class="list-group-item-text">
-                            <asp:Literal ID="ltrBrief" runat="server"></asp:Literal>
+                        <p class="list-group-item-text descText">
+                            <%# EvalToSafeStr("TextContext") %>
                         </p>
                     </div>
                 </div>

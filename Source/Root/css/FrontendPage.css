@@ -11,3 +11,15 @@
 .PageArea {
     text-align:center;
 }
+
+    /* reference: http://www.wfublog.com/2016/11/multi-line-ellipsis-css.html */
+.list-group-item .descText {
+        display:block;
+        overflow:hidden;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:2;
+        /* for FF */
+        line-height:1.3rem;
+        height: 2.6rem; /* -webkit-line-clamp x line-height */
+}
