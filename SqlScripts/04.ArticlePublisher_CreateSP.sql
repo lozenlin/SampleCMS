@@ -932,15 +932,17 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/01>
+-- History:
+--	2017/12/26, lozen_lin, modify, 列出有效日期
 -- Description: <取得指定語系的網頁內容階層資料>
 -- Test:
 /*
 exec dbo.spArticleMultiLang_GetLevelInfo '036604AA-98E1-49C2-A42B-CC3ED20F4DB7', 'en'
-exec dbo.spArticleMultiLang_GetLevelInfo '343A6E5F-5AB5-4F4A-81C6-4AE990DF9CE8', 'zh-TW'
+exec dbo.spArticleMultiLang_GetLevelInfo 'B1D34D29-255A-42A2-B9AF-C33911BCDE9A', 'zh-TW'
 exec dbo.spArticleMultiLang_GetLevelInfo '00000000-0000-0000-0000-000000000000', 'zh-TW'
 */
 -- =============================================
-create procedure dbo.spArticleMultiLang_GetLevelInfo
+alter procedure dbo.spArticleMultiLang_GetLevelInfo
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 as
@@ -954,6 +956,8 @@ begin
 		,LinkTarget	varchar(10)
 		,IsHideSelf	bit
 		,IsShowInLang	bit
+		,StartDate datetime
+		,EndDate datetime
 	)
 
 	declare @CurArticleId	uniqueidentifier = @ArticleId
@@ -965,13 +969,16 @@ begin
 	declare @LinkTarget	varchar(10)
 	declare @IsHideSelf	bit
 	declare @IsShowInLang	bit
+	declare @StartDate datetime
+	declare @EndDate datetime
 
 	while 1=1
 	begin
 		select
 			@ParentId=a.ParentId, @ArticleSubject=am.ArticleSubject, @ArticleLevelNo=a.ArticleLevelNo,
 			@ShowTypeId=a.ShowTypeId, @LinkUrl=a.LinkUrl, @LinkTarget=a.LinkTarget, 
-			@IsHideSelf=a.IsHideSelf, @IsShowInLang=am.IsShowInLang
+			@IsHideSelf=a.IsHideSelf, @IsShowInLang=am.IsShowInLang, @StartDate=a.StartDate,
+			@EndDate=a.EndDate
 		from dbo.ArticleMultiLang am
 			join dbo.Article a on am.ArticleId=a.ArticleId
 		where am.ArticleId=@CurArticleId
@@ -980,12 +987,14 @@ begin
 		insert into #tbl(
 			ArticleId, ArticleSubject, ArticleLevelNo
 			,ShowTypeId, LinkUrl, LinkTarget
-			,IsHideSelf, IsShowInLang
+			,IsHideSelf, IsShowInLang, StartDate
+			,EndDate
 			)
 		values(
 			@CurArticleId, @ArticleSubject, @ArticleLevelNo
 			,@ShowTypeId, @LinkUrl, @LinkTarget
-			,@IsHideSelf, @IsShowInLang
+			,@IsHideSelf, @IsShowInLang, @StartDate
+			,@EndDate
 			)
 
 		if @ParentId is null

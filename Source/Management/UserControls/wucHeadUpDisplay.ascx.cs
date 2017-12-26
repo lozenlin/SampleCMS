@@ -224,7 +224,7 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
 
     public string GetBreadcrumbLinkItemHtml(string subject, string title, string href)
     {
-        return string.Format("<a href='{0}' class='breadcrumb-item' title={1}>{2}</a>", href, title, subject);
+        return string.Format("<a href='{0}' class='breadcrumb-item' title='{1}'>{2}</a>", href, title, subject);
     }
 
     /// <summary>
