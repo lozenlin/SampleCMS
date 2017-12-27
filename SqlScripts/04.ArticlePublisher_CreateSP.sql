@@ -1214,6 +1214,38 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/27>
+-- Description: <取得使用在單元區的有效網頁清單>
+-- Test:
+/*
+exec dbo.spArticle_GetValidListForUnitArea '00000000-0000-0000-0000-000000000000', 'zh-TW', 1
+exec dbo.spArticle_GetValidListForUnitArea '23661D48-17E7-4C45-BB11-8EC29BE941C3', 'zh-TW', 0
+*/
+-- =============================================
+alter procedure dbo.spArticle_GetValidListForUnitArea
+@ParentId uniqueidentifier
+,@CultureName varchar(10)
+,@IsShowInUnitArea bit
+as
+begin
+	select
+		am.ArticleId, am.ArticleSubject, a.ArticleAlias, 
+		a.ShowTypeId, a.LinkUrl, a.LinkTarget, 
+		a.IsHideChild
+	from dbo.ArticleMultiLang am
+		join dbo.Article a on am.ArticleId=a.ArticleId
+	where a.ParentId=@ParentId
+		and am.CultureName=@CultureName
+		and a.IsHideSelf=0
+		and a.StartDate <= getdate() and getdate() < a.EndDate+1
+		and am.IsShowInLang=1
+		and a.IsShowInUnitArea=@IsShowInUnitArea
+	order by a.SortNo
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------

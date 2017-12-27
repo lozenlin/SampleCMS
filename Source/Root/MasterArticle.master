@@ -49,12 +49,46 @@
 				<!-- START #fh5co-menu-wrap -->
 				<nav id="fh5co-menu-wrap" role="navigation">
 					<ul class="sf-menu" id="fh5co-primary-menu">
-						<li>
-							<a href="index.html">Home</a>
+						<li id="HomeInUnitArea" runat="server">
+							<a id="btnHomeInUnit" runat="server" href="#">首頁</a>
 						</li>
+                        <asp:Repeater ID="rptUnitItems" runat="server" OnItemDataBound="rptUnitItems_ItemDataBound">
+                        <ItemTemplate>
+						    <li id="ItemArea" runat="server">
+							    <a id="btnItem" runat="server" href="#">Subject</a>
+                                <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptUnitItems_ItemDataBound">
+                                    <HeaderTemplate>
+							            <ul class="fh5co-sub-menu">
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+								        <li id="ItemArea" runat="server">
+							                <a id="btnItem" runat="server" href="#">Subject</a>
+                                            <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptUnitItems_ItemDataBound">
+                                                <HeaderTemplate>
+							                        <ul class="fh5co-sub-menu">
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+								                    <li id="ItemArea" runat="server">
+							                            <a id="btnItem" runat="server" href="#">Subject</a>
+								                    </li>
+                                                </ItemTemplate>
+                                                <FooterTemplate>
+							                        </ul>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
+								        </li>
+                                    </ItemTemplate>
+                                    <FooterTemplate>
+							            </ul>
+                                    </FooterTemplate>
+                                </asp:Repeater>
+						    </li>
+                        </ItemTemplate>
+                        </asp:Repeater>
+                        <%--
 						<li class="active">
 							<a href="#" class="fh5co-sub-ddown">Dropdown</a>
-								<ul class="fh5co-sub-menu">
+							<ul class="fh5co-sub-menu">
 								<li><a href="left-sidebar.html">Left Sidebar</a></li>
 								<li class="active"><a href="right-sidebar.html">Right Sidebar</a></li>
 								<li><a href="#">HTML5</a></li>
@@ -70,44 +104,7 @@
 								<li><a href="#">CSS3</a></li> 
 							</ul>
 						</li>
-						<li>
-							<a href="#" class="fh5co-sub-ddown">Dropdown</a>
-								<ul class="fh5co-sub-menu">
-								<li><a href="left-sidebar.html">Left Sidebar</a></li>
-								<li><a href="right-sidebar.html">Right Sidebar</a></li>
-								<li><a href="#">HTML5</a></li>
-								<li>
-									<a href="#" class="fh5co-sub-ddown">JavaScript</a>
-									<ul class="fh5co-sub-menu">
-										<li><a href="#">jQuery</a></li>
-										<li><a href="#">Zipto</a></li>
-										<li><a href="#">Node.js</a></li>
-										<li><a href="#">AngularJS</a></li>
-									</ul>
-								</li>
-								<li><a href="#">CSS3</a></li> 
-							</ul>
-						</li>
-						<li>
-							<a href="#" class="fh5co-sub-ddown">Dropdown</a>
-								<ul class="fh5co-sub-menu">
-								<li><a href="left-sidebar.html">Left Sidebar</a></li>
-								<li><a href="right-sidebar.html">Right Sidebar</a></li>
-								<li><a href="#">HTML5</a></li>
-								<li>
-									<a href="#" class="fh5co-sub-ddown">JavaScript</a>
-									<ul class="fh5co-sub-menu">
-										<li><a href="#">jQuery</a></li>
-										<li><a href="#">Zipto</a></li>
-										<li><a href="#">Node.js</a></li>
-										<li><a href="#">AngularJS</a></li>
-									</ul>
-								</li>
-								<li><a href="#">CSS3</a></li> 
-							</ul>
-						</li>
-						<li><a href="elements.html">Elements</a></li>
-						<li><a href="contact.html">Contact</a></li>
+                        --%>
 					</ul>
 				</nav>
 
@@ -342,7 +339,13 @@
 						<li><a href="#"><i class="ti-github"></i></a></li>
 						<li><a href="#"><i class="ti-linkedin"></i></a></li>
 					</ul>
-					<p class="text-muted fh5co-no-margin-bottom text-center"><small>&copy; 2015 <a href="#">Display</a>. All rights reserved. Crafted with love <em>by</em> <a href="http://freehtml5.co" target="_blank">FREEHTML5.co</a> <br> Images by <a href="http://unsplash.com/" target="_blank">Unsplash</a></small></p>
+					<p class="text-muted fh5co-no-margin-bottom text-center">
+                        <small>
+                            &copy; 2015 <a href="https://freehtml5.co/display-free-html5-template-using-bootstrap/" target="_blank">Display</a>. 
+                            All rights reserved. Crafted with love <em>by</em> <a href="http://freehtml5.co" target="_blank">FREEHTML5.co</a> <br/> 
+                            Images by <a href="http://unsplash.com/" target="_blank">Unsplash</a>
+                        </small>
+					</p>
 
 				</div>
 			</footer>

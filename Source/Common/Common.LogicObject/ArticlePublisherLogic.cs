@@ -491,6 +491,24 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得使用在單元區的有效網頁清單
+        /// </summary>
+        public DataSet GetArticleValidListForUnitArea(Guid parentId, string cultureName, bool isShowInUnitArea)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetValidListForUnitArea cmdInfo = new spArticle_GetValidListForUnitArea()
+            {
+                ParentId = parentId,
+                CultureName = cultureName,
+                IsShowInUnitArea = isShowInUnitArea
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions

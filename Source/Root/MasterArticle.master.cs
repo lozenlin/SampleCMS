@@ -1,9 +1,12 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSettings
@@ -96,6 +99,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (!IsPostBack)
         {
             LoadUIData();
+            DisplayUnitItems();
             DisplayArticle();
             DisplayAttachments();
             DisplayPictures();
@@ -160,6 +164,86 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
                 c.LoggerOfUI.ErrorFormat("invalid layoutModeId:{0}", articleData.LayoutModeId);
                 Response.Redirect(c.ERROR_PAGE);
                 break;
+        }
+    }
+
+    private void DisplayUnitItems()
+    {
+        // Home
+        btnHomeInUnit.HRef = "Index.aspx?l=" + c.qsLangNo.ToString();
+        btnHomeInUnit.InnerHtml = "首頁";
+        btnHomeInUnit.Title = "首頁";
+
+        if (articleData.ArticleId.Value == Guid.Empty)
+        {
+            HomeInUnitArea.Attributes["class"] = "active";
+        }
+
+        Guid rootId = Guid.Empty;
+        DataSet dsUnitItems = artPub.GetArticleValidListForUnitArea(rootId, c.qsCultureNameOfLangNo, true);
+
+        if (dsUnitItems != null)
+        {
+            rptUnitItems.DataSource = dsUnitItems.Tables[0];
+            rptUnitItems.DataBind();
+        }
+    }
+
+    protected void rptUnitItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid articleId = (Guid)drvTemp["ArticleId"];
+        string articleSubject = drvTemp.ToSafeStr("ArticleSubject");
+        int showTypeId = Convert.ToInt32(drvTemp["ShowTypeId"]);
+        string linkUrl = drvTemp.ToSafeStr("LinkUrl");
+        string linkTarget = drvTemp.ToSafeStr("LinkTarget");
+        bool isHideChild = Convert.ToBoolean(drvTemp["IsHideChild"]);
+
+        HtmlGenericControl ItemArea = (HtmlGenericControl)e.Item.FindControl("ItemArea");
+
+        if (articleData.Lv1Id == articleId
+            || articleData.Lv2Id == articleId
+            || articleData.Lv3Id == articleId)
+        {
+            ItemArea.Attributes["class"] = "active";
+        }
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.InnerHtml = articleSubject;
+        btnItem.Title = articleSubject;
+        string destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
+
+        if (showTypeId == 3 && linkUrl != "")
+        {
+            destUrl = linkUrl;
+
+            if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
+            {
+                // inside page
+                destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
+                destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
+            }
+        }
+
+        btnItem.HRef = destUrl;
+        Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
+
+        if (!isHideChild && rptSubitems != null)
+        {
+            DataSet dsSubitems = artPub.GetArticleValidListForUnitArea(articleId, c.qsCultureNameOfLangNo, false);
+
+            if (dsSubitems != null && dsSubitems.Tables[0].Rows.Count > 0)
+            {
+                btnItem.Attributes["class"] = "fh5co-sub-ddown";    // add down arrow
+
+                rptSubitems.DataSource = dsSubitems.Tables[0];
+                rptSubitems.DataBind();
+            }
         }
     }
 

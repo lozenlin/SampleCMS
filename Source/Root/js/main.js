@@ -106,13 +106,28 @@
 
 	// Superfish Sub Menu Click ( Mobiles/Tablets )
 	var mobileClickSubMenus = function() {
+	    // 2017/12/27, lozen_lin, modify, allow default action of link
+	    $('body').on('click', '#fh5co-mobile-menu-ul .fh5co-sub-ddown', function (event) {
+	        var $this = $(this),
+				li = $this.closest('li');
 
-		$('body').on('click', '.fh5co-sub-ddown', function(event) {
+	        var $subMenu = li.find('> .fh5co-sub-menu');
+
+	        if ($subMenu.is(":visible")) {
+	        } else {
+	            event.preventDefault();
+	            $subMenu.slideDown(200);
+	        }
+	    });
+
+        /*
+	    $('body').on('click', '.fh5co-sub-ddown', function (event) {
 			event.preventDefault();
 			var $this = $(this),
 				li = $this.closest('li');
 			li.find('> .fh5co-sub-menu').slideToggle(200);
 		});
+        */
 
 	};
 
