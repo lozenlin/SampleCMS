@@ -75,6 +75,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
     #endregion
 
     protected FrontendPageCommon c;
+    protected ArticlePublisherLogic artPub;
     protected FrontendBasePage basePage;
     protected ArticleData articleData;
     protected string bodyTagAttributes = "class=\"inner-page\"";
@@ -85,6 +86,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         c = new FrontendPageCommon(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
+        artPub = new ArticlePublisherLogic(null);
         basePage = (FrontendBasePage)this.Page;
         articleData = basePage.GetArticleData();
     }
@@ -98,6 +100,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
             DisplayAttachments();
             DisplayPictures();
             DisplayVideos();
+            IncreaseReadCount();
         }
 
         if (articleData.ArticleSubject == "")
@@ -205,5 +208,13 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
         if (!VideosArea.Visible)
             return;
+    }
+
+    private void IncreaseReadCount()
+    {
+        if (!articleData.ArticleId.HasValue)
+            return;
+
+        bool result = artPub.IncreaseArticleMultiLangReadCount(articleData.ArticleId.Value, c.qsCultureNameOfLangNo);
     }
 }

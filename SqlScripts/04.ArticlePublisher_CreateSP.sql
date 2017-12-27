@@ -1194,6 +1194,26 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/27>
+-- Description: <增加網頁內容的多國語系資料被點閱次數>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spArticleMultiLang_IncreaseReadCount
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	update dbo.ArticleMultiLang
+	set ReadCount += 1
+	where ArticleId=@ArticleId
+		and CultureName=@CultureName
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------
@@ -2461,7 +2481,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/25>
+-- Create date: <2017/12/27>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

@@ -474,6 +474,23 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 增加網頁內容的多國語系資料被點閱次數
+        /// </summary>
+        public bool IncreaseArticleMultiLangReadCount(Guid articleId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticleMultiLang_IncreaseReadCount cmdInfo = new spArticleMultiLang_IncreaseReadCount()
+            {
+                ArticleId = articleId,
+                CultureName = cultureName
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions
