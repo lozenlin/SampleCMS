@@ -31,17 +31,46 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
     }
     protected bool showReturnToListButton = false;
 
-    public void SetReturnToListUrl(string returnToListUrl)
-    {
-        btnReturnToList.HRef = returnToListUrl;
-    }
-
     public string CustomBannerSubjectHtml
     {
         get { return customBannerSubjectHtml; }
         set { customBannerSubjectHtml = value; }
     }
     protected string customBannerSubjectHtml = "";
+
+    public bool ShowCurrentNodeOfBreadcrumb
+    {
+        get { return ucBreadcrumb.ShowCurrentNode; }
+        set { ucBreadcrumb.ShowCurrentNode = value; }
+    }
+
+    public string CustomCurrentNodeTextOfBreadcrumb
+    {
+        get { return ucBreadcrumb.CustomCurrentNodeText; }
+        set { ucBreadcrumb.CustomCurrentNodeText = value; }
+    }
+
+    public string CustomRouteHtmlOfBreadcrumb
+    {
+        get { return ucBreadcrumb.CustomRouteHtml; }
+        set { ucBreadcrumb.CustomRouteHtml = value; }
+    }
+
+
+    public void SetReturnToListUrl(string returnToListUrl)
+    {
+        btnReturnToList.HRef = returnToListUrl;
+    }
+
+    public string GetBreadcrumbTextItemHtmlOfBreadcrumb(string subject)
+    {
+        return ucBreadcrumb.GetBreadcrumbTextItemHtml(subject);
+    }
+
+    public string GetBreadcrumbLinkItemHtmlOfBreadcrumb(string subject, string title, string href)
+    {
+        return ucBreadcrumb.GetBreadcrumbLinkItemHtml(subject, title, href);
+    }
 
     #endregion
 

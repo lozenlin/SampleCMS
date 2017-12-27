@@ -14,6 +14,41 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
     protected FrontendBasePage basePage;
     protected ArticleData articleData;
 
+    #region Public properties and methods
+
+    public bool ShowCurrentNode
+    {
+        get { return showCurrentNode; }
+        set { showCurrentNode = value; }
+    }
+    private bool showCurrentNode = true;
+
+    public string CustomCurrentNodeText
+    {
+        get { return customCurrentNodeText; }
+        set { customCurrentNodeText = value; }
+    }
+    private string customCurrentNodeText = "";
+
+    public string CustomRouteHtml
+    {
+        get { return customRouteHtml; }
+        set { customRouteHtml = value; }
+    }
+    private string customRouteHtml = "";
+
+    public string GetBreadcrumbTextItemHtml(string subject)
+    {
+        return string.Format("<li class='active'>{0}</li>", subject);
+    }
+
+    public string GetBreadcrumbLinkItemHtml(string subject, string title, string href)
+    {
+        return string.Format("<li><a href='{0}' title='{1}'>{2}</a></li>", href, title, subject);
+    }
+
+    #endregion
+
     protected void Page_Init(object sender, EventArgs e)
     {
         c = new FrontendPageCommon(this.Context, this.ViewState);
@@ -32,16 +67,6 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
         }
     }
 
-    public string GetBreadcrumbTextItemHtml(string subject)
-    {
-        return string.Format("<li class='active'>{0}</li>", subject);
-    }
-
-    public string GetBreadcrumbLinkItemHtml(string subject, string title, string href)
-    {
-        return string.Format("<li><a href='{0}' title='{1}'>{2}</a></li>", href, title, subject);
-    }
-
     private void DisplayBreadcrumb()
     {
         if (!articleData.ArticleId.HasValue)
@@ -50,41 +75,58 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
         // add home node
         ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml("首頁", "首頁", "Index.aspx?l=" + c.qsLangNo.ToString());
 
-        Guid articleId = articleData.ArticleId.Value;
-        DataSet dsLevelInfo = artPub.GetArticleMultiLangLevelInfo(articleId, c.qsCultureNameOfLangNo);
-
-        if (dsLevelInfo != null && dsLevelInfo.Tables[0].Rows.Count > 0)
+        if (!string.IsNullOrEmpty(customRouteHtml))
         {
-            int total = dsLevelInfo.Tables[0].Rows.Count;
-            for (int i = total - 1; i >= 0; i--)
+            ltrBreadcrumb.Text += customRouteHtml;
+        }
+        else
+        {
+            Guid articleId = articleData.ArticleId.Value;
+            DataSet dsLevelInfo = artPub.GetArticleMultiLangLevelInfo(articleId, c.qsCultureNameOfLangNo);
+
+            if (dsLevelInfo != null && dsLevelInfo.Tables[0].Rows.Count > 0)
             {
-                DataRow drLevelInfo = dsLevelInfo.Tables[0].Rows[i];
-
-                Guid itemId = (Guid)drLevelInfo["ArticleId"];
-
-                if (itemId == Guid.Empty)
+                int total = dsLevelInfo.Tables[0].Rows.Count;
+                for (int i = total - 1; i >= 0; i--)
                 {
-                    continue;
-                }
+                    DataRow drLevelInfo = dsLevelInfo.Tables[0].Rows[i];
 
-                string itemSubject = drLevelInfo.ToSafeStr("ArticleSubject");
-                bool isHideSelf = Convert.ToBoolean(drLevelInfo["IsHideSelf"]);
-                bool isShowInLang = Convert.ToBoolean(drLevelInfo["IsShowInLang"]);
-                DateTime startDate = Convert.ToDateTime(drLevelInfo["StartDate"]);
-                DateTime endDate = Convert.ToDateTime(drLevelInfo["EndDate"]);
+                    Guid itemId = (Guid)drLevelInfo["ArticleId"];
 
-                if (startDate <= DateTime.Today && DateTime.Today <= endDate
-                    && !isHideSelf
-                    && isShowInLang)
-                {
-                    if (i == 0)
+                    if (itemId == Guid.Empty)
                     {
-                        ltrBreadcrumb.Text += GetBreadcrumbTextItemHtml(itemSubject);
+                        continue;
                     }
-                    else
+
+                    string itemSubject = drLevelInfo.ToSafeStr("ArticleSubject");
+                    bool isHideSelf = Convert.ToBoolean(drLevelInfo["IsHideSelf"]);
+                    bool isShowInLang = Convert.ToBoolean(drLevelInfo["IsShowInLang"]);
+                    DateTime startDate = Convert.ToDateTime(drLevelInfo["StartDate"]);
+                    DateTime endDate = Convert.ToDateTime(drLevelInfo["EndDate"]);
+
+                    if (startDate <= DateTime.Today && DateTime.Today <= endDate
+                        && !isHideSelf
+                        && isShowInLang)
                     {
-                        string href = string.Format("Article.aspx?artid={0}&l={1}", itemId, c.qsLangNo);
-                        ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml(itemSubject, itemSubject, href);
+                        if (i == 0)
+                        {
+                            if (showCurrentNode)
+                            {
+                                if (!string.IsNullOrEmpty(customCurrentNodeText))
+                                {
+                                    ltrBreadcrumb.Text += GetBreadcrumbTextItemHtml(customCurrentNodeText);
+                                }
+                                else
+                                {
+                                    ltrBreadcrumb.Text += GetBreadcrumbTextItemHtml(itemSubject);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string href = string.Format("Article.aspx?artid={0}&l={1}", itemId, c.qsLangNo);
+                            ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml(itemSubject, itemSubject, href);
+                        }
                     }
                 }
             }
