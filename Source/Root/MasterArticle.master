@@ -113,20 +113,22 @@
 			
 		<!-- START #fh5co-hero -->
 		<aside id="fh5co-hero" style="background-image: url(<%= bannerImageUrl %>);">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="fh5co-hero-wrap">
-							<div class="fh5co-hero-intro">
-                                <asp:PlaceHolder ID="BannerSubjectArea" runat="server">
-								    <h1><asp:Literal ID="ltrArticleSubjectInBanner" runat="server"></asp:Literal></h1>
-                                </asp:PlaceHolder>
-                                <asp:Literal ID="ltrCustomBannerSubject" runat="server"></asp:Literal>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="GradientMask">
+			    <div class="container">
+				    <div class="row">
+					    <div class="col-md-8 col-md-offset-2">
+						    <div class="fh5co-hero-wrap">
+							    <div class="fh5co-hero-intro">
+                                    <asp:PlaceHolder ID="BannerSubjectArea" runat="server">
+								        <h1><asp:Literal ID="ltrArticleSubjectInBanner" runat="server"></asp:Literal></h1>
+                                    </asp:PlaceHolder>
+                                    <asp:Literal ID="ltrCustomBannerSubject" runat="server"></asp:Literal>
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+			    </div>
+            </div>
 		</aside>
 
 		<div id="fh5co-main">
