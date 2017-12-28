@@ -272,26 +272,26 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
     private void DisplayAttachments()
     {
-        AttachmentsArea.Visible = articleData.IsAttAreaShowInFrontStage;
-
-        if (!AttachmentsArea.Visible)
+        if (!articleData.IsAttAreaShowInFrontStage)
             return;
+
+        AttachmentsArea.Visible = true;
     }
 
     private void DisplayPictures()
     {
-        PicturesArea.Visible = articleData.IsPicAreaShowInFrontStage;
-
-        if (!PicturesArea.Visible)
+        if (!articleData.IsPicAreaShowInFrontStage)
             return;
+
+        PicturesArea.Visible = true;
     }
 
     private void DisplayVideos()
     {
-        VideosArea.Visible = articleData.IsVideoAreaShowInFrontStage;
-
-        if (!VideosArea.Visible)
+        if (!articleData.IsVideoAreaShowInFrontStage)
             return;
+
+        VideosArea.Visible = true;
     }
 
     private void IncreaseReadCount()

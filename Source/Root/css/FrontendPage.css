@@ -24,6 +24,25 @@
         height: 2.6rem; /* -webkit-line-clamp x line-height */
 }
 
+.AttachFileList {
+}
+
+    .AttachFileList .list-group-item-heading {
+        font-weight:bold;
+    }
+
+.AttachFileList .SubitemSplitter {
+    margin: .5rem 0;
+}
+
+    .AttachFileList .Subitem > div {
+        min-height: 35px;
+        line-height:35px;
+    }
+
+    .AttachFileList .Subitem img {
+    }
+
 @media screen and (min-width: 769px) {
     .GradientMask {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.5+0,0.2+50,0+100 */
