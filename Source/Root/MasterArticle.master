@@ -187,7 +187,9 @@
                                                     <div class="row small Subitem">
                                                         <div class="col-sm-3 col-xs-6">
                                                             <a id="btnDownload" runat="server" href="#">
-                                                                <img id="imgExt" runat="server" alt="*" style="height:32px;" src="images/FileExtIcon/generic.png" onerror="this.src='images/FileExtIcon/generic.png';"/>
+                                                                <span class="ExtIconArea">
+                                                                    <img id="imgExt" runat="server" alt="*" style="height:32px;" src="images/FileExtIcon/generic.png" onerror="this.src='images/FileExtIcon/generic.png';"/>
+                                                                </span>
                                                                 <asp:Literal ID="ltrDownload" runat="server"></asp:Literal>
                                                             </a>
                                                         </div>

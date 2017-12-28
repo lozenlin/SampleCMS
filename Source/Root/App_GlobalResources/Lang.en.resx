@@ -131,4 +131,96 @@
     <value>Next</value>
     <comment>下一頁</comment>
   </data>
+  <data name="FileExtIconText_generic" xml:space="preserve">
+    <value>Uncategorised file</value>
+    <comment>未分類檔案</comment>
+  </data>
+  <data name="FileExtIconText_doc" xml:space="preserve">
+    <value>Word file</value>
+    <comment>Word 檔案</comment>
+  </data>
+  <data name="FileExtIconText_xls" xml:space="preserve">
+    <value>Excel file</value>
+    <comment>Excel 試算表檔案</comment>
+  </data>
+  <data name="FileExtIconText_ppt" xml:space="preserve">
+    <value>PowerPoint file</value>
+    <comment>PowerPoint 投影片檔案</comment>
+  </data>
+  <data name="FileExtIconText_odt" xml:space="preserve">
+    <value>odt file</value>
+    <comment>Open Document 文件檔</comment>
+  </data>
+  <data name="FileExtIconText_ods" xml:space="preserve">
+    <value>ods file</value>
+    <comment>Open Document 試算表檔案</comment>
+  </data>
+  <data name="FileExtIconText_odp" xml:space="preserve">
+    <value>odp file</value>
+    <comment>Open Document 投影片檔案</comment>
+  </data>
+  <data name="FileExtIconText_pdf" xml:space="preserve">
+    <value>Adobe Reader(Pdf) file</value>
+    <comment>Adobe Reader(Pdf)檔案</comment>
+  </data>
+  <data name="FileExtIconText_txt" xml:space="preserve">
+    <value>text file</value>
+    <comment>文字檔案</comment>
+  </data>
+  <data name="FileExtIconText_gif" xml:space="preserve">
+    <value>GIF file</value>
+    <comment>GIF 圖片檔案</comment>
+  </data>
+  <data name="FileExtIconText_jpg" xml:space="preserve">
+    <value>JPEG file</value>
+    <comment>JPEG 圖片檔案</comment>
+  </data>
+  <data name="FileExtIconText_png" xml:space="preserve">
+    <value>PNG file</value>
+    <comment>PNG 圖片檔案</comment>
+  </data>
+  <data name="FileExtIconText_svg" xml:space="preserve">
+    <value>SVG file</value>
+    <comment>SVG 圖片檔案</comment>
+  </data>
+  <data name="FileExtIconText_tif" xml:space="preserve">
+    <value>TIFF file</value>
+    <comment>TIFF 圖片檔案</comment>
+  </data>
+  <data name="FileExtIconText_mp3" xml:space="preserve">
+    <value>MP3 file</value>
+    <comment>MP3 音訊檔</comment>
+  </data>
+  <data name="FileExtIconText_wav" xml:space="preserve">
+    <value>WAV file</value>
+    <comment>WAV 音訊檔</comment>
+  </data>
+  <data name="FileExtIconText_wma" xml:space="preserve">
+    <value>WMA file</value>
+    <comment>WMA 音訊檔</comment>
+  </data>
+  <data name="FileExtIconText_avi" xml:space="preserve">
+    <value>AVI file</value>
+    <comment>AVI 影片檔</comment>
+  </data>
+  <data name="FileExtIconText_mp4" xml:space="preserve">
+    <value>MP4 file</value>
+    <comment>MP4 影片檔</comment>
+  </data>
+  <data name="FileExtIconText_wmv" xml:space="preserve">
+    <value>WMV file</value>
+    <comment>WMV 影片檔</comment>
+  </data>
+  <data name="FileExtIconText_mov" xml:space="preserve">
+    <value>MOV file</value>
+    <comment>MOV 影片檔</comment>
+  </data>
+  <data name="FileExtIconText_zip" xml:space="preserve">
+    <value>ZIP file</value>
+    <comment>ZIP 壓縮檔</comment>
+  </data>
+  <data name="FileExtIconText_rar" xml:space="preserve">
+    <value>RAR file</value>
+    <comment>RAR 壓縮檔</comment>
+  </data>
 </root>

@@ -311,11 +311,15 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         Att.FileData fileData = (Att.FileData)e.Item.DataItem;
 
         HtmlAnchor btnDownload = (HtmlAnchor)e.Item.FindControl("btnDownload");
+        btnDownload.HRef = string.Format("~/FileAtt.ashx?attid={0}&l={1}", fileData.AttId, c.qsLangNo);
+        btnDownload.Title = fileData.FileName;
 
         HtmlImage imgExt = (HtmlImage)e.Item.FindControl("imgExt");
+        imgExt.Src = "images/FileExtIcon/" + ResUtility.GetExtIconFileName(fileData.FileName);
+        imgExt.Alt = ResUtility.GetExtIconText(fileData.FileName);
 
         Literal ltrDownload = (Literal)e.Item.FindControl("ltrDownload");
-        ltrDownload.Text = string.Format("{0} {1}", "下載檔案", fileData.FileExt);
+        ltrDownload.Text = string.Format("{0} ({1})", "下載檔案", fileData.FileExt.ToLower().Replace(".", ""));
 
         Literal ltrFileSize = (Literal)e.Item.FindControl("ltrFileSize");
         ltrFileSize.Text = fileData.FileSizeDesc;
