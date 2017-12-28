@@ -24,7 +24,8 @@
         height: 2.6rem; /* -webkit-line-clamp x line-height */
 }
 
-.AttachFileList {
+.AttachFileList > .list-group-item:nth-child(2n) {
+    background-color: #fafafa;
 }
 
     .AttachFileList .list-group-item-heading {
@@ -38,9 +39,6 @@
     .AttachFileList .Subitem > div {
         min-height: 35px;
         line-height:35px;
-    }
-
-    .AttachFileList .Subitem img {
     }
 
 @media screen and (min-width: 769px) {

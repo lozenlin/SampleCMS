@@ -173,31 +173,39 @@
 						        <div class="fh5co-spacer fh5co-spacer-sm"></div>
 						        <div class="row">
 							        <div class="col-md-12">
-								        <h2 class="fh5co-uppercase-heading-sm text-center">附件</h2>
 								        <div class="list-group AttachFileList">
-
+                                        <asp:Repeater ID="rptAttachments" runat="server" OnItemDataBound="rptAttachments_ItemDataBound">
+                                        <ItemTemplate>
                                             <div class="list-group-item">
-                                                <h4 class="list-group-item-heading">附件標題</h4>
-                                                <hr class="SubitemSplitter" />
-                                                <div class="row small Subitem">
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="#">
-                                                            <img src="images/FileExtIcon/doc.png" id="cphContent_rptAttachFiles_imgExt_0" alt="Word 檔案" style="width:32px;" title="Word 檔案"/>
-                                                            下載檔案 doc
-                                                        </a>
+                                                <h4 class="list-group-item-heading">
+                                                    <%# Container.ItemIndex+1 %>.
+                                                    <asp:Literal ID="ltrAttSubject" runat="server"></asp:Literal>
+                                                </h4>
+                                                <asp:Repeater ID="rptAttSubitems" runat="server" OnItemDataBound="rptAttSubitems_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <hr class="SubitemSplitter" />
+                                                    <div class="row small Subitem">
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <a id="btnDownload" runat="server" href="#">
+                                                                <img id="imgExt" runat="server" alt="*" style="height:32px;" src="images/FileExtIcon/generic.png" onerror="this.src='images/FileExtIcon/generic.png';"/>
+                                                                <asp:Literal ID="ltrDownload" runat="server"></asp:Literal>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            檔案大小: <span class="text-nowrap"><asp:Literal ID="ltrFileSize" runat="server"></asp:Literal></span>
+                                                        </div>                                                    
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            下載次數: <asp:Literal ID="ltrReadCount" runat="server"></asp:Literal>
+                                                        </div>                                                    
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            更新時間: <span class="text-nowrap"><asp:Literal ID="ltrMdfDate" runat="server"></asp:Literal></span>
+                                                        </div>                                                    
                                                     </div>
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        檔案大小: <span class="text-nowrap">388 KB</span>
-                                                    </div>                                                    
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        下載次數: 123
-                                                    </div>                                                    
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        更新時間: <span class="text-nowrap">2017-12-28 12:12</span>
-                                                    </div>                                                    
-                                                </div>
+                                                </ItemTemplate>
+                                                </asp:Repeater>
                                             </div>
-
+                                        </ItemTemplate>
+                                        </asp:Repeater>
 								        </div>
 							        </div>
 						        </div>

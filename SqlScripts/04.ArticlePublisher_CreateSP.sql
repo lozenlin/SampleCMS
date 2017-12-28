@@ -1778,6 +1778,33 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/28>
+-- Description: <取得前台用附件檔案清單>
+-- Test:
+/*
+exec dbo.spAttachFile_GetListForFrontend '00000000-0000-0000-0000-000000000000', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spAttachFile_GetListForFrontend
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	select
+		afm.AttId, afm.AttSubject, afm.ReadCount, 
+		af.FileSavedName, af.FileSize, af.SortNo, 
+		af.PostDate, af.MdfDate
+	from dbo.AttachFileMultiLang afm
+		join dbo.AttachFile af on afm.AttId=af.AttId 
+	where af.ArticleId=@ArticleId
+		and afm.CultureName=@CultureName
+		and afm.IsShowInLang=1
+	order by af.SortNo
+end
+go
+
 ----------------------------------------------------------------------------
 -- 網頁照片
 ----------------------------------------------------------------------------
@@ -2513,7 +2540,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/27>
+-- Create date: <2017/12/28>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

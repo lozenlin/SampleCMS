@@ -739,6 +739,23 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得前台用附件檔案清單
+        /// </summary>
+        public DataSet GetAttachFileListForFrontend(Guid articleId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spAttachFile_GetListForFrontend cmdInfo = new spAttachFile_GetListForFrontend()
+            {
+                ArticleId = articleId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region ArticlePicture DataAccess functions

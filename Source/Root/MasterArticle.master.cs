@@ -275,7 +275,56 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (!articleData.IsAttAreaShowInFrontStage)
             return;
 
-        AttachmentsArea.Visible = true;
+        DataSet dsAttachments = artPub.GetAttachFileListForFrontend(articleData.ArticleId.Value, c.qsCultureNameOfLangNo);
+
+        if (dsAttachments != null && dsAttachments.Tables[0].Rows.Count > 0)
+        {
+            try
+            {
+                Att.AttCombination attComb = new Att.AttCombination(dsAttachments.Tables[0]);
+                rptAttachments.DataSource = attComb.GetList();
+                rptAttachments.DataBind();
+
+                AttachmentsArea.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                c.LoggerOfUI.Error(string.Format("generate attachments failed in article (id:[{0}])", articleData.ArticleId), ex);
+            }
+        }
+    }
+
+    protected void rptAttachments_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        Att.AttInfo attInfo = (Att.AttInfo)e.Item.DataItem;
+
+        Literal ltrAttSubject = (Literal)e.Item.FindControl("ltrAttSubject");
+        ltrAttSubject.Text = attInfo.AttSubject;
+
+        Repeater rptAttSubitems = (Repeater)e.Item.FindControl("rptAttSubitems");
+        rptAttSubitems.DataSource = attInfo.Files;
+        rptAttSubitems.DataBind();
+    }
+
+    protected void rptAttSubitems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        Att.FileData fileData = (Att.FileData)e.Item.DataItem;
+
+        HtmlAnchor btnDownload = (HtmlAnchor)e.Item.FindControl("btnDownload");
+
+        HtmlImage imgExt = (HtmlImage)e.Item.FindControl("imgExt");
+
+        Literal ltrDownload = (Literal)e.Item.FindControl("ltrDownload");
+        ltrDownload.Text = string.Format("{0} {1}", "下載檔案", fileData.FileExt);
+
+        Literal ltrFileSize = (Literal)e.Item.FindControl("ltrFileSize");
+        ltrFileSize.Text = fileData.FileSizeDesc;
+
+        Literal ltrReadCount = (Literal)e.Item.FindControl("ltrReadCount");
+        ltrReadCount.Text = fileData.ReadCount.ToString();
+
+        Literal ltrMdfDate = (Literal)e.Item.FindControl("ltrMdfDate");
+        ltrMdfDate.Text = fileData.MdfDate.ToString("yyyy-MM-dd HH:mm:ss");
     }
 
     private void DisplayPictures()
