@@ -336,7 +336,31 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (!articleData.IsPicAreaShowInFrontStage)
             return;
 
-        PicturesArea.Visible = true;
+        DataSet dsPictures = artPub.GetArticlePictureListForFrontend(articleData.ArticleId.Value, c.qsCultureNameOfLangNo);
+
+        if (dsPictures != null && dsPictures.Tables[0].Rows.Count > 0)
+        {
+            rptPictures.DataSource = dsPictures.Tables[0];
+            rptPictures.DataBind();
+
+            PicturesArea.Visible = true;
+        }
+    }
+
+    protected void rptPictures_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid picId = (Guid)drvTemp["PicId"];
+        string picSubject = drvTemp.ToSafeStr("PicSubject");
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.Title = picSubject;
+        btnItem.HRef = string.Format("FileArtPic.ashx?attid={0}&l={1}", picId, c.qsLangNo);
+
+        HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
+        imgPic.Src = string.Format("FileArtPic.ashx?attid={0}&w=1024&h=768&l={1}", picId, c.qsLangNo);
+        imgPic.Alt = picSubject;
     }
 
     private void DisplayVideos()

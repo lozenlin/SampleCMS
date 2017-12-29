@@ -2166,6 +2166,32 @@ order by RowNum'
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2017/12/29>
+-- Description: <取得前台用網頁照片清單>
+-- Test:
+/*
+exec dbo.spArticlePicture_GetListForFrontend '00000000-0000-0000-0000-000000000000', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spArticlePicture_GetListForFrontend
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	select
+		apm.PicId, apm.PicSubject, ap.FileSavedName, 
+		ap.SortNo
+	from dbo.ArticlePictureMultiLang apm
+		join dbo.ArticlePicture ap on apm.PicId=ap.PicId
+	where ap.ArticleId=@ArticleId
+		and apm.CultureName=@CultureName
+		and apm.IsShowInLang=1
+	order by ap.SortNo desc
+end
+go
+
 ----------------------------------------------------------------------------
 -- 網頁影片
 ----------------------------------------------------------------------------
@@ -2540,7 +2566,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/28>
+-- Create date: <2017/12/29>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

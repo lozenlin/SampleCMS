@@ -33,7 +33,16 @@
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-    <link rel="stylesheet" href="/css/FrontendPage.css" />
+    <link href="/Common/slick/slick.css" rel="stylesheet" />
+    <link href="/Common/slick/slick-theme.css" rel="stylesheet" />
+    <link href="/Common/Lightbox2/css/lightbox.css" rel="stylesheet" />
+    <link href="/css/FrontendPage.css" rel="stylesheet" />
+    <style type="text/css">
+        .slick-prev:before,
+        .slick-next:before {
+            color: gray;
+        }
+    </style>
     <asp:ContentPlaceHolder id="cphHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -218,26 +227,17 @@
 							        <div class="col-md-12">
 								        <h2 class="fh5co-uppercase-heading-sm text-center">Pictures</h2>
                                     </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_5.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
+                                </div>
+                                <div class="row pic-carousel">
+                                    <asp:Repeater ID="rptPictures" runat="server" OnItemDataBound="rptPictures_ItemDataBound">
+                                    <ItemTemplate>
+                                        <div class="col-xs-12">
+                                            <a id="btnItem" runat="server" href="#" target="_blank" class="thumbnail" data-lightbox="pictures">
+                                                <img id="imgPic" runat="server" alt="*" class="img-responsive"/>
+                                            </a>
+                                        </div>
+                                    </ItemTemplate>
+                                    </asp:Repeater>
                                 </div>
                             </asp:PlaceHolder>
                             <asp:PlaceHolder ID="VideosArea" runat="server" Visible="false">
@@ -387,13 +387,32 @@
 		<script src="js/fastclick.js"></script>
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
+        <script src="Common/slick/slick.min.js"></script>
         <script src="js/FrontendPage.js"></script>
         <script>
+            var isMobile = false;
+            if (navigator) {
+                isMobile = navigator.userAgent.match(/Mobile/i) != null;
+            }
+
             $("#btnTop").click(function () {
                 smoothUp();
                 return false;
             });
+
+            $(".pic-carousel").slick({
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 5000
+            });
+
+            if (isMobile) {
+                // disable lightbox
+                $(".pic-carousel a.thumbnail").removeAttr("data-lightbox");
+            }
         </script>
+        <!-- initialize lightbox -->
+        <script src="Common/Lightbox2/js/lightbox.min.js"></script>
     </form>
 
     <asp:ContentPlaceHolder ID="cphBeforeBodyTail" runat="server">
