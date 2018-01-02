@@ -73,7 +73,7 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
             return;
 
         // add home node
-        ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml("首頁", "首頁", "Index.aspx?l=" + c.qsLangNo.ToString());
+        ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml(Resources.Lang.btnHome, Resources.Lang.btnHome_Hint, "Index.aspx?l=" + c.qsLangNo.ToString());
 
         if (!string.IsNullOrEmpty(customRouteHtml))
         {

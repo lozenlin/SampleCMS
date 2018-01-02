@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>PAGE NOT FOUND</title>
+    <title><%= Resources.Lang.ErrorPage_Subject %></title>
 	<meta name="description" content="page not found" />
     <meta name="keywords" content="error, page not found" />
 
@@ -67,7 +67,7 @@
 			<div class="container">
 					
 				<!-- START #fh5co-logo -->
-				<h1 id="fh5co-logo" class="pull-left"><a href="index.html"><%= Resources.Lang.WebsiteName %></a></h1>
+				<h1 id="fh5co-logo" class="pull-left"><a href="Index.aspx"><%= Resources.Lang.WebsiteName %></a></h1>
 					
 
 			</div>
@@ -80,7 +80,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div class="fh5co-hero-wrap">
 							<div class="fh5co-hero-intro">
-								<h1>PAGE NOT FOUND</h1>
+								<h1><%= Resources.Lang.ErrorPage_Subject %></h1>
 							</div>
 						</div>
 					</div>
@@ -109,12 +109,12 @@
 						<div class="col-md-12">
                             <!-- context start -->
                             <div class="jumbotron text-center" style="max-width:600px;margin:1rem auto;">
-                                <h2 class="">PAGE NOT FOUND</h2>
-                                <p class="lead">The link you clicked may be broken or the page may have been removed.</p>
+                                <h2 class=""><%= Resources.Lang.ErrorPage_Subject %></h2>
+                                <p class="lead"><%= Resources.Lang.ErrorPage_Context %></p>
                                 <hr class="my-4"/>
-                                <p>visit the</p>
+                                <p><%= Resources.Lang.ErrorPage_VisitThe %></p>
                                 <p class="lead">
-                                    <a class="btn btn-primary" href="/" role="button">HOMEPAGE</a>
+                                    <a class="btn btn-primary" href="Index.aspx" role="button"><%= Resources.Lang.ErrorPage_btnHome %></a>
                                 </p>
                             </div>                            <!-- context end -->
 						</div>

@@ -119,6 +119,9 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
     private void LoadUIData()
     {
+        btnBrand.HRef = string.Format("Index.aspx?l={0}", c.qsLangNo);
+        btnBrand.Title = Resources.Lang.WebsiteName;
+
         if (isHomePage)
         {
             bodyTagAttributes = "";
@@ -172,8 +175,8 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
     {
         // Home
         btnHomeInUnit.HRef = "Index.aspx?l=" + c.qsLangNo.ToString();
-        btnHomeInUnit.InnerHtml = "首頁";
-        btnHomeInUnit.Title = "首頁";
+        btnHomeInUnit.InnerHtml = Resources.Lang.btnHome;
+        btnHomeInUnit.Title = Resources.Lang.btnHome_Hint;
 
         if (articleData.ArticleId.Value == Guid.Empty)
         {
@@ -307,7 +310,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         imgExt.Alt = ResUtility.GetExtIconText(fileData.FileName);
 
         Literal ltrDownload = (Literal)e.Item.FindControl("ltrDownload");
-        ltrDownload.Text = string.Format("{0} ({1})", "下載檔案", fileData.FileExt.ToLower().Replace(".", ""));
+        ltrDownload.Text = string.Format("{0} ({1})", Resources.Lang.Att_lblDownload, fileData.FileExt.ToLower().Replace(".", ""));
 
         Literal ltrFileSize = (Literal)e.Item.FindControl("ltrFileSize");
         ltrFileSize.Text = fileData.FileSizeDesc;

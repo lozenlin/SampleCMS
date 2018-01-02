@@ -223,4 +223,56 @@
     <value>RAR file</value>
     <comment>RAR 壓縮檔</comment>
   </data>
+  <data name="btnHome" xml:space="preserve">
+    <value>Home</value>
+    <comment>首頁</comment>
+  </data>
+  <data name="btnHome_Hint" xml:space="preserve">
+    <value>Home</value>
+    <comment>首頁</comment>
+  </data>
+  <data name="Att_lblDownload" xml:space="preserve">
+    <value>Download</value>
+    <comment>下載檔案</comment>
+  </data>
+  <data name="Att_lblFileSize" xml:space="preserve">
+    <value>Size</value>
+    <comment>檔案大小</comment>
+  </data>
+  <data name="Att_lblDownloadTimes" xml:space="preserve">
+    <value>Download times</value>
+    <comment>下載次數</comment>
+  </data>
+  <data name="Att_lblMdfDate" xml:space="preserve">
+    <value>Update</value>
+    <comment>更新時間</comment>
+  </data>
+  <data name="btnReturnToList" xml:space="preserve">
+    <value>return</value>
+    <comment>回上層</comment>
+  </data>
+  <data name="ErrorPage_Subject" xml:space="preserve">
+    <value>PAGE NOT FOUND</value>
+    <comment>PAGE NOT FOUND</comment>
+  </data>
+  <data name="ErrorPage_Context" xml:space="preserve">
+    <value>The link you clicked may be broken or the page may have been removed.</value>
+    <comment>The link you clicked may be broken or the page may have been removed.</comment>
+  </data>
+  <data name="ErrorPage_VisitThe" xml:space="preserve">
+    <value>visit the</value>
+    <comment>visit the</comment>
+  </data>
+  <data name="ErrorPage_btnHome" xml:space="preserve">
+    <value>HOMEPAGE</value>
+    <comment>HOMEPAGE</comment>
+  </data>
+  <data name="SectionLabel_Pictures" xml:space="preserve">
+    <value>Pictures</value>
+    <comment>相關照片</comment>
+  </data>
+  <data name="SectionLabel_Videos" xml:space="preserve">
+    <value>Videos</value>
+    <comment>相關影片</comment>
+  </data>
 </root>
