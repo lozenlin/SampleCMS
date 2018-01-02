@@ -2555,6 +2555,32 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/02>
+-- Description: <取得前台用網頁影片清單>
+-- Test:
+/*
+exec dbo.spArticleVideo_GetListForFrontend '00000000-0000-0000-0000-000000000000', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spArticleVideo_GetListForFrontend
+@ArticleId	uniqueidentifier
+,@CultureName	varchar(10)
+as
+begin
+	select
+		avm.VidId, avm.VidSubject, avm.VidDesc,
+		av.SortNo, av.SourceVideoId
+	from dbo.ArticleVideoMultiLang avm
+		join dbo.ArticleVideo av on avm.VidId=av.VidId
+	where av.ArticleId=@ArticleId
+		and avm.CultureName=@CultureName
+		and avm.IsShowInLang=1
+	order by av.SortNo desc
+end
+go
+
 
 
 
@@ -2566,7 +2592,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/12/29>
+-- Create date: <2018/01/02>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

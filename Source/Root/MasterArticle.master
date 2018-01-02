@@ -246,26 +246,20 @@
 							        <div class="col-md-12">
 								        <h2 class="fh5co-uppercase-heading-sm text-center">Videos</h2>
                                     </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 col-xs-6">
-                                        <a href="#" class="thumbnail">
-                                            <img src="images/project_7.jpg" alt="Image" class="img-responsive"/>
-                                        </a>
-                                    </div>
+                                </div>
+                                <div class="row vid-carousel">
+                                    <asp:Repeater ID="rptVideos" runat="server" OnItemDataBound="rptVideos_ItemDataBound">
+                                    <ItemTemplate>
+                                        <div class="col-md-3 col-xs-6">
+                                            <a id="btnItem" runat="server" href="#" target="_blank" class="thumbnail">
+                                                <img id="imgPic" runat="server" alt="*" class="img-responsive"/>
+                                                <div class="caption small">
+                                                    <h4 class="text-center"><asp:Literal ID="ltrVidSubject" runat="server"></asp:Literal></h4>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </ItemTemplate>
+                                    </asp:Repeater>
                                 </div>
                             </asp:PlaceHolder>
                             <asp:PlaceHolder ID="ControlsBeforeFooterArea" runat="server">
@@ -400,11 +394,31 @@
                 return false;
             });
 
+            // pic-carousel
             $(".pic-carousel").slick({
                 dots: true,
                 autoplay: true,
                 autoplaySpeed: 5000
             });
+
+            // vid-carousel
+            $(".vid-carousel").slick({
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 5500,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [
+                    {
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2,
+                        }
+                    }
+                ]
+            });
+
 
             if (isMobile) {
                 // disable lightbox

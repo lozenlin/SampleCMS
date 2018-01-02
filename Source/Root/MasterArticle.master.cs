@@ -368,7 +368,36 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         if (!articleData.IsVideoAreaShowInFrontStage)
             return;
 
-        VideosArea.Visible = true;
+        DataSet dsVideos = artPub.GetArticleVideoListForFrontend(articleData.ArticleId.Value, c.qsCultureNameOfLangNo);
+
+        if (dsVideos != null && dsVideos.Tables[0].Rows.Count > 0)
+        {
+            rptVideos.DataSource = dsVideos.Tables[0];
+            rptVideos.DataBind();
+
+            VideosArea.Visible = true;
+        }
+    }
+
+    protected void rptVideos_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid vidId = (Guid)drvTemp["VidId"];
+        string vidSubject = drvTemp.ToSafeStr("VidSubject");
+        string vidDesc = drvTemp.ToSafeStr("VidDesc");
+        string sourceVideoId = drvTemp.ToSafeStr("SourceVideoId");
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.Title = vidDesc;
+        btnItem.HRef = string.Format("https://www.youtube.com/watch?v={0}", sourceVideoId);
+
+        HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
+        imgPic.Src = string.Format("http://i.ytimg.com/vi/{0}/hqdefault.jpg", sourceVideoId);
+        imgPic.Alt = vidSubject;
+
+        Literal ltrVidSubject = (Literal)e.Item.FindControl("ltrVidSubject");
+        ltrVidSubject.Text = vidSubject;
     }
 
     private void IncreaseReadCount()

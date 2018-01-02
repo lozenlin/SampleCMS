@@ -53,6 +53,16 @@
     margin-left:auto;
 }
 
+.vid-carousel {
+    width:85%;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+    .vid-carousel > div {
+        min-height:177px;
+    }
+
 @media screen and (min-width: 769px) {
     .GradientMask {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.5+0,0.2+50,0+100 */
