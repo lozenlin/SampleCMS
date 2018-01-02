@@ -41,7 +41,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 語言號碼(l或lang,l優先)
         /// </summary>
-        public int qsLangNo
+        public virtual int qsLangNo
         {
             get
             {
@@ -51,7 +51,10 @@ namespace Common.LogicObject
 
                 int nResult;
 
-                if (str == null)
+                if (str != null)
+                    str = str.Trim();
+
+                if (string.IsNullOrEmpty(str))
                 {
                     //未指定,抓瀏覽器的
                     string resultCultureName = GetAllowedUserCultureName();
@@ -60,9 +63,6 @@ namespace Common.LogicObject
                 }
                 else if (int.TryParse(str, out nResult))
                 {
-                    //有指定, 限制範圍
-                    if (nResult < 1 || nResult > 2)
-                        nResult = 1;
                 }
 
                 return nResult;

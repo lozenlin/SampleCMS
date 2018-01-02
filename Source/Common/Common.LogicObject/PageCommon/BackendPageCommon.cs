@@ -44,6 +44,40 @@ namespace Common.LogicObject
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
         /// <summary>
+        /// 語言號碼(l或lang,l優先)
+        /// </summary>
+        public override int qsLangNo
+        {
+            get
+            {
+                string str = QueryStringToSafeStr("l");
+                if (str == null)
+                    str = QueryStringToSafeStr("lang");
+
+                int nResult;
+
+                if (str != null)
+                    str = str.Trim();
+
+                if (string.IsNullOrEmpty(str))
+                {
+                    //未指定,抓瀏覽器的
+                    string resultCultureName = GetAllowedUserCultureName();
+
+                    nResult = Convert.ToInt32(new LangManager().GetLangNo(resultCultureName));
+                }
+                else if (int.TryParse(str, out nResult))
+                {
+                    //有指定, 限制範圍
+                    if (nResult < 1 || nResult > 2)
+                        nResult = 1;
+                }
+
+                return nResult;
+            }
+        }
+
+        /// <summary>
         /// Keyword
         /// </summary>
         public string qsKw
