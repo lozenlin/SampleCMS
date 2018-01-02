@@ -36,6 +36,7 @@
     <link href="/Common/slick/slick.css" rel="stylesheet" />
     <link href="/Common/slick/slick-theme.css" rel="stylesheet" />
     <link href="/Common/Lightbox2/css/lightbox.css" rel="stylesheet" />
+    <link href="/Common/fancybox2/source/jquery.fancybox.css" rel="stylesheet"/>
     <link href="/css/FrontendPage.css" rel="stylesheet" />
     <style type="text/css">
         .slick-prev:before,
@@ -251,7 +252,7 @@
                                     <asp:Repeater ID="rptVideos" runat="server" OnItemDataBound="rptVideos_ItemDataBound">
                                     <ItemTemplate>
                                         <div class="col-md-3 col-xs-6">
-                                            <a id="btnItem" runat="server" href="#" target="_blank" class="thumbnail">
+                                            <a id="btnItem" runat="server" href="#" target="_blank" class="thumbnail fancybox.iframe">
                                                 <img id="imgPic" runat="server" alt="*" class="img-responsive"/>
                                                 <div class="caption small">
                                                     <h4 class="text-center"><asp:Literal ID="ltrVidSubject" runat="server"></asp:Literal></h4>
@@ -382,6 +383,7 @@
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
         <script src="Common/slick/slick.min.js"></script>
+        <script src="Common/fancybox2/source/jquery.fancybox.js"></script>
         <script src="js/FrontendPage.js"></script>
         <script>
             var isMobile = false;
@@ -419,6 +421,7 @@
                 ]
             });
 
+            $(".vid-carousel .thumbnail").fancybox();
 
             if (isMobile) {
                 // disable lightbox

@@ -389,8 +389,9 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         string sourceVideoId = drvTemp.ToSafeStr("SourceVideoId");
 
         HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.HRef = string.Format("https://www.youtube.com/embed/{0}?autoplay=1", sourceVideoId);
         btnItem.Title = vidDesc;
-        btnItem.HRef = string.Format("https://www.youtube.com/watch?v={0}", sourceVideoId);
+        btnItem.Attributes["data-fancybox-title"] = vidSubject;
 
         HtmlImage imgPic = (HtmlImage)e.Item.FindControl("imgPic");
         imgPic.Src = string.Format("http://i.ytimg.com/vi/{0}/hqdefault.jpg", sourceVideoId);
