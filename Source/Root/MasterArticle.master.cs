@@ -159,6 +159,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
                 Layout2ColMainTagHead.Visible = true;
                 Layout2ColMainTagTail.Visible = true;
                 Layout2ColSideSection.Visible = true;
+                DisplaySideLinks();
                 break;
             default:
                 c.LoggerOfUI.ErrorFormat("invalid layoutModeId:{0}", articleData.LayoutModeId);
@@ -215,20 +216,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
         btnItem.InnerHtml = articleSubject;
         btnItem.Title = articleSubject;
-        string destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
-
-        if (showTypeId == 3 && linkUrl != "")
-        {
-            destUrl = linkUrl;
-
-            if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
-                && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // inside page
-                destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
-                destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
-            }
-        }
+        string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
 
         btnItem.HRef = destUrl;
         Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
@@ -407,5 +395,75 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
             return;
 
         bool result = artPub.IncreaseArticleMultiLangReadCount(articleData.ArticleId.Value, c.qsCultureNameOfLangNo);
+    }
+
+    private void DisplaySideLinks()
+    {
+        if (!articleData.ParentId.HasValue)
+            return;
+
+        Guid parentId = articleData.ParentId.Value;
+
+        if (articleData.ArticleLevelNo > 1)
+        {
+            // change to parentId of parent
+            DataSet dsParent = artPub.GetArticleDataForFrontend(parentId, c.qsCultureNameOfLangNo);
+
+            if (dsParent != null && dsParent.Tables[0].Rows.Count > 0)
+            {
+                DataRow drFirst = dsParent.Tables[0].Rows[0];
+
+                parentId = (Guid)drFirst["ParentId"];
+            }
+        }
+
+        DataSet dsSideLinks = artPub.GetArticleValidListForSideSection(parentId, c.qsCultureNameOfLangNo);
+
+        if (dsSideLinks != null)
+        {
+            rptSideLinks.DataSource = dsSideLinks.Tables[0];
+            rptSideLinks.DataBind();
+        }
+    }
+
+    protected void rptSideLinks_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
+        DataRowView drvTemp = (DataRowView)e.Item.DataItem;
+
+        Guid articleId = (Guid)drvTemp["ArticleId"];
+        string articleSubject = drvTemp.ToSafeStr("ArticleSubject");
+        int showTypeId = Convert.ToInt32(drvTemp["ShowTypeId"]);
+        string linkUrl = drvTemp.ToSafeStr("LinkUrl");
+        string linkTarget = drvTemp.ToSafeStr("LinkTarget");
+        bool isHideChild = Convert.ToBoolean(drvTemp["IsHideChild"]);
+
+        HtmlGenericControl ItemArea = (HtmlGenericControl)e.Item.FindControl("ItemArea");
+
+        if (articleData.ArticleId.Value == articleId)
+        {
+            ItemArea.Attributes["class"] = "active";
+        }
+
+        HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
+        btnItem.InnerHtml = articleSubject;
+        btnItem.Title = articleSubject;
+        string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
+
+        btnItem.HRef = destUrl;
+        Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
+
+        if (!isHideChild && rptSubitems != null)
+        {
+            DataSet dsSubitems = artPub.GetArticleValidListForSideSection(articleId, c.qsCultureNameOfLangNo);
+
+            if (dsSubitems != null && dsSubitems.Tables[0].Rows.Count > 0)
+            {
+                rptSubitems.DataSource = dsSubitems.Tables[0];
+                rptSubitems.DataBind();
+            }
+        }
     }
 }

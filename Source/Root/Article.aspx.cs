@@ -161,24 +161,7 @@ public partial class Article : FrontendBasePage
         int showTypeId = Convert.ToInt32(drvTemp["ShowTypeId"]);
         string linkUrl = drvTemp.ToSafeStr("LinkUrl");
         string linkTarget = drvTemp.ToSafeStr("LinkTarget");
-        string destUrl = "";
-
-        if (showTypeId == 3 && linkUrl != "")
-        {
-            destUrl = linkUrl;
-
-            if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
-                && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // inside page
-                destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
-                destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
-            }
-        }
-        else
-        {
-            destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
-        }
+        string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
 
         HtmlAnchor btnItem = (HtmlAnchor)e.Item.FindControl("btnItem");
         btnItem.HRef = destUrl;
@@ -215,24 +198,7 @@ public partial class Article : FrontendBasePage
             Guid articleId = (Guid)drFirst["ArticleId"];
             int showTypeId = Convert.ToInt32(drFirst["ShowTypeId"]);
             string linkUrl = drFirst.ToSafeStr("LinkUrl");
-            string destUrl = "";
-
-            if (showTypeId == 3 && linkUrl != "")
-            {
-                destUrl = linkUrl;
-
-                if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
-                    && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    // inside page
-                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
-                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", c.qsLangNo.ToString());
-                }
-            }
-            else
-            {
-                destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, c.qsLangNo);
-            }
+            string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
 
             Response.Redirect(destUrl);
         }

@@ -283,51 +283,39 @@
 							    <div class="fh5co-side-section fh5co-nav-links">
 								    <h2 class="fh5co-uppercase-heading-sm">Side Links</h2>
 								    <ul>
-									    <li class="active">
-                                            <a href="#">Design is the Creation</a>
-									        <ul class="subitems">
-										        <li class="active">
-                                                    <a href="#">aaa</a>
-										        </li>
-										        <li>
-                                                    <a href="#">bbb</a>
-										        </li>
-										        <li>
-                                                    <a href="#">ccc</a>
-										        </li>
-									        </ul>
+                                    <asp:Repeater ID="rptSideLinks" runat="server" OnItemDataBound="rptSideLinks_ItemDataBound">
+                                    <ItemTemplate>
+									    <li id="ItemArea" runat="server">
+                                            <a id="btnItem" runat="server" href="#">Subject</a>
+                                            <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSideLinks_ItemDataBound">
+                                                <HeaderTemplate>
+									                <ul class="subitems">
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+									                <li id="ItemArea" runat="server">
+                                                        <a id="btnItem" runat="server" href="#">Subject</a>
+                                                        <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSideLinks_ItemDataBound">
+                                                            <HeaderTemplate>
+									                            <ul class="subitems">
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+									                            <li id="ItemArea" runat="server">
+                                                                    <a id="btnItem" runat="server" href="#">Subject</a>
+                                                                </li>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+									                            </ul>
+                                                            </FooterTemplate>
+                                                        </asp:Repeater>
+                                                    </li>
+                                                </ItemTemplate>
+                                                <FooterTemplate>
+									                </ul>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
 									    </li>
-									    <li>
-                                            <a href="#">Construction of an Objecton</a>
-									        <ul class="subitems">
-										        <li>
-                                                    <a href="#">aaa</a>
-										        </li>
-										        <li>
-                                                    <a href="#">bbb</a>
-										        </li>
-										        <li>
-                                                    <a href="#">ccc</a>
-										        </li>
-									        </ul>
-									    </li>
-									    <li>
-                                            <a href="#">Architectural Blueprints</a>
-									    </li>
-									    <li>
-                                            <a href="#">Circuit Diagrams</a>
-									        <ul class="subitems">
-										        <li>
-                                                    <a href="#">aaa</a>
-										        </li>
-										        <li>
-                                                    <a href="#">bbb</a>
-										        </li>
-										        <li>
-                                                    <a href="#">ccc</a>
-										        </li>
-									        </ul>
-									    </li>
+                                    </ItemTemplate>
+                                    </asp:Repeater>
 								    </ul>
 							    </div>
 							    <div class="fh5co-spacer fh5co-spacer-sm"></div>

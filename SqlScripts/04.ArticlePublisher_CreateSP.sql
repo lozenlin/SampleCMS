@@ -1246,6 +1246,36 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/02>
+-- Description: <取得使用在側邊區塊的有效網頁清單>
+-- Test:
+/*
+exec dbo.spArticle_GetValidListForSideSection '00000000-0000-0000-0000-000000000000', 'zh-TW'
+exec dbo.spArticle_GetValidListForSideSection '23661D48-17E7-4C45-BB11-8EC29BE941C3', 'zh-TW'
+*/
+-- =============================================
+create procedure dbo.spArticle_GetValidListForSideSection
+@ParentId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	select
+		am.ArticleId, am.ArticleSubject, a.ArticleAlias, 
+		a.ShowTypeId, a.LinkUrl, a.LinkTarget, 
+		a.IsHideChild
+	from dbo.ArticleMultiLang am
+		join dbo.Article a on am.ArticleId=a.ArticleId
+	where a.ParentId=@ParentId
+		and am.CultureName=@CultureName
+		and a.IsHideSelf=0
+		and a.StartDate <= getdate() and getdate() < a.EndDate+1
+		and am.IsShowInLang=1
+	order by a.SortNo
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------

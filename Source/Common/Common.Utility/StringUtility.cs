@@ -450,5 +450,28 @@ namespace Common.Utility
             return youtubeId;
         }
 
+        public static string GetLinkUrlOfShowType(Guid articleId, int langNo, int showTypeId, string linkUrl)
+        {
+            string destUrl = "";
+
+            if (showTypeId == 3 && linkUrl != "")   // showTypeId-3:URL
+            {
+                destUrl = linkUrl;
+
+                if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                    && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // inside page
+                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "artid", articleId.ToString());
+                    destUrl = StringUtility.SetParaValueInUrl(destUrl, "l", langNo.ToString());
+                }
+            }
+            else
+            {
+                destUrl = string.Format("Article.aspx?artid={0}&l={1}", articleId, langNo);
+            }
+
+            return destUrl;
+        }
     }
 }

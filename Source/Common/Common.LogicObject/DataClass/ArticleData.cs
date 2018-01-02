@@ -13,6 +13,7 @@ namespace Common.LogicObject
     {
         public Guid? ArticleId;
         public Guid? ParentId;
+        public int ArticleLevelNo;
         public string ArticleAlias;
         public string BannerPicFileName;
         public int LayoutModeId;
@@ -55,6 +56,7 @@ namespace Common.LogicObject
                 ParentId = (Guid)drArticle["ParentId"];
             }
 
+            ArticleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
             ArticleAlias = drArticle.ToSafeStr("ArticleAlias");
             BannerPicFileName = drArticle.ToSafeStr("BannerPicFileName");
             LayoutModeId = Convert.ToInt32(drArticle["LayoutModeId"]);
