@@ -1149,4 +1149,43 @@ namespace Common.LogicObject
         }
 
     }
+
+    /// <summary>
+    /// SSO 驗證功能的共用元件
+    /// </summary>
+    public class SsoAuthenticatorCommon : BackendPageCommon
+    {
+        public SsoAuthenticatorCommon(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        public string qsToken
+        {
+            get
+            {
+                return QueryStringToSafeStr("token");
+            }
+        }
+
+        public string qsLocation
+        {
+            get
+            {
+                return QueryStringToSafeStr("location");
+            }
+        }
+
+        public string qsReturnUrl
+        {
+            get
+            {
+                return QueryStringToSafeStr("returnUrl");
+            }
+        }
+
+        #endregion
+    }
 }

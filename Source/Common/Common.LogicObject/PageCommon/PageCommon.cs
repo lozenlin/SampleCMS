@@ -172,6 +172,17 @@ namespace Common.LogicObject
             }
         }
 
+        /// <summary>
+        /// Token value to preview article page
+        /// </summary>
+        public string qsPreview
+        {
+            get
+            {
+                return QueryStringToSafeStr("preview");
+            }
+        }
+
         #endregion
 
         protected HttpContext context;

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Common.LogicObject</RootNamespace>
     <AssemblyName>Common.LogicObject</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,11 +34,15 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\log4net-1.2.10\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Json.NET\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -52,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AfmServiceHandlerAbstract.cs" />
     <Compile Include="DataClass\ArticleData.cs" />
+    <Compile Include="DataClass\PreviewArticle.cs" />
     <Compile Include="PageCommon\AfmServicePageCommon.cs" />
     <Compile Include="ArticlePublisherLogic.cs" />
     <Compile Include="PageCommon\BackendPageCommon.cs" />
@@ -121,6 +128,10 @@
     <ProjectReference Include="..\Common.DataAccess\Common.DataAccess.csproj">
       <Project>{67548d79-7859-408a-97d8-7e6233d274a0}</Project>
       <Name>Common.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.Utility\Common.Utility.csproj">
+      <Project>{148266c2-75dc-4c89-85fc-23e9eef766cf}</Project>
+      <Name>Common.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

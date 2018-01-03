@@ -9,8 +9,11 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // ===============================================================================
 
+using Common.Utility;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -96,22 +99,14 @@ namespace Common.LogicObject
             }
         }
 
-        /// <summary>
-        /// Token value to preview article page
-        /// </summary>
-        public string qsPreview
-        {
-            get
-            {
-                return QueryStringToSafeStr("preview");
-            }
-        }
-
         #endregion
 
         protected ArticlePublisherLogic artPub;
         protected ArticleData articleData;
         protected bool isPreviewMode = false;
+        protected string aesKeyOfFP = "fromFrontendPage";   // 16 letters
+        protected string aesKeyOfBP = "BackendPageMainK";   // 16 letters
+        protected string basicIV = "SampleCMSsampleC";  // 16 letters
 
         /// <summary>
         /// 前台網頁的共用元件
@@ -182,11 +177,59 @@ namespace Common.LogicObject
             if (qsPreview == "1")
             {
                 // redirect to back-stage to get authorization
+                string websiteUrl = ConfigurationManager.AppSettings["WebsiteUrl"];
+                string backendSsoAuthenticatorUrl = ConfigurationManager.AppSettings["BackendSsoAuthenticatorUrl"];
+
+                if (string.IsNullOrEmpty(backendSsoAuthenticatorUrl))
+                {
+                    logger.Error("Invalid AppSettings/BackendSsoAuthenticatorUrl");
+                    return false;
+                }
+
+                string valueInToken = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string token = AesUtility.Encrypt(valueInToken, aesKeyOfFP, basicIV);
+                string location = websiteUrl + "/" + Request.AppRelativeCurrentExecutionFilePath.Replace("~/", "");
+                string url = StringUtility.SetParaValueInUrl(backendSsoAuthenticatorUrl, "token", Server.UrlEncode(token));
+                url = StringUtility.SetParaValueInUrl(url, "location", Server.UrlEncode(location));
+                url = AppendCurrentQueryString(url);
+                Response.Redirect(url);
             }
             else
             {
-                // decrypt token
-                // articleData.ArticleId = 
+                try
+                {
+                    // decrypt token
+                    string valueInToken = AesUtility.Decrypt(qsPreview, aesKeyOfBP, basicIV);
+                    PreviewArticle previewArticle = JsonConvert.DeserializeObject<PreviewArticle>(valueInToken);
+
+                    if (!string.IsNullOrEmpty(previewArticle.EmpAccount))
+                    {
+                        if (DateTime.Now <= previewArticle.ValidTime)
+                        {
+                            articleData.ArticleId = new Guid(previewArticle.ArticleId);
+                            result = true;
+                            isPreviewMode = true;
+
+                            logger.DebugFormat("{0} previews {1} (id:[{2}])(lang:{3}).",
+                                previewArticle.EmpAccount,
+                                Request.AppRelativeCurrentExecutionFilePath,
+                                previewArticle.ArticleId,
+                                qsLangNo);
+                        }
+                        else
+                        {
+                            logger.InfoFormat("{0} previews {1} but exceed valid time.", previewArticle.EmpAccount, Request.AppRelativeCurrentExecutionFilePath);
+                        }
+                    }
+                    else
+                    {
+                        logger.InfoFormat("user previews {0} but not logged in.", Request.AppRelativeCurrentExecutionFilePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("", ex);
+                }
             }
 
             return result;
