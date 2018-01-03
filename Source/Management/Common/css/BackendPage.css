@@ -32,7 +32,7 @@
 .login-body {
     /* 漸層桌面 */
     background-color:#4f7cb0;
-    background: linear-gradient(to bottom, rgba(11,88,170,1) 38%,rgba(149,192,219,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,60,130,1) 0%,rgba(44,109,178,1) 70%,rgba(149,192,219,1) 100%);
     background-attachment: fixed;
     
     /* 材質桌面
@@ -90,7 +90,7 @@
 
     /* 漸層桌面 */
     background-color:#4f7cb0;
-    background: linear-gradient(to bottom, rgba(11,88,170,1) 38%,rgba(149,192,219,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,60,130,1) 0%,rgba(44,109,178,1) 70%,rgba(149,192,219,1) 100%);
     background-attachment: fixed;
     
     /* 材質桌面
@@ -252,7 +252,7 @@
 
     /* 漸層桌面 */
     background-color:#4f7cb0;
-    background: linear-gradient(to bottom, rgba(11,88,170,1) 38%,rgba(149,192,219,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,60,130,1) 0%,rgba(44,109,178,1) 70%,rgba(149,192,219,1) 100%);
     background-attachment: fixed;
     
     /* 材質桌面

@@ -18,9 +18,14 @@
         <a id="btnCustomPrimary2" runat="server" href="#" class="btn btn-primary" visible="false">自訂主要2</a>
     </div>
     <div class="btn-group">
-        <a id="btnPreview" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreview %></a>
-        <a id="btnPreviewZhTw" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewZhTw %></a>
-        <a id="btnPreviewEn" runat="server" href="#" class="btn btn-light" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewEn %></a>
+        <a id="btnView" runat="server" href="#" target="_blank" class="btn btn-secondary" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnView %></a>
+        <a id="btnViewZhTw" runat="server" href="#" target="_blank" class="btn btn-secondary" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnViewZhTw %></a>
+        <a id="btnViewEn" runat="server" href="#" target="_blank" class="btn btn-secondary" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnViewEn %></a>
+    </div>
+    <div class="btn-group">
+        <a id="btnPreview" runat="server" href="#" target="_blank" class="btn btn-light border" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreview %></a>
+        <a id="btnPreviewZhTw" runat="server" href="#" target="_blank" class="btn btn-light border" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewZhTw %></a>
+        <a id="btnPreviewEn" runat="server" href="#" target="_blank" class="btn btn-light border" visible="false"><i class="fa fa-eye"></i> <%= Resources.Lang.Main_btnPreviewEn %></a>
     </div>
 </div>
 <hr class="content-divider" />

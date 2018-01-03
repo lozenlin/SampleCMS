@@ -147,7 +147,7 @@ namespace Common.LogicObject
 
             if (qsPreview != null)
             {
-                HandlePreviewToken();
+                result = HandlePreviewToken();
             }
             else if (qsAlias != null)
             {
@@ -209,7 +209,11 @@ namespace Common.LogicObject
                 DataRow drArticle = dsArticle.Tables[0].Rows[0];
                 bool isValid = false;
 
-                if (!isPreviewMode)
+                if (isPreviewMode)
+                {
+                    isValid = true;
+                }
+                else
                 {
                     // check validation date, isHideSelf, isShowInLang
                     DateTime startDate = Convert.ToDateTime(drArticle["StartDate"]);
@@ -342,7 +346,7 @@ namespace Common.LogicObject
 
             if (qsPreview != null)
             {
-                HandlePreviewToken();
+                result = HandlePreviewToken();
             }
             else
             {

@@ -253,29 +253,53 @@
     <value>Delete this item</value>
     <comment>刪除本項目</comment>
   </data>
+  <data name="Main_btnView" xml:space="preserve">
+    <value>View</value>
+    <comment>檢視</comment>
+  </data>
+  <data name="Main_btnView_Hint" xml:space="preserve">
+    <value>View this page</value>
+    <comment>檢視網頁</comment>
+  </data>
+  <data name="Main_btnViewZhTw" xml:space="preserve">
+    <value>View (中)</value>
+    <comment>檢視(中)</comment>
+  </data>
+  <data name="Main_btnViewZhTw_Hint" xml:space="preserve">
+    <value>View this page (Traditional Chinese)</value>
+    <comment>檢視網頁(正體中文版)</comment>
+  </data>
+  <data name="Main_btnViewEn" xml:space="preserve">
+    <value>(Eng)</value>
+    <comment>檢視網頁(Eng)</comment>
+  </data>
+  <data name="Main_btnViewEn_Hint" xml:space="preserve">
+    <value>View this page (English)</value>
+    <comment>檢視網頁(English)</comment>
+  </data>
   <data name="Main_btnPreview" xml:space="preserve">
     <value>Preview</value>
     <comment>預覽</comment>
   </data>
   <data name="Main_btnPreview_Hint" xml:space="preserve">
-    <value>Preview</value>
-    <comment>預覽</comment>
+    <value>Preview unopened page content</value>
+    <comment>預覽未開放的網頁內容</comment>
   </data>
   <data name="Main_btnPreviewZhTw" xml:space="preserve">
-    <value>Preview(中)</value>
+    <value>Preview (中)</value>
     <comment>預覽(中)</comment>
   </data>
   <data name="Main_btnPreviewZhTw_Hint" xml:space="preserve">
-    <value>Preview(Traditional Chinese)</value>
-    <comment>預覽(正體中文版)</comment>
+    <value>Preview unopened page content (Traditional Chinese)</value>
+    <comment>預覽未開放的網頁內容(正體中文版)</comment>
   </data>
   <data name="Main_btnPreviewEn" xml:space="preserve">
     <value>(Eng)</value>
     <comment>預覽(Eng)</comment>
   </data>
   <data name="Main_btnPreviewEn_Hint" xml:space="preserve">
-    <value>Preview(English)</value>
-    <comment>預覽(English)</comment>
+    <value>Preview unopened page content (English)</value>
+    <comment>預覽未開放的網頁內容(English)</comment>
   </data>
   <data name="Footer_CompanyInfo" xml:space="preserve">
     <value>© Company</value>

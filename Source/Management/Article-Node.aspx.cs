@@ -2,6 +2,7 @@
 using Common.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -242,6 +243,9 @@ public partial class Article_Node : BasePage
 
             ltrValidDateRange.Text = string.Format("{0:yyyy-MM-dd} ~ {1:yyyy-MM-dd}", drFirst["StartDate"], drFirst["EndDate"]);
 
+            DateTime startDate = Convert.ToDateTime(drFirst["StartDate"]);
+            DateTime endDate = Convert.ToDateTime(drFirst["EndDate"]);
+            bool isHideSelf = Convert.ToBoolean(drFirst["IsHideSelf"]);
             int showTypeId = Convert.ToInt32(drFirst["ShowTypeId"]);
             string linkUrl = drFirst.ToSafeStr("LinkUrl");
 
@@ -335,6 +339,27 @@ public partial class Article_Node : BasePage
                     DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
 
                     ltrContextZhTw.Text = drZhTw.ToSafeStr("ArticleContext");
+
+                    bool isShowInLang = Convert.ToBoolean(drZhTw["IsShowInLang"]);
+                    string url = "";
+                    string websiteUrl = ConfigurationManager.AppSettings["WebsiteUrl"];
+
+                    if (startDate <= DateTime.Today && DateTime.Today <= endDate
+                        && !isHideSelf
+                        && isShowInLang)
+                    {
+                        // view
+                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl);
+                        hud.SetButtonAttribute(HudButtonNameEnum.ViewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
+                        hud.SetButtonVisible(HudButtonNameEnum.ViewZhTw, true);
+                    }
+                    else
+                    {
+                        // preview
+                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl) + "&preview=1";
+                        hud.SetButtonAttribute(HudButtonNameEnum.PreviewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
+                        hud.SetButtonVisible(HudButtonNameEnum.PreviewZhTw, true);
+                    }
                 }
             }
 
@@ -348,6 +373,27 @@ public partial class Article_Node : BasePage
                     DataRow drEn = dsEn.Tables[0].Rows[0];
 
                     ltrContextEn.Text = drEn.ToSafeStr("ArticleContext");
+
+                    bool isShowInLang = Convert.ToBoolean(drEn["IsShowInLang"]);
+                    string url = "";
+                    string websiteUrl = ConfigurationManager.AppSettings["WebsiteUrl"];
+
+                    if (startDate <= DateTime.Today && DateTime.Today <= endDate
+                        && !isHideSelf
+                        && isShowInLang)
+                    {
+                        // view
+                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl);
+                        hud.SetButtonAttribute(HudButtonNameEnum.ViewEn, HudButtonAttributeEnum.NavigateUrl, url);
+                        hud.SetButtonVisible(HudButtonNameEnum.ViewEn, true);
+                    }
+                    else
+                    {
+                        // preview
+                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl) + "&preview=1";
+                        hud.SetButtonAttribute(HudButtonNameEnum.PreviewEn, HudButtonAttributeEnum.NavigateUrl, url);
+                        hud.SetButtonVisible(HudButtonNameEnum.PreviewEn, true);
+                    }
                 }
             }
         }

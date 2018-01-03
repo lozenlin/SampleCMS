@@ -61,6 +61,9 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
         btnEdit.Title = Resources.Lang.Main_btnEdit_Hint;
         ltrAddNew.Text = Resources.Lang.Main_btnAddNew;
         btnAddNew.Title = Resources.Lang.Main_btnAddNew_Hint;
+        btnView.Title = Resources.Lang.Main_btnView_Hint;
+        btnViewZhTw.Title = Resources.Lang.Main_btnViewZhTw_Hint;
+        btnViewEn.Title = Resources.Lang.Main_btnViewEn_Hint;
         btnPreview.Title = Resources.Lang.Main_btnPreview_Hint;
         btnPreviewZhTw.Title = Resources.Lang.Main_btnPreviewZhTw_Hint;
         btnPreviewEn.Title = Resources.Lang.Main_btnPreviewEn_Hint;
@@ -86,6 +89,15 @@ public partial class UserControls_wucHeadUpDisplay : System.Web.UI.UserControl, 
                 break;
             case HudButtonNameEnum.CustomPrimary2:
                 btn = btnCustomPrimary2;
+                break;
+            case HudButtonNameEnum.View:
+                btn = btnView;
+                break;
+            case HudButtonNameEnum.ViewZhTw:
+                btn = btnViewZhTw;
+                break;
+            case HudButtonNameEnum.ViewEn:
+                btn = btnViewEn;
                 break;
             case HudButtonNameEnum.Preview:
                 btn = btnPreview;

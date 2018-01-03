@@ -35,6 +35,9 @@ public enum HudButtonNameEnum
     AddNew,
     CustomPrimary1,
     CustomPrimary2,
+    View,
+    ViewZhTw,
+    ViewEn,
     Preview,
     PreviewZhTw,
     PreviewEn
