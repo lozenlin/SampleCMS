@@ -17,6 +17,8 @@ public partial class LayoutControls_ListItemsThumb : System.Web.UI.UserControl
     protected ArticleData articleData;
     protected IMasterArticleSettings masterSettings;
 
+    private bool isLazyLoadingMode = true;   //滾動加載模式
+
     protected void Page_Init(object sender, EventArgs e)
     {
         c = new FrontendPageCommon(this.Context, this.ViewState);
@@ -37,7 +39,16 @@ public partial class LayoutControls_ListItemsThumb : System.Web.UI.UserControl
     {
         if (!IsPostBack)
         {
-            DisplaySubitems();
+            if (isLazyLoadingMode)
+            {
+                LazyLoadingArea.Visible = true;
+                LazyLoadingCtrlArea.Visible = true;
+                ucDataPager.Visible = false;
+            }
+            else
+            {
+                DisplaySubitems();
+            }
         }
     }
 
@@ -84,6 +95,9 @@ public partial class LayoutControls_ListItemsThumb : System.Web.UI.UserControl
 
     protected void rptSubitems_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
+        if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            return;
+
         DataRowView drvTemp = (DataRowView)e.Item.DataItem;
 
         Guid articleId = (Guid)drvTemp["ArticleId"];
