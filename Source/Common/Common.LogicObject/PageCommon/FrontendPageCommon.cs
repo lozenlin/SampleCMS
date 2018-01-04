@@ -118,6 +118,8 @@ namespace Common.LogicObject
             articleData = new ArticleData();
         }
 
+        #region Public methods
+
         /// <summary>
         /// Retrieve ArticleId and initial article data by querystring: preview, alias, artid
         /// </summary>
@@ -166,6 +168,18 @@ namespace Common.LogicObject
 
             return result;
         }
+
+        public ArticleData GetArticleData()
+        {
+            return articleData;
+        }
+
+        public bool GetIsPreviewMode()
+        {
+            return isPreviewMode;
+        }
+
+        #endregion
 
         protected bool HandlePreviewToken()
         {
@@ -281,6 +295,7 @@ namespace Common.LogicObject
                     try
                     {
                         articleData.ImportDataFrom(drArticle);
+                        articleData.IsPreviewMode = isPreviewMode;
 
                         // get top level id's
                         DataSet dsTopLevelIds = artPub.GetArticleTopLevelIds(articleData.ArticleId.Value);
@@ -323,11 +338,6 @@ namespace Common.LogicObject
             }
 
             return result;
-        }
-
-        public ArticleData GetArticleData()
-        {
-            return articleData;
         }
     }
 

@@ -48,6 +48,7 @@ namespace Common.LogicObject
         public Guid? Lv1Id;
         public Guid? Lv2Id;
         public Guid? Lv3Id;
+        public bool IsPreviewMode = false;
 
         public void ImportDataFrom(DataRow drArticle)
         {

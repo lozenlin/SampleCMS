@@ -142,6 +142,10 @@
 		</aside>
 
 		<div id="fh5co-main">
+            <div id="IsPreviewModeAlert" runat="server" visible="false" class="alert alert-warning text-center alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <%= Resources.Lang.PreviewMode_Notice %>
+            </div>
 			<section id="InnerPageSection" runat="server">
 				<div class="container">
                     <div class="row">

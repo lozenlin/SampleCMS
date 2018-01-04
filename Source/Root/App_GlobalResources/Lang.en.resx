@@ -275,4 +275,8 @@
     <value>Videos</value>
     <comment>相關影片</comment>
   </data>
+  <data name="PreviewMode_Notice" xml:space="preserve">
+    <value>You are using preview mode to view this page</value>
+    <comment>您正使用預覽模式檢視本頁</comment>
+  </data>
 </root>

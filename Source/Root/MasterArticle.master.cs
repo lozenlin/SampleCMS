@@ -128,10 +128,19 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
             InnerPageSection.Visible = false;
         }
 
+        ShowPreviewModeAlert();
         LoadBannerSubjectUIData();
         HandleLayoutMode();
         ControlsBeforeFooterArea.Visible = showControlsBeforeFooterArea;
         btnReturnToList.Visible = showReturnToListButton;
+    }
+
+    private void ShowPreviewModeAlert()
+    {
+        if (articleData.IsPreviewMode)
+        {
+            IsPreviewModeAlert.Visible = true;
+        }
     }
 
     private void LoadBannerSubjectUIData()
