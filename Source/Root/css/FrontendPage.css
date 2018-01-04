@@ -76,6 +76,11 @@
         float:left;
     }
 
+.SitemapInHome {
+    background-color:#f6f9fa;
+    border-radius:10px;
+    padding:1.5rem;
+}
 
 @media screen and (min-width: 769px) {
     .GradientMask {

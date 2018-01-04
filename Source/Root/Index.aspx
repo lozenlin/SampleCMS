@@ -6,6 +6,51 @@
 </asp:Content>
 <asp:Content ID="cContentOfHomePage" ContentPlaceHolderID="cphContentOfHomePage" Runat="Server">
     <asp:Literal ID="ltrContext" runat="server"></asp:Literal>
+
+	<section id="fh5co-newsletter">
+		<div class="container SitemapInHome">
+			<div class="row">
+			    <div class="col-md-12">
+                    <ul class="sitemap-list">
+                    <asp:Repeater ID="rptSitemapLinks" runat="server" OnItemDataBound="rptSitemapLinks_ItemDataBound">
+                    <ItemTemplate>
+                        <li>
+                            <h2><a id="btnItem" runat="server" href="#">x. Subject</a></h2>
+                            <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSitemapLinks_ItemDataBound">
+                                <HeaderTemplate>
+                                    <ul>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <li>
+                                        <a id="btnItem" runat="server" href="#">x-y. Subject</a>
+                                        <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSitemapLinks_ItemDataBound">
+                                            <HeaderTemplate>
+                                                <ul>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <li>
+                                                    <a id="btnItem" runat="server" href="#">x-y. Subject</a>
+                                                </li>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                </ul>
+                                            </FooterTemplate>
+                                        </asp:Repeater>
+                                    </li>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    </ul>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </li>
+                    </ItemTemplate>
+                    </asp:Repeater>
+                    </ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
 </asp:Content>
