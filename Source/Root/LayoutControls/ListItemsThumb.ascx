@@ -33,3 +33,116 @@
         <span class="isLastData" style="display:none;">已到最後一筆</span>
     </div>
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
+
+	<script src="js/jquery-3.2.1.js"></script>
+    <script src="../js/dao.js"></script>
+    <script>
+        var langNo = '<%= c.qsLangNo %>';
+        var serviceUrl = "/jsonService.ashx?l=" + langNo;
+        var artid = '<%= articleData.ArticleId.Value.ToString() %>';
+        var curPageCode = 0;
+        var pageTotal = 0;
+        var isLoading = false;
+
+        $(function () {
+            $(".btnLoad").click(function () {
+                //切換按鈕
+                $(this).hide();
+                $(".loadingIcon").show();
+                isLoading = true;
+
+                //載入下一頁
+                curPageCode += 1;
+
+                dao.Article_GetListWithThumb(artid, curPageCode, function (cr) {
+                    if (cr.b) {
+                        var itemList = cr.o.itemList;
+
+                        for (var k in itemList) {
+                            var data = itemList[k];
+
+                            var articleSubject = data.ArticleSubject;
+
+                            var textContext = "";
+
+                            if (data.TextContext != null) {
+                                textContext = data.TextContext;
+                            }
+
+                            var itemUrl = "Article.aspx?artid=" + data.ArticleId + "&l=" + langNo;
+
+                            var imgUrl = "";
+                            var imgAlt = "*";
+
+                            if (data.PicId != "") {
+                                imgUrl = "/FileArtPic.ashx?attid=" + data.PicId + "&w=640&h=480&l=" + langNo;
+
+                                if (data.PicSubject != "") {
+                                    imgAlt = data.PicSubject;
+                                }
+                            } else {
+                                imgUrl = "/images/project_7.jpg";
+                            }
+
+                            var itemHtml =
+                                "<div class='row list-item-thumb'>" +
+                                "    <div class='col-xs-3'>" +
+                                "        <a href='" + itemUrl + "' class='thumbnail' title='" + articleSubject + "'>" +
+                                "            <img src='" + imgUrl + "' alt='" + imgAlt + "' class='img-responsive'/>" +
+                                "        </a>" +
+                                "    </div>" +
+                                "    <div class='col-xs-9'>" +
+                                "        <h2><a href='" + itemUrl + "' title='" + articleSubject + "'>" + articleSubject + "</a></h2>" +
+                                "        <p class='descText'>" + textContext + "</p>" +
+                                "    </div>" +
+                                "</div>";
+
+                            $(".list-thumb").append(itemHtml);
+                        }
+
+                        curPageCode = cr.o.pageCode;
+                        pageTotal = cr.o.pageTotal;
+                    } else {
+                        alert("載入清單時發生異常錯誤");
+                    }
+
+                    isLoading = false;
+                    refreshCtrls();
+                });
+
+                return false;
+            });
+
+            function refreshCtrls() {
+                $(".btnLoad").hide();
+                $(".loadingIcon").hide();
+                $(".isLastData").hide();
+
+                if (curPageCode >= pageTotal) {
+                    //沒下一頁
+                    $(".isLastData").show();
+                } else {
+                    $(".btnLoad").show();
+                }
+            }
+
+            $(window).scroll(function () {
+                if (isLoading) {
+                    return;
+                }
+
+                //檢查載入鈕,進到畫面內就自動觸發
+                var topOfBtn = $(".btnLoad").position().top;
+
+                if ($(this).scrollTop() + $(this).height() > topOfBtn + 10) {
+                    if ($(".btnLoad").is(":visible")) {
+                        $(".btnLoad").click();
+                    }
+                }
+            });
+
+            //第一次載入
+            $(".btnLoad").click();
+        });
+
+    </script>

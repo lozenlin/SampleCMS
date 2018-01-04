@@ -32,9 +32,17 @@ namespace Common.LogicObject
         /// <summary>
         /// 網頁內容發佈(上稿)
         /// </summary>
-        public ArticlePublisherLogic(IAuthenticationConditionProvider authCondition)
+        public ArticlePublisherLogic()
         {
             logger = LogManager.GetLogger(this.GetType());
+        }
+
+        /// <summary>
+        /// 網頁內容發佈(上稿)
+        /// </summary>
+        public ArticlePublisherLogic(IAuthenticationConditionProvider authCondition)
+            : this()
+        {
             this.authCondition = authCondition;
         }
 

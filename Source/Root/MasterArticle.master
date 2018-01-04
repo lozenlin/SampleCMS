@@ -169,7 +169,7 @@
 									<h1 class="h1 fh5co-heading fh5co-no-margin-bottom">
                                         <asp:Literal ID="ltrArticleSubject" runat="server"></asp:Literal>
 									</h1>
-                                    <asp:PlaceHolder ID="SubtitleArea" runat="server" Visible="false">
+                                    <asp:PlaceHolder ID="SubtitleArea" runat="server">
 									    <h4 class="h5 fh5co-heading-sub">
                                             <asp:Literal ID="ltrSubtitle" runat="server"></asp:Literal>
 									    </h4>

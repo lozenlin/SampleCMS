@@ -262,7 +262,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
 
         if (articleData.Subtitle != "")
         {
-            SubtitleArea.Visible = true;
+            //SubtitleArea.Visible = true;
             ltrSubtitle.Text = articleData.Subtitle;
         }
 
