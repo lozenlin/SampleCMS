@@ -50,6 +50,29 @@ public class GetCurrentAccount : IHttpHandler, IRequiresSessionState
         c.InitialLoggerOfUI(this.GetType());
 
         this.context = context;
+
+        if (!IsParamValid())
+        {
+            Response.Write("Invalid Parameters!");
+            return;
+        }
+
+        try
+        {
+            if (c.qsPreview == "1")
+            {
+                AuthenticateToPreview();
+            }
+        }
+        catch (Exception ex)
+        {
+            Response.Write(ex.Message);
+            return;
+        }
+    }
+
+    private bool IsParamValid()
+    {
         bool isParamValid = true;
 
         if (string.IsNullOrEmpty(c.qsToken) || string.IsNullOrEmpty(c.qsLocation))
@@ -76,24 +99,7 @@ public class GetCurrentAccount : IHttpHandler, IRequiresSessionState
             }
         }
 
-        if (!isParamValid)
-        {
-            Response.Write("Invalid Parameters!");
-            return;
-        }
-
-        try
-        {
-            if (c.qsPreview == "1")
-            {
-                AuthenticateToPreview();
-            }
-        }
-        catch (Exception ex)
-        {
-            Response.Write(ex.Message);
-            return;
-        }
+        return isParamValid;
     }
 
     private void AuthenticateToPreview()
