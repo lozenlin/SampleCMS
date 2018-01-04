@@ -1,18 +1,19 @@
-﻿.item-list > a:nth-child(2n+1) {
+﻿/* Article sub-items */
+.item-list > a:nth-child(2n+1) {
     background-color:#f5f5f9;
 }
 
 .item-date {
     line-height:5rem;
     text-align:center;
-    font-size:150%;
+    font-size:125%;
 }
 
 .PageArea {
     text-align:center;
 }
 
-    /* reference: http://www.wfublog.com/2016/11/multi-line-ellipsis-css.html */
+/* reference: http://www.wfublog.com/2016/11/multi-line-ellipsis-css.html */
 .list-group-item .descText {
         display:block;
         overflow:hidden;
@@ -20,10 +21,11 @@
         -webkit-box-orient:vertical;
         -webkit-line-clamp:2;
         /* for FF */
-        line-height:1.3rem;
-        height: 2.6rem; /* -webkit-line-clamp x line-height */
+        line-height:1.5em;
+        height: 3em; /* -webkit-line-clamp x line-height */
 }
 
+/* Article attachments */
 .AttachFileList > .list-group-item:nth-child(2n) {
     background-color: #fafafa;
 }
@@ -47,12 +49,14 @@
     text-align:center;
 }
 
+/* Article pictures */
 .pic-carousel {
     width:85%;
     margin-right:auto;
     margin-left:auto;
 }
 
+/* Article videos */
 .vid-carousel {
     width:85%;
     margin-right:auto;
@@ -63,6 +67,7 @@
         min-height:177px;
     }
 
+/* Sitemap */
 .sitemap-list {
 }
 
@@ -76,12 +81,26 @@
         float:left;
     }
 
+/* Index */
 .SitemapInHome {
     background-color:#f6f9fa;
     border-radius:10px;
     padding:1.5rem;
 }
 
+/* ListItemsThumb */
+.list-item-thumb .descText {
+    display:block;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+    /* for FF */
+    line-height:1.5em;
+    height: 4.5em; /* -webkit-line-clamp x line-height */
+}
+
+/* Banner */
 @media screen and (min-width: 769px) {
     .GradientMask {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.5+0,0.2+50,0+100 */

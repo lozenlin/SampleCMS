@@ -88,7 +88,7 @@ public partial class Article : FrontendBasePage
                 }
                 else
                 {
-                    Control ctl = LoadControl("~/UserControls" + articleData.ControlName);
+                    Control ctl = LoadControl("~/LayoutControls/" + articleData.ControlName + ".ascx");
                     ControlArea.Controls.Add(ctl);
                 }
                 break;
