@@ -526,6 +526,23 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得使用在網站導覽的有效網頁清單
+        /// </summary>
+        public DataSet GetArticleValidListForSitemap(Guid parentId, string cultureName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetValidListForSitemap cmdInfo = new spArticle_GetValidListForSitemap()
+            {
+                ParentId = parentId,
+                CultureName = cultureName
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions

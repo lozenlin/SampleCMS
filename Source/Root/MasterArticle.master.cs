@@ -229,7 +229,6 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         btnItem.InnerHtml = articleSubject;
         btnItem.Title = articleSubject;
         string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
-
         btnItem.HRef = destUrl;
         Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
 
@@ -463,7 +462,6 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         btnItem.InnerHtml = articleSubject;
         btnItem.Title = articleSubject;
         string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
-
         btnItem.HRef = destUrl;
         Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
 

@@ -352,6 +352,8 @@ public partial class Article_Node : BasePage
                         url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl);
                         hud.SetButtonAttribute(HudButtonNameEnum.ViewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.ViewZhTw, true);
+
+                        hud.SetButtonVisible(HudButtonNameEnum.PreviewZhTw, false);
                     }
                     else
                     {
@@ -359,6 +361,8 @@ public partial class Article_Node : BasePage
                         url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl) + "&preview=1";
                         hud.SetButtonAttribute(HudButtonNameEnum.PreviewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.PreviewZhTw, true);
+
+                        hud.SetButtonVisible(HudButtonNameEnum.ViewZhTw, false);
                     }
                 }
             }
@@ -386,6 +390,8 @@ public partial class Article_Node : BasePage
                         url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl);
                         hud.SetButtonAttribute(HudButtonNameEnum.ViewEn, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.ViewEn, true);
+
+                        hud.SetButtonVisible(HudButtonNameEnum.PreviewEn, false);
                     }
                     else
                     {
@@ -393,6 +399,8 @@ public partial class Article_Node : BasePage
                         url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl) + "&preview=1";
                         hud.SetButtonAttribute(HudButtonNameEnum.PreviewEn, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.PreviewEn, true);
+
+                        hud.SetButtonVisible(HudButtonNameEnum.ViewEn, false);
                     }
                 }
             }

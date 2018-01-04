@@ -63,6 +63,20 @@
         min-height:177px;
     }
 
+.sitemap-list {
+}
+
+    .sitemap-list li {
+        list-style-type:none;
+    }
+
+    .sitemap-list > li {
+        width:280px;
+        min-height:300px;
+        float:left;
+    }
+
+
 @media screen and (min-width: 769px) {
     .GradientMask {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.5+0,0.2+50,0+100 */

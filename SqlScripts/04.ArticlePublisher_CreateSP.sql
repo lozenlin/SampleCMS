@@ -1276,6 +1276,36 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/04>
+-- Description: <取得使用在網站導覽的有效網頁清單>
+-- Test:
+/*
+exec dbo.spArticle_GetValidListForSitemap '00000000-0000-0000-0000-000000000000', 'zh-TW'
+*/
+-- =============================================
+alter procedure dbo.spArticle_GetValidListForSitemap
+@ParentId uniqueidentifier
+,@CultureName varchar(10)
+as
+begin
+	select
+		am.ArticleId, am.ArticleSubject, a.ArticleAlias, 
+		a.ShowTypeId, a.LinkUrl, a.LinkTarget, 
+		a.IsHideChild, a.ArticleLevelNo
+	from dbo.ArticleMultiLang am
+		join dbo.Article a on am.ArticleId=a.ArticleId
+	where a.ParentId=@ParentId
+		and am.CultureName=@CultureName
+		and a.IsHideSelf=0
+		and a.StartDate <= getdate() and getdate() < a.EndDate+1
+		and am.IsShowInLang=1
+		and a.IsShowInSitemap=1
+	order by a.SortNo
+end
+go
+
 ----------------------------------------------------------------------------
 -- 附件檔案
 ----------------------------------------------------------------------------
@@ -2622,7 +2652,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2018/01/02>
+-- Create date: <2018/01/04>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

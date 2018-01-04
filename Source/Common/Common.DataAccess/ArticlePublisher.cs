@@ -610,6 +610,29 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 取得使用在網站導覽的有效網頁清單
+    /// </summary>
+    public class spArticle_GetValidListForSitemap : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public Guid ParentId;
+        public string CultureName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spArticle_GetValidListForSitemap";
+        }
+    }
+
     #endregion
 
     #region 附件檔案

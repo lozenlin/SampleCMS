@@ -458,6 +458,11 @@ namespace Common.Utility
             {
                 destUrl = linkUrl;
 
+                if (destUrl.StartsWith("~/"))
+                {
+                    destUrl = destUrl.Replace("~/", "");
+                }
+
                 if (!linkUrl.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
                     && !linkUrl.StartsWith("https:", StringComparison.CurrentCultureIgnoreCase))
                 {
