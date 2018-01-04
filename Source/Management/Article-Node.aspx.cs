@@ -338,7 +338,7 @@ public partial class Article_Node : BasePage
                 {
                     DataRow drZhTw = dsZhTw.Tables[0].Rows[0];
 
-                    ltrContextZhTw.Text = drZhTw.ToSafeStr("ArticleContext");
+                    ltrContextZhTw.Text = Microsoft.Security.Application.AntiXss.GetSafeHtmlFragment(drZhTw["ArticleContext"].ToString());
 
                     bool isShowInLang = Convert.ToBoolean(drZhTw["IsShowInLang"]);
                     string url = "";
@@ -372,7 +372,7 @@ public partial class Article_Node : BasePage
                 {
                     DataRow drEn = dsEn.Tables[0].Rows[0];
 
-                    ltrContextEn.Text = drEn.ToSafeStr("ArticleContext");
+                    ltrContextEn.Text = Microsoft.Security.Application.AntiXss.GetSafeHtmlFragment(drEn["ArticleContext"].ToString());
 
                     bool isShowInLang = Convert.ToBoolean(drEn["IsShowInLang"]);
                     string url = "";

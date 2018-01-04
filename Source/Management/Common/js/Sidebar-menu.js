@@ -175,7 +175,8 @@ function updateSidebarMenuStatus(w) {
 }
 
 $(window).resize(function () {
-    var w = window.innerWidth;
+    // var w = window.innerWidth;
+    var w = $("#mainNavbar").outerWidth();
     updateSidebarMenuStatus(w);
 });
 
@@ -184,4 +185,5 @@ $("#btnToggleSidebarMenu").click(function () {
     return false;
 });
 
-updateSidebarMenuStatus(window.innerWidth);
+// updateSidebarMenuStatus(window.innerWidth);
+updateSidebarMenuStatus($("#mainNavbar").outerWidth());
