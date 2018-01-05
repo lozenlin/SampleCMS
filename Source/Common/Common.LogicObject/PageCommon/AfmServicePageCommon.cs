@@ -34,6 +34,26 @@ namespace Common.LogicObject
             }
         }
 
+        /// <summary>
+        /// Thumbnail picture mode (1:active, 0:nothing)
+        /// </summary>
+        public int qsThumb
+        {
+            get
+            {
+                int result = 0;
+                string str = QueryStringToSafeStr("thumb");
+
+                if (str != null && int.TryParse(str, out result))
+                {
+                    if (result != 1)
+                        result = 0;
+                }
+
+                return result;
+            }
+        }
+
         public string seLastPath
         {
             get { return SessionToSafeStr("seLastPath"); }

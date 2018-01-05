@@ -4,8 +4,8 @@
             <a href="" class="thumbnail text-center" ng-click="selectOrUnselect(item, $event)" ng-dblclick="smartClick(item)" ng-right-click="selectOrUnselect(item, $event)" title="{{item.model.name}} ({{item.model.size | humanReadableFileSize}})" ng-class="{selected: isSelected(item)}">
                 <div class="item-icon">
                     <i class="glyphicon glyphicon-folder-open" ng-show="item.model.type === 'dir'"></i>
-                    <i class="glyphicon glyphicon-file" data-ext="{{ item.model.name | fileExtension }}" ng-show="item.model.type === 'file' && !(item.isImage() && item.model.size<=10*1024)" ng-class="{'item-extension': config.showExtensionIcons}"></i>
-                    <img src="{{ fileNavigator.apiMiddleware.getUrl(item) }}" ng-if="item.model.type === 'file' && item.isImage() && item.model.size<=10*1024"
+                    <i class="glyphicon glyphicon-file" data-ext="{{ item.model.name | fileExtension }}" ng-show="item.model.type === 'file' && !(item.isImage())" ng-class="{'item-extension': config.showExtensionIcons}"></i>
+                    <img src="{{ fileNavigator.apiMiddleware.getUrl(item) }}&thumb=1" ng-if="item.model.type === 'file' && item.isImage()"
                         alt="*" style="max-width:40px; max-height:40px;" /><!-- 2017/11/25, lozen_lin, modify, preview image, when the file size is less than 10k -->
                 </div>
                 {{item.model.name | strLimit : 11 }}
