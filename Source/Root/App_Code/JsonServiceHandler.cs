@@ -81,8 +81,16 @@ public class Article_GetListWithThumb : JsonServiceHandlerAbstract
         artPub.GetArticleValidListForFrontend(param);
 
         // setting pager rule
-        dataPager.MaxItemCountOfPage = 10;
-        dataPager.MaxDisplayCountInPageCodeArea = 5;
+        if (string.Compare(articleData.ControlName, "ListBlocks", true) == 0)
+        {
+            dataPager.MaxItemCountOfPage = 6;
+            dataPager.MaxDisplayCountInPageCodeArea = 5;
+        }
+        else
+        {
+            dataPager.MaxItemCountOfPage = 10;
+            dataPager.MaxDisplayCountInPageCodeArea = 5;
+        }
 
         // update pager and get begin end of item numbers
         dataPager.ItemTotalCount = param.PagedParams.RowCount;

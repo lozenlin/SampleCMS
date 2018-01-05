@@ -379,6 +379,7 @@
 		<script src="js/main.js"></script>
         <script src="Common/slick/slick.min.js"></script>
         <script src="Common/fancybox2/source/jquery.fancybox.js"></script>
+        <script src="js/imgLiquid-min.js"></script>
         <script src="js/FrontendPage.js"></script>
         <script>
             var isMobile = false;

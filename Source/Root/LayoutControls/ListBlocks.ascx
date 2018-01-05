@@ -1,20 +1,22 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ListItemsThumb.ascx.cs" Inherits="LayoutControls_ListItemsThumb" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ListBlocks.ascx.cs" Inherits="LayoutControls_ListBlocks" %>
 <%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
 
     <asp:Repeater ID="rptSubitems" runat="server" OnItemDataBound="rptSubitems_ItemDataBound">
         <HeaderTemplate>
-            <div class="list-thumb">
+            <div class="row list-blocks">
         </HeaderTemplate>
         <ItemTemplate>
-            <div class="row list-item-thumb">
-                <div class="col-xs-3">
-                    <a id="btnPic" runat="server" href="#" class="thumbnail">
-                        <img id="imgPic" runat="server" src="/images/project_7.jpg" alt="*" class="img-responsive"/>
+            <div class="col-sm-6 col-md-4 block-item">
+                <div class="thumbnail">
+                    <a id="btnItem" runat="server" href="#">
+                        <div class="item-thumb">
+                            <img id="imgPic" runat="server" src="/images/project_5.jpg" alt="*"/>
+                        </div>
+                        <div class="caption">
+                            <h3><%# basePage.EvalToSafeStr("ArticleSubject") %></h3>
+                            <p class="descText"><%# basePage.EvalToSafeStr("TextContext") %></p>
+                        </div>
                     </a>
-                </div>
-                <div class="col-xs-9">
-                    <h2><a id="btnItem" runat="server" href="#"><%# basePage.EvalToSafeStr("ArticleSubject") %></a></h2>
-                    <p class="descText"><%# basePage.EvalToSafeStr("TextContext") %></p>
                 </div>
             </div>
         </ItemTemplate>
@@ -23,7 +25,7 @@
         </FooterTemplate>
     </asp:Repeater>
     <asp:PlaceHolder ID="LazyLoadingArea" runat="server" Visible="false">
-        <div class="list-thumb">
+        <div class="row list-blocks">
 
         </div>
     </asp:PlaceHolder>
@@ -34,8 +36,10 @@
     </div>
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
 
+
 	<script src="js/jquery-3.2.1.js"></script>
     <script src="js/dao.js"></script>
+    <script src="js/imgLiquid-min.js"></script>
     <script>
         var langNo = '<%= c.qsLangNo %>';
         var serviceUrl = "/jsonService.ashx?l=" + langNo;
@@ -43,6 +47,9 @@
         var curPageCode = 0;
         var pageTotal = 0;
         var isLoading = false;
+
+        // item-thumb
+        $(".list-blocks .item-thumb").imgLiquid();
 
         $(function () {
             $(".btnLoad").click(function () {
@@ -85,20 +92,24 @@
                             }
 
                             var itemHtml =
-                                "<div class='row list-item-thumb'>" +
-                                "    <div class='col-xs-3'>" +
-                                "        <a href='" + itemUrl + "' class='thumbnail' title='" + articleSubject + "'>" +
-                                "            <img src='" + imgUrl + "' alt='" + imgAlt + "' class='img-responsive'/>" +
-                                "        </a>" +
-                                "    </div>" +
-                                "    <div class='col-xs-9'>" +
-                                "        <h2><a href='" + itemUrl + "' title='" + articleSubject + "'>" + articleSubject + "</a></h2>" +
-                                "        <p class='descText'>" + textContext + "</p>" +
-                                "    </div>" +
+                                "<div class='col-sm-6 col-md-4 block-item'>" +
+                                "	<div class='thumbnail'>" +
+                                "		<a href='" + itemUrl + "' title='" + articleSubject + "'>" +
+                                "			<div class='item-thumb'>" +
+                                "				<img src='" + imgUrl + "' alt='" + imgAlt + "' />" +
+                                "			</div>" +
+                                "			<div class='caption'>" +
+                                "				<h3>" + articleSubject + "</h3>" +
+                                "				<p class='descText'>" + textContext + "</p>" +
+                                "			</div>" +
+                                "		</a>" +
+                                "	</div>" +
                                 "</div>";
 
-                            $(".list-thumb").append(itemHtml);
+                            $(".list-blocks").append(itemHtml);
                         }
+
+                        $(".list-blocks .item-thumb").imgLiquid();
 
                         curPageCode = cr.o.pageCode;
                         pageTotal = cr.o.pageTotal;
@@ -145,4 +156,4 @@
             $(".btnLoad").click();
         });
 
-    </script>
+    </script>  

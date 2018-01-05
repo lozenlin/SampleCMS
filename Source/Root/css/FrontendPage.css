@@ -105,6 +105,23 @@
     text-align:center;
 }
 
+/* ListBlocks */
+.list-blocks .descText {
+    display:block;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+    /* for FF */
+    line-height:1.5em;
+    height: 4.5em; /* -webkit-line-clamp x line-height */
+}
+
+.list-blocks .item-thumb {
+    width:100%;
+    height:200px;
+}
+
 /* Banner */
 @media screen and (min-width: 769px) {
     .GradientMask {

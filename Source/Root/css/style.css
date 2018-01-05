@@ -1,4 +1,4 @@
-/*
+﻿/*
 //////////////////////////////////////////////////////
 
 FREE HTML5 TEMPLATE 
@@ -30,10 +30,10 @@ html.fh5co-overflow #fh5co-header-section, html.fh5co-overflow #fh5co-main, html
 }
 
 body {
-  font-family: 'Lato', arial, sans-serif;
+  font-family: "微軟正黑體", -apple-system, BlinkMacSystemFont, 'Lato', arial, sans-serif; /* 2018/01/05, lozen_lin, modify */
   font-size: 16px;
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400; /* 2018/01/05, lozen_lin, modify */
   color: #2e2e2e;
 }
 @media screen and (max-width: 768px) {
