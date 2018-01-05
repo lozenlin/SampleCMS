@@ -934,11 +934,12 @@ go
 -- Create date: <2017/12/01>
 -- History:
 --	2017/12/26, lozen_lin, modify, 列出有效日期
+--	2018/01/05, lozen_lin, modify, 修正問題「應該找不到資料時卻多出一筆」
 -- Description: <取得指定語系的網頁內容階層資料>
 -- Test:
 /*
-exec dbo.spArticleMultiLang_GetLevelInfo '036604AA-98E1-49C2-A42B-CC3ED20F4DB7', 'en'
-exec dbo.spArticleMultiLang_GetLevelInfo 'B1D34D29-255A-42A2-B9AF-C33911BCDE9A', 'zh-TW'
+exec dbo.spArticleMultiLang_GetLevelInfo '759CE382-7669-48A2-8B0E-230F65597AC3', 'zh-TW'
+exec dbo.spArticleMultiLang_GetLevelInfo '759CE382-7669-48A2-8B0E-230F65597AC3', 'en'
 exec dbo.spArticleMultiLang_GetLevelInfo '00000000-0000-0000-0000-000000000000', 'zh-TW'
 */
 -- =============================================
@@ -984,18 +985,21 @@ begin
 		where am.ArticleId=@CurArticleId
 			and am.CultureName=@CultureName
 
-		insert into #tbl(
-			ArticleId, ArticleSubject, ArticleLevelNo
-			,ShowTypeId, LinkUrl, LinkTarget
-			,IsHideSelf, IsShowInLang, StartDate
-			,EndDate
-			)
-		values(
-			@CurArticleId, @ArticleSubject, @ArticleLevelNo
-			,@ShowTypeId, @LinkUrl, @LinkTarget
-			,@IsHideSelf, @IsShowInLang, @StartDate
-			,@EndDate
-			)
+		if @@rowcount > 0
+		begin
+			insert into #tbl(
+				ArticleId, ArticleSubject, ArticleLevelNo
+				,ShowTypeId, LinkUrl, LinkTarget
+				,IsHideSelf, IsShowInLang, StartDate
+				,EndDate
+				)
+			values(
+				@CurArticleId, @ArticleSubject, @ArticleLevelNo
+				,@ShowTypeId, @LinkUrl, @LinkTarget
+				,@IsHideSelf, @IsShowInLang, @StartDate
+				,@EndDate
+				)
+		end
 
 		if @ParentId is null
 		begin

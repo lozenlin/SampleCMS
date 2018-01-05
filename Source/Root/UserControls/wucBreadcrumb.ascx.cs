@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -103,6 +104,8 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
                     bool isShowInLang = Convert.ToBoolean(drLevelInfo["IsShowInLang"]);
                     DateTime startDate = Convert.ToDateTime(drLevelInfo["StartDate"]);
                     DateTime endDate = Convert.ToDateTime(drLevelInfo["EndDate"]);
+                    int showTypeId = Convert.ToInt32(drLevelInfo["ShowTypeId"]);
+                    string linkUrl = drLevelInfo.ToSafeStr("LinkUrl");
 
                     if (startDate <= DateTime.Today && DateTime.Today <= endDate
                         && !isHideSelf
@@ -124,7 +127,7 @@ public partial class UserControls_wucBreadcrumb : System.Web.UI.UserControl
                         }
                         else
                         {
-                            string href = string.Format("Article.aspx?artid={0}&l={1}", itemId, c.qsLangNo);
+                            string href = StringUtility.GetLinkUrlOfShowType(itemId, c.qsLangNo, showTypeId, linkUrl);
                             ltrBreadcrumb.Text += GetBreadcrumbLinkItemHtml(itemSubject, itemSubject, href);
                         }
                     }

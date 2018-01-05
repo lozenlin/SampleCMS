@@ -450,6 +450,9 @@ namespace Common.Utility
             return youtubeId;
         }
 
+        /// <summary>
+        /// 取得經過開啟方式處理後的網址 Obtain ShowType processed URL
+        /// </summary>
         public static string GetLinkUrlOfShowType(Guid articleId, int langNo, int showTypeId, string linkUrl)
         {
             string destUrl = "";
