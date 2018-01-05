@@ -33,6 +33,11 @@ public partial class LayoutControls_ListItemsThumb : System.Web.UI.UserControl
         ucDataPager.MaxDisplayCountInPageCodeArea = 5;
         ucDataPager.LinkUrlToReload = string.Concat(Request.AppRelativeCurrentExecutionFilePath, "?", Request.QueryString);
         ucDataPager.Initialize(0, 0);
+
+        if (articleData.IsPreviewMode)
+        {
+            isLazyLoadingMode = false;
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)

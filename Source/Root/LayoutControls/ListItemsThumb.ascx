@@ -28,9 +28,9 @@
         </div>
     </asp:PlaceHolder>
     <div id="LazyLoadingCtrlArea" runat="server" class="lazy-loading-ctrls thumbCtrls" visible="false">
-        <a href="#" class="btnLoad">載入更多</a>
-        <span class="loadingIcon" style="display:none;"><img src="/images/Spinner.gif" alt="載入中" width="80" /></span>
-        <span class="isLastData" style="display:none;">已到最後一筆</span>
+        <a href="#" class="btnLoad"><%= Resources.Lang.LazyLoading_btnLoad %></a>
+        <span class="loadingIcon" style="display:none;"><img src="/images/Spinner.gif" alt='<%= Resources.Lang.LazyLoading_Loading %>' width="80" /></span>
+        <span class="isLastData" style="display:none;"><%= Resources.Lang.LazyLoading_IsLast %></span>
     </div>
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
 
@@ -103,7 +103,7 @@
                         curPageCode = cr.o.pageCode;
                         pageTotal = cr.o.pageTotal;
                     } else {
-                        alert("載入清單時發生異常錯誤");
+                        alert('<%= Resources.Lang.ErrMsg_LoadListFailed %>');
                     }
 
                     isLoading = false;

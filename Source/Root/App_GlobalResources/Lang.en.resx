@@ -279,4 +279,20 @@
     <value>You are using preview mode to view this page</value>
     <comment>您正使用預覽模式檢視本頁</comment>
   </data>
+  <data name="LazyLoading_btnLoad" xml:space="preserve">
+    <value>Load more</value>
+    <comment>載入更多</comment>
+  </data>
+  <data name="LazyLoading_Loading" xml:space="preserve">
+    <value>Loading</value>
+    <comment>載入中</comment>
+  </data>
+  <data name="LazyLoading_IsLast" xml:space="preserve">
+    <value>Has come to the last one</value>
+    <comment>已到最後一筆</comment>
+  </data>
+  <data name="ErrMsg_LoadListFailed" xml:space="preserve">
+    <value>An exception error occurred while loading the list</value>
+    <comment>載入清單時發生異常錯誤</comment>
+  </data>
 </root>
