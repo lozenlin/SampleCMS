@@ -59,6 +59,20 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         set { ucBreadcrumb.CustomRouteHtml = value; }
     }
 
+    public bool ShowBreadcrumbAndSearchArea
+    {
+        get { return showBreadcrumbAndSearchArea; }
+        set { showBreadcrumbAndSearchArea = value; }
+    }
+    protected bool showBreadcrumbAndSearchArea = true;
+
+    public bool ShowSearchCondition
+    {
+        get { return showSearchCondition; }
+        set { showSearchCondition = value; }
+    }
+    protected bool showSearchCondition = true;
+
 
     public void SetReturnToListUrl(string returnToListUrl)
     {
@@ -131,6 +145,8 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         ShowPreviewModeAlert();
         LoadBannerSubjectUIData();
         HandleLayoutMode();
+        BreadcrumbAndSearchArea.Visible = showBreadcrumbAndSearchArea;
+        ucSearchCondition.Visible = showSearchCondition;
         ControlsBeforeFooterArea.Visible = showControlsBeforeFooterArea;
         btnReturnToList.Visible = showReturnToListButton;
     }

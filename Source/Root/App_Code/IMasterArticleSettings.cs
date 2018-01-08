@@ -33,6 +33,14 @@ public interface IMasterArticleSettings
     /// 自訂麵包屑的 html 內容(系統自動增加 home)
     /// </summary>
     string CustomRouteHtmlOfBreadcrumb { get; set; }
+    /// <summary>
+    /// 是否顯示麵包屑與搜尋條件區塊
+    /// </summary>
+    bool ShowBreadcrumbAndSearchArea { get; set; }
+    /// <summary>
+    /// 是否顯示搜尋條件
+    /// </summary>
+    bool ShowSearchCondition { get; set; }
 
     /// <summary>
     /// 設定回上層鈕的連結內容
