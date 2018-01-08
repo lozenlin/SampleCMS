@@ -37,7 +37,6 @@
     <uc1:wucDataPager ID="ucDataPager" runat="server" />
 
 
-	<script src="js/jquery-3.2.1.js"></script>
     <script src="js/dao.js"></script>
     <script src="js/imgLiquid-min.js"></script>
     <script>

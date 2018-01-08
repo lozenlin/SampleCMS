@@ -411,4 +411,73 @@ namespace Common.LogicObject
         }
 
     }
+
+    /// <summary>
+    /// 搜尋網頁的共用元件
+    /// </summary>
+    public class SearchPageCommon : OtherArticlePageCommon
+    {
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        /// <summary>
+        /// 搜尋用關鍵字
+        /// </summary>
+        public string qsQueryKeyword
+        {
+            get
+            {
+                return QueryStringToSafeStr("q") ?? "";
+            }
+        }
+
+        #endregion
+
+        public SearchPageCommon(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        /// <summary>
+        /// 到搜尋結果頁
+        /// </summary>
+        public void GoToSearchResult(string keyword)
+        {
+            char[] separators = new char[] { ',', ';', ' ', '　' };
+            bool isMultiKeyword = false;
+
+            //檢查是否為多項關鍵字
+            foreach (char symbol in separators)
+            {
+                if (keyword.Contains(symbol.ToString()))
+                {
+                    isMultiKeyword = true;
+                }
+            }
+
+            //更新搜尋關鍵字
+            if (isMultiKeyword)
+            {
+                string[] tokens = keyword.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string token in tokens)
+                {
+                    //todo by lozen
+                }
+            }
+            else
+            {
+                //todo by lozen
+            }
+
+            Response.Redirect(BuildSearchResultUrl(keyword));
+        }
+
+        /// <summary>
+        /// 建立搜尋結果頁網址
+        /// </summary>
+        public virtual string BuildSearchResultUrl(string keyword)
+        {
+            return string.Format("~/Search-Result.aspx?q={0}&l={1}", Server.UrlEncode(keyword), qsLangNo);
+        }
+    }
 }
