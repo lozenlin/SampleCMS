@@ -1481,4 +1481,31 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     #endregion
+
+    #region 搜尋關鍵字
+
+    /// <summary>
+    /// 儲存搜尋關鍵字
+    /// </summary>
+    public class spKeyword_SaveData : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public string CultureName;
+        public string Kw;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spKeyword_SaveData";
+        }
+    }
+
+    #endregion
 }

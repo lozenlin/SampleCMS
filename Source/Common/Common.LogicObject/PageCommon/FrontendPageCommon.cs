@@ -461,12 +461,12 @@ namespace Common.LogicObject
 
                 foreach (string token in tokens)
                 {
-                    //todo by lozen
+                    artPub.SaveKeywordData(qsCultureNameOfLangNo, token);
                 }
             }
             else
             {
-                //todo by lozen
+                artPub.SaveKeywordData(qsCultureNameOfLangNo, keyword);
             }
 
             Response.Redirect(BuildSearchResultUrl(keyword));

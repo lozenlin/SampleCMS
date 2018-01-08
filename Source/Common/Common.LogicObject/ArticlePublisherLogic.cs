@@ -1184,6 +1184,27 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region Keyword DataAccess functions
+
+        /// <summary>
+        /// 儲存搜尋關鍵字
+        /// </summary>
+        public bool SaveKeywordData(string cultureName, string kw)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spKeyword_SaveData cmdInfo = new spKeyword_SaveData()
+            {
+                CultureName = cultureName,
+                Kw = kw
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

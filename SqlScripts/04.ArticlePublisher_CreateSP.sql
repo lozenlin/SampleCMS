@@ -2645,6 +2645,48 @@ begin
 end
 go
 
+----------------------------------------------------------------------------
+-- 搜尋關鍵字
+----------------------------------------------------------------------------
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/08>
+-- Description: <儲存搜尋關鍵字>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spKeyword_SaveData
+@CultureName	varchar(10)
+,@Kw	nvarchar(100)
+as
+begin
+	if exists(select * from dbo.Keyword 
+				where CultureName=@CultureName
+					and Kw=@Kw)
+	begin
+		-- increase used count
+		update dbo.Keyword
+		set UsedCount += 1
+		where CultureName=@CultureName
+			and Kw=@Kw
+			and UsedCount>=0	-- >= 0 : enabled
+	end
+	else
+	begin
+		-- new one
+		insert into dbo.Keyword(
+			CultureName, Kw, UsedCount
+			)
+		values(
+			@CultureName, @Kw, 1
+			)
+	end
+end
+go
+
 
 
 
@@ -2656,7 +2698,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2018/01/04>
+-- Create date: <2018/01/08>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*
