@@ -276,6 +276,20 @@ create table dbo.SearchDataSource(
 go
 -- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
 create clustered index IX_SearchDataSource on dbo.SearchDataSource (SeqnoForCluster)
+go
+
+----------------------------------------------------------------------------
+-- dbo.Keyword 搜尋關鍵字	
+----------------------------------------------------------------------------
+create table dbo.Keyword(
+	Seqno	int	Not Null	identity primary key
+	,CultureName	varchar(10)	Not Null	
+	,Kw	nvarchar(100)	Not Null	
+	,UsedCount	int	Not Null	Default(1)
+)
+go
+create unique index IX_Keyword_Kw on dbo.Keyword (CultureName, Kw)
+go
 
 
 
