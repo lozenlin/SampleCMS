@@ -1205,6 +1205,24 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region SearchDataSource DataAccess functions
+
+        /// <summary>
+        /// 建立搜尋用資料來源
+        /// </summary>
+        public bool BuildSearchDataSource(string mainLinkUrl)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spSearchDataSource_Build cmdInfo = new spSearchDataSource_Build() { MainLinkUrl = mainLinkUrl };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

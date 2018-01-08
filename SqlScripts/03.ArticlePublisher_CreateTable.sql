@@ -259,14 +259,14 @@ go
 ----------------------------------------------------------------------------
 create table dbo.SearchDataSource(
 	ArticleId	uniqueidentifier	Not Null	
-	,SubId	uniqueidentifier	Not Null	
+	,SubId	uniqueidentifier	Not Null	default('00000000-0000-0000-0000-000000000000')
 	,CultureName	varchar(10)	Not Null	
 	,SeqnoForCluster	int	Not Null	identity
 	,ArticleSubject	nvarchar(200)		
 	,ArticleContext	nvarchar(max)		
 	,ReadCount	int	Not Null	Default(0)
 	,LinkUrl	nvarchar(2048)		
-	,ContentMdfDate	datetime		
+	,PublishDate	datetime
 	,BreadcrumbData	nvarchar(4000)		
 	,Lv1ArticleId	uniqueidentifier		
 	,PostDate	datetime		
