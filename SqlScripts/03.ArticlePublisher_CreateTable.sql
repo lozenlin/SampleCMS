@@ -254,6 +254,29 @@ go
 create clustered index IX_ArticleVideoMultiLang on dbo.ArticleVideoMultiLang (SeqnoForCluster)
 go
 
+----------------------------------------------------------------------------
+-- dbo.SearchDataSource 搜尋用資料來源	
+----------------------------------------------------------------------------
+create table dbo.SearchDataSource(
+	ArticleId	uniqueidentifier	Not Null	
+	,SubId	uniqueidentifier	Not Null	
+	,CultureName	varchar(10)	Not Null	
+	,SeqnoForCluster	int	Not Null	identity
+	,ArticleSubject	nvarchar(200)		
+	,ArticleContext	nvarchar(max)		
+	,ReadCount	int	Not Null	Default(0)
+	,LinkUrl	nvarchar(2048)		
+	,ContentMdfDate	datetime		
+	,BreadcrumbData	nvarchar(4000)		
+	,Lv1ArticleId	uniqueidentifier		
+	,PostDate	datetime		
+	,MdfDate	datetime		
+	,constraint PK_SearchDataSource primary key nonclustered (ArticleId, SubId, CultureName)
+)
+go
+-- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
+create clustered index IX_SearchDataSource on dbo.SearchDataSource (SeqnoForCluster)
+
 
 
 go
