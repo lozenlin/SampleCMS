@@ -349,7 +349,14 @@ public partial class Article_Node : BasePage
                         && isShowInLang)
                     {
                         // view
-                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl);
+                        url = StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl);
+
+                        if (!url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                            && !url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            url = websiteUrl + "/" + url;
+                        }
+
                         hud.SetButtonAttribute(HudButtonNameEnum.ViewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.ViewZhTw, true);
 
@@ -358,7 +365,14 @@ public partial class Article_Node : BasePage
                     else
                     {
                         // preview
-                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl) + "&preview=1";
+                        url = StringUtility.GetLinkUrlOfShowType(c.qsArtId, 1, showTypeId, linkUrl) + "&preview=1";
+
+                        if (!url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                            && !url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            url = websiteUrl + "/" + url;
+                        }
+
                         hud.SetButtonAttribute(HudButtonNameEnum.PreviewZhTw, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.PreviewZhTw, true);
 
@@ -387,7 +401,14 @@ public partial class Article_Node : BasePage
                         && isShowInLang)
                     {
                         // view
-                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl);
+                        url = StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl);
+
+                        if (!url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                            && !url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            url = websiteUrl + "/" + url;
+                        }
+
                         hud.SetButtonAttribute(HudButtonNameEnum.ViewEn, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.ViewEn, true);
 
@@ -396,7 +417,14 @@ public partial class Article_Node : BasePage
                     else
                     {
                         // preview
-                        url = websiteUrl + "/" + StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl) + "&preview=1";
+                        url = StringUtility.GetLinkUrlOfShowType(c.qsArtId, 2, showTypeId, linkUrl) + "&preview=1";
+
+                        if (!url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase)
+                            && !url.StartsWith("http:", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            url = websiteUrl + "/" + url;
+                        }
+
                         hud.SetButtonAttribute(HudButtonNameEnum.PreviewEn, HudButtonAttributeEnum.NavigateUrl, url);
                         hud.SetButtonVisible(HudButtonNameEnum.PreviewEn, true);
 
