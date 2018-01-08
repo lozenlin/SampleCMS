@@ -1,10 +1,22 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterArticle.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="Index" %>
+<%@ Register Src="~/UserControls/wucSearchCondition.ascx" TagPrefix="uc1" TagName="wucSearchCondition" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
 </asp:Content>
 <asp:Content ID="cContentOfHomePage" ContentPlaceHolderID="cphContentOfHomePage" Runat="Server">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <uc1:wucSearchCondition ID="ucSearchCondition" runat="server" />
+            </div>
+        </div>
+    </div>
+
     <asp:Literal ID="ltrContext" runat="server"></asp:Literal>
 
 	<section id="fh5co-newsletter">

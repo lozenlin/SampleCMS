@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ErrorPage.aspx.cs" Inherits="ErrorPage" %>
+<%@ Register Src="~/UserControls/wucSearchCondition.ascx" TagPrefix="uc1" TagName="wucSearchCondition" %>
 
 <!DOCTYPE html>
 
@@ -41,24 +42,25 @@
 	<!-- Easy Responsive Tabs -->
 	<link rel="stylesheet" href="/css/easy-responsive-tabs.css"/>
 
-	
-
 	<!-- Theme Style -->
 	<link rel="stylesheet" href="/css/style.css"/>
 
-	
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-        <style type="text/css">
-            @media screen and (min-width: 769px) {
-              #fh5co-main {
-                margin-top: 150px !important;
-              }
+    <style type="text/css">
+        @media screen and (min-width: 769px) {
+            #fh5co-main {
+            margin-top: 150px !important;
             }
-        </style>
+        }
+    </style>
+	<!-- jQuery -->
+	<!--<script src="js/jquery-1.10.2.min.js"></script>-->
+	<script src="js/jquery-3.2.1.js"></script>
+	<!--<script src="js/jquery-migrate-3.0.0.js"></script>-->
 </head>
 <body>
     <form id="form1" runat="server">
@@ -92,17 +94,12 @@
 			<!-- main start -->
 			<section>
 				<div class="container">
-                    <div class="row" runat="server" visible="false">
+                    <div class="row">
                         <div class="col-md-8">
 
                         </div>
-                        <div class="col-md-4 form-inline">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="keyword" />
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="btn btn-primary btn-sm" style="margin-bottom:0;">Search</a>
-                            </div>
+                        <div class="col-md-4">
+                            <uc1:wucSearchCondition ID="ucSearchCondition" runat="server" />
                         </div>
                     </div>
 					<div class="row">
@@ -143,10 +140,6 @@
 		</div>
 			
 			
-		<!-- jQuery -->
-		<!--<script src="js/jquery-1.10.2.min.js"></script>-->
-		<script src="js/jquery-3.2.1.js"></script>
-		<!--<script src="js/jquery-migrate-3.0.0.js"></script>-->
 		<!-- jQuery Easing -->
 		<script src="js/jquery.easing.1.3.js"></script>
 		<!-- Bootstrap -->
