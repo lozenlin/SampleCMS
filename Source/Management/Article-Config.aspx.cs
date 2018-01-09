@@ -65,6 +65,7 @@ public partial class Article_Config : System.Web.UI.Page
         LoadLayoutModeUIData();
         LoadShowTypeUIData();
 
+        chkUpdateSearchDataSource.Text = Resources.Lang.Article_chkUpdateSearchDataSource;
         chkIsNewWindow.Text = Resources.Lang.Col_OpenInNewWindow_Hint;
         chkIsHideSelf.Text = Resources.Lang.Article_chkIsHideSelf;
         chkIsHideChild.Text = Resources.Lang.Article_chkIsHideChild;
@@ -471,6 +472,15 @@ public partial class Article_Config : System.Web.UI.Page
 
             if (result)
             {
+                if (chkUpdateSearchDataSource.Checked)
+                {
+                    // call sql server agent job
+                    //bool jobResult = artPub.CallSqlServerAgentJob("Update SampleCMS SearchDataSource");
+
+                    // sp
+                    artPub.BuildSearchDataSource("");
+                }
+
                 ClientScript.RegisterStartupScript(this.GetType(), "", StringUtility.GetNoticeOpenerJs("Config"), true);
             }
 

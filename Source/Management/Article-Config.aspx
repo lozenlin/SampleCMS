@@ -128,6 +128,14 @@
                         Display="Dynamic" ErrorMessage="*" Operator="DataTypeCheck" SetFocusOnError="true" Type="Date" ValidationGroup="g"></asp:CompareValidator>
                 </td>
             </tr>
+            <tr>
+                <th><%= Resources.Lang.Col_SearchDataSource %></th>
+                <td colspan="3">
+                    <span class="text-primary">
+                        <asp:CheckBox ID="chkUpdateSearchDataSource" runat="server" Text="儲存時立即更新搜尋用資料來源" />
+                    </span>
+                </td>
+            </tr>
         </tbody>
     </table>
     <hr class="content-divider" />

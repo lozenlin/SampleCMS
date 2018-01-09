@@ -1246,6 +1246,24 @@ namespace Common.LogicObject
 
         #endregion
 
+        #region msdb DataAccess functions
+
+        /// <summary>
+        /// 指示 SQL Server Agent 立即執行作業
+        /// </summary>
+        public bool CallSqlServerAgentJob(string jobName)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            sp_start_job cmdInfo = new sp_start_job() { jobName = jobName };
+
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
+        #endregion
+
         /// <summary>
         /// 從資料集載入身分的授權設定
         /// </summary>

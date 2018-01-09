@@ -3018,9 +3018,14 @@ go
 */
 -- =============================================
 alter procedure dbo.spSearchDataSource_Build
-@MainLinkUrl	nvarchar(2048) = N'~/Article.aspx'
+@MainLinkUrl	nvarchar(2048) = N''
 as
 begin
+	if @MainLinkUrl=N''
+	begin
+		set @MainLinkUrl = N'~/Article.aspx'
+	end
+
 	--刪除原本資料
 	truncate table dbo.SearchDataSource
 	

@@ -1563,4 +1563,65 @@ namespace Common.DataAccess.ArticlePublisher
     }
 
     #endregion
+
+    #region msdb
+
+    /// <summary>
+    /// 指示 SQL Server Agent 立即執行作業
+    /// </summary>
+    public class sp_start_job : IDataAccessCommandInfo, ICustomExecuteNonQuery
+    {
+        public string jobName;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "msdb.dbo.sp_start_job";
+        }
+
+        public bool ExecuteNonQuery(IDataAccessCommandInnerTools innerTools)
+        {
+            ILog Logger = innerTools.GetLogger();
+            IDataAccessSource db = innerTools.GetDataAccessSource();
+            SqlConnection conn = null;
+
+            try
+            {
+                //建立連線資訊並開啟連線
+                conn = db.CreateConnectionInstanceWithOpen();
+
+                innerTools.SetLogSql(GetCommandText(), jobName);
+
+                SqlParameter rc = new SqlParameter("rc", SqlDbType.Int);
+                rc.Direction = ParameterDirection.ReturnValue;
+
+                SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, GetCommandText(),
+                    new SqlParameter("@job_name", jobName),
+                    rc);
+
+                Logger.InfoFormat("executed sp_start_job '{0}', return:{1} ", jobName, rc.Value);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("", ex);
+
+                //回傳錯誤訊息
+                innerTools.SetErrMsg(ex.Message);
+                return false;
+            }
+            finally
+            {
+                //關閉連線資訊
+                db.CloseConnection(conn);
+            }
+
+            return true;
+        }
+    }
+
+    #endregion
 }

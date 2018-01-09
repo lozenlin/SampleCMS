@@ -1825,6 +1825,14 @@
     <value>儲存失敗</value>
     <comment>儲存失敗</comment>
   </data>
+  <data name="Col_SearchDataSource" xml:space="preserve">
+    <value>搜尋用資料來源</value>
+    <comment>搜尋用資料來源</comment>
+  </data>
+  <data name="Article_chkUpdateSearchDataSource" xml:space="preserve">
+    <value>儲存時立即更新搜尋用資料來源</value>
+    <comment>儲存時立即更新搜尋用資料來源</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
