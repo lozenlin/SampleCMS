@@ -2,10 +2,11 @@
 
     <div class="form-inline">
         <div class="form-group">
-            <input id="txtKeyword" type="text" class="form-control" placeholder="keyword" accesskey="S" autocomplete="off" />
+            <input id="txtKeyword" type="text" class="form-control" placeholder='<%= Resources.Lang.SearchResult_txtKeyword_Hint %>' accesskey="S" autocomplete="off" />
         </div>
         <div class="form-group">
-            <a id="btnToSearchResult" href="#" class="btn btn-primary btn-sm" style="margin-bottom:0;" title="Search"><i class="glyphicon glyphicon-search"></i></a>
+            <a id="btnToSearchResult" href="#" class="btn btn-primary btn-sm" style="margin-bottom:0;" title='<%= Resources.Lang.SearchResult_btnSearch_Hint %>'>
+                <i class="glyphicon glyphicon-search"></i></a>
             <a id="btnOpenUrl" href="#" style="display:none;"></a>
             <%-- target="_blank" --%>
         </div>

@@ -18,7 +18,16 @@ public partial class UserControls_wucSearchConditionPost : System.Web.UI.UserCon
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            LoadUIData();
+        }
+    }
 
+    private void LoadUIData()
+    {
+        txtKeyword.Attributes["placeholder"] = Resources.Lang.SearchResult_txtKeyword_Hint;
+        btnToSearchResult.ToolTip = Resources.Lang.SearchResult_btnSearch_Hint;
     }
 
     protected void btnToSearchResult_Click(object sender, EventArgs e)

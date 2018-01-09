@@ -2,7 +2,7 @@
 
     <asp:Panel ID="pnlSearchCondition" runat="server" CssClass="form-inline" DefaultButton="btnToSearchResult">
         <div class="form-group">
-            <asp:TextBox ID="txtKeyword" runat="server" CssClass="form-control" placeholder="keyword" accesskey="S" autocomplete="off"></asp:TextBox>
+            <asp:TextBox ID="txtKeyword" runat="server" CssClass="form-control" accesskey="S" autocomplete="off"></asp:TextBox>
         </div>
         <div class="form-group">
             <asp:LinkButton ID="btnToSearchResult" runat="server" CssClass="btn btn-primary btn-sm" OnClick="btnToSearchResult_Click"

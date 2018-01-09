@@ -295,4 +295,28 @@
     <value>An exception error occurred while loading the list</value>
     <comment>載入清單時發生異常錯誤</comment>
   </data>
+  <data name="SearchResult_txtKeyword_Hint" xml:space="preserve">
+    <value>Please use spaces to distinguish multiple keywords</value>
+    <comment>多項關鍵字請使用空格區分</comment>
+  </data>
+  <data name="SearchResult_btnSearch" xml:space="preserve">
+    <value>Search</value>
+    <comment>搜尋</comment>
+  </data>
+  <data name="SearchResult_btnSearch_Hint" xml:space="preserve">
+    <value>Search</value>
+    <comment>搜尋</comment>
+  </data>
+  <data name="SearchResult_lblKeyword" xml:space="preserve">
+    <value>Keyword</value>
+    <comment>關鍵字</comment>
+  </data>
+  <data name="SearchResult_lblTotal" xml:space="preserve">
+    <value>Total</value>
+    <comment>結果總共</comment>
+  </data>
+  <data name="SearchResult_lblPosition" xml:space="preserve">
+    <value>Position</value>
+    <comment>位置</comment>
+  </data>
 </root>

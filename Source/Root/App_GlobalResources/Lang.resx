@@ -295,6 +295,30 @@
     <value>載入清單時發生異常錯誤</value>
     <comment>載入清單時發生異常錯誤</comment>
   </data>
+  <data name="SearchResult_txtKeyword_Hint" xml:space="preserve">
+    <value>多項關鍵字請使用空格區分</value>
+    <comment>多項關鍵字請使用空格區分</comment>
+  </data>
+  <data name="SearchResult_btnSearch" xml:space="preserve">
+    <value>搜尋</value>
+    <comment>搜尋</comment>
+  </data>
+  <data name="SearchResult_btnSearch_Hint" xml:space="preserve">
+    <value>搜尋</value>
+    <comment>搜尋</comment>
+  </data>
+  <data name="SearchResult_lblKeyword" xml:space="preserve">
+    <value>關鍵字</value>
+    <comment>關鍵字</comment>
+  </data>
+  <data name="SearchResult_lblTotal" xml:space="preserve">
+    <value>結果總共</value>
+    <comment>結果總共</comment>
+  </data>
+  <data name="SearchResult_lblPosition" xml:space="preserve">
+    <value>位置</value>
+    <comment>位置</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
