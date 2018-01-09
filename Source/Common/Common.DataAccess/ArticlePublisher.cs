@@ -1533,5 +1533,34 @@ namespace Common.DataAccess.ArticlePublisher
         }
     }
 
+    /// <summary>
+    /// 取得搜尋用資料來源清單
+    /// </summary>
+    public class spSearchDataSource_GetList : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public string Keywords; //多項關聯字用逗號串接; Multiple related words concatenated with commas(,), e.g., one,two,three
+        public string CultureName;
+        public int BeginNum;
+        public int EndNum;
+        public string SortField;
+        public bool IsSortDesc;
+        [OutputPara]
+        public int RowCount;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spSearchDataSource_GetList";
+        }
+    }
+
     #endregion
 }

@@ -372,6 +372,66 @@ begin
 end
 go
 
+-- =============================================
+-- Author:		<lozen_lin>
+-- Create date: <2018/01/09>
+-- Description:	<字串串接轉為表格>
+/*
+select * from dbo.fnStringToTable(N',', N'xxx')
+select * from  dbo.fnStringToTable(N',', N'aaa,bbb,')
+select * from  dbo.fnStringToTable(N',', N'aaa , bbb , c')
+*/
+-- =============================================
+create function dbo.fnStringToTable
+(
+@SplitterSymbol nvarchar(100)	= N','
+,@String nvarchar(4000)
+)
+returns @tblResult table(
+	Token nvarchar(4000)
+)
+as
+begin
+	declare @iSplitter int = charindex(@SplitterSymbol, @String)
+
+	if @iSplitter=0
+	begin
+		insert into @tblResult(Token)
+		values(@String)
+
+		return
+	end
+
+	declare @Token nvarchar(4000)
+	declare @iStart int = 1
+	declare @iEnd int = @iSplitter-1
+
+	while @iStart <= len(@String)
+	begin
+		set @Token = substring(@String, @iStart, @iEnd-@iStart+1)
+
+		insert into @tblResult(Token)
+		values (ltrim(rtrim(@Token)))
+
+		if @iEnd = len(@String)
+		begin
+			break
+		end
+
+		set @iStart = @iSplitter+1
+		set @iSplitter = charindex(@SplitterSymbol, @String, @iStart)	--超過總長度也會回傳0
+		set @iEnd = @iSplitter-1
+
+		if @iSplitter=0
+		begin
+			set @iEnd = len(@String)
+		end
+	end
+
+	return
+end
+go
+
 -- sp
 go
 ----------------------------------------------------------------------------
@@ -2973,7 +3033,7 @@ begin
 		BreadcrumbData, Lv1ArticleId, PostDate)
 		select
 			a.ArticleId, am.CultureName, am.ArticleSubject, 
-			dbo.fnStripHTML(am.ArticleContext), am.ReadCount, 
+			/*dbo.fnStripHTML(am.ArticleContext)*/ am.TextContext, am.ReadCount, 
 			case a.ShowTypeId when 3/*URL*/ then a.LinkUrl else @MainLinkUrl end as LinkUrl, 
 			a.PublishDate, 
 			dbo.fnBuildBreadcrumbData(a.ArticleId, am.CultureName), dbo.fnGetLv1ArticleId(a.ArticleId), getdate()
@@ -2990,10 +3050,190 @@ begin
 	from dbo.SearchDataSource s
 	where s.ArticleSubject=''
 		or (isnull(s.ArticleContext,'')='' 
-			and exists(select * from dbo.AttachFile
+			and not exists(select * from dbo.AttachFile
 						where ArticleId=s.ArticleId) --留下有附件的空文章
 			)
 		or s.ArticleId='00000000-0000-0000-0000-000000000000'
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/09>
+-- Description: <取得搜尋用資料來源清單>
+/*
+declare @RowCount int
+exec dbo.spSearchDataSource_GetList N'測試', 'zh-TW', 1, 99999, 'MatchesTotal', 0, @RowCount output
+select @RowCount
+
+declare @RowCount int
+exec dbo.spSearchDataSource_GetList N'test', 'en', 1, 99999, '', 0, @RowCount output
+select @RowCount
+
+declare @RowCount int
+exec dbo.spSearchDataSource_GetList N'測試,縮圖,區塊,清單', 'zh-TW', 1, 99999, '', 1, @RowCount output
+select @RowCount
+
+*/
+-- =============================================
+alter procedure dbo.spSearchDataSource_GetList
+@Keywords nvarchar(4000)=''	-- 多項關聯字用逗號串接; Multiple related words concatenated with commas(,), e.g., one,two,three
+,@CultureName varchar(10)
+,@BeginNum int
+,@EndNum int
+,@SortField nvarchar(20)=''
+,@IsSortDesc bit=0
+,@RowCount int output
+as
+begin
+	-- 建立暫存表記錄符合數量
+	create table #tblMatches(
+		ArticleId	uniqueidentifier
+		,SubId	uniqueidentifier
+		,total int
+	)
+
+	declare @sql nvarchar(4000)
+	declare @parmDef nvarchar(4000)
+	declare @parmDefForTotal nvarchar(4000)
+	declare @conditions nvarchar(4000)
+	declare @SortExp nvarchar(200)
+	declare @colClause nvarchar(500) = N''
+	declare @joinClause nvarchar(500) = N''
+
+	if charindex(',', @Keywords)=0
+	begin
+		-- 單一關鍵字查詢
+
+		--條件定義
+		set @conditions = N' and sds.CultureName=@CultureName '
+	
+		if @Keywords<>N''
+		begin
+			set @conditions += N' and (sds.ArticleSubject like @Keywords or sds.ArticleContext like @Keywords) '
+		end
+
+		--條件定義
+		set @colClause = N',1 as MatchesTotal'
+	end
+	else
+	begin
+		-- 多項關聯字查詢
+
+		insert into #tblMatches
+			select 
+				ArticleId, SubId, 0
+			from dbo.SearchDataSource 
+			where CultureName=@CultureName
+
+		-- 記錄符合的關鍵字數量
+		declare @Token nvarchar(4000)
+
+		declare curKeyword cursor for
+			select Token 
+			from dbo.fnStringToTable(N',', @Keywords)
+
+		open curKeyword
+
+		fetch next from curKeyword into @Token
+
+		while @@fetch_status=0
+		begin
+			set @Token = N'%'+@Token+N'%'
+
+			update t
+			set total = total+1
+			from #tblMatches t
+				join dbo.SearchDataSource sds on t.ArticleId=sds.ArticleId and t.SubId=sds.SubId
+			where sds.CultureName=@CultureName
+				and (sds.ArticleSubject like @Token or sds.ArticleContext like @Token)
+
+			fetch next from curKeyword into @Token
+		end
+
+		close curKeyword
+		deallocate curKeyword
+
+		--條件定義
+		set @colClause = N',t.total as MatchesTotal'
+		set @joinClause = N' join #tblMatches t on sds.ArticleId=t.ArticleId and sds.SubId=t.SubId  '
+		set @conditions = N' and sds.CultureName=@CultureName and t.total>0 '
+	end
+
+	
+		--取得總筆數
+		set @sql = N'
+select @RowCount=count(*)
+from dbo.SearchDataSource sds
+' + @joinClause + N'
+where 1=1 ' + @conditions
+
+		--參數定義
+		set @parmDef=N'
+@Keywords nvarchar(100)
+,@CultureName varchar(10)
+'
+
+		set @parmDefForTotal = @parmDef + N',@RowCount int output'
+
+		set @Keywords = N'%'+@Keywords+N'%'
+
+		exec sp_executesql @sql, @parmDefForTotal, 
+			@Keywords
+			,@CultureName
+			,@RowCount output
+
+		--取得指定排序和範圍的結果
+
+		--指定排序
+		set @SortExp=N' order by '
+
+		if @SortField in (N'ReadCount', N'ArticleSubject', N'PublishDate', N'MatchesTotal')
+		begin
+			--允許的欄位
+			set @SortExp = @SortExp+@SortField+case @IsSortDesc when 1 then N' desc' else N' asc' end
+
+			if @SortField=N'MatchesTotal'
+			begin
+				set @SortExp += N', PublishDate desc'
+			end
+		end
+		else
+		begin
+			--預設
+			set @SortExp=N' order by MatchesTotal desc, PublishDate desc'
+		end
+
+		set @sql=N'
+select *
+from (
+	select row_number() over(' + @SortExp + N') as RowNum, *
+	from (
+		select
+			sds.ArticleId, sds.SubId, 
+			sds.ArticleSubject, sds.ArticleContext, sds.ReadCount, 
+			sds.LinkUrl, sds.PublishDate, sds.BreadcrumbData, 
+			sds.Lv1ArticleId, sds.PostDate, sds.MdfDate
+			' + @colClause + N'
+		from dbo.SearchDataSource sds
+' + @joinClause + N'
+		where 1=1' + @conditions + N'
+	) main
+) result
+where RowNum between @BeginNum and @EndNum 
+order by RowNum'
+
+		set @parmDef += N'
+,@BeginNum int
+,@EndNum int
+'
+		exec sp_executesql @sql, @parmDef, 
+			@Keywords
+			,@CultureName
+			,@BeginNum
+			,@EndNum
+
+	drop table #tblMatches
 end
 go
 
@@ -3007,7 +3247,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2018/01/08>
+-- Create date: <2018/01/09>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

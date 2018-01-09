@@ -1221,6 +1221,29 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得搜尋用資料來源清單
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetSearchDataSourceList(SearchResultListQueryParams param)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spSearchDataSource_GetList cmdInfo = new spSearchDataSource_GetList()
+            {
+                Keywords = param.Keywords,
+                CultureName = param.CultureName,
+                BeginNum = param.PagedParams.BeginNum,
+                EndNum = param.PagedParams.EndNum,
+                SortField = param.PagedParams.SortField,
+                IsSortDesc = param.PagedParams.IsSortDesc
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            param.PagedParams.RowCount = cmdInfo.RowCount;
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         /// <summary>

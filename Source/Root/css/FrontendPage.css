@@ -123,16 +123,31 @@
 }
 
 /* Search Result */
-.result-item {
+.search-result .result-item {
     border:1px solid #eee;
     border-radius:5px;
     margin: 0 .5rem .5rem;
 }
 
-.item-route {
+    .search-result .result-item .subject {
+        margin:.75em 0 .15em 0;
+    }
+
+.search-result .item-route {
     background-color:transparent;
     border-top:1px solid #eee;
     margin-bottom:0;
+}
+
+.search-result .descText {
+    display:block;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+    /* for FF */
+    line-height:1.5em;
+    height: 4.5em; /* -webkit-line-clamp x line-height */
 }
 
 /* Banner */

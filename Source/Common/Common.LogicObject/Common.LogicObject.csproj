@@ -115,6 +115,7 @@
     <Compile Include="QueryParam\RoleParams.cs" />
     <Compile Include="QueryParam\RolePrivilegeParams.cs" />
     <Compile Include="AttachFileManagerLogic.cs" />
+    <Compile Include="QueryParam\SearchResultListQueryParams.cs" />
     <Compile Include="Widget\DataPagerLogic.cs" />
     <Compile Include="DBs.cs" />
     <Compile Include="Widget\EmailSender.cs" />
