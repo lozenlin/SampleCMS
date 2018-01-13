@@ -3004,6 +3004,31 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/13>
+-- Description: <取得前台用搜尋關鍵字>
+-- Test:
+/*
+exec dbo.spKeyword_GetListForFrontend 'zh-TW', N'測', 5
+*/
+-- =============================================
+create procedure dbo.spKeyword_GetListForFrontend
+@CultureName	varchar(10)
+,@Kw	nvarchar(100)
+,@TopCount int=5
+as
+begin
+	select top(@TopCount)
+		Kw, UsedCount
+	from dbo.Keyword
+	where CultureName=@CultureName
+		and Kw like N'%'+@Kw+N'%'
+		and UsedCount>0
+	order by UsedCount desc
+end
+go
+
 ----------------------------------------------------------------------------
 -- 搜尋用資料來源
 ----------------------------------------------------------------------------
@@ -3252,7 +3277,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2018/01/09>
+-- Create date: <2018/01/13>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

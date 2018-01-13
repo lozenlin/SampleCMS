@@ -5,171 +5,174 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-/// <summary>
-/// 取得附縮圖的網頁內容清單
-/// </summary>
-public class Article_GetListWithThumb : JsonServiceHandlerAbstract
+namespace JsonService
 {
-    protected OtherArticlePageCommon c;
-    protected ArticlePublisherLogic artPub;
-    protected ArticleData articleData;
-
-    private DataPagerLogic dataPager = new DataPagerLogic();
-
     /// <summary>
     /// 取得附縮圖的網頁內容清單
     /// </summary>
-    public Article_GetListWithThumb(HttpContext context)
-        : base(context)
+    public class Article_GetListWithThumb : JsonServiceHandlerAbstract
     {
-        c = new OtherArticlePageCommon(context, null);
-        c.InitialLoggerOfUI(this.GetType());
+        protected OtherArticlePageCommon c;
+        protected ArticlePublisherLogic artPub;
+        protected ArticleData articleData;
 
-        artPub = new ArticlePublisherLogic();
-    }
+        private DataPagerLogic dataPager = new DataPagerLogic();
 
-    public override ClientResult ProcessRequest()
-    {
-        int minMs = 500;    //最少讓client等?毫秒
-        DateTime start = DateTime.Now;
-
-        ClientResult cr = null;
-
-        Guid articleId;
-        string artId;
-        int p;
-
-        artId = GetParamValue("artid");
-        articleId = new Guid(artId);
-        p = Convert.ToInt32(GetParamValue("p"));
-
-        if (p == 1)
+        /// <summary>
+        /// 取得附縮圖的網頁內容清單
+        /// </summary>
+        public Article_GetListWithThumb(HttpContext context)
+            : base(context)
         {
-            minMs = 0;  //第一頁快一點
+            c = new OtherArticlePageCommon(context, null);
+            c.InitialLoggerOfUI(this.GetType());
+
+            artPub = new ArticlePublisherLogic();
         }
 
-        // get article data
-        if (c.RetrieveArticleIdAndData(articleId))
+        public override ClientResult ProcessRequest()
         {
-            articleData = c.GetArticleData();
-        }
-        else
-        {
-            cr = new ClientResult() { b = false, err = "no data" };
+            int minMs = 500;    //最少讓client等?毫秒
+            DateTime start = DateTime.Now;
 
-            System.Threading.Thread.Sleep(minMs);
-            return cr;
-        }
+            ClientResult cr = null;
 
-        // get sub-items
-        ArticleValidListQueryParams param = new ArticleValidListQueryParams()
-        {
-            ParentId = articleData.ArticleId.Value,
-            CultureName = c.qsCultureNameOfLangNo,
-            Kw = ""
-        };
+            Guid articleId;
+            string artId;
+            int p;
 
-        param.PagedParams = new PagedListQueryParams()
-        {
-            BeginNum = 0,
-            EndNum = 0,
-            SortField = articleData.SortFieldOfFrontStage,
-            IsSortDesc = articleData.IsSortDescOfFrontStage
-        };
+            artId = GetParamValue("artid");
+            articleId = new Guid(artId);
+            p = Convert.ToInt32(GetParamValue("p"));
 
-        // get total of items
-        artPub.GetArticleValidListForFrontend(param);
-
-        // setting pager rule
-        if (string.Compare(articleData.ControlName, "ListBlocks", true) == 0)
-        {
-            dataPager.MaxItemCountOfPage = 6;
-            dataPager.MaxDisplayCountInPageCodeArea = 5;
-        }
-        else
-        {
-            dataPager.MaxItemCountOfPage = 10;
-            dataPager.MaxDisplayCountInPageCodeArea = 5;
-        }
-
-        // update pager and get begin end of item numbers
-        dataPager.ItemTotalCount = param.PagedParams.RowCount;
-        dataPager.SetCurrentPageCodeAndRecalc(p);
-
-        param.PagedParams = new PagedListQueryParams()
-        {
-            BeginNum = dataPager.BeginItemNumberOfPage,
-            EndNum = dataPager.EndItemNumberOfPage,
-            SortField = articleData.SortFieldOfFrontStage,
-            IsSortDesc = articleData.IsSortDescOfFrontStage
-        };
-
-        DataSet dsSubitems = artPub.GetArticleValidListForFrontend(param);
-
-        if (dsSubitems == null)
-        {
-            ArticlePagedInfo info = new ArticlePagedInfo() { pageCode = 0, pageTotal = 0 };
-            cr = new ClientResult() { b = true, o = info };
-
-            System.Threading.Thread.Sleep(minMs);
-            return cr;
-        }
-
-        // get thumbs
-        DataTable dtSubitems = dsSubitems.Tables[0];
-
-        dtSubitems.Columns.Add("PicId", typeof(string));
-        dtSubitems.Columns.Add("PicSubject", typeof(string));
-
-        foreach (DataRow dr in dtSubitems.Rows)
-        {
-            Guid itemId = (Guid)dr["ArticleId"];
-
-            DataSet dsArtPic = artPub.GetArticlePictureListForFrontend(itemId, c.qsCultureNameOfLangNo);
-            string picId = "";
-            string picSubject = "";
-
-            if (dsArtPic != null && dsArtPic.Tables[0].Rows.Count > 0)
+            if (p == 1)
             {
-                DataRow drFirst = dsArtPic.Tables[0].Rows[0];
-
-                picId = drFirst.ToSafeStr("PicId");
-                picSubject = drFirst.ToSafeStr("PicSubject");
+                minMs = 0;  //第一頁快一點
             }
 
-            dr["PicId"] = picId;
-            dr["PicSubject"] = picSubject;
+            // get article data
+            if (c.RetrieveArticleIdAndData(articleId))
+            {
+                articleData = c.GetArticleData();
+            }
+            else
+            {
+                cr = new ClientResult() { b = false, err = "no data" };
+
+                System.Threading.Thread.Sleep(minMs);
+                return cr;
+            }
+
+            // get sub-items
+            ArticleValidListQueryParams param = new ArticleValidListQueryParams()
+            {
+                ParentId = articleData.ArticleId.Value,
+                CultureName = c.qsCultureNameOfLangNo,
+                Kw = ""
+            };
+
+            param.PagedParams = new PagedListQueryParams()
+            {
+                BeginNum = 0,
+                EndNum = 0,
+                SortField = articleData.SortFieldOfFrontStage,
+                IsSortDesc = articleData.IsSortDescOfFrontStage
+            };
+
+            // get total of items
+            artPub.GetArticleValidListForFrontend(param);
+
+            // setting pager rule
+            if (string.Compare(articleData.ControlName, "ListBlocks", true) == 0)
+            {
+                dataPager.MaxItemCountOfPage = 6;
+                dataPager.MaxDisplayCountInPageCodeArea = 5;
+            }
+            else
+            {
+                dataPager.MaxItemCountOfPage = 10;
+                dataPager.MaxDisplayCountInPageCodeArea = 5;
+            }
+
+            // update pager and get begin end of item numbers
+            dataPager.ItemTotalCount = param.PagedParams.RowCount;
+            dataPager.SetCurrentPageCodeAndRecalc(p);
+
+            param.PagedParams = new PagedListQueryParams()
+            {
+                BeginNum = dataPager.BeginItemNumberOfPage,
+                EndNum = dataPager.EndItemNumberOfPage,
+                SortField = articleData.SortFieldOfFrontStage,
+                IsSortDesc = articleData.IsSortDescOfFrontStage
+            };
+
+            DataSet dsSubitems = artPub.GetArticleValidListForFrontend(param);
+
+            if (dsSubitems == null)
+            {
+                ArticlePagedInfo info = new ArticlePagedInfo() { pageCode = 0, pageTotal = 0 };
+                cr = new ClientResult() { b = true, o = info };
+
+                System.Threading.Thread.Sleep(minMs);
+                return cr;
+            }
+
+            // get thumbs
+            DataTable dtSubitems = dsSubitems.Tables[0];
+
+            dtSubitems.Columns.Add("PicId", typeof(string));
+            dtSubitems.Columns.Add("PicSubject", typeof(string));
+
+            foreach (DataRow dr in dtSubitems.Rows)
+            {
+                Guid itemId = (Guid)dr["ArticleId"];
+
+                DataSet dsArtPic = artPub.GetArticlePictureListForFrontend(itemId, c.qsCultureNameOfLangNo);
+                string picId = "";
+                string picSubject = "";
+
+                if (dsArtPic != null && dsArtPic.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drFirst = dsArtPic.Tables[0].Rows[0];
+
+                    picId = drFirst.ToSafeStr("PicId");
+                    picSubject = drFirst.ToSafeStr("PicSubject");
+                }
+
+                dr["PicId"] = picId;
+                dr["PicSubject"] = picSubject;
+            }
+
+            ArticlePagedInfo pagedInfo = new ArticlePagedInfo()
+            {
+                pageCode = p,
+                pageTotal = dataPager.PageTotalCount,
+                itemTotal = dataPager.ItemTotalCount,
+                itemList = dtSubitems
+            };
+
+            cr = new ClientResult()
+            {
+                b = true,
+                o = pagedInfo
+            };
+
+            TimeSpan ts = DateTime.Now - start;
+
+            if (ts.TotalMinutes < minMs)
+            {
+                System.Threading.Thread.Sleep(minMs - (int)ts.TotalMinutes);
+            }
+
+            return cr;
         }
 
-        ArticlePagedInfo pagedInfo = new ArticlePagedInfo()
+        public class ArticlePagedInfo
         {
-            pageCode = p,
-            pageTotal = dataPager.PageTotalCount,
-            itemTotal = dataPager.ItemTotalCount,
-            itemList = dtSubitems
-        };
-
-        cr = new ClientResult()
-        {
-            b = true,
-            o = pagedInfo
-        };
-
-        TimeSpan ts = DateTime.Now - start;
-
-        if (ts.TotalMinutes < minMs)
-        {
-            System.Threading.Thread.Sleep(minMs - (int)ts.TotalMinutes);
+            public int pageCode { get; set; }
+            public int pageTotal { get; set; }
+            public int itemTotal = 0;
+            public DataTable itemList { get; set; }
         }
-
-        return cr;
-    }
-
-    public class ArticlePagedInfo
-    {
-        public int pageCode { get; set; }
-        public int pageTotal { get; set; }
-        public int itemTotal = 0;
-        public DataTable itemList { get; set; }
     }
 }

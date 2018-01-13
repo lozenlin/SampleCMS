@@ -4,25 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public static class JsonServiceHandlerFactory
+namespace JsonService
 {
-    public static IJsonServiceHandler GetHandler(HttpContext context, string serviceName)
+    public static class JsonServiceHandlerFactory
     {
-        IJsonServiceHandler handler = null;
-
-        switch (serviceName)
+        public static IJsonServiceHandler GetHandler(HttpContext context, string serviceName)
         {
-            case "TempStoreRolePvg":
-                handler = new TemporarilyStoreRolePrivilege(context);
-                break;
-            case "UpdateArticleIsAreaShowInFrontStage":
-                handler = new UpdateArticleIsAreaShowInFrontStage(context);
-                break;
-            case "UpdateArticleSortFieldOfFrontStage":
-                handler = new UpdateArticleSortFieldOfFrontStage(context);
-                break;
-        }
+            IJsonServiceHandler handler = null;
 
-        return handler;
+            switch (serviceName)
+            {
+                case "TempStoreRolePvg":
+                    handler = new TemporarilyStoreRolePrivilege(context);
+                    break;
+                case "UpdateArticleIsAreaShowInFrontStage":
+                    handler = new UpdateArticleIsAreaShowInFrontStage(context);
+                    break;
+                case "UpdateArticleSortFieldOfFrontStage":
+                    handler = new UpdateArticleSortFieldOfFrontStage(context);
+                    break;
+            }
+
+            return handler;
+        }
     }
 }

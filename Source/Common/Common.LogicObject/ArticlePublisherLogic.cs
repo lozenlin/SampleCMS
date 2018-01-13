@@ -1203,6 +1203,24 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 取得前台用搜尋關鍵字
+        /// </summary>
+        public DataSet GetKeywordListForFrontend(string cultureName, string kw, int topCount)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spKeyword_GetListForFrontend cmdInfo = new spKeyword_GetListForFrontend()
+            {
+                CultureName = cultureName,
+                Kw = kw,
+                TopCount = topCount
+            };
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region SearchDataSource DataAccess functions

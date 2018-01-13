@@ -4,19 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public static class JsonServiceHandlerFactory
+namespace JsonService
 {
-    public static IJsonServiceHandler GetHandler(HttpContext context, string serviceName)
+    public static class JsonServiceHandlerFactory
     {
-        IJsonServiceHandler handler = null;
-
-        switch (serviceName)
+        public static IJsonServiceHandler GetHandler(HttpContext context, string serviceName)
         {
-            case "Article_GetListWithThumb":
-                handler = new Article_GetListWithThumb(context);
-                break;
-        }
+            IJsonServiceHandler handler = null;
 
-        return handler;
+            switch (serviceName)
+            {
+                case "Article_GetListWithThumb":
+                    handler = new Article_GetListWithThumb(context);
+                    break;
+            }
+
+            return handler;
+        }
     }
 }

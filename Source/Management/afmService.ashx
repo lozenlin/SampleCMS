@@ -6,6 +6,7 @@ using Common.LogicObject;
 using System.Web.SessionState;
 using Newtonsoft.Json;
 using System.IO;
+using AfmService;
 
 /// <summary>
 /// angular-FileManager Service
