@@ -970,6 +970,15 @@ namespace Common.LogicObject
         }
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+
+        public string qsCtlText
+        {
+            get
+            {
+                return QueryStringToSafeStr("ctlText") ?? "";
+            }
+        }
+
         #endregion
 
         /// <summary>

@@ -182,9 +182,14 @@
                             (<%= Resources.Lang.Article_txtControlName_Notice %>)
                         </div>
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblControlName %>:</span>
-                        <asp:TextBox ID="txtControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox><br />
+                        <asp:TextBox ID="txtControlName" runat="server" MaxLength="100" style="width:22rem;"></asp:TextBox>
+                        <a id="btnPickControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Operation_btnBrowseImage_Hint %>">
+                            <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
+                        <br />
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblSubItemControlName %>:</span>
-                        <asp:TextBox ID="txtSubItemControlName" runat="server" MaxLength="100" Width="70%"></asp:TextBox>
+                        <asp:TextBox ID="txtSubItemControlName" runat="server" MaxLength="100" style="width:22rem;"></asp:TextBox>
+                        <a id="btnPickSubItemControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Operation_btnBrowseImage_Hint %>">
+                            <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                     </div>
                 </td>
             </tr>
@@ -335,6 +340,19 @@
         $("#txtBannerPicFileName").blur(function () {
             PreviewBannerPicFile(this.value);
         }).blur();
+
+        // pick layout-control
+        $("#btnPickControlName").click(function () {
+            var txtControlNameId = '<%= txtControlName.ClientID %>';
+            popWinOut("Pick-LayoutControl.aspx?ctlText=" + txtControlNameId, 900, 768);
+            return false;
+        });
+
+        $("#btnPickSubItemControlName").click(function () {
+            var txtSubItemControlNameId = '<%= txtSubItemControlName.ClientID %>';
+            popWinOut("Pick-LayoutControl.aspx?ctlText=" + txtSubItemControlNameId, 900, 768);
+            return false;
+        });
 
         // show type
         function setShowTypeDetailArea(showTypeId) {

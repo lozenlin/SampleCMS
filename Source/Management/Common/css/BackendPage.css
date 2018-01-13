@@ -431,6 +431,20 @@
     display:none;
 }
 
+/* Pick-LayoutControl */
+.LayoutControls .ThumbArea {
+    display:block;
+    width:100%;
+    height:109px;
+    overflow:hidden;
+}
+
+.LayoutControls .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 @media (max-width: 767px) {
     /* remove fixed-top of navbar while width small than -md */
     .main-body {
