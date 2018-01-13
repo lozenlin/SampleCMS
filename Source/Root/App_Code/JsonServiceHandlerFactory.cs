@@ -17,6 +17,9 @@ namespace JsonService
                 case "Article_GetListWithThumb":
                     handler = new Article_GetListWithThumb(context);
                     break;
+                case "Keyword_GetList":
+                    handler = new Keyword_GetList(context);
+                    break;
             }
 
             return handler;

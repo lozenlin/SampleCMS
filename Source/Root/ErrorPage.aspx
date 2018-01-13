@@ -57,6 +57,9 @@
             }
         }
     </style>
+    <link href="/Common/jquery-ui-1.12.1.Autocomplete/jquery-ui.css" rel="stylesheet" />
+    <link href="/css/FrontendPage.css" rel="stylesheet" />
+
 	<!-- jQuery -->
 	<!--<script src="js/jquery-1.10.2.min.js"></script>-->
 	<script src="js/jquery-3.2.1.js"></script>
@@ -157,7 +160,12 @@
 		<script src="js/fastclick.js"></script>
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
+        <script src="Common/jquery-ui-1.12.1.Autocomplete/jquery-ui.min.js"></script>
+        <script src="js/dao.js"></script>
         <script>
+            var langNo = '<%= c.qsLangNo %>';
+            var serviceUrl = "/jsonService.ashx?l=" + langNo;
+
             $(function () {
                 $("#fh5co-mobile-menu-btn").hide();
             });

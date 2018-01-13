@@ -20,5 +20,23 @@ var dao = {
         });
     },
 
+    //取得搜尋關鍵字
+    Keyword_GetList: function (term, listCallBack) {
+        $.post(serviceUrl, {
+            serviceName: "Keyword_GetList",
+            term: term
+        }, function (data) {
+            var cr = $.parseJSON(data);
+
+            if (cr.b) {
+                listCallBack(cr.o);
+            } else {
+                listCallBack([]);
+            }
+        }).fail(function () {
+            listCallBack([]);
+        });
+    },
+
     emptyTail: 0
 };

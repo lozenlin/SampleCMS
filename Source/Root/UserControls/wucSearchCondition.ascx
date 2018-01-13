@@ -12,10 +12,14 @@
         </div>
     </div>
     <script>
-        var langNo = '<%= c.qsLangNo %>';
-
         $(function () {
             var $txtKeyword = $("#txtKeyword");
+
+            $txtKeyword.autocomplete({
+                source: function (request, response) {
+                    dao.Keyword_GetList(request.term, response);
+                }
+            });
 
             $txtKeyword.keypress(function (e) {
                 if (e.which == 13) {

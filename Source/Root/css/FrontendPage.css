@@ -150,6 +150,11 @@
     height: 4.5em; /* -webkit-line-clamp x line-height */
 }
 
+/* jquery-ui autocomplete */
+.ui-autocomplete {
+    z-index:102;
+}
+
 /* Banner */
 @media screen and (min-width: 769px) {
     .GradientMask {

@@ -38,6 +38,7 @@
     <link href="/Common/slick/slick-theme.css" rel="stylesheet" />
     <link href="/Common/Lightbox2/css/lightbox.css" rel="stylesheet" />
     <link href="/Common/fancybox2/source/jquery.fancybox.css" rel="stylesheet"/>
+    <link href="/Common/jquery-ui-1.12.1.Autocomplete/jquery-ui.css" rel="stylesheet" />
     <link href="/css/FrontendPage.css" rel="stylesheet" />
     <style type="text/css">
         .slick-prev:before,
@@ -375,8 +376,12 @@
 		<script src="js/main.js"></script>
         <script src="Common/slick/slick.min.js"></script>
         <script src="Common/fancybox2/source/jquery.fancybox.js"></script>
+        <script src="Common/jquery-ui-1.12.1.Autocomplete/jquery-ui.min.js"></script>
+        <script src="js/dao.js"></script>
         <script src="js/FrontendPage.js"></script>
         <script>
+            var langNo = '<%= c.qsLangNo %>';
+            var serviceUrl = "/jsonService.ashx?l=" + langNo;
             var isMobile = false;
             if (navigator) {
                 isMobile = navigator.userAgent.match(/Mobile/i) != null;

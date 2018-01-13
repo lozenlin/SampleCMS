@@ -175,4 +175,60 @@ namespace JsonService
             public DataTable itemList { get; set; }
         }
     }
+
+    /// <summary>
+    /// 取得搜尋關鍵字
+    /// </summary>
+    public class Keyword_GetList : JsonServiceHandlerAbstract
+    {
+        protected FrontendPageCommon c;
+        protected ArticlePublisherLogic artPub;
+
+        /// <summary>
+        /// 取得搜尋關鍵字
+        /// </summary>
+        public Keyword_GetList(HttpContext context)
+            : base(context)
+        {
+            c = new FrontendPageCommon(context, null);
+            c.InitialLoggerOfUI(this.GetType());
+
+            artPub = new ArticlePublisherLogic();
+        }
+
+        public override ClientResult ProcessRequest()
+        {
+            ClientResult cr = null;
+            string term = GetParamValue("term");
+            int topCount = 5;
+
+            DataSet dsKeywords = artPub.GetKeywordListForFrontend(c.qsCultureNameOfLangNo, term, topCount);
+
+            if (dsKeywords != null)
+            {
+                List<string> kwList = new List<string>(topCount);
+
+                foreach (DataRow dr in dsKeywords.Tables[0].Rows)
+                {
+                    kwList.Add(dr.ToSafeStr("Kw"));
+                }
+
+                cr = new ClientResult()
+                {
+                    b = true,
+                    o = kwList
+                };
+            }
+            else
+            {
+                cr = new ClientResult()
+                {
+                    b = false,
+                    err = "exception error."
+                };
+            }
+
+            return cr;
+        }
+    }
 }

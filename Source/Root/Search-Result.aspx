@@ -13,6 +13,16 @@
 
             return true;
         }
+
+        $(function () {
+            var $txtKeyword = $("#" + txtKeywordId);
+
+            $txtKeyword.autocomplete({
+                source: function (request, response) {
+                    dao.Keyword_GetList(request.term, response);
+                }
+            });
+        });
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
@@ -47,7 +57,7 @@
         <div class="row result-item">
             <div class="col-xs-12">
                 <h2 class="subject">
-                    <a id="btnSubject" runat="server" href="#" target="_blank">Subject</a>
+                    <a id="btnSubject" runat="server" href="#">Subject</a>
                 </h2>
                 <p class="descText"><asp:Literal ID="ltrContext" runat="server"></asp:Literal></p>
                 <ol class="breadcrumb item-route">
