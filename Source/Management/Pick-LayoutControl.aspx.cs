@@ -42,6 +42,13 @@ public partial class Pick_LayoutControl : System.Web.UI.Page
             InitialInfoList();
             DisplayList();
         }
+
+        LoadTitle();
+    }
+
+    private void LoadTitle()
+    {
+        Title = Resources.Lang.GroupLabel_LayoutControl;
     }
 
     private void InitialInfoList()
@@ -81,7 +88,7 @@ public partial class Pick_LayoutControl : System.Web.UI.Page
 
         if (info.Name == "")
         {
-            displayText = "(清除為空白)";
+            displayText = "(" + Resources.Lang.Pick_btnClear + ")";
         }
 
 
@@ -98,7 +105,7 @@ public partial class Pick_LayoutControl : System.Web.UI.Page
 
         LinkButton btnSelect = (LinkButton)e.Item.FindControl("btnSelect");
         btnSelect.CommandArgument = info.Name;
-        btnSelect.OnClientClick = string.Format("return confirm('是否確定選擇[{0}]');", displayText);
+        btnSelect.OnClientClick = string.Format("return confirm('" + Resources.Lang.Pick_ConfirmSelect_Format + "');", displayText);
     }
 
     protected void rptList_ItemCommand(object source, RepeaterCommandEventArgs e)

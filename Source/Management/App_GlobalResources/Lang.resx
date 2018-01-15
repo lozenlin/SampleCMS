@@ -1833,6 +1833,26 @@
     <value>儲存時立即更新搜尋用資料來源</value>
     <comment>儲存時立即更新搜尋用資料來源</comment>
   </data>
+  <data name="Article_btnPickControlName_Hint" xml:space="preserve">
+    <value>瀏覽版型控制項</value>
+    <comment>瀏覽版型控制項</comment>
+  </data>
+  <data name="GroupLabel_LayoutControl" xml:space="preserve">
+    <value>版型控制項</value>
+    <comment>版型控制項</comment>
+  </data>
+  <data name="Pick_btnSelect" xml:space="preserve">
+    <value>選擇</value>
+    <comment>選擇</comment>
+  </data>
+  <data name="Pick_btnClear" xml:space="preserve">
+    <value>清除為空白</value>
+    <comment>清除為空白</comment>
+  </data>
+  <data name="Pick_ConfirmSelect_Format" xml:space="preserve">
+    <value>是否確定選擇[{0}]?</value>
+    <comment>是否確定選擇[{0}]?</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

@@ -183,12 +183,12 @@
                         </div>
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblControlName %>:</span>
                         <asp:TextBox ID="txtControlName" runat="server" MaxLength="100" style="width:22rem;"></asp:TextBox>
-                        <a id="btnPickControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Operation_btnBrowseImage_Hint %>">
+                        <a id="btnPickControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Article_btnPickControlName_Hint %>">
                             <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                         <br />
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblSubItemControlName %>:</span>
                         <asp:TextBox ID="txtSubItemControlName" runat="server" MaxLength="100" style="width:22rem;"></asp:TextBox>
-                        <a id="btnPickSubItemControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Operation_btnBrowseImage_Hint %>">
+                        <a id="btnPickSubItemControlName" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Article_btnPickControlName_Hint %>">
                             <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                     </div>
                 </td>

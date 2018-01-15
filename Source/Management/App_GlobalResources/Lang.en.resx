@@ -1833,4 +1833,24 @@
     <value>Search sources are updated immediately after saving</value>
     <comment>儲存時立即更新搜尋用資料來源</comment>
   </data>
+  <data name="Article_btnPickControlName_Hint" xml:space="preserve">
+    <value>Browse layout controls</value>
+    <comment>瀏覽版型控制項</comment>
+  </data>
+  <data name="GroupLabel_LayoutControl" xml:space="preserve">
+    <value>Layout controls</value>
+    <comment>版型控制項</comment>
+  </data>
+  <data name="Pick_btnSelect" xml:space="preserve">
+    <value>Select</value>
+    <comment>選擇</comment>
+  </data>
+  <data name="Pick_btnClear" xml:space="preserve">
+    <value>Clear to blank</value>
+    <comment>清除為空白</comment>
+  </data>
+  <data name="Pick_ConfirmSelect_Format" xml:space="preserve">
+    <value>Are you sure you want to select [{0}]?</value>
+    <comment>是否確定選擇[{0}]?</comment>
+  </data>
 </root>

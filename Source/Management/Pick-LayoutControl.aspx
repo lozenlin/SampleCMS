@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
-        版型控制項
+        <%= Resources.Lang.GroupLabel_LayoutControl %>
     </div>
     <div class="container-fluid">
         <div class="row LayoutControls">
@@ -17,7 +17,8 @@
                             <img id="imgPic" runat="server" class="card-img-top" src="BPimages/LayoutControl/ListItemsThumb.png" alt="*"/></a>
                         <div class="card-body">
                             <h5 id="ctlNameArea" runat="server" class="card-title"></h5>
-                            <asp:LinkButton ID="btnSelect" runat="server" CssClass="btn btn-primary" CommandName="sel">選擇</asp:LinkButton>
+                            <asp:LinkButton ID="btnSelect" runat="server" CssClass="btn btn-primary" CommandName="sel">
+                                <%= Resources.Lang.Pick_btnSelect %></asp:LinkButton>
                         </div>
                     </div>
                 </div>
