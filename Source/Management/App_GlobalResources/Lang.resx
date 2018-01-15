@@ -1853,6 +1853,14 @@
     <value>是否確定選擇[{0}]?</value>
     <comment>是否確定選擇[{0}]?</comment>
   </data>
+  <data name="GroupLabel_CustomWebProgram" xml:space="preserve">
+    <value>客製化網頁程式</value>
+    <comment>客製化網頁程式</comment>
+  </data>
+  <data name="Article_btnPickCustomWebProgram_Hint" xml:space="preserve">
+    <value>瀏覽客製化網頁程式</value>
+    <comment>瀏覽客製化網頁程式</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

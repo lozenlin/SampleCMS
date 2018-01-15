@@ -169,13 +169,17 @@
                             (<%= Resources.Lang.Article_txtLinkUrl_Notice %>)
                         </div>
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblLinkUrl %>:</span>
-                        <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
+                        <asp:TextBox ID="txtLinkUrl" runat="server" MaxLength="2048" style="width:22rem;"></asp:TextBox>
+                        <a id="btnPickCustomWebProgram" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Article_btnPickCustomWebProgram_Hint %>">
+                            <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                         <div class="mt-2 IsNewWindow">
                             <span style="display:inline-block;width:9rem;"></span>
                             <asp:CheckBox ID="chkIsNewWindow" runat="server" Text="開啟在新視窗" ClientIDMode="Static" />
                         </div>
                         <span class="ctrl-label"><%= Resources.Lang.Article_lblSubItemLinkUrl %>:</span>
-                        <asp:TextBox ID="txtSubItemLinkUrl" runat="server" MaxLength="2048" Width="70%"></asp:TextBox>
+                        <asp:TextBox ID="txtSubItemLinkUrl" runat="server" MaxLength="2048" style="width:22rem;"></asp:TextBox>
+                        <a id="btnPickSubItemCustomWebProgram" href="#" class="btn btn-sm btn-secondary" title="<%= Resources.Lang.Article_btnPickCustomWebProgram_Hint %>">
+                            <i class="fa fa-folder-open"></i> <%= Resources.Lang.Operation_btnBrowseImage %></a>
                     </div>
                     <div id="ControlNameArea" class="config-textbox-lang show-type-detail" style="display:none;">
                         <div class="text-success">
@@ -340,6 +344,19 @@
         $("#txtBannerPicFileName").blur(function () {
             PreviewBannerPicFile(this.value);
         }).blur();
+
+        // pick custom-web-program
+        $("#btnPickCustomWebProgram").click(function () {
+            var txtLinkUrlId = '<%= txtLinkUrl.ClientID %>';
+            popWinOut("Pick-CustomWebProgram.aspx?ctlText=" + txtLinkUrlId, 900, 768);
+            return false;
+        });
+
+        $("#btnPickSubItemCustomWebProgram").click(function () {
+            var txtSubItemLinkUrlId = '<%= txtSubItemLinkUrl.ClientID %>';
+            popWinOut("Pick-CustomWebProgram.aspx?ctlText=" + txtSubItemLinkUrlId, 900, 768);
+            return false;
+        });
 
         // pick layout-control
         $("#btnPickControlName").click(function () {
