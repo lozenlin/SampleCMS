@@ -2,6 +2,7 @@
 <%@ MasterType TypeName="MasterConfig" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
+    <link href="Common/fancybox2/source/jquery.fancybox.css" rel="stylesheet"/>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <div class="sys-subtitle">
@@ -31,5 +32,9 @@
     <a href="#" class="btn btn-light" onclick="closeThisForm(); return false;"><%= Resources.Lang.ConfigForm_btnCancel %></a>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
+    <script src="Common/fancybox2/source/jquery.fancybox.js"></script>
+    <script>
+        $(".LayoutControls .ThumbArea").fancybox();
+    </script>
 </asp:Content>
 
