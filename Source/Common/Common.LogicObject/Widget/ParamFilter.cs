@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Common.LogicObject
@@ -251,7 +251,7 @@ namespace Common.LogicObject
                 foreach (string blackKeyWord in blackKeyWords)
                 {
                     //檢查白名單
-                    if (whiteListOfBlackKeyWords != null && whiteListOfBlackKeyWords.Keys.Any(x => string.Compare(x, paramInfo.ExecFilePath, true) == 0))
+                    if (whiteListOfBlackKeyWords != null && whiteListOfBlackKeyWords.ContainsKey(paramInfo.ExecFilePath.ToLower()))
                     {
                         //取得以逗號相接的變數名單
                         string whiteKeyList = whiteListOfBlackKeyWords[paramInfo.ExecFilePath.ToLower()][blackKeyWord];
@@ -286,7 +286,7 @@ namespace Common.LogicObject
         private string[] dirtyStringArray = new string[] { "%09", "%0d", "%0a" };
 
         /// <summary>
-        /// 用UrlDecode解碼參數內容
+        /// 用 UrlDecode 解碼參數內容
         /// </summary>
         public UrlDecodeParamValue()
             : base()
@@ -310,6 +310,73 @@ namespace Common.LogicObject
 
             //解碼
             paramInfo.Value = HttpUtility.UrlDecode(sbValue.ToString());
+
+            //沒下一個時,預設搜尋黑名單關鍵字
+            if (successor == null)
+                successor = new BlackKeyWordFilter();
+
+            //換下一個參數過濾物件檢查
+            return successor.HandleRequest(paramInfo);
+        }
+    }
+
+    /// <summary>
+    /// 用 HtmlDecode 解碼參數內容
+    /// </summary>
+    public class HtmlDecodeParamValue : ParamFilter
+    {
+        /// <summary>
+        /// 需清除的字串名單
+        /// </summary>
+        private string[] dirtyStringArray = new string[] { "\t", "\r", "\n" };
+
+        /// <summary>
+        /// 用 HtmlDecode 解碼參數內容
+        /// </summary>
+        public HtmlDecodeParamValue()
+            : base()
+        {
+        }
+
+        public override bool HandleRequest(ParamInfo paramInfo)
+        {
+            ShowDebugInfo(paramInfo);
+
+            if (paramInfo.Value == null)
+                return true;
+
+            string translatedValue = paramInfo.Value;
+
+            //將 &#x6a 翻譯為 &#x6a;  &#106 翻譯為 &#106; (加上分號[;])
+            string pattern = @"(?is)(?<prefix>&#)(?<cnt>[^\s&#\\;]+);?";
+            string replacement = @"&#${cnt};";
+
+            if (Regex.IsMatch(translatedValue, pattern))
+            {
+                translatedValue = Regex.Replace(translatedValue, pattern, replacement);
+            }
+
+            //將 \x6a 翻譯為 &#x6a;  \75 翻譯為 &#x75;
+            pattern = @"(?is)(?<prefix>\\x?)(?<cnt>[^\s&#\\;]+)";
+            replacement = @"&#x${cnt};";
+
+            if (Regex.IsMatch(translatedValue, pattern))
+            {
+                translatedValue = Regex.Replace(translatedValue, pattern, replacement);
+            }
+
+            //解碼
+            string decodeValue = HttpUtility.HtmlDecode(translatedValue);
+
+            //處理需清除的字串
+            StringBuilder sbValue = new StringBuilder(decodeValue);
+
+            foreach (string dirtyString in dirtyStringArray)
+            {
+                sbValue.Replace(dirtyString, "");
+            }
+
+            paramInfo.Value = sbValue.ToString();
 
             //沒下一個時,預設搜尋黑名單關鍵字
             if (successor == null)
@@ -346,6 +413,197 @@ namespace Common.LogicObject
 
             //換下一個參數過濾物件檢查
             return successor.HandleRequest(paramInfo);
+        }
+    }
+
+    /// <summary>
+    /// 特殊頁面參數過濾
+    /// </summary>
+    public class SpecificPageParamFilter : ParamFilter
+    {
+        /// <summary>
+        /// 特殊頁面參數過濾
+        /// </summary>
+        public SpecificPageParamFilter()
+            : base()
+        {
+        }
+
+        public override bool HandleRequest(ParamInfo paramInfo)
+        {
+            ShowDebugInfo(paramInfo);
+
+            if (paramInfo.Value == null)
+                return true;
+
+            string pattern = "";
+            MatchCollection matches = null;
+
+            switch (paramInfo.ExecFilePath.ToLower())
+            {
+                case "scriptresource.axd":
+                case "webresource.axd":
+                    switch (paramInfo.Key.ToLower())
+                    {
+                        case "t":
+                            pattern = @"[\da-fA-f]+";    //長短不一定的十六進制數字
+                            matches = Regex.Matches(paramInfo.Value, pattern);
+
+                            //要全字串符合
+                            if (matches.Count != 1 || matches[0].Value != paramInfo.Value)
+                                return false;
+
+                            //不需要再送其他檢查
+                            return true;
+                        case "d":
+                            pattern = @"[A-Za-z0-9+/=_\-]+";    //比Base-64多了_-
+                            matches = Regex.Matches(paramInfo.Value, pattern);
+
+                            //要全字串符合
+                            if (matches.Count != 1 || matches[0].Value != paramInfo.Value)
+                                return false;
+
+                            //已知最短長度
+                            if (paramInfo.Value.Length < 16)
+                                return false;
+
+                            break;
+                    }
+                    break;
+            }
+
+
+            if (successor == null)
+                return true;
+
+            //換下一個參數過濾物件檢查
+            return successor.HandleRequest(paramInfo);
+        }
+    }
+
+    /// <summary>
+    /// 規則表達式黑名單關鍵字過濾
+    /// </summary>
+    public class RegexParamFilter : ParamFilter
+    {
+        /// <summary>
+        /// 黑名單
+        /// </summary>
+        private string[] blackKeyPatterns;
+
+        /// <summary>
+        /// 黑名單關鍵字在特定頁面中要允許的白名單
+        /// </summary>
+        private Dictionary<string, NameValueCollection> whiteListOfBlackKeyPatterns;
+
+        /// <summary>
+        /// 規則表達式黑名單關鍵字過濾
+        /// </summary>
+        public RegexParamFilter()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// 指定黑名單
+        /// </summary>
+        public void SetBlackKeyPatterns(string[] patterns)
+        {
+            blackKeyPatterns = patterns;
+        }
+
+        /// <summary>
+        /// 指定黑名單關鍵字在特定頁面中要允許的白名單(頁面名->關鍵字->,變數名,變數名,)
+        /// </summary>
+        public void SetWhiteListOfBlackKeyPatterns(Dictionary<string, NameValueCollection> whiteListOfBlackKeyPatterns)
+        {
+            this.whiteListOfBlackKeyPatterns = whiteListOfBlackKeyPatterns;
+        }
+
+        public override bool HandleRequest(ParamInfo paramInfo)
+        {
+            ShowDebugInfo(paramInfo);
+
+            if (paramInfo.Value == null || paramInfo.Value.Length > 1000)   //hack, 太長的字有效能問題,先避開
+                return true;
+
+            if (blackKeyPatterns != null)
+            {
+                foreach (string pattern in blackKeyPatterns)
+                {
+                    //檢查白名單
+                    if (whiteListOfBlackKeyPatterns != null && whiteListOfBlackKeyPatterns.ContainsKey(paramInfo.ExecFilePath.ToLower()))
+                    {
+                        //取得以逗號相接的變數名單
+                        string whiteKeyList = whiteListOfBlackKeyPatterns[paramInfo.ExecFilePath.ToLower()][pattern];
+
+                        //在白名單內的跳過
+                        if (whiteKeyList != null && whiteKeyList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
+                            continue;
+                    }
+
+                    if (Regex.IsMatch(paramInfo.Value, pattern))
+                        return false;
+                }
+            }
+
+            //沒有黑名單關鍵字也沒下一個參數過濾物件時,回報有效
+            if (successor == null)
+                return true;
+
+            //換下一個參數過濾物件檢查
+            return successor.HandleRequest(paramInfo);
+        }
+    }
+
+    /// <summary>
+    /// SQL Injection 過濾
+    /// </summary>
+    public class SQLInjectionFilter : ParamFilter
+    {
+        /// <summary>
+        /// SQL Injection 過濾
+        /// </summary>
+        public SQLInjectionFilter()
+            : base()
+        {
+        }
+
+        public override bool HandleRequest(ParamInfo paramInfo)
+        {
+            ShowDebugInfo(paramInfo);
+
+            if (paramInfo.Value == null)
+                return true;
+
+            string pattern = @"(?is)(?<verb>and|or)\s+(?<expr>.+?\s*=\s*['""]?\s*[^\s-;'""]+)";    //不考慮編碼 or xxx=xxx 或 xxx' and 31337-31337='0
+            string verb, expr;
+
+            //檢查是否有 SQL Injection 的關鍵字
+            foreach (Match match in Regex.Matches(paramInfo.Value, pattern))
+            {
+                verb = match.Groups["verb"].Value;
+                expr = match.Groups["expr"].Value;
+
+                //測試運算式是否成立,能否被用來做 SQL Injection
+                if (IsSQLInjectionExpr(expr))
+                    return false;
+            }
+
+            if (successor == null)
+                return true;
+
+            //換下一個參數過濾物件檢查
+            return successor.HandleRequest(paramInfo);
+        }
+
+        /// <summary>
+        /// 測試運算式是否成立,能否被用來做 SQL Injection
+        /// </summary>
+        protected virtual bool IsSQLInjectionExpr(string expr)
+        {
+            //不提供測試時,直接當做有問題
+            return true;
         }
     }
 }
