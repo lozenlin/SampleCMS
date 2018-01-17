@@ -178,10 +178,10 @@ namespace Common.LogicObject
                 return true;
 
             //檢查字串長度
-            if (paramValueLenLookup != null && paramValueLenLookup.Keys.Any(x => string.Compare(x, paramInfo.Key) == 0))
+            if (paramValueLenLookup != null && paramValueLenLookup.Keys.Any(x => string.Compare(x, paramInfo.Key, true) == 0))
             {
                 //超過指定長度
-                if (paramInfo.Value.Length > paramValueLenLookup[paramInfo.Key])
+                if (paramInfo.Value.Length > paramValueLenLookup[paramInfo.Key.ToLower()])
                     return false;
             }
 

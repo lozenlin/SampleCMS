@@ -37,7 +37,8 @@ namespace Common.LogicObject
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spIsSQLInjectionExpr cmdInfo = new spIsSQLInjectionExpr() { Expr = expr };
 
-            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            bool errCode = false;
+            bool result = cmd.ExecuteScalar<bool>(cmdInfo, errCode);
             dbErrMsg = cmd.GetErrMsg();
 
             return result;
