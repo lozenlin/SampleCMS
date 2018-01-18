@@ -577,7 +577,13 @@ namespace Common.LogicObject
             ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null || paramInfo.Value.Length > 1000)   //hack, 太長的字有效能問題,先避開
-                return true;
+            {
+                if (successor == null)
+                    return true;
+
+                //換下一個參數過濾物件檢查
+                return successor.HandleRequest(paramInfo);
+            }
 
             if (blackKeyPatterns != null)
             {

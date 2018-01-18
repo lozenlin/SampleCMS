@@ -75,6 +75,26 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
+        //計算檢查時間
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+
+        //檢查參數內容是否有效
+        if (!ParamFilterUtility.IsParamValueValid(Context))
+        {
+            //顯示檢查時間
+            sw.Stop();
+            System.Diagnostics.Debug.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + "ms");
+
+            ////產生404錯誤
+            //throw new HttpException(404, "Invalid Parameter!");
+
+            Response.Redirect("~/ErrorPage.aspx#InvalidParameter");
+        }
+
+        //顯示檢查時間
+        sw.Stop();
+        System.Diagnostics.Debug.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + "ms");
     }
 
     protected void Application_PostAcquireRequestState(object sender, EventArgs e)
