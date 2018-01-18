@@ -237,22 +237,22 @@ namespace Common.LogicObject
     /// <summary>
     /// 黑名單關鍵字過濾
     /// </summary>
-    public class BlackKeyWordFilter : ParamFilter
+    public class BlacklistKeywordFilter : ParamFilter
     {
         /// <summary>
         /// 黑名單
         /// </summary>
-        private string[] blackKeyWords;
+        private string[] blacklistKeywords;
 
         /// <summary>
         /// 黑名單關鍵字在特定頁面中要允許的白名單
         /// </summary>
-        private Dictionary<string, NameValueCollection> whiteListOfBlackKeyWords;
+        private Dictionary<string, NameValueCollection> whitelistOfBlacklistKeywords;
 
         /// <summary>
         /// 黑名單關鍵字過濾
         /// </summary>
-        public BlackKeyWordFilter()
+        public BlacklistKeywordFilter()
             : base()
         {
         }
@@ -260,17 +260,19 @@ namespace Common.LogicObject
         /// <summary>
         /// 指定黑名單
         /// </summary>
-        public void SetBlackKeyWords(string[] keyWords)
+        public void SetBlacklistKeywords(string[] keywords)
         {
-            blackKeyWords = keyWords;
+            blacklistKeywords = keywords;
         }
 
         /// <summary>
-        /// 指定黑名單關鍵字在特定頁面中要允許的白名單(頁面名->關鍵字->,變數名,變數名,)
+        /// 指定黑名單關鍵字在特定頁面中要允許的白名單
+        /// ( 頁面名[需小寫] -> 關鍵字 -> ,變數名,變數名, )
+        /// ( execFilePath[needs lower case] -> Keyword -> ,ParamName,ParamName, )
         /// </summary>
-        public void SetWhiteListOfBlackKeyWords(Dictionary<string, NameValueCollection> whiteListOfBlackKeyWords)
+        public void SetWhitelistOfBlacklistKeywords(Dictionary<string, NameValueCollection> whitelistOfBlacklistKeywords)
         {
-            this.whiteListOfBlackKeyWords = whiteListOfBlackKeyWords;
+            this.whitelistOfBlacklistKeywords = whitelistOfBlacklistKeywords;
         }
 
         public override bool HandleRequest(ParamInfo paramInfo)
@@ -283,22 +285,22 @@ namespace Common.LogicObject
             //拿掉空白後再檢查關鍵字
             string noSpaceValue = paramInfo.Value.Replace(" ", "");
 
-            if (blackKeyWords != null)
+            if (blacklistKeywords != null)
             {
-                foreach (string blackKeyWord in blackKeyWords)
+                foreach (string kw in blacklistKeywords)
                 {
                     //檢查白名單
-                    if (whiteListOfBlackKeyWords != null && whiteListOfBlackKeyWords.ContainsKey(paramInfo.ExecFilePath.ToLower()))
+                    if (whitelistOfBlacklistKeywords != null && whitelistOfBlacklistKeywords.ContainsKey(paramInfo.ExecFilePath.ToLower()))
                     {
                         //取得以逗號相接的變數名單
-                        string whiteKeyList = whiteListOfBlackKeyWords[paramInfo.ExecFilePath.ToLower()][blackKeyWord.ToLower()];
+                        string whitelist = whitelistOfBlacklistKeywords[paramInfo.ExecFilePath.ToLower()][kw.ToLower()];
 
                         //在白名單內的跳過
-                        if (whiteKeyList != null && whiteKeyList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
+                        if (whitelist != null && whitelist.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
                             continue;
                     }
 
-                    if (noSpaceValue.IndexOf(blackKeyWord, StringComparison.CurrentCultureIgnoreCase) != -1)
+                    if (noSpaceValue.IndexOf(kw, StringComparison.CurrentCultureIgnoreCase) != -1)
                     {
                         ShowInfoMsgBeforeFailed(paramInfo);
                         return false;
@@ -306,7 +308,6 @@ namespace Common.LogicObject
                 }
             }
 
-            //沒有黑名單關鍵字也沒下一個參數過濾物件時,回報有效
             if (successor == null)
                 return true;
 
@@ -353,7 +354,7 @@ namespace Common.LogicObject
 
             //沒下一個時,預設搜尋黑名單關鍵字
             if (successor == null)
-                successor = new BlackKeyWordFilter();
+                successor = new BlacklistKeywordFilter();
 
             //換下一個參數過濾物件檢查
             return successor.HandleRequest(paramInfo);
@@ -420,7 +421,7 @@ namespace Common.LogicObject
 
             //沒下一個時,預設搜尋黑名單關鍵字
             if (successor == null)
-                successor = new BlackKeyWordFilter();
+                successor = new BlacklistKeywordFilter();
 
             //換下一個參數過濾物件檢查
             return successor.HandleRequest(paramInfo);
@@ -534,22 +535,22 @@ namespace Common.LogicObject
     }
 
     /// <summary>
-    /// 規則表達式黑名單關鍵字過濾
+    /// 規則表達式黑名單過濾
     /// </summary>
     public class RegexParamFilter : ParamFilter
     {
         /// <summary>
-        /// 黑名單
+        /// 規則表達式黑名單
         /// </summary>
-        private string[] blackKeyPatterns;
+        private string[] blacklistPatterns;
 
         /// <summary>
-        /// 黑名單關鍵字在特定頁面中要允許的白名單
+        /// 黑名單在特定頁面中要允許的白名單
         /// </summary>
-        private Dictionary<string, NameValueCollection> whiteListOfBlackKeyPatterns;
+        private Dictionary<string, NameValueCollection> whiteListOfBlacklistPatterns;
 
         /// <summary>
-        /// 規則表達式黑名單關鍵字過濾
+        /// 規則表達式黑名單過濾
         /// </summary>
         public RegexParamFilter()
             : base()
@@ -559,17 +560,19 @@ namespace Common.LogicObject
         /// <summary>
         /// 指定黑名單
         /// </summary>
-        public void SetBlackKeyPatterns(string[] patterns)
+        public void SetBlacklistPatterns(string[] patterns)
         {
-            blackKeyPatterns = patterns;
+            blacklistPatterns = patterns;
         }
 
         /// <summary>
-        /// 指定黑名單關鍵字在特定頁面中要允許的白名單(頁面名->關鍵字->,變數名,變數名,)
+        /// 指定黑名單在特定頁面中要允許的白名單
+        /// ( 頁面名[需小寫] -> 規則 -> ,變數名,變數名, )
+        /// ( execFilePath[needs lower case] -> Pattern -> ,ParamName,ParamName, )
         /// </summary>
-        public void SetWhiteListOfBlackKeyPatterns(Dictionary<string, NameValueCollection> whiteListOfBlackKeyPatterns)
+        public void SetWhitelistOfBlacklistPatterns(Dictionary<string, NameValueCollection> whitelistOfBlacklistPatterns)
         {
-            this.whiteListOfBlackKeyPatterns = whiteListOfBlackKeyPatterns;
+            this.whiteListOfBlacklistPatterns = whitelistOfBlacklistPatterns;
         }
 
         public override bool HandleRequest(ParamInfo paramInfo)
@@ -585,18 +588,18 @@ namespace Common.LogicObject
                 return successor.HandleRequest(paramInfo);
             }
 
-            if (blackKeyPatterns != null)
+            if (blacklistPatterns != null)
             {
-                foreach (string pattern in blackKeyPatterns)
+                foreach (string pattern in blacklistPatterns)
                 {
                     //檢查白名單
-                    if (whiteListOfBlackKeyPatterns != null && whiteListOfBlackKeyPatterns.ContainsKey(paramInfo.ExecFilePath.ToLower()))
+                    if (whiteListOfBlacklistPatterns != null && whiteListOfBlacklistPatterns.ContainsKey(paramInfo.ExecFilePath.ToLower()))
                     {
                         //取得以逗號相接的變數名單
-                        string whiteKeyList = whiteListOfBlackKeyPatterns[paramInfo.ExecFilePath.ToLower()][pattern];
+                        string whiteList = whiteListOfBlacklistPatterns[paramInfo.ExecFilePath.ToLower()][pattern];
 
                         //在白名單內的跳過
-                        if (whiteKeyList != null && whiteKeyList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
+                        if (whiteList != null && whiteList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
                             continue;
                     }
 
@@ -608,7 +611,6 @@ namespace Common.LogicObject
                 }
             }
 
-            //沒有黑名單關鍵字也沒下一個參數過濾物件時,回報有效
             if (successor == null)
                 return true;
 

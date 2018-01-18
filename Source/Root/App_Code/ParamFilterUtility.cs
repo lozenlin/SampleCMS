@@ -28,7 +28,7 @@ public static class ParamFilterUtility
     /// <summary>
     /// 黑名單
     /// </summary>
-    private static string[] blackKeyWords = new string[] {
+    private static string[] blacklistKeywords = new string[] {
         "javascript:", "vbscript:", "mocha:", "livescript:", "<script", 
         "alert(", "../../etc/passwd", "../../windows/win.ini", "xp_cmdshell", "acustart", 
         "acuend", "prompt(", "<metahttp-equiv", "waitfordelay", "waitfor delay", 
@@ -39,11 +39,11 @@ public static class ParamFilterUtility
     };
 
     /// <summary>
-    /// Regex黑名單
+    /// Regex 黑名單
     /// </summary>
-    private static string[] blackKeyPatterns = new string[] { 
-        "<[a-zA-Z0-9]+ [a-zA-Z0-9'\"]+=[a-zA-Z0-9'\"]+>", 
-        "[a-zA-Z0-9]+<[a-zA-Z0-9]+<"
+    private static string[] blacklistPatterns = new string[] { 
+        "<[a-zA-Z0-9]+ [a-zA-Z0-9'\"]+=[a-zA-Z0-9'\"]+>", // e.g., <% contenteditable onresize=HVUx(9663)> <%div style=width:expression(S0K4(9408))>
+        "[a-zA-Z0-9]+<[a-zA-Z0-9]+<"    // e.g., yfwribon<8FoJTt<  e<7k8rzz<
     };
 
     /// <summary>
@@ -53,13 +53,18 @@ public static class ParamFilterUtility
 
 	static ParamFilterUtility()
 	{
+        InitialParamValueLenLookup();
+	}
+
+    private static void InitialParamValueLenLookup()
+    {
         paramValueLenLookup.Add("alias", 50);
         paramValueLenLookup.Add("kw", 100);
         paramValueLenLookup.Add("q", 100);
         paramValueLenLookup.Add("preview", 256);
         paramValueLenLookup.Add("serviceName", 50);
         paramValueLenLookup.Add("term", 100);
-	}
+    }
 
     /// <summary>
     /// 參數內容是否有效
@@ -110,9 +115,9 @@ public static class ParamFilterUtility
         // 指定參數名稱與內容長度對照表
         limitedStringParam.SetParamValueLenLookup(paramValueLenLookup);
 
-        //規則表達式黑名單關鍵字過濾
+        //規則表達式黑名單過濾
         RegexParamFilter regexParam = new RegexParamFilter();
-        regexParam.SetBlackKeyPatterns(blackKeyPatterns);
+        regexParam.SetBlacklistPatterns(blacklistPatterns);
 
         //SQL Injection 過濾
         SQLInjectionFilterExt sqlInjection1 = new SQLInjectionFilterExt();
@@ -121,9 +126,9 @@ public static class ParamFilterUtility
         HtmlDecodeParamValue htmlDecodeValue = new HtmlDecodeParamValue();
 
         //黑名單關鍵字過濾
-        BlackKeyWordFilter blackKeyWord = new BlackKeyWordFilter(); 
+        BlacklistKeywordFilter blacklistKw = new BlacklistKeywordFilter(); 
         // 指定黑名單
-        blackKeyWord.SetBlackKeyWords(blackKeyWords);
+        blacklistKw.SetBlacklistKeywords(blacklistKeywords);
 
         //SQL Injection過濾
         SQLInjectionFilterExt sqlInjection2 = new SQLInjectionFilterExt();    
@@ -135,8 +140,8 @@ public static class ParamFilterUtility
         limitedStringParam.SetSuccessor(regexParam);
         regexParam.SetSuccessor(sqlInjection1);
         sqlInjection1.SetSuccessor(htmlDecodeValue);
-        htmlDecodeValue.SetSuccessor(blackKeyWord);
-        blackKeyWord.SetSuccessor(sqlInjection2);
+        htmlDecodeValue.SetSuccessor(blacklistKw);
+        blacklistKw.SetSuccessor(sqlInjection2);
 
         //開始檢查
         foreach (string key in queryString.Keys)
@@ -189,9 +194,9 @@ public static class ParamFilterUtility
         // 指定參數名稱與內容長度對照表
         limitedStringParam.SetParamValueLenLookup(paramValueLenLookup);
 
-        //規則表達式黑名單關鍵字過濾
+        //規則表達式黑名單過濾
         RegexParamFilter regexParam = new RegexParamFilter();
-        regexParam.SetBlackKeyPatterns(blackKeyPatterns);
+        regexParam.SetBlacklistPatterns(blacklistPatterns);
 
         //用 HtmlDecode 解碼參數內容
         HtmlDecodeParamValue htmlDecodeValue = new HtmlDecodeParamValue();
@@ -203,9 +208,9 @@ public static class ParamFilterUtility
         UrlDecodeParamValue urlDecodeValue = new UrlDecodeParamValue();
 
         //黑名單關鍵字過濾
-        BlackKeyWordFilter blackKeyWord = new BlackKeyWordFilter(); 
+        BlacklistKeywordFilter blacklistKw = new BlacklistKeywordFilter(); 
         // 指定黑名單
-        blackKeyWord.SetBlackKeyWords(blackKeyWords);
+        blacklistKw.SetBlacklistKeywords(blacklistKeywords);
 
         //SQL Injection過濾
         SQLInjectionFilterExt sqlInjection2 = new SQLInjectionFilterExt();
@@ -219,8 +224,8 @@ public static class ParamFilterUtility
         regexParam.SetSuccessor(htmlDecodeValue);
         htmlDecodeValue.SetSuccessor(sqlInjection1);
         sqlInjection1.SetSuccessor(urlDecodeValue);
-        urlDecodeValue.SetSuccessor(blackKeyWord);
-        blackKeyWord.SetSuccessor(sqlInjection2);
+        urlDecodeValue.SetSuccessor(blacklistKw);
+        blacklistKw.SetSuccessor(sqlInjection2);
 
         //開始檢查
         foreach (string key in requestForm.Keys)
