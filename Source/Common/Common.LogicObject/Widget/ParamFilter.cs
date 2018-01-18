@@ -33,9 +33,14 @@ namespace Common.LogicObject
             logger = LogManager.GetLogger(this.GetType());
         }
 
-        protected void ShowDebugInfo(ParamInfo paramInfo)
+        protected void ShowDebugMsg(ParamInfo paramInfo)
         {
             logger.DebugFormat("key[{0}] value[{1}] of page[{2}]", paramInfo.Key, paramInfo.Value, paramInfo.ExecFilePath);
+        }
+
+        protected void ShowInfoMsgBeforeFailed(ParamInfo paramInfo)
+        {
+            logger.InfoFormat("key[{0}] value[{1}] of page[{2}] Failed!", paramInfo.Key, paramInfo.Value, paramInfo.ExecFilePath);
         }
 
         public void SetSuccessor(ParamFilter successor)
@@ -110,30 +115,53 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
+
+            bool result = false;
 
             //檢查Int32類型
             if (intParamList != null && intParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
             {
                 int nResult;
-                return int.TryParse(paramInfo.Value, out nResult);
+                result = int.TryParse(paramInfo.Value, out nResult);
+
+                if (!result)
+                {
+                    ShowInfoMsgBeforeFailed(paramInfo);
+                }
+
+                return result;
             }
 
             //檢查日期類型
             if (dateTimeParamList != null && dateTimeParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
             {
                 DateTime dtResult;
-                return DateTime.TryParse(paramInfo.Value, out dtResult);
+                result = DateTime.TryParse(paramInfo.Value, out dtResult);
+
+                if (!result)
+                {
+                    ShowInfoMsgBeforeFailed(paramInfo);
+                }
+                return result;
+
             }
 
             //檢查 Guid 類型
             if (guidParamList != null && guidParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
             {
                 Guid guidResult;
-                return Guid.TryParse(paramInfo.Value, out guidResult);
+                result = Guid.TryParse(paramInfo.Value, out guidResult);
+
+                if (!result)
+                {
+                    ShowInfoMsgBeforeFailed(paramInfo);
+                }
+
+                return result;
             }
 
             if (successor == null)
@@ -172,17 +200,26 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
 
             //檢查字串長度
-            if (paramValueLenLookup != null && paramValueLenLookup.Keys.Any(x => string.Compare(x, paramInfo.Key, true) == 0))
+            if (paramValueLenLookup != null)
             {
-                //超過指定長度
-                if (paramInfo.Value.Length > paramValueLenLookup[paramInfo.Key.ToLower()])
-                    return false;
+                foreach (string key in paramValueLenLookup.Keys)
+                {
+                    if (string.Compare(key, paramInfo.Key, true) != 0)
+                        continue;
+
+                    //超過指定長度
+                    if (paramInfo.Value.Length > paramValueLenLookup[key])
+                    {
+                        ShowInfoMsgBeforeFailed(paramInfo);
+                        return false;
+                    }
+                }
             }
 
             //讓較短的先回報有效,太長的還是往下一個送
@@ -238,7 +275,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
@@ -254,7 +291,7 @@ namespace Common.LogicObject
                     if (whiteListOfBlackKeyWords != null && whiteListOfBlackKeyWords.ContainsKey(paramInfo.ExecFilePath.ToLower()))
                     {
                         //取得以逗號相接的變數名單
-                        string whiteKeyList = whiteListOfBlackKeyWords[paramInfo.ExecFilePath.ToLower()][blackKeyWord];
+                        string whiteKeyList = whiteListOfBlackKeyWords[paramInfo.ExecFilePath.ToLower()][blackKeyWord.ToLower()];
 
                         //在白名單內的跳過
                         if (whiteKeyList != null && whiteKeyList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
@@ -262,7 +299,10 @@ namespace Common.LogicObject
                     }
 
                     if (noSpaceValue.IndexOf(blackKeyWord, StringComparison.CurrentCultureIgnoreCase) != -1)
+                    {
+                        ShowInfoMsgBeforeFailed(paramInfo);
                         return false;
+                    }
                 }
             }
 
@@ -295,7 +335,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
@@ -340,7 +380,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
@@ -402,11 +442,14 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             // Acunetix 把 ctl00$contentplaceholder1$uclogin$txtAccount 改用 ctl00%24contentplaceholder1%24uclogin%24txtAccount 送來
             if (paramInfo.Key.IndexOf("%24") != -1)
+            {
+                ShowInfoMsgBeforeFailed(paramInfo);
                 return false;
+            }
 
             if (successor == null)
                 return true;
@@ -431,7 +474,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
@@ -451,7 +494,10 @@ namespace Common.LogicObject
 
                             //要全字串符合
                             if (matches.Count != 1 || matches[0].Value != paramInfo.Value)
+                            {
+                                ShowInfoMsgBeforeFailed(paramInfo);
                                 return false;
+                            }
 
                             //不需要再送其他檢查
                             return true;
@@ -461,11 +507,17 @@ namespace Common.LogicObject
 
                             //要全字串符合
                             if (matches.Count != 1 || matches[0].Value != paramInfo.Value)
+                            {
+                                ShowInfoMsgBeforeFailed(paramInfo);
                                 return false;
+                            }
 
                             //已知最短長度
                             if (paramInfo.Value.Length < 16)
+                            {
+                                ShowInfoMsgBeforeFailed(paramInfo);
                                 return false;
+                            }
 
                             break;
                     }
@@ -522,7 +574,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null || paramInfo.Value.Length > 1000)   //hack, 太長的字有效能問題,先避開
                 return true;
@@ -543,7 +595,10 @@ namespace Common.LogicObject
                     }
 
                     if (Regex.IsMatch(paramInfo.Value, pattern))
+                    {
+                        ShowInfoMsgBeforeFailed(paramInfo);
                         return false;
+                    }
                 }
             }
 
@@ -571,7 +626,7 @@ namespace Common.LogicObject
 
         public override bool HandleRequest(ParamInfo paramInfo)
         {
-            ShowDebugInfo(paramInfo);
+            ShowDebugMsg(paramInfo);
 
             if (paramInfo.Value == null)
                 return true;
@@ -587,7 +642,10 @@ namespace Common.LogicObject
 
                 //測試運算式是否成立,能否被用來做 SQL Injection
                 if (IsSQLInjectionExpr(expr))
+                {
+                    ShowInfoMsgBeforeFailed(paramInfo);
                     return false;
+                }
             }
 
             if (successor == null)
