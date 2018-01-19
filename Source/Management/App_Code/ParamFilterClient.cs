@@ -149,9 +149,12 @@ public class ParamFilterClient
         if (!IsQueryStringValueValid(execFilePath, context.Request.QueryString))
             return false;
 
-        //POST參數內容是否有效
-        if (!IsPostValueValid(execFilePath, context.Request.Form))
-            return false;
+        if (string.Compare(execFilePath, "Login.aspx", true) == 0)
+        {
+            //POST參數內容是否有效
+            if (!IsPostValueValid(execFilePath, context.Request.Form))
+                return false;
+        }
 
         return true;
     }
@@ -299,6 +302,9 @@ public class ParamFilterClient
         foreach (string key in requestForm.Keys)
         {
             if (key == null || requestForm[key] == null || requestForm[key].Length == 0)
+                continue;
+
+            if (key.StartsWith("__"))
                 continue;
 
             //參數內容是否有效

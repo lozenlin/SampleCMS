@@ -238,6 +238,9 @@ public class ParamFilterClient
             if (key == null || requestForm[key] == null || requestForm[key].Length == 0)
                 continue;
 
+            if (key.StartsWith("__"))
+                continue;
+
             //參數內容是否有效
             ParamFilter.ParamInfo paramInfo = new ParamFilter.ParamInfo()
             {
