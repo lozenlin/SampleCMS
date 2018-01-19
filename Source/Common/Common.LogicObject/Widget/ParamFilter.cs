@@ -55,9 +55,27 @@ namespace Common.LogicObject
         /// </summary>
         public class ParamInfo
         {
-            public string Key;
+            /// <summary>
+            /// Key (will use lowercase)
+            /// </summary>
+            public string Key
+            {
+                get { return key; }
+                set { key = (value == null) ? "" : value.ToLower(); }
+            }
+            private string key;
+
             public string Value;
-            public string ExecFilePath;
+
+            /// <summary>
+            /// ExecFilePath (will use lowercase)
+            /// </summary>
+            public string ExecFilePath
+            {
+                get { return execFilePath; }
+                set { execFilePath = (value == null) ? "" : value.ToLower(); }
+            }
+            private string execFilePath;
         }
     }
 
@@ -67,17 +85,17 @@ namespace Common.LogicObject
     public class NonStringParamFilter : ParamFilter
     {
         /// <summary>
-        /// Int32 類型的參數名單
+        /// Int32 類型的參數名單 (needs lowercase)
         /// </summary>
         private List<string> intParamList;
 
         /// <summary>
-        /// 日期類型的參數名單
+        /// 日期類型的參數名單 (needs lowercase)
         /// </summary>
         private List<string> dateTimeParamList;
 
         /// <summary>
-        /// Guid 類型的參數名單
+        /// Guid 類型的參數名單 (needs lowercase)
         /// </summary>
         private List<string> guidParamList;
 
@@ -90,7 +108,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 指定 Int32 類型的參數名單
+        /// 指定 Int32 類型的參數名單 (needs lowercase)
         /// </summary>
         public void SetIntParamList(List<string> paramList)
         {
@@ -98,7 +116,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 指定日期類型的參數名單
+        /// 指定日期類型的參數名單 (needs lowercase)
         /// </summary>
         public void SetDateTimeParamList(List<string> paramList)
         {
@@ -106,7 +124,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 指定 Guid 類型的參數名單
+        /// 指定 Guid 類型的參數名單 (needs lowercase)
         /// </summary>
         public void SetGuidParamList(List<string> paramList)
         {
@@ -123,7 +141,7 @@ namespace Common.LogicObject
             bool result = false;
 
             //檢查Int32類型
-            if (intParamList != null && intParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
+            if (intParamList != null && intParamList.Contains(paramInfo.Key))
             {
                 int nResult;
                 result = int.TryParse(paramInfo.Value, out nResult);
@@ -137,7 +155,7 @@ namespace Common.LogicObject
             }
 
             //檢查日期類型
-            if (dateTimeParamList != null && dateTimeParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
+            if (dateTimeParamList != null && dateTimeParamList.Contains(paramInfo.Key))
             {
                 DateTime dtResult;
                 result = DateTime.TryParse(paramInfo.Value, out dtResult);
@@ -151,7 +169,7 @@ namespace Common.LogicObject
             }
 
             //檢查 Guid 類型
-            if (guidParamList != null && guidParamList.Any<string>(x => string.Compare(x, paramInfo.Key, true) == 0))
+            if (guidParamList != null && guidParamList.Contains(paramInfo.Key))
             {
                 Guid guidResult;
                 result = Guid.TryParse(paramInfo.Value, out guidResult);
@@ -191,7 +209,7 @@ namespace Common.LogicObject
         }
 
         /// <summary>
-        /// 指定參數名稱與內容長度對照表
+        /// 指定參數名稱與內容長度對照表 (needs lowercase)
         /// </summary>
         public void SetParamValueLenLookup(Dictionary<string, int> lenLookup)
         {
@@ -206,19 +224,13 @@ namespace Common.LogicObject
                 return true;
 
             //檢查字串長度
-            if (paramValueLenLookup != null)
+            if (paramValueLenLookup != null && paramValueLenLookup.ContainsKey(paramInfo.Key))
             {
-                foreach (string key in paramValueLenLookup.Keys)
+                //超過指定長度
+                if (paramInfo.Value.Length > paramValueLenLookup[paramInfo.Key])
                 {
-                    if (string.Compare(key, paramInfo.Key, true) != 0)
-                        continue;
-
-                    //超過指定長度
-                    if (paramInfo.Value.Length > paramValueLenLookup[key])
-                    {
-                        ShowInfoMsgBeforeFailed(paramInfo);
-                        return false;
-                    }
+                    ShowInfoMsgBeforeFailed(paramInfo);
+                    return false;
                 }
             }
 
@@ -268,7 +280,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 指定黑名單關鍵字在特定頁面中要允許的白名單
         /// ( 頁面名[需小寫] -> 關鍵字 -> ,變數名,變數名, )
-        /// ( execFilePath[needs lower case] -> Keyword -> ,ParamName,ParamName, )
+        /// ( execFilePath[needs lowercase] -> Keyword -> ,ParamName,ParamName, )
         /// </summary>
         public void SetWhitelistOfBlacklistKeywords(Dictionary<string, NameValueCollection> whitelistOfBlacklistKeywords)
         {
@@ -290,13 +302,13 @@ namespace Common.LogicObject
                 foreach (string kw in blacklistKeywords)
                 {
                     //檢查白名單
-                    if (whitelistOfBlacklistKeywords != null && whitelistOfBlacklistKeywords.ContainsKey(paramInfo.ExecFilePath.ToLower()))
+                    if (whitelistOfBlacklistKeywords != null && whitelistOfBlacklistKeywords.ContainsKey(paramInfo.ExecFilePath))
                     {
                         //取得以逗號相接的變數名單
-                        string whitelist = whitelistOfBlacklistKeywords[paramInfo.ExecFilePath.ToLower()][kw.ToLower()];
+                        string whitelist = whitelistOfBlacklistKeywords[paramInfo.ExecFilePath][kw];
 
                         //在白名單內的跳過
-                        if (whitelist != null && whitelist.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
+                        if (whitelist != null && whitelist.Contains("," + paramInfo.Key + ","))
                             continue;
                     }
 
@@ -483,11 +495,11 @@ namespace Common.LogicObject
             string pattern = "";
             MatchCollection matches = null;
 
-            switch (paramInfo.ExecFilePath.ToLower())
+            switch (paramInfo.ExecFilePath)
             {
                 case "scriptresource.axd":
                 case "webresource.axd":
-                    switch (paramInfo.Key.ToLower())
+                    switch (paramInfo.Key)
                     {
                         case "t":
                             pattern = @"[\da-fA-f]+";    //長短不一定的十六進制數字
@@ -568,7 +580,7 @@ namespace Common.LogicObject
         /// <summary>
         /// 指定黑名單在特定頁面中要允許的白名單
         /// ( 頁面名[需小寫] -> 規則 -> ,變數名,變數名, )
-        /// ( execFilePath[needs lower case] -> Pattern -> ,ParamName,ParamName, )
+        /// ( execFilePath[needs lowercase] -> Pattern -> ,ParamName,ParamName, )
         /// </summary>
         public void SetWhitelistOfBlacklistPatterns(Dictionary<string, NameValueCollection> whitelistOfBlacklistPatterns)
         {
@@ -593,13 +605,13 @@ namespace Common.LogicObject
                 foreach (string pattern in blacklistPatterns)
                 {
                     //檢查白名單
-                    if (whiteListOfBlacklistPatterns != null && whiteListOfBlacklistPatterns.ContainsKey(paramInfo.ExecFilePath.ToLower()))
+                    if (whiteListOfBlacklistPatterns != null && whiteListOfBlacklistPatterns.ContainsKey(paramInfo.ExecFilePath))
                     {
                         //取得以逗號相接的變數名單
-                        string whiteList = whiteListOfBlacklistPatterns[paramInfo.ExecFilePath.ToLower()][pattern];
+                        string whiteList = whiteListOfBlacklistPatterns[paramInfo.ExecFilePath][pattern];
 
                         //在白名單內的跳過
-                        if (whiteList != null && whiteList.IndexOf("," + paramInfo.Key + ",", StringComparison.CurrentCultureIgnoreCase) != -1)
+                        if (whiteList != null && whiteList.Contains("," + paramInfo.Key + ","))
                             continue;
                     }
 

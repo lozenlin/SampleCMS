@@ -79,17 +79,22 @@
         //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         //sw.Start();
 
-        //檢查參數內容是否有效
-        if (!ParamFilterUtility.IsParamValueValid(Context))
+        if (string.Compare(Request.AppRelativeCurrentExecutionFilePath, "~/Login.aspx", true) == 0)
         {
-            ////顯示檢查時間
-            //sw.Stop();
-            //System.Diagnostics.Debug.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + "ms");
+            //檢查參數內容是否有效
+            ParamFilterClient paramFilterClient = new ParamFilterClient();
 
-            ////產生404錯誤
-            //throw new HttpException(404, "Invalid Parameter!");
+            if (!paramFilterClient.IsParamValueValid(Context))
+            {
+                ////顯示檢查時間
+                //sw.Stop();
+                //System.Diagnostics.Debug.WriteLine(sw.Elapsed.TotalMilliseconds.ToString() + "ms");
 
-            Response.Redirect("~/ErrorPage.aspx#InvalidParameter");
+                ////產生404錯誤
+                //throw new HttpException(404, "Invalid Parameter!");
+
+                Response.Redirect("~/ErrorPage.aspx#InvalidParameter");
+            }
         }
 
         ////顯示檢查時間

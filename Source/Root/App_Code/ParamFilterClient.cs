@@ -9,67 +9,72 @@ using System.Web;
 /// <summary>
 /// 參數過濾設定與執行
 /// </summary>
-public static class ParamFilterUtility
+public class ParamFilterClient
 {
     /// <summary>
-    /// Int32 類型的參數名單
+    /// Int32 類型的參數名單 (needs lowercase)
     /// </summary>
-    private static List<string> intParams = new List<string>(new string[] { 
-        "l", "lang", "p", "id"
+    private List<string> intParams = new List<string>(new string[] { 
+        "l", "lang", "p", "id", "w", 
+        "h", "saveas", "stretch", "flexable"
     });
 
     /// <summary>
-    /// Guid 類型的參數名單
+    /// Guid 類型的參數名單 (needs lowercase)
     /// </summary>
-    private static List<string> guidParams = new List<string>(new string[] { 
+    private List<string> guidParams = new List<string>(new string[] { 
         "artid", "attid", "picid", "vidid"
     });
 
     /// <summary>
-    /// 黑名單
+    /// 黑名單 (needs lowercase)
     /// </summary>
-    private static string[] blacklistKeywords = new string[] {
-        "javascript:", "vbscript:", "mocha:", "livescript:", "<script", 
-        "alert(", "../../etc/passwd", "../../windows/win.ini", "xp_cmdshell", "acustart", 
-        "acuend", "prompt(", "<metahttp-equiv", "waitfordelay", "waitfor delay", 
-        "sleep(", "window.location", "dow.loca", "Ascii", "substring",
-        "db_name", "sysprocesses", "db_", "${", "#{", 
-        "t(", "msgbox(", "'():;", "onmouse", "onresize", 
-        "\"style=", "ssion("
+    private string[] blacklistKeywords = new string[] {
+        "javascript:", "vbscript:", "mocha:", 
+        "livescript:", "<script", "alert(", 
+        "../../etc/passwd", "../../windows/win.ini", "xp_cmdshell", 
+        "acustart", "acuend", "prompt(", 
+        "<metahttp-equiv", "waitfordelay", "sleep(", 
+        "window.location", "dow.loca", "substring",
+        "db_name", "sysprocesses", "db_", 
+        "${", "#{", "t(", 
+        "msgbox(", "'():;", "onmouse", 
+        "onresize", "\"style=", "ssion("
     };
 
     /// <summary>
     /// Regex 黑名單
     /// </summary>
-    private static string[] blacklistPatterns = new string[] { 
+    private string[] blacklistPatterns = new string[] { 
         "<[a-zA-Z0-9]+ [a-zA-Z0-9'\"]+=[a-zA-Z0-9'\"]+>", // e.g., <% contenteditable onresize=HVUx(9663)> <%div style=width:expression(S0K4(9408))>
         "[a-zA-Z0-9]+<[a-zA-Z0-9]+<"    // e.g., yfwribon<8FoJTt<  e<7k8rzz<
     };
 
     /// <summary>
-    /// 有限制長度的字串參數名稱與內容長度對照表
+    /// 有限制長度的字串參數名稱與內容長度對照表 (needs lowercase)
     /// </summary>
-    private static Dictionary<string, int> paramValueLenLookup = new Dictionary<string, int>();
+    private Dictionary<string, int> paramValueLenLookup = new Dictionary<string, int>();
 
-	static ParamFilterUtility()
+	public ParamFilterClient()
 	{
         InitialParamValueLenLookup();
 	}
 
-    private static void InitialParamValueLenLookup()
+    private void InitialParamValueLenLookup()
     {
+        // (needs lowercase)
         paramValueLenLookup.Add("alias", 50);
         paramValueLenLookup.Add("kw", 100);
         paramValueLenLookup.Add("q", 100);
         paramValueLenLookup.Add("preview", 256);
-        paramValueLenLookup.Add("serviceName", 50);
+        paramValueLenLookup.Add("servicename", 50);
         paramValueLenLookup.Add("term", 100);
     }
 
     /// <summary>
     /// 參數內容是否有效
     /// </summary>
-    public static bool IsParamValueValid(HttpContext context)
+    public bool IsParamValueValid(HttpContext context)
     {
         if (context == null)
             return true;
@@ -95,7 +100,7 @@ public static class ParamFilterUtility
     /// <summary>
     /// 網址參數內容是否有效
     /// </summary>
-    public static bool IsQueryStringValueValid(string execFilePath, NameValueCollection queryString)
+    public bool IsQueryStringValueValid(string execFilePath, NameValueCollection queryString)
     {
         if (queryString == null || queryString.Count == 0)
             return true;
@@ -171,7 +176,7 @@ public static class ParamFilterUtility
     /// <summary>
     /// POST參數內容是否有效
     /// </summary>
-    public static bool IsPostValueValid(string execFilePath, NameValueCollection requestForm)
+    public bool IsPostValueValid(string execFilePath, NameValueCollection requestForm)
     {
         if (requestForm == null || requestForm.Count == 0)
             return true;

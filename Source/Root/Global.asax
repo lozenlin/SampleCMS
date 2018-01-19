@@ -48,7 +48,9 @@
         //sw.Start();
 
         //檢查參數內容是否有效
-        if (!ParamFilterUtility.IsParamValueValid(Context))
+        ParamFilterClient paramFilterClient = new ParamFilterClient();
+
+        if (!paramFilterClient.IsParamValueValid(Context))
         {
             ////顯示檢查時間
             //sw.Stop();

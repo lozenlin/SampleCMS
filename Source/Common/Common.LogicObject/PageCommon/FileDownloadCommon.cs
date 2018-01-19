@@ -488,7 +488,7 @@ namespace Common.LogicObject
                 Response.BinaryWrite(bytes);
             }
 
-            Response.End();
+            //Response.End();
 
             return true;
         }
