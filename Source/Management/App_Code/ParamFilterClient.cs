@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -12,6 +13,8 @@ using System.Web;
 /// </summary>
 public class ParamFilterClient
 {
+    protected ILog logger;
+
     /// <summary>
     /// Int32 類型的參數名單 (needs lowercase)
     /// </summary>
@@ -74,6 +77,7 @@ public class ParamFilterClient
 
     public ParamFilterClient()
     {
+        logger = LogManager.GetLogger(this.GetType());
         InitialParamValueLenLookup();
         InitialWhitelistOfBlacklistKeywords();
     }
@@ -149,12 +153,9 @@ public class ParamFilterClient
         if (!IsQueryStringValueValid(execFilePath, context.Request.QueryString))
             return false;
 
-        if (string.Compare(execFilePath, "Login.aspx", true) == 0)
-        {
-            //POST參數內容是否有效
-            if (!IsPostValueValid(execFilePath, context.Request.Form))
-                return false;
-        }
+        //POST參數內容是否有效
+        if (!IsPostValueValid(execFilePath, context.Request.Form))
+            return false;
 
         return true;
     }
@@ -212,14 +213,22 @@ public class ParamFilterClient
         blacklistKw.SetSuccessor(sqlInjection2);
 
         //開始檢查
+        logger.Debug("checking queryString.Keys");
+
         foreach (string key in queryString.Keys)
         {
             if (key == null || queryString[key] == null || queryString[key].Length == 0)
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             //檢查參數名稱
             if (Regex.IsMatch(key, "[\"']"))
+            {
+                logger.InfoFormat("key[{0}] Failed!", key);
                 return false;
+            }
 
             //參數內容是否有效
             ParamFilter.ParamInfo paramInfo = new ParamFilter.ParamInfo()
@@ -244,37 +253,16 @@ public class ParamFilterClient
         if (requestForm == null || requestForm.Count == 0)
             return true;
 
-        //建立參數過濾物件
-        //針對 Acunetix 送來的 Post 參數過濾
-        ForAcunetixPostParamFilter forAcunetix = new ForAcunetixPostParamFilter();
+        bool useSimplifedChain = true;
 
-        //特殊頁面參數過濾
-        SpecificPageParamFilter specificPageParam = new SpecificPageParamFilter();
-
-        //非字串參數過濾
-        NonStringParamFilter nonStringParam = new NonStringParamFilter();
-        // 指定參數名單
-        nonStringParam.SetIntParamList(intParams);
-        nonStringParam.SetDateTimeParamList(dateTimeParams);
-        nonStringParam.SetGuidParamList(guidParams);
-
-        //有限制長度的字串參數過濾
-        LimitedStringParamFilter limitedStringParam = new LimitedStringParamFilter();
-        // 指定參數名稱與內容長度對照表
-        limitedStringParam.SetParamValueLenLookup(paramValueLenLookup);
+        if (string.Compare(execFilePath, "Login.aspx", true) == 0)
+        {
+            useSimplifedChain = false;
+        }
 
         //規則表達式黑名單過濾
         RegexParamFilter regexParam = new RegexParamFilter();
         regexParam.SetBlacklistPatterns(blacklistPatterns);
-
-        //用 HtmlDecode 解碼參數內容
-        HtmlDecodeParamValue htmlDecodeValue = new HtmlDecodeParamValue();
-
-        //SQL Injection過濾
-        SQLInjectionFilterExt sqlInjection1 = new SQLInjectionFilterExt();
-
-        //用 UrlDecode 解碼參數內容
-        UrlDecodeParamValue urlDecodeValue = new UrlDecodeParamValue();
 
         //黑名單關鍵字過濾
         BlacklistKeywordFilter blacklistKw = new BlacklistKeywordFilter();
@@ -283,29 +271,61 @@ public class ParamFilterClient
         // 指定黑名單關鍵字在特定頁面中要允許的白名單
         blacklistKw.SetWhitelistOfBlacklistKeywords(whitelistOfBlacklistKeywords);
 
-        //SQL Injection過濾
-        SQLInjectionFilterExt sqlInjection2 = new SQLInjectionFilterExt();
-
         //建立檢查順序
-        ParamFilter chainOfResponsibility = forAcunetix;
-        forAcunetix.SetSuccessor(specificPageParam);
-        specificPageParam.SetSuccessor(nonStringParam);
-        nonStringParam.SetSuccessor(limitedStringParam);
-        limitedStringParam.SetSuccessor(regexParam);
-        regexParam.SetSuccessor(htmlDecodeValue);
-        htmlDecodeValue.SetSuccessor(sqlInjection1);
-        sqlInjection1.SetSuccessor(urlDecodeValue);
-        urlDecodeValue.SetSuccessor(blacklistKw);
-        blacklistKw.SetSuccessor(sqlInjection2);
+        ParamFilter chainOfResponsibility = null;
+
+        if (useSimplifedChain)
+        {
+            //簡易版參數過濾規則
+            chainOfResponsibility = regexParam;
+            regexParam.SetSuccessor(blacklistKw);
+        }
+        else
+        {
+            //針對 Acunetix 送來的 Post 參數過濾
+            ForAcunetixPostParamFilter forAcunetix = new ForAcunetixPostParamFilter();
+
+            //特殊頁面參數過濾
+            SpecificPageParamFilter specificPageParam = new SpecificPageParamFilter();
+
+            //用 HtmlDecode 解碼參數內容
+            HtmlDecodeParamValue htmlDecodeValue = new HtmlDecodeParamValue();
+
+            //SQL Injection過濾
+            SQLInjectionFilterExt sqlInjection1 = new SQLInjectionFilterExt();
+
+            //用 UrlDecode 解碼參數內容
+            UrlDecodeParamValue urlDecodeValue = new UrlDecodeParamValue();
+
+            //SQL Injection過濾
+            SQLInjectionFilterExt sqlInjection2 = new SQLInjectionFilterExt();
+
+            chainOfResponsibility = forAcunetix;
+            forAcunetix.SetSuccessor(specificPageParam);
+            specificPageParam.SetSuccessor(regexParam);
+            regexParam.SetSuccessor(htmlDecodeValue);
+            htmlDecodeValue.SetSuccessor(sqlInjection1);
+            sqlInjection1.SetSuccessor(urlDecodeValue);
+            urlDecodeValue.SetSuccessor(blacklistKw);
+            blacklistKw.SetSuccessor(sqlInjection2);
+        }
 
         //開始檢查
+        logger.Debug("checking requestForm.Keys");
+
         foreach (string key in requestForm.Keys)
         {
             if (key == null || requestForm[key] == null || requestForm[key].Length == 0)
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             if (key.StartsWith("__"))
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             //參數內容是否有效
             ParamFilter.ParamInfo paramInfo = new ParamFilter.ParamInfo()

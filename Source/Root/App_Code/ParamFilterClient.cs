@@ -1,4 +1,5 @@
 ﻿using Common.LogicObject;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -11,6 +12,8 @@ using System.Web;
 /// </summary>
 public class ParamFilterClient
 {
+    protected ILog logger;
+
     /// <summary>
     /// Int32 類型的參數名單 (needs lowercase)
     /// </summary>
@@ -57,6 +60,7 @@ public class ParamFilterClient
 
 	public ParamFilterClient()
 	{
+        logger = LogManager.GetLogger(this.GetType());
         InitialParamValueLenLookup();
 	}
 
@@ -149,14 +153,22 @@ public class ParamFilterClient
         blacklistKw.SetSuccessor(sqlInjection2);
 
         //開始檢查
+        logger.Debug("checking queryString.Keys");
+
         foreach (string key in queryString.Keys)
         {
             if (key == null || queryString[key] == null || queryString[key].Length == 0)
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             //檢查參數名稱
             if (Regex.IsMatch(key, "[\"']"))
+            {
+                logger.InfoFormat("key[{0}] Failed!", key);
                 return false;
+            }
 
             //參數內容是否有效
             ParamFilter.ParamInfo paramInfo = new ParamFilter.ParamInfo()
@@ -223,9 +235,7 @@ public class ParamFilterClient
         //建立檢查順序
         ParamFilter chainOfResponsibility = forAcunetix;
         forAcunetix.SetSuccessor(specificPageParam);
-        specificPageParam.SetSuccessor(nonStringParam);
-        nonStringParam.SetSuccessor(limitedStringParam);
-        limitedStringParam.SetSuccessor(regexParam);
+        specificPageParam.SetSuccessor(regexParam);
         regexParam.SetSuccessor(htmlDecodeValue);
         htmlDecodeValue.SetSuccessor(sqlInjection1);
         sqlInjection1.SetSuccessor(urlDecodeValue);
@@ -233,13 +243,21 @@ public class ParamFilterClient
         blacklistKw.SetSuccessor(sqlInjection2);
 
         //開始檢查
+        logger.Debug("checking requestForm.Keys");
+
         foreach (string key in requestForm.Keys)
         {
             if (key == null || requestForm[key] == null || requestForm[key].Length == 0)
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             if (key.StartsWith("__"))
+            {
+                logger.DebugFormat("skip key[{0}]", key);
                 continue;
+            }
 
             //參數內容是否有效
             ParamFilter.ParamInfo paramInfo = new ParamFilter.ParamInfo()
