@@ -5,6 +5,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
     <link href="/Management/Common/slick/slick.css" rel="stylesheet" />
     <link href="/Management/Common/slick/slick-theme.css" rel="stylesheet" />
+    <style type="text/css">
+        .contextArea img {
+            max-width:100%;
+        }
+        /*
+        @media (max-width: 767px) {
+        }
+        */
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphContent" Runat="Server">
     <ul class="sys-info list-inline">
@@ -388,7 +397,7 @@
             <a class="nav-link" data-toggle="tab" href="#pnlEn">English</a>
         </li>
     </ul>
-    <div class="tab-content bg-white p-3 border border-top-0">
+    <div class="tab-content bg-white p-3 border border-top-0 contextArea">
         <asp:PlaceHolder ID="ContextPnlZhTwArea" runat="server">
             <div class="tab-pane fade show active" id="pnlZhTw">
                 <asp:Literal ID="ltrContextZhTw" runat="server"></asp:Literal>

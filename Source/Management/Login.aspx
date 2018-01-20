@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title></title>
-    <link href="/management/Common/bootstrap/4.0.0-beta/css/bootstrap.css" rel="stylesheet" />
+    <link href="/management/Common/bootstrap-4/css/bootstrap.css" rel="stylesheet" />
     <link href="/management/Common/css/BpBootstrapChanged.css" rel="stylesheet" />
     <link href="/management/Common/css/BackendPage.css" rel="stylesheet" />
     <link href="/management/Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -94,7 +94,7 @@
         <script src="Common/js/jquery-3.2.1.min.js"></script>
         <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
         <script src="Common/js/popper.min.js"></script>
-        <script src="Common/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+        <script src="Common/bootstrap-4/js/bootstrap.min.js"></script>
         <script>
             $("#btnRefreshCodePic").click(function () {
                 $("#imgCaptcha").attr("src", "captcha.ashx?" + (new Date()).valueOf());
