@@ -49,5 +49,26 @@ public partial class Dashboard : System.Web.UI.Page
         else
         {
         }
+
+        LoadSystemVersion();
+    }
+
+    private void LoadSystemVersion()
+    {
+        try
+        {
+            System.Reflection.Assembly asmAppCode = System.Reflection.Assembly.Load("App_Code");
+            ltrSystemVersion.Text = asmAppCode.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmLogicObject = System.Reflection.Assembly.Load("Common.LogicObject");
+            ltrLogicObjectVersion.Text = asmLogicObject.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmDataAccess = System.Reflection.Assembly.Load("Common.DataAccess");
+            ltrDataAccessVersion.Text = asmDataAccess.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmUtility = System.Reflection.Assembly.Load("Common.Utility");
+            ltrUtilityVersion.Text = asmUtility.GetName().Version.ToString();
+        }
+        catch { }
     }
 }

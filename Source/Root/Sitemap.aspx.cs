@@ -37,6 +37,7 @@ public partial class Sitemap : FrontendBasePage
     {
         if (!IsPostBack)
         {
+            LoadSystemVersion();
             DisplaySitemapLinks();
         }
     }
@@ -105,5 +106,24 @@ public partial class Sitemap : FrontendBasePage
             }
         }
 
+    }
+
+    private void LoadSystemVersion()
+    {
+        try
+        {
+            System.Reflection.Assembly asmAppCode = System.Reflection.Assembly.Load("App_Code");
+            ltrSystemVersion.Text = asmAppCode.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmLogicObject = System.Reflection.Assembly.Load("Common.LogicObject");
+            ltrLogicObjectVersion.Text = asmLogicObject.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmDataAccess = System.Reflection.Assembly.Load("Common.DataAccess");
+            ltrDataAccessVersion.Text = asmDataAccess.GetName().Version.ToString();
+
+            System.Reflection.Assembly asmUtility = System.Reflection.Assembly.Load("Common.Utility");
+            ltrUtilityVersion.Text = asmUtility.GetName().Version.ToString();
+        }
+        catch { }
     }
 }

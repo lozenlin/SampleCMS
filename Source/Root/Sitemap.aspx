@@ -39,6 +39,39 @@
     </ItemTemplate>
     </asp:Repeater>
     </ul>
+    <div class="row" style="display:none;">
+        <div class="col-md-push-1 col-md-6">
+	        <div class="fh5co-spacer fh5co-spacer-sm"></div>
+            <table class="table table-bordered table-condensed small">
+                <tbody>
+                    <tr>
+                        <th style="width:20%;">Website Ver.</th>
+                        <td style="width:80%;">
+                            <asp:Literal ID="ltrSystemVersion" runat="server"></asp:Literal>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Common.LogicObject Ver.</th>
+                        <td>
+                            <asp:Literal ID="ltrLogicObjectVersion" runat="server"></asp:Literal>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Common.DataAccess Ver.</th>
+                        <td>
+                            <asp:Literal ID="ltrDataAccessVersion" runat="server"></asp:Literal>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Common.Utility Ver.</th>
+                        <td>
+                            <asp:Literal ID="ltrUtilityVersion" runat="server"></asp:Literal>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphContentOfHomePage" Runat="Server">
 </asp:Content>

@@ -10,7 +10,7 @@
     <div>
         <h6 class="text-info font-weight-bold my-3"><%= Resources.Lang.Dashboard_Greeting %></h6>
         <%= Resources.Lang.Dashboard_LoginInfoTitle %>:
-        <table class="table table-bordered table-sm bg-white">
+        <table class="table table-responsive-sm table-bordered table-sm bg-white">
             <tbody>
                 <tr>
                     <th style="width:20%;"><%= Resources.Lang.Dashboard_AccountTitle %></th>
@@ -36,6 +36,26 @@
                     <th><%= Resources.Lang.Dashboard_IpTitle %></th>
                     <td>
                         <asp:Literal ID="ltrLastLoginIP" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Management System Ver.</th>
+                    <td>
+                        <asp:Literal ID="ltrSystemVersion" runat="server"></asp:Literal>
+                    </td>
+                    <th>Common.LogicObject Ver.</th>
+                    <td>
+                        <asp:Literal ID="ltrLogicObjectVersion" runat="server"></asp:Literal>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Common.Utility Ver.</th>
+                    <td>
+                        <asp:Literal ID="ltrUtilityVersion" runat="server"></asp:Literal>
+                    </td>
+                    <th>Common.DataAccess Ver.</th>
+                    <td>
+                        <asp:Literal ID="ltrDataAccessVersion" runat="server"></asp:Literal>
                     </td>
                 </tr>
             </tbody>
