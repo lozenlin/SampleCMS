@@ -13,9 +13,9 @@ public class GetCurrentAccount : IHttpHandler, IRequiresSessionState
     protected SsoAuthenticatorCommon c;
     protected HttpContext context;
 
-    private string aesKeyOfFP = "fromFrontendPage";   // 16 letters
-    private string aesKeyOfBP = "BackendPageMainK";   // 16 letters
-    private string basicIV = "SampleCMSsampleC";  // 16 letters
+    private string aesKeyOfFP = "";   // 16 letters
+    private string aesKeyOfBP = "";   // 16 letters
+    private string basicIV = "";  // 16 letters
     private string[] locationSections = null;
     private string domainName = "";
     private string pageName = "";
@@ -43,6 +43,13 @@ public class GetCurrentAccount : IHttpHandler, IRequiresSessionState
     }
 
     #endregion
+
+    public GetCurrentAccount()
+    {
+        aesKeyOfFP = ConfigurationManager.AppSettings["AesKeyOfFP"];
+        aesKeyOfBP = ConfigurationManager.AppSettings["AesKeyOfBP"];
+        basicIV = ConfigurationManager.AppSettings["AesIV"];
+    }
 
     public void ProcessRequest(HttpContext context)
     {

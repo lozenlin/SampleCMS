@@ -104,9 +104,9 @@ namespace Common.LogicObject
         protected ArticlePublisherLogic artPub;
         protected ArticleData articleData;
         protected bool isPreviewMode = false;
-        protected string aesKeyOfFP = "fromFrontendPage";   // 16 letters
-        protected string aesKeyOfBP = "BackendPageMainK";   // 16 letters
-        protected string basicIV = "SampleCMSsampleC";  // 16 letters
+        protected string aesKeyOfFP = "";   // 16 letters
+        protected string aesKeyOfBP = "";   // 16 letters
+        protected string basicIV = "";  // 16 letters
 
         /// <summary>
         /// 前台網頁的共用元件
@@ -116,6 +116,10 @@ namespace Common.LogicObject
         {
             artPub = new ArticlePublisherLogic(null);
             articleData = new ArticleData();
+
+            aesKeyOfFP = ConfigurationManager.AppSettings["AesKeyOfFP"];
+            aesKeyOfBP = ConfigurationManager.AppSettings["AesKeyOfBP"];
+            basicIV = ConfigurationManager.AppSettings["AesIV"];
         }
 
         #region Public methods
