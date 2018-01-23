@@ -48,6 +48,68 @@ alter table dbo.Article add IsVideoAreaShowInFrontStage	bit	Not Null	Default(0)
 alter table dbo.Article add SubItemLinkUrl	nvarchar(2048)		
 go
 
+CREATE NONCLUSTERED INDEX [IX_Article_GetList] ON [dbo].[Article]
+(
+	[ArticleId] ASC,
+	[ParentId] ASC,
+	[IsHideSelf] ASC,
+	[StartDate] ASC,
+	[EndDate] ASC
+)
+INCLUDE ( 	[ArticleLevelNo],
+	[ArticleAlias],
+	[BannerPicFileName],
+	[LayoutModeId],
+	[ShowTypeId],
+	[LinkUrl],
+	[LinkTarget],
+	[ControlName],
+	[IsHideChild],
+	[SortNo],
+	[PostAccount],
+	[PostDate],
+	[MdfAccount],
+	[MdfDate],
+	[SubjectAtBannerArea],
+	[PublishDate],
+	[IsShowInUnitArea],
+	[IsShowInSitemap],
+	[SortFieldOfFrontStage],
+	[IsSortDescOfFrontStage],
+	[IsListAreaShowInFrontStage],
+	[IsAttAreaShowInFrontStage],
+	[IsPicAreaShowInFrontStage],
+	[IsVideoAreaShowInFrontStage]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
+CREATE NONCLUSTERED INDEX [IX_Article_ShowTypeId_LinkUrl] ON [dbo].[Article]
+(
+	[ShowTypeId] ASC,
+	[LinkUrl] ASC
+)
+INCLUDE ( 	[ArticleId],
+	[PostDate]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
+CREATE NONCLUSTERED INDEX [IX_Article_ForSideSection] ON [dbo].[Article]
+(
+	[ParentId] ASC,
+	[IsHideSelf] ASC,
+	[StartDate] ASC,
+	[EndDate] ASC,
+	[IsShowInUnitArea] ASC,
+	[IsShowInSitemap] ASC
+)
+INCLUDE ( 	[ArticleId],
+	[ArticleAlias],
+	[ShowTypeId],
+	[LinkUrl],
+	[LinkTarget],
+	[IsHideChild],
+	[ArticleLevelNo],
+	[SortNo]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 
 -- 預設內容
 set identity_insert dbo.Article on
@@ -95,6 +157,16 @@ alter table dbo.ArticleMultiLang add PublisherName	nvarchar(50)
 --	2017/12/26, lozen_lin, 增加欄位「純文字的網頁內容」
 alter table dbo.ArticleMultiLang add TextContext	nvarchar(max)
 go
+
+CREATE NONCLUSTERED INDEX [IX_ArticleMultiLang_ForSitemap] ON [dbo].[ArticleMultiLang]
+(
+	[ArticleId] ASC,
+	[CultureName] ASC
+)
+INCLUDE ( 	[ArticleSubject],
+	[IsShowInLang]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 
 -- 預設內容
 set identity_insert dbo.ArticleMultiLang on
@@ -170,6 +242,16 @@ go
 create clustered index IX_AttachFileMultiLang on dbo.AttachFileMultiLang (SeqnoForCluster)
 go
 
+CREATE NONCLUSTERED INDEX [IX_AttachFileMultiLang_GetList] ON [dbo].[AttachFileMultiLang]
+(
+	[AttId] ASC, 
+	[CultureName] ASC,
+	[IsShowInLang] ASC
+)
+INCLUDE ([AttSubject],
+	[ReadCount]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 ----------------------------------------------------------------------------
 -- dbo.ArticlePicture 網頁照片	
 ----------------------------------------------------------------------------
@@ -210,6 +292,15 @@ create table dbo.ArticlePictureMultiLang(
 go
 -- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
 create clustered index IX_ArticlePictureMultiLang on dbo.ArticlePictureMultiLang (SeqnoForCluster)
+go
+
+CREATE NONCLUSTERED INDEX [IX_ArticlePictureMultiLang_GetList] ON [dbo].[ArticlePictureMultiLang]
+(
+	[PicId] ASC, 
+	[CultureName] ASC,
+	[IsShowInLang] ASC
+)
+INCLUDE ([PicSubject]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
 go
 
 ----------------------------------------------------------------------------
@@ -254,6 +345,16 @@ go
 create clustered index IX_ArticleVideoMultiLang on dbo.ArticleVideoMultiLang (SeqnoForCluster)
 go
 
+CREATE NONCLUSTERED INDEX [IX_ArticleVideoMultiLang_GetList] ON [dbo].[ArticleVideoMultiLang]
+(
+	[VidId] ASC,
+	[CultureName] ASC,
+	[IsShowInLang] ASC
+)
+INCLUDE ( 	[VidSubject],
+	[VidDesc]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 ----------------------------------------------------------------------------
 -- dbo.SearchDataSource 搜尋用資料來源	
 ----------------------------------------------------------------------------
@@ -278,6 +379,16 @@ go
 create clustered index IX_SearchDataSource on dbo.SearchDataSource (SeqnoForCluster)
 go
 
+CREATE NONCLUSTERED INDEX [IX_SearchDataSource_ForInnerSearch] ON [dbo].[SearchDataSource]
+(
+	[ArticleId] ASC,
+	[SubId] ASC,
+	[CultureName] ASC
+)
+INCLUDE ( 	[ArticleSubject],
+	[ArticleContext]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 ----------------------------------------------------------------------------
 -- dbo.Keyword 搜尋關鍵字	
 ----------------------------------------------------------------------------
@@ -289,6 +400,14 @@ create table dbo.Keyword(
 )
 go
 create unique index IX_Keyword_Kw on dbo.Keyword (CultureName, Kw)
+go
+
+CREATE NONCLUSTERED INDEX [IX_Keyword_GetList] ON [dbo].[Keyword]
+(
+	[CultureName] ASC
+)
+INCLUDE ( 	[Kw],
+	[UsedCount]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
 go
 
 

@@ -1439,7 +1439,7 @@ go
 -- Description: <依超連結網址取得網頁代碼>
 -- Test:
 /*
-exec dbo.spArticle_GetArticleIdByLinkUrl '~/News.aspx'
+exec dbo.spArticle_GetArticleIdByLinkUrl '~/Sitemap.aspx'
 */
 -- =============================================
 create procedure dbo.spArticle_GetArticleIdByLinkUrl
@@ -1458,10 +1458,12 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/23>
+-- History:
+--	2018/01/23, lozen_lin, 結果儲存方式從暫存表改為變數
 -- Description: <取得指定網頁內容的前幾層網頁代碼>
 -- Test:
 /*
-exec dbo.spArticle_GetTopLevelIds '90315AFD-20DE-4C9E-AD0C-2F3910862D94'
+exec dbo.spArticle_GetTopLevelIds '759CE382-7669-48A2-8B0E-230F65597AC3'
 exec dbo.spArticle_GetTopLevelIds 'b1d34d29-255a-42a2-b9af-c33911bcde9a'
 */
 -- =============================================
@@ -1469,13 +1471,9 @@ alter procedure dbo.spArticle_GetTopLevelIds
 @ArticleId uniqueidentifier
 as
 begin
-	create table #tbl(
-		Lv1Id uniqueidentifier
-		,Lv2Id uniqueidentifier
-		,Lv3Id uniqueidentifier
-	)
-
-	insert into #tbl default values
+	declare @Lv1Id uniqueidentifier
+		,@Lv2Id uniqueidentifier
+		,@Lv3Id uniqueidentifier
 
 	declare @CurLevelNo int
 	declare @CurArticleId uniqueidentifier = @ArticleId
@@ -1491,18 +1489,15 @@ begin
 
 		if @CurLevelNo = 1
 		begin
-			update #tbl
-			set Lv1Id=@CurArticleId
+			set @Lv1Id=@CurArticleId
 		end
 		else if @CurLevelNo = 2
 		begin
-			update #tbl
-			set Lv2Id=@CurArticleId
+			set @Lv2Id=@CurArticleId
 		end
 		else if @CurLevelNo = 3
 		begin
-			update #tbl
-			set Lv3Id=@CurArticleId
+			set @Lv3Id=@CurArticleId
 		end
 
 		if (@curLevelNo is null or @curLevelNo<=1) break
@@ -1510,8 +1505,9 @@ begin
 		set @CurArticleId=@ParentId
 	end
 
-	select * from #tbl
-	drop table #tbl
+	select @Lv1Id as Lv1Id
+		,@Lv2Id as Lv2Id
+		,@Lv3Id as Lv3Id
 end
 go
 
@@ -1521,6 +1517,7 @@ go
 -- Description: <增加網頁內容的多國語系資料被點閱次數>
 -- Test:
 /*
+exec dbo.spArticleMultiLang_IncreaseReadCount '00000000-0000-0000-0000-000000000000', 'zh-TW'
 */
 -- =============================================
 create procedure dbo.spArticleMultiLang_IncreaseReadCount
