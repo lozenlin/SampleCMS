@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterArticle.master" AutoEventWireup="true" CodeFile="Search-Result.aspx.cs" Inherits="Search_Result" %>
 <%@ Register Src="~/UserControls/wucDataPager.ascx" TagPrefix="uc1" TagName="wucDataPager" %>
+<%@ OutputCache Location="Server" VaryByParam="q;l;p;preview" Duration="1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
     <script>

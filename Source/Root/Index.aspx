@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterArticle.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="Index" %>
 <%@ Register Src="~/UserControls/wucSearchCondition.ascx" TagPrefix="uc1" TagName="wucSearchCondition" %>
+<%@ OutputCache Location="Server" VaryByParam="l;preview" Duration="1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
 </asp:Content>
