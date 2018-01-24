@@ -18,6 +18,10 @@
 
         // 讓 ToSafeStr() 可依照前台、後台去調整過濾方式 
         GetSafeStringExtensions.IsBackendPage = true;
+
+        string pswSalt1 = ConfigurationManager.AppSettings["PswSalt1"];
+        string pswSalt2 = ConfigurationManager.AppSettings["PswSalt2"];
+        Common.Utility.HashUtility.ChangePswSalt(pswSalt1, pswSalt2);
     }
     
     void Application_End(object sender, EventArgs e) 

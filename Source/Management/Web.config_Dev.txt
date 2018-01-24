@@ -7,6 +7,8 @@
     <!-- 設定可以在後台編輯的語言版本 -->
     <add key="EnableEditLangZHTW" value="true"/>
     <add key="EnableEditLangEN" value="true"/>
+    <add key="PswSalt1" value="your1"/>
+    <add key="PswSalt2" value="your2"/>
   </appSettings>
   <connectionStrings>
     <add name="DBConnString" connectionString="Data Source=.\sqlexpress2012;User ID=cmsDev;PWD=yourpassword;Initial Catalog=SampleCMS;Application Name=SampleCMSBackEnd;"/>

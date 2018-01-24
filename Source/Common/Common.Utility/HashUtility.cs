@@ -7,10 +7,19 @@ namespace Common.Utility
     /// <summary>
     /// 雜湊資料
     /// </summary>
-    public class HashUtility
+    public static class HashUtility
     {
-        protected HashUtility()
+        private static string pswSalt1 = "";
+        private static string pswSalt2 = "";
+
+        static HashUtility()
         {
+        }
+
+        public static void ChangePswSalt(string salt1, string salt2)
+        {
+            pswSalt1 = salt1;
+            pswSalt2 = salt2;
         }
 
         /// <summary>
@@ -62,10 +71,7 @@ namespace Common.Utility
         /// </summary>
         public static string GetPasswordHash(string value)
         {
-            string salt1 = "c";
-            string salt2 = "ms";
-
-            return HashUtility.GetHashOfSHA256(salt1 + value + salt2);
+            return HashUtility.GetHashOfSHA256(pswSalt1 + value + pswSalt2);
         }
 
     }

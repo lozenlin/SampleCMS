@@ -39,23 +39,23 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Management System Ver.</th>
+                    <th><small>Management System Ver.</small></th>
                     <td>
-                        <asp:Literal ID="ltrSystemVersion" runat="server"></asp:Literal>
+                        <small><asp:Literal ID="ltrSystemVersion" runat="server"></asp:Literal></small>
                     </td>
-                    <th>Common.LogicObject Ver.</th>
+                    <th><small>Common.LogicObject Ver.</small></th>
                     <td>
-                        <asp:Literal ID="ltrLogicObjectVersion" runat="server"></asp:Literal>
+                        <small><asp:Literal ID="ltrLogicObjectVersion" runat="server"></asp:Literal></small>
                     </td>
                 </tr>
                 <tr>
-                    <th>Common.Utility Ver.</th>
+                    <th><small>Common.Utility Ver.</small></th>
                     <td>
-                        <asp:Literal ID="ltrUtilityVersion" runat="server"></asp:Literal>
+                        <small><asp:Literal ID="ltrUtilityVersion" runat="server"></asp:Literal></small>
                     </td>
-                    <th>Common.DataAccess Ver.</th>
+                    <th><small>Common.DataAccess Ver.</small></th>
                     <td>
-                        <asp:Literal ID="ltrDataAccessVersion" runat="server"></asp:Literal>
+                        <small><asp:Literal ID="ltrDataAccessVersion" runat="server"></asp:Literal></small>
                     </td>
                 </tr>
             </tbody>
