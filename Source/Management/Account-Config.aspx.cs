@@ -62,6 +62,7 @@ public partial class Account_Config : System.Web.UI.Page
         rfvEmpName.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
         rfvPsw.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;
         revPsw.ErrorMessage = "*" + Resources.Lang.ErrMsg_PswNotQualified;
+        cuvPsw.ErrorMessage = "*" + Resources.Lang.ErrMsg_PswNotQualified;
         ltrPswComment.Text = "(" + Resources.Lang.Account_PswComment + ")";
         btnGenPsw.ToolTip = Resources.Lang.Account_btnGenPsw_Hint;
         rfvPswConfirm.ErrorMessage = "*" + Resources.Lang.ErrMsg_Required;

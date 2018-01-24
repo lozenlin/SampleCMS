@@ -161,6 +161,14 @@ namespace Common.LogicObject
             }
         }
 
+        public string qsToken
+        {
+            get
+            {
+                return QueryStringToSafeStr("token");
+            }
+        }
+
         /// <summary>
         /// 登入者資料
         /// </summary>
@@ -490,6 +498,14 @@ namespace Common.LogicObject
             }
 
             set { Session["seLoginFailedCount"] = value; }
+        }
+
+        /// <summary>
+        /// 取消要求, 1:取消
+        /// </summary>
+        public string qsCancel
+        {
+            get { return QueryStringToSafeStr("cancel") ?? ""; }
         }
 
         #endregion
@@ -1170,14 +1186,6 @@ namespace Common.LogicObject
         }
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
-
-        public string qsToken
-        {
-            get
-            {
-                return QueryStringToSafeStr("token");
-            }
-        }
 
         public string qsLocation
         {

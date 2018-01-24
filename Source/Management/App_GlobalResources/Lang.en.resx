@@ -1861,4 +1861,24 @@
     <value>Browse custom web programs</value>
     <comment>瀏覽客製化網頁程式</comment>
   </data>
+  <data name="PswChange_Subtitle" xml:space="preserve">
+    <value>Change password</value>
+    <comment>變更密碼</comment>
+  </data>
+  <data name="Login_btnSubmit" xml:space="preserve">
+    <value>Submit</value>
+    <comment>送 出</comment>
+  </data>
+  <data name="Login_btnBackToLogin" xml:space="preserve">
+    <value>back to sign in</value>
+    <comment>回登入頁</comment>
+  </data>
+  <data name="PswChange_NewPswTitle" xml:space="preserve">
+    <value>New password</value>
+    <comment>新密碼</comment>
+  </data>
+  <data name="PswChange_NewPswConfirmTitle" xml:space="preserve">
+    <value>Confirm new password</value>
+    <comment>新密碼確認</comment>
+  </data>
 </root>

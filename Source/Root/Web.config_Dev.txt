@@ -20,6 +20,21 @@
     <add key="AesIV" value="YourKeyYourKeyYo"/>
     <!-- IsForceUseSSL: true, false; Forces websites to use https -->
     <add key="IsForceUseSSL" value="false"/>
+    <!-- Email -->
+    <add key="ServiceEmail" value="SampleCMS@aa.a"/>
+    <add key="SmtpServer" value="127.0.0.1"/>
+    <!-- SmtpAccount: empty string means anonymous user -->
+    <add key="SmtpAccount" value=""/>
+    <add key="SmtpPassword" value=""/>
+    <!-- UseSender: true, false; display ServiceEmail but send mail by sender. -->
+    <add key="UseSender" value="false"/>
+    <add key="SenderEmail" value="a@aa.a"/>
+    <add key="SenderSmtpServer" value="aa.a"/>
+    <add key="SenderAccount" value=""/>
+    <add key="SenderPassword" value=""/>
+    <!-- SendToTesterOnly: true, false -->
+    <add key="SendToTesterOnly" value="false"/>
+    <add key="TesterEmail" value="your@mail.com"/>
   </appSettings>
   <!-- 避免子應用程式的 web.config 繼承, 用 location 包起來 -->
   <location path="." inheritInChildApplications="false">

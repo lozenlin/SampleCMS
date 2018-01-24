@@ -29,6 +29,22 @@
       </authorization>
     </system.web>
   </location>
+  <!--變更密碼頁不用驗證-->
+  <location path="Psw-Change.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
+  <!--忘記密碼頁不用驗證-->
+  <location path="Psw-Require.aspx">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
   <!--需要編輯html的頁面-->
   <location path="Article-Config.aspx">
     <system.web>

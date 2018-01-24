@@ -25,7 +25,7 @@ public partial class Login : System.Web.UI.Page
     {
         c = new LoginCommonOfBackend(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
-        empAuth = new EmployeeAuthorityLogic(c);
+        empAuth = new EmployeeAuthorityLogic();
 
         ACCOUNT_FAILED_ERRMSG = Resources.Lang.ErrMsg_AccountFailed;
     }
@@ -50,7 +50,9 @@ public partial class Login : System.Web.UI.Page
 
         btnLogin.ToolTip = Resources.Lang.Login_btnLogin;
         btnChangePsw.Title = Resources.Lang.Login_btnChangePsw;
+        btnChangePsw.HRef = string.Format("Psw-Change.aspx?l={0}", c.qsLangNo);
         btnDontRememberPsw.Title = Resources.Lang.Login_btnDontRememberPsw;
+        btnDontRememberPsw.HRef = string.Format("Psw-Require.aspx?l={0}", c.qsLangNo);
         cuvCheckCode.ErrorMessage = "*" + Resources.Lang.ErrMsg_WrongCheckCode;
         btnRefreshCodePic.Title = Resources.Lang.CaptchaPic_Hint;
 

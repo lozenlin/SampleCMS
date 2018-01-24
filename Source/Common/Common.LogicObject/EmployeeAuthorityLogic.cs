@@ -59,15 +59,23 @@ namespace Common.LogicObject
         protected bool isRoleAdmin = false;
         protected int deptId = 0;
         protected string dbErrMsg = "";
+        
+        /// <summary>
+        /// 帳號與權限
+        /// </summary>
+        public EmployeeAuthorityLogic()
+        {
+            this.authorizations = new EmployeeAuthorizations();
+            logger = LogManager.GetLogger(this.GetType());
+        }
 
         /// <summary>
         /// 帳號與權限
         /// </summary>
         public EmployeeAuthorityLogic(IAuthenticationConditionProvider authCondition)
+            : this()
         {
             this.authCondition = authCondition;
-            this.authorizations = new EmployeeAuthorizations();
-            logger = LogManager.GetLogger(this.GetType());
 
             if (authCondition != null)
             {

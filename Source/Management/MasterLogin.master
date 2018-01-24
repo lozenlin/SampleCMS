@@ -1,0 +1,64 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterLogin.master.cs" Inherits="MasterLogin" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title></title>
+    <link href="/management/Common/bootstrap-4/css/bootstrap.css" rel="stylesheet" />
+    <link href="/management/Common/css/BpBootstrapChanged.css" rel="stylesheet" />
+    <link href="/management/Common/css/BackendPage.css" rel="stylesheet" />
+    <link href="/management/Common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="cphHead" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="login-body">
+    <form id="form1" runat="server">
+        <div class="container-fluid">
+            <div class="row mt-md-5 no-gutters">
+                <div class="col-md-8 mx-auto LoginFormContainer">
+                    <div class="card bgtx-glass-diamond px-md-4 pb-md-3 LoginWell">
+                        <div class="card-body">
+                            <div class="Signboard">
+                                <h1 class="SignboardText"><asp:Literal ID="ltrBackStageName" runat="server"></asp:Literal></h1>
+                            </div>
+                            <hr class="SignboardLine" />
+                            <div id="ErrorMsgArea" runat="server" visible="false" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <asp:Literal ID="ltrErrMsg" runat="server"></asp:Literal>
+                            </div>
+                            <div class="card LoginForm border border-secondary ">
+                                <div class="card-header bg-white">
+                                    <asp:ContentPlaceHolder id="cphCardHeader" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                                <div class="card-body pr-md-5">
+                                    <asp:ContentPlaceHolder id="cphCardBody" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <small class="text-success"><%= Resources.Lang.Login_YourIpTitle %>: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="Common/js/jquery-3.2.1.min.js"></script>
+        <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
+        <script src="Common/js/popper.min.js"></script>
+        <script src="Common/bootstrap-4/js/bootstrap.min.js"></script>
+    </form>
+    <span class="photo-author d-none">Photo belongs to xxx on yyy.</span>
+    <asp:ContentPlaceHolder ID="cphBeforeBodyTail" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>
