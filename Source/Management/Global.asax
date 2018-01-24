@@ -79,6 +79,18 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
+        bool isForceUseSSL = false;
+
+        if (bool.TryParse(ConfigurationManager.AppSettings["IsForceUseSSL"] ?? "", out isForceUseSSL))
+        {
+        }
+
+        if (isForceUseSSL && string.Compare(Context.Request.Url.Scheme, "https", true) != 0)
+        {
+            string newUrl = "https://" + Context.Request.Url.Host + Context.Request.Url.PathAndQuery;
+            Response.Redirect(newUrl);
+        }
+
         ////計算檢查時間
         //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         //sw.Start();
