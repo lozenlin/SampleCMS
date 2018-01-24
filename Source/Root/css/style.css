@@ -308,7 +308,7 @@ textarea {
 }
 
 .sf-arrows .sf-with-ul {
-  padding-right: 2.5em;
+  padding-right: 1.5em !important; /* 2018/01/24, lozen_lin, modify */
   *padding-right: 1em;
 }
 
@@ -344,7 +344,7 @@ textarea {
 }
 
 #fh5co-menu-wrap .sf-menu a {
-  padding: 2em 2em 2em 2em;
+  padding: 2em 1em 2em 1em; /* 2018/01/24, lozen_lin, modify */
 }
 
 #fh5co-primary-menu > li > ul li.active > a {
@@ -1370,7 +1370,7 @@ Components
   border-bottom: 2px solid #28bbf8;
 }
 .fh5co-nav-links ul.subitems{
-  padding-left: 1rem; /* 2017/12/15, lozen_lin */
+  padding-left: 1rem; /* 2017/12/15, lozen_lin, modify */
 }
 
 /* Owl Override Style */

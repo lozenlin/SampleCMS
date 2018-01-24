@@ -28,7 +28,7 @@ namespace Common.LogicObject
     public class FrontendPageCommon : PageCommon
     {
         public string WEBSITE_HOME = "Index.aspx";
-        public string ERROR_PAGE = "ErrorPage.aspx";
+        public string ERROR_PAGE;
 
         #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
 
@@ -117,6 +117,7 @@ namespace Common.LogicObject
             artPub = new ArticlePublisherLogic(null);
             articleData = new ArticleData();
 
+            ERROR_PAGE = string.Format("ErrorPage.aspx?l={0}", qsLangNo);
             aesKeyOfFP = ConfigurationManager.AppSettings["AesKeyOfFP"];
             aesKeyOfBP = ConfigurationManager.AppSettings["AesKeyOfBP"];
             basicIV = ConfigurationManager.AppSettings["AesIV"];

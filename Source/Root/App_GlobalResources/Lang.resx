@@ -319,6 +319,10 @@
     <value>位置</value>
     <comment>位置</comment>
   </data>
+  <data name="lblLanguage" xml:space="preserve">
+    <value>語言</value>
+    <comment>語言</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

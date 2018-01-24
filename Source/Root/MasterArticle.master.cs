@@ -143,8 +143,10 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         }
 
         ShowPreviewModeAlert();
+        LoadLanguageButtonsUIData();
         LoadBannerSubjectUIData();
         HandleLayoutMode();
+
         BreadcrumbAndSearchArea.Visible = showBreadcrumbAndSearchArea;
         ucSearchCondition.Visible = showSearchCondition;
         ControlsBeforeFooterArea.Visible = showControlsBeforeFooterArea;
@@ -157,6 +159,12 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         {
             IsPreviewModeAlert.Visible = true;
         }
+    }
+
+    private void LoadLanguageButtonsUIData()
+    {
+        btnZhTw.HRef = StringUtility.SetParaValueInUrl(Request.RawUrl, "l", LangManager.LangNoZHTW);
+        btnEn.HRef = StringUtility.SetParaValueInUrl(Request.RawUrl, "l", LangManager.LangNoEN);
     }
 
     private void LoadBannerSubjectUIData()

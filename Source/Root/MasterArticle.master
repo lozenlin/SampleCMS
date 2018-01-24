@@ -101,26 +101,15 @@
 						    </li>
                         </ItemTemplate>
                         </asp:Repeater>
-                        <%--
-						<li class="active">
-							<a href="#" class="fh5co-sub-ddown">Dropdown</a>
-							<ul class="fh5co-sub-menu">
-								<li><a href="left-sidebar.html">Left Sidebar</a></li>
-								<li class="active"><a href="right-sidebar.html">Right Sidebar</a></li>
-								<li><a href="#">HTML5</a></li>
-								<li>
-									<a href="#" class="fh5co-sub-ddown">JavaScript</a>
-									<ul class="fh5co-sub-menu">
-										<li><a href="#">jQuery</a></li>
-										<li><a href="#">Zipto</a></li>
-										<li><a href="#">Node.js</a></li>
-										<li><a href="#">AngularJS</a></li>
-									</ul>
-								</li>
-								<li><a href="#">CSS3</a></li> 
-							</ul>
-						</li>
-                        --%>
+                        <li>
+                            <a href="javascript:void(0);" class="fh5co-sub-ddown"><%= Resources.Lang.lblLanguage %></a>
+                            <ul class="fh5co-sub-menu">
+                                <li>
+                                    <a id="btnZhTw" runat="server" href="#">正體中文</a>
+                                    <a id="btnEn" runat="server" href="#">English</a>
+                                </li>
+                            </ul>
+                        </li>
 					</ul>
 				</nav>
 

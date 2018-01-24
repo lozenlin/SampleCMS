@@ -73,7 +73,7 @@
 			<div class="container">
 					
 				<!-- START #fh5co-logo -->
-				<h1 id="fh5co-logo" class="pull-left"><a href="Index.aspx"><%= Resources.Lang.WebsiteName %></a></h1>
+				<h1 id="fh5co-logo" class="pull-left"><a href="Index.aspx?l=<%= c.qsLangNo %>"><%= Resources.Lang.WebsiteName %></a></h1>
 					
 
 			</div>
@@ -115,7 +115,7 @@
                                 <hr class="my-4"/>
                                 <p><%= Resources.Lang.ErrorPage_VisitThe %></p>
                                 <p class="lead">
-                                    <a class="btn btn-primary" href="Index.aspx" role="button"><%= Resources.Lang.ErrorPage_btnHome %></a>
+                                    <a class="btn btn-primary" href="Index.aspx?l=<%= c.qsLangNo %>" role="button"><%= Resources.Lang.ErrorPage_btnHome %></a>
                                 </p>
                             </div>                            <!-- context end -->
 						</div>
