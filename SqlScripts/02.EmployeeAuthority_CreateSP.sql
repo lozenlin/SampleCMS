@@ -448,6 +448,25 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/25>
+-- Description: <以重置密碼用唯一值取得員工登入用資料>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_GetDataToLoginByPasswordResetKey
+@PasswordResetKey varchar(255)
+as
+begin
+	select
+		EmpAccount, PasswordResetKeyDate
+	from dbo.Employee
+	where PasswordResetKey=@PasswordResetKey
+end
+go
+
 ----------------------------------------------------------------------------
 -- 後端操作記錄
 ----------------------------------------------------------------------------

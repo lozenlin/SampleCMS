@@ -1913,6 +1913,14 @@
     <value>要求重置密碼通知信寄送失敗</value>
     <comment>要求重置密碼通知信寄送失敗</comment>
   </data>
+  <data name="ErrMsg_InvalidTokenOfResetPsw" xml:space="preserve">
+    <value>要求重置密碼的驗證碼無效或已取消</value>
+    <comment>要求重置密碼的驗證碼無效或已取消</comment>
+  </data>
+  <data name="PswChange_ResetPasswordCanceled" xml:space="preserve">
+    <value>已取消重置密碼的要求</value>
+    <comment>已取消重置密碼的要求</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

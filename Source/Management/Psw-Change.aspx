@@ -47,7 +47,7 @@
                     Display="Dynamic" ErrorMessage="*" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
             </div>
         </div>
-        <div class="form-group form-row">
+        <div id="CurrentPswArea" runat="server" class="form-group form-row">
             <label for="txtPassword" class="col-md-3 col-form-label text-md-right"><%= Resources.Lang.Login_PasswordTitle %></label>
             <div class="col-md-9">
                 <asp:TextBox ID="txtPassword" runat="server" ClientIDMode="Static" TextMode="Password" 
@@ -110,6 +110,7 @@
             </div>
         </div>
     </asp:Panel>
+    <asp:Literal ID="hidEmpAccountOfToken" runat="server" Visible="false"></asp:Literal>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
     <script>

@@ -39,6 +39,7 @@ public partial class Psw_Change : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadUIData();
+            HandleResetPswRequirement();
         }
 
         Title = Resources.Lang.PswChange_Subtitle + " - " + Title;
@@ -72,6 +73,55 @@ public partial class Psw_Change : System.Web.UI.Page
             revNewPsw.Enabled = true;
             revNewPsw.ValidationExpression = StringUtility.GetPswSimpleRuleValidationExpression();
             NewPswRuleNotice.InnerHtml = Resources.Lang.PswRuleNotice_LooseRule;
+        }
+    }
+
+    /// <summary>
+    /// 處理重置密碼要求
+    /// </summary>
+    private void HandleResetPswRequirement()
+    {
+        if (string.IsNullOrEmpty(c.qsToken))
+            return;
+
+        // check token
+        DataSet dsEmpInfo = empAuth.GetEmployeeDataToLoginByPasswordResetKey(c.qsToken);
+
+        if (dsEmpInfo != null && dsEmpInfo.Tables[0].Rows.Count > 0)
+        {
+            DataRow drFirst = dsEmpInfo.Tables[0].Rows[0];
+            string empAccount = drFirst.ToSafeStr("EmpAccount");
+
+            bool resultCancel = false;
+
+            if (c.qsCancel == "1")
+            {
+                //取消要求
+                resultCancel = empAuth.UpdateEmployeePasswordResetKey(empAccount, "");
+                Master.ShowErrorMsg(Resources.Lang.PswChange_ResetPasswordCanceled);
+            }
+
+            if (!resultCancel)
+            {
+                DateTime passwordResetKeyDate = Convert.ToDateTime(drFirst["PasswordResetKeyDate"]);
+                TimeSpan tsGap = DateTime.Now - passwordResetKeyDate;
+
+                if (tsGap.TotalHours >= 24)
+                {
+                    //逾時
+                    empAuth.UpdateEmployeePasswordResetKey(empAccount, "");
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_InvalidTokenOfResetPsw);
+                }
+                else
+                {
+                    hidEmpAccountOfToken.Text = empAccount;
+                    CurrentPswArea.Visible = false;
+                }
+            }
+        }
+        else
+        {
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_InvalidTokenOfResetPsw);
         }
     }
 
@@ -136,101 +186,119 @@ public partial class Psw_Change : System.Web.UI.Page
         txtPassword.Text = txtPassword.Text.Trim();
         txtNewPsw.Text = txtNewPsw.Text.Trim();
 
-        //登入驗證
-        DataSet dsEmpVerify = empAuth.GetEmployeeDataToLogin(txtAccount.Text);
-
-        if (dsEmpVerify == null)
+        if (string.IsNullOrEmpty(hidEmpAccountOfToken.Text))
         {
-            //異常錯誤
-            Master.ShowErrorMsg(string.Format("{0}: {1}", Resources.Lang.ErrMsg_Exception, empAuth.GetDbErrMsg()));
-            //新增後端操作記錄
-            empAuth.InsertBackEndLogData(new BackEndLogData()
+            //登入驗證
+            DataSet dsEmpVerify = empAuth.GetEmployeeDataToLogin(txtAccount.Text);
+
+            if (dsEmpVerify == null)
             {
-                EmpAccount = "",
-                Description = string.Format("．變更密碼驗證時發生異常錯誤，帳號[{0}]　．An exception error occurred during change password verification! Account[{0}]", txtAccount.Text),
-                IP = c.GetClientIP()
-            });
-            return;
-        }
+                //異常錯誤
+                Master.ShowErrorMsg(string.Format("{0}: {1}", Resources.Lang.ErrMsg_Exception, empAuth.GetDbErrMsg()));
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = "",
+                    Description = string.Format("．變更密碼驗證時發生異常錯誤，帳號[{0}]　．An exception error occurred during change password verification! Account[{0}]", txtAccount.Text),
+                    IP = c.GetClientIP()
+                });
+                return;
+            }
 
-        //判斷是否有資料
-        if (dsEmpVerify.Tables[0].Rows.Count == 0)
-        {
-            //沒資料
-            Master.ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
-            //新增後端操作記錄
-            empAuth.InsertBackEndLogData(new BackEndLogData()
+            //判斷是否有資料
+            if (dsEmpVerify.Tables[0].Rows.Count == 0)
             {
-                EmpAccount = "",
-                Description = string.Format("．(變更密碼)帳號不存在，輸入帳號[{0}]　．(change password)Account doesn't exist! Account[{0}]", txtAccount.Text),
-                IP = c.GetClientIP()
-            });
-            return;
-        }
+                //沒資料
+                Master.ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = "",
+                    Description = string.Format("．(變更密碼)帳號不存在，輸入帳號[{0}]　．(change password)Account doesn't exist! Account[{0}]", txtAccount.Text),
+                    IP = c.GetClientIP()
+                });
+                return;
+            }
 
-        //有資料
-        DataRow drEmpVerify = dsEmpVerify.Tables[0].Rows[0];
+            //有資料
+            DataRow drEmpVerify = dsEmpVerify.Tables[0].Rows[0];
 
-        //檢查密碼
-        string passwordHash = HashUtility.GetPasswordHash(txtPassword.Text);
-        string empPassword = drEmpVerify.ToSafeStr("EmpPassword");
-        bool isPasswordCorrect = false;
+            //檢查密碼
+            string passwordHash = HashUtility.GetPasswordHash(txtPassword.Text);
+            string empPassword = drEmpVerify.ToSafeStr("EmpPassword");
+            bool isPasswordCorrect = false;
 
-        if (Convert.ToBoolean(drEmpVerify["PasswordHashed"]))
-        {
-            isPasswordCorrect = (passwordHash == empPassword);
-        }
-        else
-        {
-            isPasswordCorrect = (txtPassword.Text == empPassword);
-        }
-
-        if (!isPasswordCorrect)
-        {
-            Master.ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
-            //新增後端操作記錄
-            empAuth.InsertBackEndLogData(new BackEndLogData()
+            if (Convert.ToBoolean(drEmpVerify["PasswordHashed"]))
             {
-                EmpAccount = "",
-                Description = string.Format("．(變更密碼)密碼錯誤，帳號[{0}]　．(change password)Password is incorrect! Account[{0}]", txtAccount.Text),
-                IP = c.GetClientIP()
-            });
-            return;
-        }
-
-        //檢查是否停權
-        if (Convert.ToBoolean(drEmpVerify["IsAccessDenied"]))
-        {
-            Master.ShowErrorMsg(Resources.Lang.ErrMsg_AccountUnavailable);
-            //新增後端操作記錄
-            empAuth.InsertBackEndLogData(new BackEndLogData()
+                isPasswordCorrect = (passwordHash == empPassword);
+            }
+            else
             {
-                EmpAccount = "",
-                Description = string.Format("．(變更密碼)帳號停用，帳號[{0}]　．(change password)Account is denied! Account[{0}]", txtAccount.Text),
-                IP = c.GetClientIP()
-            });
-            return;
-        }
+                isPasswordCorrect = (txtPassword.Text == empPassword);
+            }
 
-        //檢查上架日期
-        if (string.Compare(txtAccount.Text, "admin", true) != 0)    // 不檢查帳號 admin
-        {
-            DateTime startDate = Convert.ToDateTime(drEmpVerify["StartDate"]).Date;
-            DateTime endDate = Convert.ToDateTime(drEmpVerify["EndDate"]).Date;
-            DateTime today = DateTime.Today;
+            if (!isPasswordCorrect)
+            {
+                Master.ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
+                //新增後端操作記錄
+                empAuth.InsertBackEndLogData(new BackEndLogData()
+                {
+                    EmpAccount = "",
+                    Description = string.Format("．(變更密碼)密碼錯誤，帳號[{0}]　．(change password)Password is incorrect! Account[{0}]", txtAccount.Text),
+                    IP = c.GetClientIP()
+                });
+                return;
+            }
 
-            if (today < startDate || endDate < today)
+            //檢查是否停權
+            if (Convert.ToBoolean(drEmpVerify["IsAccessDenied"]))
             {
                 Master.ShowErrorMsg(Resources.Lang.ErrMsg_AccountUnavailable);
                 //新增後端操作記錄
                 empAuth.InsertBackEndLogData(new BackEndLogData()
                 {
                     EmpAccount = "",
-                    Description = string.Format("．(變更密碼)帳號超出有效範圍，帳號[{0}]　．(change password)Account validation date is out of range! Account[{0}]", txtAccount.Text),
+                    Description = string.Format("．(變更密碼)帳號停用，帳號[{0}]　．(change password)Account is denied! Account[{0}]", txtAccount.Text),
                     IP = c.GetClientIP()
                 });
                 return;
             }
+
+            //檢查上架日期
+            if (string.Compare(txtAccount.Text, "admin", true) != 0)    // 不檢查帳號 admin
+            {
+                DateTime startDate = Convert.ToDateTime(drEmpVerify["StartDate"]).Date;
+                DateTime endDate = Convert.ToDateTime(drEmpVerify["EndDate"]).Date;
+                DateTime today = DateTime.Today;
+
+                if (today < startDate || endDate < today)
+                {
+                    Master.ShowErrorMsg(Resources.Lang.ErrMsg_AccountUnavailable);
+                    //新增後端操作記錄
+                    empAuth.InsertBackEndLogData(new BackEndLogData()
+                    {
+                        EmpAccount = "",
+                        Description = string.Format("．(變更密碼)帳號超出有效範圍，帳號[{0}]　．(change password)Account validation date is out of range! Account[{0}]", txtAccount.Text),
+                        IP = c.GetClientIP()
+                    });
+                    return;
+                }
+            }
+        }
+        else if (string.Compare(txtAccount.Text, hidEmpAccountOfToken.Text.Trim(), true) != 0)
+        {
+            Master.ShowErrorMsg(ACCOUNT_FAILED_ERRMSG);
+            //新增後端操作記錄
+            string description = string.Format("．(變更密碼)來自[{0}]重置密碼連結但是輸入錯誤帳號，輸入值[{1}]　．(change password)From [{0}] reset password link but enter the wrong account! Input[{1}]",
+                hidEmpAccountOfToken.Text, txtAccount.Text);
+
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = "",
+                Description = description,
+                IP = c.GetClientIP()
+            });
+            return;
         }
 
         //記錄登入時間與IP
@@ -262,6 +330,12 @@ public partial class Psw_Change : System.Web.UI.Page
 
         if (result)
         {
+            if (!string.IsNullOrEmpty(hidEmpAccountOfToken.Text))
+            {
+                //清除Email驗證用唯一值
+                empAuth.UpdateEmployeePasswordResetKey(hidEmpAccountOfToken.Text, "");
+            }
+
             //新增後端操作記錄
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {

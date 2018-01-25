@@ -652,6 +652,20 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 以重置密碼用唯一值取得員工登入用資料
+        /// </summary>
+        public DataSet GetEmployeeDataToLoginByPasswordResetKey(string passwordResetKey)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_GetDataToLoginByPasswordResetKey cmdInfo = new spEmployee_GetDataToLoginByPasswordResetKey() { PasswordResetKey = passwordResetKey };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region Operation DataAccess functions
