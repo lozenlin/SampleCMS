@@ -426,6 +426,28 @@ begin
 end
 go
 
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/25>
+-- Description: <更新員工的重置密碼用唯一值>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_UpdatePasswordResetKey
+@EmpAccount	varchar(20)
+,@PasswordResetKey	varchar(255)
+as
+begin
+	update dbo.Employee
+	set PasswordResetKey=@PasswordResetKey
+		,PasswordResetKeyDate=getdate()
+		,MdfAccount=@EmpAccount
+		,MdfDate=getdate()
+	where EmpAccount=@EmpAccount
+end
+go
+
 ----------------------------------------------------------------------------
 -- 後端操作記錄
 ----------------------------------------------------------------------------

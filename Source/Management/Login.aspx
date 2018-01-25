@@ -78,7 +78,7 @@
                                         <div class="col-md-6 col-7">
                                             <a id="btnChangePsw" runat="server" href="#" class="btn btn-secondary btn-sm"><%= Resources.Lang.Login_btnChangePsw %></a>
                                             <div class="m-1" style='<%= (c.qsLangNo == 1) ? "display:none;" : "" %>'></div>
-                                            <a id="btnDontRememberPsw" runat="server" visible="false" href="#" class="btn btn-info btn-sm"><%= Resources.Lang.Login_btnDontRememberPsw %></a>
+                                            <a id="btnDontRememberPsw" runat="server" href="#" class="btn btn-info btn-sm"><%= Resources.Lang.Login_btnDontRememberPsw %></a>
                                         </div>
                                     </div>
                                 </div>

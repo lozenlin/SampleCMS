@@ -1889,4 +1889,28 @@
     <value>Password changed</value>
     <comment>密碼已更新</comment>
   </data>
+  <data name="ErrMsg_NoMatchedAccount" xml:space="preserve">
+    <value>Check that there is no account and email information</value>
+    <comment>查無指定帳號與 Email 資訊</comment>
+  </data>
+  <data name="PswRequire_Subtitle" xml:space="preserve">
+    <value>Requires reset password</value>
+    <comment>要求重置密碼</comment>
+  </data>
+  <data name="PswRequire_BoundEmailTitle" xml:space="preserve">
+    <value>Email of account</value>
+    <comment>登記於帳號的 Email</comment>
+  </data>
+  <data name="ErrMsg_PrepareEmailException" xml:space="preserve">
+    <value>An exception error occurred while preparing Email</value>
+    <comment>準備信件內容時發生異常錯誤</comment>
+  </data>
+  <data name="PswRequire_Success" xml:space="preserve">
+    <value>Email sent</value>
+    <comment>重置密碼通知信已送出</comment>
+  </data>
+  <data name="ErrMsg_PswRequireSendFailed" xml:space="preserve">
+    <value>Send notification mail failed</value>
+    <comment>要求重置密碼通知信寄送失敗</comment>
+  </data>
 </root>

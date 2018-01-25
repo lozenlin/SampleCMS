@@ -635,6 +635,23 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 更新員工的重置密碼用唯一值
+        /// </summary>
+        public bool UpdateEmployeePasswordResetKey(string empAccount, string passwordResetKey)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_UpdatePasswordResetKey cmdInfo = new spEmployee_UpdatePasswordResetKey()
+            {
+                EmpAccount = empAccount,
+                PasswordResetKey = passwordResetKey
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region Operation DataAccess functions

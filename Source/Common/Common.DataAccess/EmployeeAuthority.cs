@@ -287,6 +287,29 @@ namespace Common.DataAccess.EmployeeAuthority
         }
     }
 
+    /// <summary>
+    /// 更新員工的重置密碼用唯一值
+    /// </summary>
+    public class spEmployee_UpdatePasswordResetKey : IDataAccessCommandInfo
+    {
+        // DataAccessCommand 會使用欄位變數當做 SqlParameter 的產生來源(使用名稱、值)；屬性不包含在其中。
+        // 輸出參數請加上屬性 [OutputPara]
+        // DataAccessCommand generates SqlParameter information(name, value) from these fields automatically. Property is not included.
+        // Output parameter needs attribute [OutputPara]
+        public string EmpAccount;
+        public string PasswordResetKey;
+
+        public CommandType GetCommandType()
+        {
+            return CommandType.StoredProcedure;
+        }
+
+        public string GetCommandText()
+        {
+            return "dbo.spEmployee_UpdatePasswordResetKey";
+        }
+    }
+
     #endregion
 
     #region 後端操作記錄
