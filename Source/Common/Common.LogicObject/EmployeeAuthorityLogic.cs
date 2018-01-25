@@ -618,6 +618,23 @@ namespace Common.LogicObject
             return result;
         }
 
+        /// <summary>
+        /// 更新員工密碼
+        /// </summary>
+        public bool UpdateEmployeePassword(string empAccount, string empPassword)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spEmployee_UpdatePassword cmdInfo = new spEmployee_UpdatePassword()
+            {
+                EmpAccount = empAccount,
+                EmpPassword = empPassword
+            };
+            bool result = cmd.ExecuteNonQuery(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return result;
+        }
+
         #endregion
 
         #region Operation DataAccess functions

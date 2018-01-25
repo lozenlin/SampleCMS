@@ -12,6 +12,7 @@
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
@@ -440,5 +441,26 @@ namespace Common.LogicObject
             return sbResult.ToString();
         }
 
+        /// <summary>
+        /// 只寄給測試收件人
+        /// </summary>
+        public bool IsSendToTesterOnly()
+        {
+            bool bResult = false;
+            bool.TryParse(ConfigurationManager.AppSettings["SendToTesterOnly"], out bResult);
+
+            return bResult;
+        }
+
+        /// <summary>
+        /// display ServiceEmail but send mail by sender
+        /// </summary>
+        public bool UseSender()
+        {
+            bool bResult = false;
+            bool.TryParse(ConfigurationManager.AppSettings["UseSender"], out bResult);
+
+            return bResult;
+        }
     }
 }

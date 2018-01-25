@@ -1881,4 +1881,12 @@
     <value>Confirm new password</value>
     <comment>新密碼確認</comment>
   </data>
+  <data name="ErrMsg_ChangePasswordException" xml:space="preserve">
+    <value>An exception error occurred while updating the password</value>
+    <comment>更新密碼時發生異常錯誤</comment>
+  </data>
+  <data name="PswChange_Success" xml:space="preserve">
+    <value>Password changed</value>
+    <comment>密碼已更新</comment>
+  </data>
 </root>

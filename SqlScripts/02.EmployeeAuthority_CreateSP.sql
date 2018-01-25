@@ -362,12 +362,12 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/07>
--- Description: <更新員工者資料>
+-- Description: <更新員工資料>
 -- Test:
 /*
 */
 -- =============================================
-creaet procedure dbo.spEmployee_UpdateData
+create procedure dbo.spEmployee_UpdateData
 @EmpId	int
 ,@EmpPassword	varchar(128)
 ,@EmpName	nvarchar(50)
@@ -401,6 +401,28 @@ begin
 		,MdfAccount=@MdfAccount
 		,MdfDate=getdate()
 	where EmpId=@EmpId
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/25>
+-- Description: <更新員工密碼>
+-- Test:
+/*
+*/
+-- =============================================
+create procedure dbo.spEmployee_UpdatePassword
+@EmpAccount	varchar(20)
+,@EmpPassword	varchar(128)
+as
+begin
+	update dbo.Employee
+	set EmpPassword=@EmpPassword
+		,PasswordHashed=1
+		,MdfAccount=@EmpAccount
+		,MdfDate=getdate()
+	where EmpAccount=@EmpAccount
 end
 go
 
@@ -1966,7 +1988,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2017/11/30>
+-- Create date: <2018/01/25>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 /*

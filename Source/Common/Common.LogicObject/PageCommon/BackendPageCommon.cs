@@ -190,7 +190,7 @@ namespace Common.LogicObject
         /// </summary>
         public string seCaptchaCode
         {
-            get { return SessionToSafeStr("seCaptchaCode"); }
+            get { return SessionToSafeStr("seCaptchaCode") ?? ""; }
             set { Session["seCaptchaCode"] = value; }
         }
 

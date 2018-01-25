@@ -1881,6 +1881,14 @@
     <value>新密碼確認</value>
     <comment>新密碼確認</comment>
   </data>
+  <data name="ErrMsg_ChangePasswordException" xml:space="preserve">
+    <value>更新密碼時發生異常錯誤</value>
+    <comment>更新密碼時發生異常錯誤</comment>
+  </data>
+  <data name="PswChange_Success" xml:space="preserve">
+    <value>密碼已更新</value>
+    <comment>密碼已更新</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>

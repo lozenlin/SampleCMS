@@ -102,7 +102,7 @@
     <!-- level 參數值: ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF -->
     <!-- Log 分類的重要程度 DEBUG < INFO < WARN < ERROR < FATAL -->
     <root>
-      <level value="DEBUG"/>
+      <level value="INFO"/>
       <appender-ref ref="TraceAppender"/>
       <appender-ref ref="RollingFileAppender"/>
     </root>

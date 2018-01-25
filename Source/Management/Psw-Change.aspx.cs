@@ -2,8 +2,11 @@
 using Common.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
@@ -123,6 +126,7 @@ public partial class Psw_Change : System.Web.UI.Page
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
+        Master.ShowErrorMsg("");
         txtCheckCode.Text = "";
 
         if (!IsValid)
@@ -130,6 +134,7 @@ public partial class Psw_Change : System.Web.UI.Page
 
         txtAccount.Text = txtAccount.Text.Trim();
         txtPassword.Text = txtPassword.Text.Trim();
+        txtNewPsw.Text = txtNewPsw.Text.Trim();
 
         //登入驗證
         DataSet dsEmpVerify = empAuth.GetEmployeeDataToLogin(txtAccount.Text);
@@ -249,7 +254,189 @@ public partial class Psw_Change : System.Web.UI.Page
         }
 
         DataRow drEmp = dsEmp.Tables[0].Rows[0];
+        string empAccount = drEmp.ToSafeStr("EmpAccount");
+        string empName = drEmp.ToSafeStr("EmpName");
+        string email = drEmp.ToSafeStr("Email");
 
+        bool result = empAuth.UpdateEmployeePassword(empAccount, HashUtility.GetPasswordHash(txtNewPsw.Text));
+
+        if (result)
+        {
+            //新增後端操作記錄
+            empAuth.InsertBackEndLogData(new BackEndLogData()
+            {
+                EmpAccount = empAccount,
+                Description = "．變更密碼　．Change password",
+                IP = c.GetClientIP()
+            });
+
+            // Email notice
+            if (empName.Trim() == "")
+                empName = empAccount;
+
+            UserInfo userInfo = new UserInfo()
+            {
+                EmpAccount = empAccount,
+                EmpName = empName,
+                Email = email
+            };
+
+            bool sentResult = false;
+
+            if (LangManager.Instance.GetCultureName(c.qsLangNo.ToString()) == LangManager.CultureNameZHTW)
+            {
+                sentResult = SendNoticeMailToUserZhTw(userInfo);
+            }
+            else
+            {
+                sentResult = SendNoticeMailToUserEn(userInfo);
+            }
+
+            if (!sentResult)
+            {
+                c.LoggerOfUI.Error(string.Format("Account[{0}] Email[{1}] send notice mail to user failed.", empAccount, email));
+            }
+
+            StringBuilder sbScript = new StringBuilder(200);
+            sbScript.AppendFormat("window.alert('{0}!');", Resources.Lang.PswChange_Success).AppendLine();
+            sbScript.AppendFormat("window.location='{0}?l={1}';", FormsAuthentication.LoginUrl, c.qsLangNo).AppendLine();
+
+            ClientScript.RegisterStartupScript(GetType(), "", sbScript.ToString(), true);
+        }
+        else
+        {
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_ChangePasswordException);
+        }
     }
 
+    private bool SendNoticeMailToUserZhTw(UserInfo userInfo)
+    {
+        bool result = true;
+        string smtpAccount = ConfigurationManager.AppSettings["SmtpAccount"];
+        string smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
+        string from = string.Format("{0}<{1}>", Resources.Lang.BackStageName, ConfigurationManager.AppSettings["ServiceEmail"]);
+
+        // get template
+        StreamReader srTemp = File.OpenText(Server.MapPath("~/" + ConfigurationManager.AppSettings["AttRootDir"] + "MailTemplate/ReplyMailTemplate.htm"));
+        string bodyTemplate = srTemp.ReadToEnd();
+        srTemp.Close();
+
+        string to = userInfo.Email;
+
+        if (c.IsSendToTesterOnly())
+        {
+            to = string.Format("原本接收者為 {0}<{1}>", userInfo.Email, ConfigurationManager.AppSettings["TesterEmail"]);
+        }
+
+        string cc = "";
+        string bcc = "";
+        string noticeSubject = string.Format("{0} 您好！提醒您，密碼已變更", userInfo.EmpName);
+        string funcUrl = string.Format("{0}/Psw-Require.aspx?l={1}", ConfigurationManager.AppSettings["BackendUrl"], c.qsLangNo);
+
+        string noticeContext = string.Format("{0} 您好，\r\n\r\n　您的帳號為 {1} ，系統於 {2:yyyy/MM/dd HH:mm} 接收到密碼變更要求且完成變更。\r\n\r\n" +
+            "為維護您的權益，若此資料異動非本人所認可，請至本系統進行重置密碼。" +
+            "<blockquote>重置密碼連結：<a href='{3}'>{3}</a></blockquote>\r\n" +
+            "此為系統自動發出的郵件，請勿直接回覆本電子郵件。\r\n\r\n{4} 敬上\r\n",
+            userInfo.EmpName, userInfo.EmpAccount, DateTime.Now,
+            funcUrl,
+            Resources.Lang.BackStageName);
+
+        StringBuilder sbBody = new StringBuilder();
+        sbBody.Append(bodyTemplate);
+        sbBody.Replace("##header;", Resources.Lang.BackStageName);
+        sbBody.Replace("##title;", "密碼已變更");
+        sbBody.Replace("##subject;", "密碼已變更");
+        sbBody.Replace("##website;", ConfigurationManager.AppSettings["WebsiteUrl"]);
+        sbBody.Replace("##cnt;", noticeContext.Replace("\r\n", "<br>"));
+
+        EmailSender emailSender = new EmailSender();
+
+        if (c.UseSender())
+        {
+            emailSender.SmtpServer = ConfigurationManager.AppSettings["SenderSmtpServer"];
+            from = ConfigurationManager.AppSettings["SenderEmail"];
+            smtpAccount = ConfigurationManager.AppSettings["SenderAccount"];
+            smtpPassword = ConfigurationManager.AppSettings["SenderPassword"];
+        }
+
+        if (!emailSender.SendHtml(smtpAccount, smtpPassword, from, 
+            to, cc, bcc, 
+            noticeSubject, sbBody.ToString()))
+        {
+            result = false;
+        }
+
+        return result;
+    }
+
+    private bool SendNoticeMailToUserEn(UserInfo userInfo)
+    {
+        bool result = true;
+        string smtpAccount = ConfigurationManager.AppSettings["SmtpAccount"];
+        string smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
+        string from = string.Format("{0}<{1}>", Resources.Lang.BackStageName, ConfigurationManager.AppSettings["ServiceEmail"]);
+
+        // get template
+        StreamReader srTemp = File.OpenText(Server.MapPath("~/" + ConfigurationManager.AppSettings["AttRootDir"] + "MailTemplate/ReplyMailTemplate.htm"));
+        string bodyTemplate = srTemp.ReadToEnd();
+        srTemp.Close();
+
+        string to = userInfo.Email;
+
+        if (c.IsSendToTesterOnly())
+        {
+            to = string.Format("Original recipient is {0}<{1}>", userInfo.Email, ConfigurationManager.AppSettings["TesterEmail"]);
+        }
+
+        string cc = "";
+        string bcc = "";
+        string noticeSubject = string.Format("Please be reminded that your({0}) password has been changed.", userInfo.EmpName);
+        string funcUrl = string.Format("{0}/Psw-Require.aspx?l={1}", ConfigurationManager.AppSettings["BackendUrl"], c.qsLangNo);
+
+        string noticeContext = string.Format("Sir/Madam {0}, \r\n\r\nYour account is {1} \r\nThe system received a password modification request at {2:HH:mm, dd/MM/yyyy}, and your password has been changed.\r\n\r\n" +
+            "If you have not personally done so, please visit our system to reset the password again." +
+            "<blockquote>Password reset link is as follows: <a href='{3}'>{3}</a></blockquote>\r\n" +
+            "This is the system automatically sent mail, do not reply directly to this email.\r\n\r\nBest regards,\r\n{4}",
+            userInfo.EmpName, userInfo.EmpAccount, DateTime.Now,
+            funcUrl,
+            Resources.Lang.BackStageName);
+
+        StringBuilder sbBody = new StringBuilder();
+        sbBody.Append(bodyTemplate);
+        sbBody.Replace("##header;", Resources.Lang.BackStageName);
+        sbBody.Replace("##title;", "Password changed");
+        sbBody.Replace("##subject;", "Password changed");
+        sbBody.Replace("##website;", ConfigurationManager.AppSettings["WebsiteUrl"]);
+        sbBody.Replace("##cnt;", noticeContext.Replace("\r\n", "<br>"));
+
+        EmailSender emailSender = new EmailSender();
+
+        if (c.UseSender())
+        {
+            emailSender.SmtpServer = ConfigurationManager.AppSettings["SenderSmtpServer"];
+            from = ConfigurationManager.AppSettings["SenderEmail"];
+            smtpAccount = ConfigurationManager.AppSettings["SenderAccount"];
+            smtpPassword = ConfigurationManager.AppSettings["SenderPassword"];
+        }
+
+        if (!emailSender.SendHtml(smtpAccount, smtpPassword, from,
+            to, cc, bcc,
+            noticeSubject, sbBody.ToString()))
+        {
+            result = false;
+        }
+
+        return result;
+    }
+
+    private class UserInfo
+    {
+        public string EmpAccount;
+        public string EmpName;
+        public string Email;
+        /// <summary>
+        /// return: error message
+        /// </summary>
+        public string ErrMsg;
+    }
 }
