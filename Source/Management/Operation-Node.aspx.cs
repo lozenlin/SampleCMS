@@ -48,7 +48,7 @@ public partial class Operation_Node : BasePage
 
         if (!IsPostBack)
         {
-            if (!c.IsInRole("admin"))
+            if (!(c.IsInRole("admin") || c.IsInRole("guest")))
             {
                 Response.Redirect(c.BACK_END_HOME);
             }
@@ -148,18 +148,21 @@ public partial class Operation_Node : BasePage
     private void LoadUIData()
     {
         //HUD
-        if (levelNumOfThis < maxLevelNum)
+        if (c.IsInRole("admin"))
         {
-            hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
-            hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
-                string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600);", ConfigFormAction.add, c.qsId));
-        }
+            if (levelNumOfThis < maxLevelNum)
+            {
+                hud.SetButtonVisible(HudButtonNameEnum.AddNew, true);
+                hud.SetButtonAttribute(HudButtonNameEnum.AddNew, HudButtonAttributeEnum.JsInNavigateUrl,
+                    string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600);", ConfigFormAction.add, c.qsId));
+            }
 
-        if (c.qsId > 0)
-        {
-            hud.SetButtonVisible(HudButtonNameEnum.Edit, true);
-            hud.SetButtonAttribute(HudButtonNameEnum.Edit, HudButtonAttributeEnum.JsInNavigateUrl,
-                string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600);", ConfigFormAction.edit, c.qsId));
+            if (c.qsId > 0)
+            {
+                hud.SetButtonVisible(HudButtonNameEnum.Edit, true);
+                hud.SetButtonAttribute(HudButtonNameEnum.Edit, HudButtonAttributeEnum.JsInNavigateUrl,
+                    string.Format("popWin('Operation-Config.aspx?act={0}&id={1}', 700, 600);", ConfigFormAction.edit, c.qsId));
+            }
         }
 
         //conditions UI
@@ -299,6 +302,14 @@ public partial class Operation_Node : BasePage
         btnDelete.ToolTip = Resources.Lang.Main_btnDelete_Hint;
         btnDelete.OnClientClick = string.Format("return confirm('" + Resources.Lang.Operation_ConfirmDelete_Format + "');",
             subject);
+
+        if (!c.IsInRole("admin"))
+        {
+            btnMoveDown.Visible = false;
+            btnMoveUp.Visible = false;
+            btnEdit.Visible = false;
+            btnDelete.Visible = false;
+        }
     }
 
     protected void rptSubitems_ItemCommand(object source, RepeaterCommandEventArgs e)

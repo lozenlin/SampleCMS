@@ -74,9 +74,10 @@
                         </div>
                         <div class="sidebar-menu">
                             <div class="form-group">
-                                <a id="btnEditOperations" runat="server" href="Operation-Node.aspx" class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEditOperations %></a>
+                                <a id="btnEditOperations" runat="server" href="Operation-Node.aspx" class="btn btn-sm btn-success" visible="false">
+                                    <i class="fa fa-pencil-square-o"></i> <%= Resources.Lang.btnEditOperations %></a>
                             </div>
-                            <hr id="LineOfCtrl" runat="server" class="content-divider" />
+                            <hr id="LineOfCtrl" runat="server" class="content-divider" visible="false" />
                             <div class="text-right" style="margin-top:-10px;">
                                 <a id="btnExpand" href="#" class="small" title='<%= Resources.Lang.Main_btnExpand_Hint %>'><%= Resources.Lang.Main_btnExpand %></a>
                             </div>

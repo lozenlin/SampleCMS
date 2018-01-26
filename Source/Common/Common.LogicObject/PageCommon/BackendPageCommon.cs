@@ -614,8 +614,8 @@ namespace Common.LogicObject
 
         public bool IsMyAccount(string accountOfData)
         {
-            // exception: guest
-            if (string.Compare(accountOfData, "guest", true) == 0)
+            // exception: role-guest
+            if (IsInRole("guest"))
                 return false;
 
             return GetEmpAccount() == accountOfData;

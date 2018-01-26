@@ -71,9 +71,12 @@ public partial class MasterMain : System.Web.UI.MasterPage
             btnEditOperations.Title = Resources.Lang.btnEditOperations_Hint;
         }
 
-        //只有管理者能編輯後端作業選項
-        btnEditOperations.Visible = c.IsInRole("admin");
-        LineOfCtrl.Visible = btnEditOperations.Visible;
+        //只有管理者能編輯後端作業選項, guest 可看
+        if (c.IsInRole("admin") || c.IsInRole("guest"))
+        {
+            btnEditOperations.Visible = true;
+            LineOfCtrl.Visible = btnEditOperations.Visible;
+        }
     }
 
     private DataSet GetSubitemsOfArticle(Guid articleId)
