@@ -186,8 +186,25 @@ public partial class Article_Node : BasePage
             "PostDeptName"
         });
 
+        LoadSwitchButtonsUIData();
         LoadSortFieldOfFrontStageUIData();
         SetupLangRelatedFields();
+    }
+
+    private void LoadSwitchButtonsUIData()
+    {
+        btnSwitchIsListAreaShowInFrontStage.ClientIDMode = System.Web.UI.ClientIDMode.Static;
+        btnSwitchIsAttAreaShowInFrontStage.ClientIDMode = System.Web.UI.ClientIDMode.Static;
+        btnSwitchIsPicAreaShowInFrontStage.ClientIDMode = System.Web.UI.ClientIDMode.Static;
+        btnSwitchIsVideoAreaShowInFrontStage.ClientIDMode = System.Web.UI.ClientIDMode.Static;
+
+        if (!empAuth.CanEditThisPage())
+        {
+            btnSwitchIsListAreaShowInFrontStage.Visible = false;
+            btnSwitchIsAttAreaShowInFrontStage.Visible = false;
+            btnSwitchIsPicAreaShowInFrontStage.Visible = false;
+            btnSwitchIsVideoAreaShowInFrontStage.Visible = false;
+        }
     }
 
     private void LoadSortFieldOfFrontStageUIData()
@@ -205,6 +222,13 @@ public partial class Article_Node : BasePage
         ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.Option_Default, ""));
         ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.IsSortDescOption_asc, "False"));
         ddlIsSortDescOfFrontStage.Items.Add(new ListItem(Resources.Lang.IsSortDescOption_desc, "True"));
+
+        if (!empAuth.CanEditThisPage())
+        {
+            ddlSortFieldOfFrontStage.Visible = false;
+            ddlIsSortDescOfFrontStage.Visible = false;
+            ltrSortInfoOfFrontStage.Visible = true;
+        }
     }
 
     /// <summary>
@@ -287,6 +311,16 @@ public partial class Article_Node : BasePage
             {
                 ddlSortFieldOfFrontStage.SelectedValue = sortFieldOfFrontStage;
                 ddlIsSortDescOfFrontStage.SelectedValue = isSortDescOfFrontStage.ToString();
+            }
+
+            if (ddlSortFieldOfFrontStage.SelectedItem != null)
+            {
+                ltrSortInfoOfFrontStage.Text = ddlSortFieldOfFrontStage.SelectedItem.Text;
+            }
+
+            if (ddlIsSortDescOfFrontStage.SelectedItem != null)
+            {
+                ltrSortInfoOfFrontStage.Text += " - " + ddlIsSortDescOfFrontStage.SelectedItem.Text;
             }
 
             bool isListAreaShowInFrontStage = Convert.ToBoolean(drFirst["IsListAreaShowInFrontStage"]);
@@ -617,7 +651,12 @@ public partial class Article_Node : BasePage
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
 
-        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+        if (!empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId))
+        {
+            btnMoveDown.Visible = false;
+            btnMoveUp.Visible = false;
+            btnEdit.Visible = false;
+        }
 
         if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId))
         {
@@ -836,7 +875,12 @@ public partial class Article_Node : BasePage
         string ownerAccount = drvTemp.ToSafeStr("PostAccount");
         int ownerDeptId = Convert.ToInt32(drvTemp["PostDeptId"]);
 
-        btnEdit.Visible = empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId);
+        if (!empAuth.CanEditThisPage(false, ownerAccount, ownerDeptId))
+        {
+            btnMoveDown.Visible = false;
+            btnMoveUp.Visible = false;
+            btnEdit.Visible = false;
+        }
 
         if (!empAuth.CanDelThisPage(ownerAccount, ownerDeptId))
         {

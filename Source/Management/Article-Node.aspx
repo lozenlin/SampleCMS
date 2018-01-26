@@ -47,7 +47,7 @@
                     <span class="title"><%= Resources.Lang.Article_lblShowInFrontStage %>:</span>
                     <span id="ctlIsListAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsListAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
-                    <a id="btnSwitchIsListAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
+                    <a id="btnSwitchIsListAreaShowInFrontStage" runat="server" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
                     <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> <%= Resources.Lang.TranResult_saved %></span>
                     <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> <%= Resources.Lang.TranResult_sending %></span>
                     <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> <%= Resources.Lang.TranResult_failed %></span>
@@ -58,6 +58,7 @@
                     <span class="title"><%= Resources.Lang.Article_lblSortFieldOfFrontStage %>:</span>
                     <asp:DropDownList ID="ddlSortFieldOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
                     <asp:DropDownList ID="ddlIsSortDescOfFrontStage" runat="server" ClientIDMode="Static"></asp:DropDownList>
+                    <asp:Literal ID="ltrSortInfoOfFrontStage" runat="server" Visible="false"></asp:Literal>
                     <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> <%= Resources.Lang.TranResult_saved %></span>
                     <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> <%= Resources.Lang.TranResult_sending %></span>
                     <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> <%= Resources.Lang.TranResult_failed %></span>
@@ -190,7 +191,7 @@
                     <span class="title"><%= Resources.Lang.Article_lblShowInFrontStage %>:</span>
                     <span id="ctlIsAttAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsAttAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
-                    <a id="btnSwitchIsAttAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
+                    <a id="btnSwitchIsAttAreaShowInFrontStage" runat="server" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
                     <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> <%= Resources.Lang.TranResult_saved %></span>
                     <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> <%= Resources.Lang.TranResult_sending %></span>
                     <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> <%= Resources.Lang.TranResult_failed %></span>
@@ -277,7 +278,7 @@
                     <span class="title"><%= Resources.Lang.Article_lblShowInFrontStage %>:</span>
                     <span id="ctlIsPicAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsPicAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
-                    <a id="btnSwitchIsPicAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
+                    <a id="btnSwitchIsPicAreaShowInFrontStage" runat="server" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
                     <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> <%= Resources.Lang.TranResult_saved %></span>
                     <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> <%= Resources.Lang.TranResult_sending %></span>
                     <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> <%= Resources.Lang.TranResult_failed %></span>
@@ -334,7 +335,7 @@
                     <span class="title"><%= Resources.Lang.Article_lblShowInFrontStage %>:</span>
                     <span id="ctlIsVideoAreaShowInFrontStageStatus" runat="server" class="status text-muted">OFF</span>
                     <asp:HiddenField ID="hidIsVideoAreaShowInFrontStage" runat="server" ClientIDMode="Static" Value="False" />
-                    <a id="btnSwitchIsVideoAreaShowInFrontStage" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
+                    <a id="btnSwitchIsVideoAreaShowInFrontStage" runat="server" href="#" class="btn btn-sm btn-light border-secondary"><%= Resources.Lang.Article_btnSwitchAreaShowInFrontStage %></a>
                     <span class="tran-result tran-ok text-success"><i class="fa fa-check"></i> <%= Resources.Lang.TranResult_saved %></span>
                     <span class="tran-result tran-loading text-info"><i class="fa fa-spinner fa-pulse"></i> <%= Resources.Lang.TranResult_sending %></span>
                     <span class="tran-result tran-failed text-danger"><i class="fa fa-times"></i> <%= Resources.Lang.TranResult_failed %></span>
