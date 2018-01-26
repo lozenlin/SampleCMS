@@ -458,7 +458,7 @@ namespace Common.LogicObject
             return seLoginEmpData.DeptId;
         }
 
-        public Guid GetArticleId()
+        public virtual Guid GetArticleId()
         {
             return qsArtId;
         }
@@ -1011,16 +1011,24 @@ namespace Common.LogicObject
 
             SelectMenuItem(menuOpId, menuArticleId);
         }
-
+        
         /// <summary>
         /// 取得後台網頁所屬的作業代碼
         /// </summary>
         public override int GetOpIdOfPage()
         {
+            return GetOpIdOfPage(qsArtId);
+        }
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public int GetOpIdOfPage(Guid articleId)
+        {
             if (opIdOfPage < 1)
             {
                 bool gotOpId = false;
-                Guid curArticleId = qsArtId;
+                Guid curArticleId = articleId;
                 Guid curParentId = Guid.Empty;
                 int curArticleLevelNo;
                 string linkUrl = "";
@@ -1120,6 +1128,129 @@ namespace Common.LogicObject
                 p, pParents, pkw);
         }
 
+    }
+    
+    /// <summary>
+    /// 後台網站架構管理-附件設定頁的共用元件
+    /// </summary>
+    [Description("後台網站架構管理-附件設定頁的共用元件")]
+    public class ArticleAttachCommonOfBackend : ArticleCommonOfBackend
+    {
+        public ArticleAttachCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public override int GetOpIdOfPage()
+        {
+            return GetOpIdOfPage(GetArticleId());
+        }
+
+        public override Guid GetArticleId()
+        {
+            if (qsAct == ConfigFormAction.add)
+                return qsArtId;
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic();
+            DataSet dsAtt = artPub.GetAttachFileDataForBackend(qsAttId);
+            Guid articleId = Guid.Empty;
+
+            if (dsAtt != null && dsAtt.Tables[0].Rows.Count > 0)
+            {
+                DataRow drFirst = dsAtt.Tables[0].Rows[0];
+                articleId = (Guid)drFirst["ArticleId"];
+            }
+
+            return articleId;
+        }
+    }
+
+    /// <summary>
+    /// 後台網站架構管理-照片設定頁的共用元件
+    /// </summary>
+    [Description("後台網站架構管理-照片設定頁的共用元件")]
+    public class ArticlePictureCommonOfBackend : ArticleCommonOfBackend
+    {
+        public ArticlePictureCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public override int GetOpIdOfPage()
+        {
+            return GetOpIdOfPage(GetArticleId());
+        }
+
+        public override Guid GetArticleId()
+        {
+            if (qsAct == ConfigFormAction.add)
+                return qsArtId;
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic();
+            DataSet dsAtt = artPub.GetArticlePictureDataForBackend(qsPicId);
+            Guid articleId = Guid.Empty;
+
+            if (dsAtt != null && dsAtt.Tables[0].Rows.Count > 0)
+            {
+                DataRow drFirst = dsAtt.Tables[0].Rows[0];
+                articleId = (Guid)drFirst["ArticleId"];
+            }
+
+            return articleId;
+        }
+    }
+
+    /// <summary>
+    /// 後台網站架構管理-影片設定頁的共用元件
+    /// </summary>
+    [Description("後台網站架構管理-影片設定頁的共用元件")]
+    public class ArticleVideoCommonOfBackend : ArticleCommonOfBackend
+    {
+        public ArticleVideoCommonOfBackend(HttpContext context, StateBag viewState)
+            : base(context, viewState)
+        {
+        }
+
+        #region qs:=QueryString, se:=Session, vs:=ViewState, co:=Cookie
+        #endregion
+
+        /// <summary>
+        /// 取得後台網頁所屬的作業代碼
+        /// </summary>
+        public override int GetOpIdOfPage()
+        {
+            return GetOpIdOfPage(GetArticleId());
+        }
+
+        public override Guid GetArticleId()
+        {
+            if (qsAct == ConfigFormAction.add)
+                return qsArtId;
+
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic();
+            DataSet dsAtt = artPub.GetArticleVideoDataForBackend(qsVidId);
+            Guid articleId = Guid.Empty;
+
+            if (dsAtt != null && dsAtt.Tables[0].Rows.Count > 0)
+            {
+                DataRow drFirst = dsAtt.Tables[0].Rows[0];
+                articleId = (Guid)drFirst["ArticleId"];
+            }
+
+            return articleId;
+        }
     }
 
     /// <summary>

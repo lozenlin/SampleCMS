@@ -9,14 +9,14 @@ using System.Web.UI.WebControls;
 
 public partial class Article_Picture : System.Web.UI.Page
 {
-    protected ArticleCommonOfBackend c;
+    protected ArticlePictureCommonOfBackend c;
     protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
     protected ArticlePictureManagerLogic artPicMgr;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        c = new ArticleCommonOfBackend(this.Context, this.ViewState);
+        c = new ArticlePictureCommonOfBackend(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
         artPub = new ArticlePublisherLogic(c);

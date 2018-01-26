@@ -10,13 +10,13 @@ using System.Web.UI.WebControls;
 
 public partial class Article_Video : System.Web.UI.Page
 {
-    protected ArticleCommonOfBackend c;
+    protected ArticleVideoCommonOfBackend c;
     protected ArticlePublisherLogic artPub;
     protected EmployeeAuthorityLogic empAuth;
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        c = new ArticleCommonOfBackend(this.Context, this.ViewState);
+        c = new ArticleVideoCommonOfBackend(this.Context, this.ViewState);
         c.InitialLoggerOfUI(this.GetType());
 
         artPub = new ArticlePublisherLogic(c);
