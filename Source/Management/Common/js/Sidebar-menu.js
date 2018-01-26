@@ -83,6 +83,12 @@ var opMenu = {
             }
         } else {
             opMenu.foldAllOperations(true);
+
+            if (articleId != null && articleId != "") {
+                // if item of opId disappeared, show article tree list
+                $(".sidebar-menu .items-group>ul").finish();
+                opMenu.unfoldItemsGroup($(".tree-list").parent(), false);
+            }
         }
 
         //article menu

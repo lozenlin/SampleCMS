@@ -1362,7 +1362,7 @@ namespace Common.LogicObject
             bool gotOpAuth = false;
             Guid initArticleId= authCondition.GetArticleId();
             Guid curArticleId = initArticleId;
-            Guid curParentId = Guid.Empty;
+            Guid? curParentId = null;
             int curArticleLevelNo;
             string linkUrl = "";
             bool isRoot = false;
@@ -1381,7 +1381,7 @@ namespace Common.LogicObject
                 }
                 else
                 {
-                    curParentId = new Guid(drArticle.ToSafeStr("ParentId"));
+                    curParentId = (Guid)drArticle["ParentId"];
                 }
 
                 curArticleLevelNo = Convert.ToInt32(drArticle["ArticleLevelNo"]);
@@ -1397,15 +1397,29 @@ namespace Common.LogicObject
 
             do
             {
-                // get opId by LinkUrl
-                linkUrl = string.Format("Article-Node.aspx?artid={0}", curArticleId);
-
+                DataSet dsOpInfo = null;
                 IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
-                Common.DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl opCmdInfo = new DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl()
+
+                if (curParentId.HasValue)
                 {
-                    LinkUrl = linkUrl
-                };
-                DataSet dsOpInfo = cmd.ExecuteDataset(opCmdInfo);
+                    // get opId by LinkUrl
+                    linkUrl = string.Format("Article-Node.aspx?artid={0}", curArticleId);
+
+                    Common.DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl opCmdInfo = new DataAccess.EmployeeAuthority.spOperations_GetOpInfoByLinkUrl()
+                    {
+                        LinkUrl = linkUrl
+                    };
+                    dsOpInfo = cmd.ExecuteDataset(opCmdInfo);
+                }
+                else
+                {
+                    // get opId of root
+                    Common.DataAccess.EmployeeAuthority.spOperations_GetOpInfoByCommonClass opCmdInfo = new DataAccess.EmployeeAuthority.spOperations_GetOpInfoByCommonClass()
+                    {
+                        CommonClass = "ArticleCommonOfBackend"
+                    };
+                    dsOpInfo = cmd.ExecuteDataset(opCmdInfo);
+                }
 
                 if (dsOpInfo != null && dsOpInfo.Tables[0].Rows.Count > 0)
                 {
@@ -1423,36 +1437,49 @@ namespace Common.LogicObject
 
                     if (dsRoleOp != null && dsRoleOp.Tables[0].Rows.Count > 0)
                     {
-                        authAndOwner = (EmployeeAuthorizationsWithOwnerInfoOfDataExamined)LoadRoleAuthorizationsFromDataSet(authAndOwner, dsRoleOp, isRoleAdmin);
-                    }
-                    else
-                    {
-                        authAndOwner = (EmployeeAuthorizationsWithOwnerInfoOfDataExamined)LoadRoleAuthorizationsFromDataSet(authAndOwner, null, isRoleAdmin);
-                    }
+                        //檢查權限, 只允許 CanRead=true
 
-                    gotOpAuth = true;
+                        DataRow drRoleOp = dsRoleOp.Tables[0].Rows[0];
+                        bool canRead = drRoleOp.To<bool>("CanRead", false);
+
+                        if (canRead)
+                        {
+                            authAndOwner = (EmployeeAuthorizationsWithOwnerInfoOfDataExamined)LoadRoleAuthorizationsFromDataSet(authAndOwner, dsRoleOp, isRoleAdmin);
+                            gotOpAuth = true;
+                        }
+                    }
                 }
-                else
+
+                if (!gotOpAuth)
                 {
-                    if (curParentId == Guid.Empty)
+                    if (!curParentId.HasValue)
                     {
-                        // parent is root
+                        // this is root
                         break;
                     }
 
                     // get parent info
-                    DataSet dsParent = GetArticleDataForBackend(curParentId);
+                    DataSet dsParent = GetArticleDataForBackend(curParentId.Value);
 
                     if (dsParent == null || dsParent.Tables[0].Rows.Count == 0)
                     {
-                        logger.Error(string.Format("can not get article data of {0}", curParentId));
+                        logger.Error(string.Format("can not get article data of {0}", curParentId.Value));
                         break;
                     }
 
                     // move to parent level
                     DataRow drParent = dsParent.Tables[0].Rows[0];
-                    curArticleId = curParentId;
-                    curParentId = new Guid(drParent.ToSafeStr("ParentId"));
+                    curArticleId = curParentId.Value;
+
+                    if (Convert.IsDBNull(drParent["ParentId"]))
+                    {
+                        curParentId = null;
+                    }
+                    else
+                    {
+                        curParentId = (Guid)drParent["ParentId"];
+                    }
+
                     curArticleLevelNo = Convert.ToInt32(drParent["ArticleLevelNo"]);
                 }
             } while (!gotOpAuth);
