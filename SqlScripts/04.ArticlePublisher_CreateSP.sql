@@ -1,5 +1,5 @@
 ﻿-- Article publisher SP, DB Functions
-use SampleCMS
+-- use SampleCMS
 go
 
 -- db functions
@@ -13,7 +13,7 @@ go
 select dbo.fnArticle_IsShowInLang('00000000-0000-0000-0000-000000000000', 'zh-TW')
 */
 -- =============================================
-alter function dbo.fnArticle_IsShowInLang(
+create function dbo.fnArticle_IsShowInLang(
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -40,7 +40,7 @@ go
 /*
 */
 -- =============================================
-alter function dbo.fnAttachFile_IsShowInLang(
+create function dbo.fnAttachFile_IsShowInLang(
 @AttId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -68,7 +68,7 @@ go
 select dbo.fnArticlePicture_IsShowInLang('C2FC6EE9-D018-4A0C-B927-3362DDB5D902', 'zh-TW')
 */
 -- =============================================
-alter function dbo.fnArticlePicture_IsShowInLang(
+create function dbo.fnArticlePicture_IsShowInLang(
 @PicId uniqueidentifier
 ,@CultureName varchar(10)
 )
@@ -280,7 +280,7 @@ select dbo.fnBuildBreadcrumbData('759CE382-7669-48A2-8B0E-230F65597AC3', 'zh-TW'
 select dbo.fnBuildBreadcrumbData('00000000-0000-0000-0000-000000000000', 'zh-TW')
 */
 -- =============================================
-alter function dbo.fnBuildBreadcrumbData
+create function dbo.fnBuildBreadcrumbData
 (
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
@@ -449,7 +449,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticle_GetDataForBackend
+create procedure dbo.spArticle_GetDataForBackend
 @ArticleId uniqueidentifier
 as
 begin
@@ -481,7 +481,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticleMultiLang_GetDataForBackend
+create procedure dbo.spArticleMultiLang_GetDataForBackend
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 as
@@ -560,7 +560,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticle_InsertData
+create procedure dbo.spArticle_InsertData
 @ArticleId	uniqueidentifier
 ,@ParentId	uniqueidentifier
 ,@ArticleAlias	varchar(50)
@@ -653,7 +653,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticleMultiLang_InsertData
+create procedure dbo.spArticleMultiLang_InsertData
 @ArticleId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@ArticleSubject	nvarchar(200)
@@ -692,7 +692,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticle_UpdateData
+create procedure dbo.spArticle_UpdateData
 @ArticleId	uniqueidentifier
 ,@ArticleAlias	varchar(50)
 ,@BannerPicFileName	nvarchar(255)
@@ -780,7 +780,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spArticleMultiLang_UpdateData
+create procedure dbo.spArticleMultiLang_UpdateData
 @ArticleId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@ArticleSubject	nvarchar(200)
@@ -819,7 +819,7 @@ exec dbo.spArticleMultiLang_GetListForBackend '00000000-0000-0000-0000-000000000
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spArticleMultiLang_GetListForBackend
+create procedure dbo.spArticleMultiLang_GetListForBackend
 @ParentId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@Kw nvarchar(52)=''
@@ -959,7 +959,7 @@ exec dbo.spArticle_GetValidListForFrontend '00000000-0000-0000-0000-000000000000
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spArticle_GetValidListForFrontend
+create procedure dbo.spArticle_GetValidListForFrontend
 @ParentId	uniqueidentifier
 ,@CultureName	varchar(10)
 ,@Kw nvarchar(52)=''
@@ -1260,7 +1260,7 @@ exec dbo.spArticleMultiLang_GetLevelInfo '759CE382-7669-48A2-8B0E-230F65597AC3',
 exec dbo.spArticleMultiLang_GetLevelInfo '00000000-0000-0000-0000-000000000000', 'zh-TW'
 */
 -- =============================================
-alter procedure dbo.spArticleMultiLang_GetLevelInfo
+create procedure dbo.spArticleMultiLang_GetLevelInfo
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 as
@@ -1421,7 +1421,7 @@ go
 exec dbo.spArticle_GetArticleIdByAlias 'test1'
 */
 -- =============================================
-alter procedure dbo.spArticle_GetArticleIdByAlias
+create procedure dbo.spArticle_GetArticleIdByAlias
 @ArticleAlias	varchar(50)
 as
 begin
@@ -1467,7 +1467,7 @@ exec dbo.spArticle_GetTopLevelIds '759CE382-7669-48A2-8B0E-230F65597AC3'
 exec dbo.spArticle_GetTopLevelIds 'b1d34d29-255a-42a2-b9af-c33911bcde9a'
 */
 -- =============================================
-alter procedure dbo.spArticle_GetTopLevelIds
+create procedure dbo.spArticle_GetTopLevelIds
 @ArticleId uniqueidentifier
 as
 begin
@@ -1542,7 +1542,7 @@ exec dbo.spArticle_GetValidListForUnitArea '00000000-0000-0000-0000-000000000000
 exec dbo.spArticle_GetValidListForUnitArea '23661D48-17E7-4C45-BB11-8EC29BE941C3', 'zh-TW', 0
 */
 -- =============================================
-alter procedure dbo.spArticle_GetValidListForUnitArea
+create procedure dbo.spArticle_GetValidListForUnitArea
 @ParentId uniqueidentifier
 ,@CultureName varchar(10)
 ,@IsShowInUnitArea bit
@@ -1603,7 +1603,7 @@ go
 exec dbo.spArticle_GetValidListForSitemap '00000000-0000-0000-0000-000000000000', 'zh-TW'
 */
 -- =============================================
-alter procedure dbo.spArticle_GetValidListForSitemap
+create procedure dbo.spArticle_GetValidListForSitemap
 @ParentId uniqueidentifier
 ,@CultureName varchar(10)
 as
@@ -2417,7 +2417,7 @@ exec dbo.spArticlePictureMultiLang_GetListForBackend '00000000-0000-0000-0000-00
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spArticlePictureMultiLang_GetListForBackend
+create procedure dbo.spArticlePictureMultiLang_GetListForBackend
 @ArticleId uniqueidentifier
 ,@CultureName varchar(10)
 ,@Kw nvarchar(52)=''
@@ -3039,7 +3039,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spSearchDataSource_Build
+create procedure dbo.spSearchDataSource_Build
 @MainLinkUrl	nvarchar(2048) = N''
 as
 begin
@@ -3103,7 +3103,7 @@ select @RowCount
 
 */
 -- =============================================
-alter procedure dbo.spSearchDataSource_GetList
+create procedure dbo.spSearchDataSource_GetList
 @Keywords nvarchar(4000)=''	-- 多項關聯字用逗號串接; Multiple related words concatenated with commas(,), e.g., one,two,three
 ,@CultureName varchar(10)
 ,@BeginNum int
@@ -3277,8 +3277,7 @@ go
 -- Create date: <2018/01/13>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
-/*
-*/
+
 -- =============================================
 create procedure xxxxx
 

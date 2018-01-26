@@ -1,5 +1,5 @@
 ﻿-- Employee and Authority SP, DB Functions
-use SampleCMS
+-- use SampleCMS
 go
 
 ----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ exec dbo.spEmployee_GetList 0, '', 0, 1, 99999, '', 0, 0, 0, 1, 'tester', 0, @Ro
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spEmployee_GetList
+create procedure dbo.spEmployee_GetList
 @DeptId int=0	-- 0:all
 ,@Kw nvarchar(52)=''
 ,@ListMode int=0	--清單內容模式(0:all, 1:normal, 2:access is denied)
@@ -503,7 +503,7 @@ exec dbo.spBackEndLog_GetList '1901/1/1', '2017/11/21', '', 1, '', 1, N'', 1, 1,
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spBackEndLog_GetList
+create procedure dbo.spBackEndLog_GetList
 @StartDate datetime
 ,@EndDate datetime
 ,@Account varchar(22)=''	-- '':全部
@@ -706,7 +706,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spOperations_GetOpInfoByLinkUrl
+create procedure dbo.spOperations_GetOpInfoByLinkUrl
 @LinkUrl nvarchar(100)
 as
 begin
@@ -728,7 +728,7 @@ go
 exec dbo.spOperations_GetTopListWithRoleAuth 'user'
 */
 -- =============================================
-alter procedure dbo.spOperations_GetTopListWithRoleAuth
+create procedure dbo.spOperations_GetTopListWithRoleAuth
 @RoleName nvarchar(20)
 as
 begin
@@ -760,7 +760,7 @@ go
 exec dbo.spOperations_GetSubListWithRoleAuth 'user'
 */
 -- =============================================
-alter procedure dbo.spOperations_GetSubListWithRoleAuth
+create procedure dbo.spOperations_GetSubListWithRoleAuth
 @RoleName nvarchar(20)
 as
 begin
@@ -794,7 +794,7 @@ go
 exec dbo.spOperations_GetData 2
 */
 -- =============================================
-alter procedure dbo.spOperations_GetData
+create procedure dbo.spOperations_GetData
 @OpId int
 as
 begin
@@ -828,7 +828,7 @@ select @RowCount
 
 */
 -- =============================================
-alter procedure dbo.spOperations_GetList
+create procedure dbo.spOperations_GetList
 @ParentId int=0	-- 0:root
 ,@CultureName varchar(10)
 ,@Kw nvarchar(52)=''
@@ -970,7 +970,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spOperations_DeleteData
+create procedure dbo.spOperations_DeleteData
 @OpId int
 as
 begin
@@ -1165,7 +1165,7 @@ exec dbo.spOperations_GetLevelInfo 1
 exec dbo.spOperations_GetLevelInfo 2
 */
 -- =============================================
-alter procedure dbo.spOperations_GetLevelInfo
+create procedure dbo.spOperations_GetLevelInfo
 @OpId int
 as
 begin
@@ -1460,7 +1460,7 @@ exec dbo.spEmployeeRole_GetList N'', 1, 20, N'', 0, 1, 1, 1, '', 0, @RowCount ou
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spEmployeeRole_GetList
+create procedure dbo.spEmployeeRole_GetList
 @Kw nvarchar(52)=''
 ,@BeginNum int
 ,@EndNum int
@@ -1581,7 +1581,7 @@ go
 exec dbo.spEmployeeRole_DeleteData 2
 */
 -- =============================================
-alter procedure dbo.spEmployeeRole_DeleteData
+create procedure dbo.spEmployeeRole_DeleteData
 @RoleId int
 as
 begin
@@ -1647,7 +1647,7 @@ go
 /*
 */
 -- =============================================
-alter procedure dbo.spEmployeeRole_GetData
+create procedure dbo.spEmployeeRole_GetData
 @RoleId int
 as
 begin
@@ -1779,7 +1779,7 @@ exec dbo.spDepartment_GetList N'', 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount outpu
 select @RowCount
 */
 -- =============================================
-alter procedure dbo.spDepartment_GetList
+create procedure dbo.spDepartment_GetList
 @Kw nvarchar(52)=''
 ,@BeginNum int
 ,@EndNum int
@@ -2032,8 +2032,7 @@ go
 -- Create date: <2018/01/25>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
-/*
-*/
+
 -- =============================================
 create procedure xxxxx
 

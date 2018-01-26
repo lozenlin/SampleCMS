@@ -1,5 +1,5 @@
 --SQL Injection參數過濾用預存程序建立
-use SampleCMS
+-- use SampleCMS
 go
 
 ----------------------------------------------------------------------------
@@ -61,8 +61,7 @@ go
 -- Create date: <2018/01/17>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
-/*
-*/
+
 -- =============================================
 create procedure xxxxx
 

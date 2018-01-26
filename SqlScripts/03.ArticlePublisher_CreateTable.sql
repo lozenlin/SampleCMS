@@ -1,5 +1,5 @@
 ﻿-- Article Publisher tables
-use SampleCMS
+-- use SampleCMS
 go
 
 ----------------------------------------------------------------------------

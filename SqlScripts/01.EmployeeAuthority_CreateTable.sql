@@ -1,5 +1,5 @@
 ﻿-- Employee and Authority tables
-use SampleCMS
+-- use SampleCMS
 go
 
 ----------------------------------------------------------------------------
@@ -22,8 +22,10 @@ go
 
 --預設內容
 set identity_insert dbo.Department on
-insert into dbo.Department(DeptId, DeptName)
-values(1, 'Default')
+INSERT dbo.Department (DeptId, DeptName, SortNo, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (1, N'Default', 10, 'admin', getdate(), NULL, NULL)
+INSERT dbo.Department (DeptId, DeptName, SortNo, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (2, N'guest', 20, 'admin', getdate(), NULL, NULL)
 
 set identity_insert dbo.Department off
 go
@@ -49,16 +51,12 @@ go
 
 --預設內容
 set identity_insert dbo.EmployeeRole on
-insert into dbo.EmployeeRole(
-	RoleId, RoleName, RoleDisplayName, SortNo)
-values(
-	1, 'admin', '系統管理員', 10)
-go
-insert into dbo.EmployeeRole(
-	RoleId, RoleName, RoleDisplayName, SortNo)
-values(
-	2, 'user', '使用者', 30)
-go
+INSERT dbo.EmployeeRole (RoleId, RoleName, RoleDisplayName, SortNo, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (1, N'admin', N'系統管理員', 10, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRole (RoleId, RoleName, RoleDisplayName, SortNo, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (2, N'user', N'使用者', 30, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRole (RoleId, RoleName, RoleDisplayName, SortNo, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (3, N'guest', N'guest', 50, 'admin', getdate(), NULL, NULL)
 
 set identity_insert dbo.EmployeeRole off
 go
@@ -119,22 +117,11 @@ go
 
 --預設內容
 set identity_insert dbo.Employee on
-insert into dbo.Employee(
-	EmpId, EmpAccount, EmpPassword, 
-	EmpName, DeptId, RoleId)
-values(
-	1, 'admin', 'admin', 
-	N'管理者', 1, 1)
-go
-insert into dbo.Employee(
-	EmpId, EmpAccount, EmpPassword, 
-	EmpName, DeptId, RoleId, 
-	StartDate, EndDate, OwnerAccount)
-values(
-	2, 'tester', 'tester', 
-	N'測試人員', 1, 2, 
-	'2017-11-05', '2017-11-05', 'admin')
-go
+INSERT dbo.Employee (EmpId, EmpAccount, EmpPassword, EmpName, Email, Remarks, DeptId, RoleId, IsAccessDenied, PostAccount, PostDate, MdfAccount, MdfDate, StartDate, EndDate, OwnerAccount, IsEmailConfirmed, EmailConfirmKey, PasswordHashed, EmailConfirmKeyDate, PasswordResetKey, PasswordResetKeyDate, DefaultRandomPassword, ThisLoginTime, ThisLoginIP, LastLoginTime, LastLoginIP)
+ VALUES (1, 'admin', 'admin', N'管理者', 'a@a.a', N'', 1, 1, 0, 'admin', getdate(), NULL, NULL, '20170912 00:00:00:000', '20170912 00:00:00:000', '', 0, NULL, 0, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL)
+INSERT dbo.Employee (EmpId, EmpAccount, EmpPassword, EmpName, Email, Remarks, DeptId, RoleId, IsAccessDenied, PostAccount, PostDate, MdfAccount, MdfDate, StartDate, EndDate, OwnerAccount, IsEmailConfirmed, EmailConfirmKey, PasswordHashed, EmailConfirmKeyDate, PasswordResetKey, PasswordResetKeyDate, DefaultRandomPassword, ThisLoginTime, ThisLoginIP, LastLoginTime, LastLoginIP)
+ VALUES (2, 'guest', 'guestguest', N'guest', 'a@a.a', N'', 2, 3, 0, 'admin', getdate(), NULL, NULL, '20180126 00:00:00:000', '20280126 00:00:00:000', 'admin', 0, NULL, 0, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL)
+
 set identity_insert dbo.Employee off
 go
 
@@ -180,18 +167,26 @@ go
 create index IX_Operations_CommonClass on dbo.Operations(CommonClass)
 go
 
---預設內容 (todo by lozen)
+--預設內容
 set identity_insert dbo.Operations on
-insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (1, null, N'系統管理功能', N'', 0, N'vectory_mini/basic/028.png', 10, 0, '', 'admin', getdate(), null, null, N'System Management')
-insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (2, 1, N'帳號管理', N'Account-List.aspx', 0, N'vectory_mini/basic/028.png', 10, 0, 'AccountCommonOfBackend', 'admin', getdate(), null, null, N'Account mgmt.')
-insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/basic/028.png', 20, 0, 'RoleCommonOfBackend', 'admin', getdate(), null, null, N'Role & Privilege mgmt.')
-insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/028.png', 30, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), null, null, N'Department mgmt.')
-insert dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
- values (5, 1, N'後端操作記錄', N'Back-End-Log.aspx', 0, N'vectory_mini/basic/028.png', 40, 0, 'BackEndLogCommonOfBackend', 'admin', getdate(), null, null, N'Operating log')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (1, NULL, N'系統管理功能', N'', 0, N'vectory_mini/basic/028.png', 10, 0, '', 'admin', getdate(), NULL, NULL, N'System Management')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (2, 1, N'帳號管理', N'Account-List.aspx', 0, N'vectory_mini/personnel/152.png', 10, 0, 'AccountCommonOfBackend', 'admin', getdate(), NULL, NULL, N'Account mgmt.')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (3, 1, N'身分權限管理', N'Role-List.aspx', 0, N'vectory_mini/personnel/011.png', 20, 0, 'RoleCommonOfBackend', 'admin', getdate(), NULL, NULL, N'Role & Privilege mgmt.')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (4, 1, N'部門管理', N'Department-List.aspx', 0, N'vectory_mini/basic/139.png', 30, 0, 'DepartmentCommonOfBackend', 'admin', getdate(), NULL, NULL, N'Department mgmt.')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (5, 1, N'後端操作記錄', N'Back-End-Log.aspx', 0, N'vectory_mini/personnel/137.png', 40, 0, 'BackEndLogCommonOfBackend', 'admin', getdate(), NULL, NULL, N'Operating log')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (6, NULL, N'網站架構管理', N'Article-Node.aspx', 0, N'vectory_mini/personnel/076.png', 20, 0, 'ArticleCommonOfBackend', 'admin', getdate(), NULL, NULL, N'Site Architecture Mgmt.')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (7, NULL, N'網站內容管理', N'', 0, N'vectory_mini/multimedia/071.png', 30, 0, '', 'admin', getdate(), NULL, NULL, N'Content Mgmt.')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (8, 7, N'內嵌網頁範例1', N'{backend_url}/loop_routemap201606.pdf', 0, N'vectory_mini/personnel/137.png', 10, 0, '', 'admin', getdate(), NULL, NULL, N'Embedded demo 1')
+INSERT dbo.Operations (OpId, ParentId, OpSubject, LinkUrl, IsNewWindow, IconImageFile, SortNo, IsHideSelf, CommonClass, PostAccount, PostDate, MdfAccount, MdfDate, EnglishSubject)
+ VALUES (9, 7, N'內嵌網頁範例2', N'http://#2', 0, N'vectory_mini/basic/158.png', 20, 0, '', 'admin', getdate(), NULL, NULL, N'Embedded demo 2')
 
 set identity_insert dbo.Operations off
 go
@@ -235,7 +230,41 @@ go
 alter table dbo.EmployeeRoleOperationsDesc check constraint FK_EmployeeRoleOperationsDesc_Operations
 go
 
---預設內容(todo by lozen)
+--預設內容
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 3, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 4, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 5, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 6, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 8, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'guest', 9, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 2, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 3, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 4, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 5, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 8, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
+INSERT dbo.EmployeeRoleOperationsDesc (RoleName, OpId, CanRead, CanEdit, CanReadSubItemOfSelf, CanEditSubItemOfSelf, CanAddSubItemOfSelf, CanDelSubItemOfSelf, CanReadSubItemOfCrew, CanEditSubItemOfCrew, CanDelSubItemOfCrew, CanReadSubItemOfOthers, CanEditSubItemOfOthers, CanDelSubItemOfOthers, PostAccount, PostDate, MdfAccount, MdfDate)
+ VALUES (N'user', 9, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 'admin', getdate(), NULL, NULL)
 go
 
 ----------------------------------------------------------------------------
