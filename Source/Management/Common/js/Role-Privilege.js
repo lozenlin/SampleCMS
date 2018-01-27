@@ -316,6 +316,7 @@ function refreshTags($pvgTags, serverValue) {
 
 function sendPvgsToServer() {
     var roleName = $("#roleName").html();
+    var roleId = $("#hidRoleId").val();
     var $activeOpArea = $(".op-area.active");
     var $status = null;
     var opId = 0;
@@ -340,7 +341,7 @@ function sendPvgsToServer() {
 
     dao.TempStoreRolePvg(roleName, opId, itemVal,
         selfVal, crewVal, othersVal,
-        addval,
+        addval, roleId,
         function (cr) {
             if (cr.b) {
                 var pvg = cr.o;

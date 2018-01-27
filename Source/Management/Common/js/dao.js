@@ -10,7 +10,7 @@ var dao = {
     TempStoreRolePvg: function (
         roleName, opId, itemVal,
         selfVal, crewVal, othersVal,
-        addVal, crCallBack
+        addVal, roleId, crCallBack
         ) {
         $.post(serviceUrl, {
             serviceName: "TempStoreRolePvg",
@@ -20,7 +20,8 @@ var dao = {
             selfVal: selfVal,
             crewVal: crewVal,
             othersVal: othersVal,
-            addVal: addVal
+            addVal: addVal,
+            roleId: roleId
         }, function (data) {
             var cr = $.parseJSON(data);
             crCallBack(cr);

@@ -111,6 +111,7 @@ public partial class Role_Privilege : System.Web.UI.Page
 
             ltrRoleDisplayName.Text = drFirst.ToSafeStr("RoleDisplayName");
             ltrRoleName.Text = drFirst.ToSafeStr("RoleName");
+            hidRoleId.Value = c.qsRoleId.ToString();
         }
     }
 

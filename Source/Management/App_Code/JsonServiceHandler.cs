@@ -7,15 +7,20 @@ using System.Web.SessionState;
 using Common.Utility;
 using System.Configuration;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace JsonService
 {
     /// <summary>
     /// 暫存身分的權限
     /// </summary>
-    public class TemporarilyStoreRolePrivilege : JsonServiceHandlerAbstract
+    public class TemporarilyStoreRolePrivilege : JsonServiceHandlerAbstract, ICustomEmployeeAuthorizationResult
     {
         protected RoleCommonOfBackend c;
+        protected EmployeeAuthorityLogic empAuth;
+
+        private string roleName;
+        private int roleId;
 
         /// <summary>
         /// 暫存身分的權限
@@ -30,7 +35,7 @@ namespace JsonService
         public override ClientResult ProcessRequest()
         {
             ClientResult cr = null;
-            string roleName = GetParamValue("roleName");
+            roleName = GetParamValue("roleName");
             string strOpId = GetParamValue("opId");
             int opId = 0;
             string strItemVal = GetParamValue("itemVal");
@@ -43,6 +48,8 @@ namespace JsonService
             int othersVal = 0;
             string strAddVal = GetParamValue("addVal");
             bool addVal = false;
+            string strRoleId = GetParamValue("roleId");
+            roleId = 0;
 
             if (!int.TryParse(strOpId, out opId))
                 throw new Exception("opId is invalid");
@@ -56,6 +63,24 @@ namespace JsonService
                 throw new Exception("othersVal is invalid");
             if (!bool.TryParse(strAddVal, out addVal))
                 throw new Exception("addVal is invalid");
+            if (!int.TryParse(strRoleId, out roleId))
+                throw new Exception("roleId is invalid");
+
+            // authenticate
+            empAuth = new EmployeeAuthorityLogic(c);
+            empAuth.SetCustomEmployeeAuthorizationResult(this);
+            empAuth.InitialAuthorizationResultOfSubPages();
+
+            if (!empAuth.CanEditThisPage())
+            {
+                cr = new ClientResult()
+                {
+                    b = false,
+                    err = "invalid authentication"
+                };
+
+                return cr;
+            }
 
             // check limitation
             if (itemVal == 0 && selfVal > 0)
@@ -142,6 +167,34 @@ namespace JsonService
 
             return pvg;
         }
+
+        #region ICustomEmployeeAuthorizationResult
+
+        public EmployeeAuthorizationsWithOwnerInfoOfDataExamined InitialAuthorizationResult(bool isTopPageOfOperation, EmployeeAuthorizations authorizations)
+        {
+            EmployeeAuthorizationsWithOwnerInfoOfDataExamined authAndOwner = new EmployeeAuthorizationsWithOwnerInfoOfDataExamined(authorizations);
+
+            if (!isTopPageOfOperation)
+            {
+                // get owner info for config-form
+                DataSet ds = empAuth.GetEmployeeRoleData(roleId);
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow drFirst = ds.Tables[0].Rows[0];
+
+                    if (drFirst.ToSafeStr("RoleName") == roleName)
+                    {
+                        authAndOwner.OwnerAccountOfDataExamined = drFirst.ToSafeStr("PostAccount");
+                        authAndOwner.OwnerDeptIdOfDataExamined = Convert.ToInt32(drFirst["PostDeptId"]);
+                    }
+                }
+            }
+
+            return authAndOwner;
+        }
+
+        #endregion
     }
 
     public class ArticleAjaxeHandler : JsonServiceHandlerAbstract

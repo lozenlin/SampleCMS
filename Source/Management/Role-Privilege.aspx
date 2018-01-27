@@ -169,6 +169,7 @@
             </div>
         </div>
     </div>
+    <asp:HiddenField ID="hidRoleId" runat="server" Value="" ClientIDMode="Static" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphActionButtons" Runat="Server">
     <asp:LinkButton ID="btnSave" runat="server" CssClass="btn btn-success" ValidationGroup="g" Visible="false"
