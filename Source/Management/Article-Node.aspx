@@ -420,6 +420,7 @@
     <script>
         langNo = '<%= c.seLangNoOfBackend %>';
         serviceUrl = "jsonService.ashx?l=" + langNo;
+        var authToken = '<%= GetClientAjaxAuthToken() %>';
 
         $(function () {
             var winWidth = window.innerWidth;
@@ -505,7 +506,7 @@
             var isSortDesc = $ddlIsSortDescOfFrontStage.val();
             var rootCssClass = "SortFieldOfFrontStageArea";
             setupTranResult(rootCssClass, "loading");
-            dao.UpdateArticleSortFieldOfFrontStage(artId, sortField, isSortDesc, function (cr) {
+            dao.UpdateArticleSortFieldOfFrontStage(artId, sortField, isSortDesc, authToken, function (cr) {
                 if (cr.b) {
                     $ddlSortFieldOfFrontStage.val(cr.o.sortField);
                     $ddlIsSortDescOfFrontStage.val(cr.o.isSortDesc);
@@ -551,7 +552,7 @@
             var isShow = !($("#hidIsListAreaShowInFrontStage").val() == "True");
             var rootCssClass = "IsListAreaShowInFrontStageArea";
             setupTranResult(rootCssClass, "loading");
-            dao.UpdateArticleIsAreaShowInFrontStage(artId, "ListArea", isShow, function (cr) {
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "ListArea", isShow, authToken, function (cr) {
                 if (cr.b) {
                     setupStatusOfAreaShowInFrontStage("hidIsListAreaShowInFrontStage", rootCssClass, isShow);
                     setupTranResult(rootCssClass, "ok");
@@ -568,7 +569,7 @@
             var isShow = !($("#hidIsAttAreaShowInFrontStage").val() == "True");
             var rootCssClass = "IsAttAreaShowInFrontStageArea";
             setupTranResult(rootCssClass, "loading");
-            dao.UpdateArticleIsAreaShowInFrontStage(artId, "AttArea", isShow, function (cr) {
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "AttArea", isShow, authToken, function (cr) {
                 if (cr.b) {
                     setupStatusOfAreaShowInFrontStage("hidIsAttAreaShowInFrontStage", rootCssClass, isShow);
                     setupTranResult(rootCssClass, "ok");
@@ -585,7 +586,7 @@
             var isShow = !($("#hidIsPicAreaShowInFrontStage").val() == "True");
             var rootCssClass = "IsPicAreaShowInFrontStageArea";
             setupTranResult(rootCssClass, "loading");
-            dao.UpdateArticleIsAreaShowInFrontStage(artId, "PicArea", isShow, function (cr) {
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "PicArea", isShow, authToken, function (cr) {
                 if (cr.b) {
                     setupStatusOfAreaShowInFrontStage("hidIsPicAreaShowInFrontStage", rootCssClass, isShow);
                     setupTranResult(rootCssClass, "ok");
@@ -602,7 +603,7 @@
             var isShow = !($("#hidIsVideoAreaShowInFrontStage").val() == "True");
             var rootCssClass = "IsVideoAreaShowInFrontStageArea";
             setupTranResult(rootCssClass, "loading");
-            dao.UpdateArticleIsAreaShowInFrontStage(artId, "VideoArea", isShow, function (cr) {
+            dao.UpdateArticleIsAreaShowInFrontStage(artId, "VideoArea", isShow, authToken, function (cr) {
                 if (cr.b) {
                     setupStatusOfAreaShowInFrontStage("hidIsVideoAreaShowInFrontStage", rootCssClass, isShow);
                     setupTranResult(rootCssClass, "ok");

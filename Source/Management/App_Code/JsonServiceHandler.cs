@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using Common.LogicObject;
 using System.Web.SessionState;
+using Common.Utility;
+using System.Configuration;
+using Newtonsoft.Json;
 
 namespace JsonService
 {
@@ -141,10 +144,67 @@ namespace JsonService
         }
     }
 
+    public class ArticleAjaxeHandler : JsonServiceHandlerAbstract
+    {
+        public ArticleAjaxeHandler(HttpContext context)
+            : base(context)
+        {
+        }
+
+        public override ClientResult ProcessRequest()
+        {
+            return null;
+        }
+
+        protected bool HandleAuthToken(string token, string empAccount, out ArticleAjaxAuthData authData)
+        {
+            bool isValidToken = true;
+            authData = null;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                isValidToken = false;
+            }
+
+            // decrypt token
+            if (isValidToken)
+            {
+                try
+                {
+                    string aesKeyOfBP = ConfigurationManager.AppSettings["AesKeyOfBP"];
+                    string basicIV = ConfigurationManager.AppSettings["AesIV"];
+                    string authJson = AesUtility.Decrypt(token, aesKeyOfBP, basicIV);
+                    authData = JsonConvert.DeserializeObject<ArticleAjaxAuthData>(authJson);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("", ex);
+                    isValidToken = false;
+                }
+            }
+
+            // check account
+            if (isValidToken)
+            {
+                if (empAccount != authData.EmpAccount)
+                    isValidToken = false;
+            }
+
+            // check postDate
+            if (isValidToken)
+            {
+                if ((DateTime.Now - authData.PostDate).TotalHours >= 24)
+                    isValidToken = false;
+            }
+
+            return isValidToken;
+        }
+    }
+
     /// <summary>
     /// 更新網頁內容的指定區域是否在前台顯示
     /// </summary>
-    public class UpdateArticleIsAreaShowInFrontStage : JsonServiceHandlerAbstract
+    public class UpdateArticleIsAreaShowInFrontStage : ArticleAjaxeHandler
     {
         protected BackendPageCommon c;
 
@@ -170,6 +230,20 @@ namespace JsonService
                 {
                     b = false,
                     err = "invalid login status"
+                };
+
+                return cr;
+            }
+
+            string token = GetParamValue("token");
+            ArticleAjaxAuthData authData = null;
+
+            if (!HandleAuthToken(token, c.GetEmpAccount(), out authData))
+            {
+                cr = new ClientResult()
+                {
+                    b = false,
+                    err = "invalid token"
                 };
 
                 return cr;
@@ -217,7 +291,7 @@ namespace JsonService
     /// <summary>
     /// 更新網頁內容的前台子項目排序欄位
     /// </summary>
-    public class UpdateArticleSortFieldOfFrontStage : JsonServiceHandlerAbstract
+    public class UpdateArticleSortFieldOfFrontStage : ArticleAjaxeHandler
     {
         protected BackendPageCommon c;
 
@@ -243,6 +317,20 @@ namespace JsonService
                 {
                     b = false,
                     err = "invalid login status"
+                };
+
+                return cr;
+            }
+
+            string token = GetParamValue("token");
+            ArticleAjaxAuthData authData = null;
+
+            if (!HandleAuthToken(token, c.GetEmpAccount(), out authData))
+            {
+                cr = new ClientResult()
+                {
+                    b = false,
+                    err = "invalid token"
                 };
 
                 return cr;

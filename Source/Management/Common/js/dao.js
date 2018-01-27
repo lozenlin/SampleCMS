@@ -30,12 +30,13 @@ var dao = {
     },
 
     //更新網頁內容的指定區域是否在前台顯示
-    UpdateArticleIsAreaShowInFrontStage: function (artId, areaName, isShow, crCallBack) {
+    UpdateArticleIsAreaShowInFrontStage: function (artId, areaName, isShow, token, crCallBack) {
         $.post(serviceUrl, {
             serviceName: "UpdateArticleIsAreaShowInFrontStage",
             artId: artId,
             areaName: areaName,
-            isShow: isShow
+            isShow: isShow,
+            token: token
         }, function (data) {
             var cr = $.parseJSON(data);
             crCallBack(cr);
@@ -45,12 +46,13 @@ var dao = {
     },
 
     //更新網頁內容的前台子項目排序欄位
-    UpdateArticleSortFieldOfFrontStage: function (artId, sortField, isSortDesc, crCallBack) {
+    UpdateArticleSortFieldOfFrontStage: function (artId, sortField, isSortDesc, token, crCallBack) {
         $.post(serviceUrl, {
             serviceName: "UpdateArticleSortFieldOfFrontStage",
             artId: artId,
             sortField: sortField,
-            isSortDesc: isSortDesc
+            isSortDesc: isSortDesc,
+            token: token
         }, function (data) {
             var cr = $.parseJSON(data);
             crCallBack(cr);

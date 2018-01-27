@@ -1,5 +1,6 @@
 ﻿using Common.LogicObject;
 using Common.Utility;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1249,5 +1250,36 @@ public partial class Article_Node : BasePage
         {
             DisplayVideos();
         }
+    }
+
+    protected string GetClientAjaxAuthToken()
+    {
+        if (!empAuth.CanEditThisPage())
+            return "";
+
+        ArticleAjaxAuthData authData = new ArticleAjaxAuthData()
+        {
+            EmpAccount = c.GetEmpAccount(),
+            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
+            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
+            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            PostDate = DateTime.Now
+        };
+
+        string result = "";
+
+        try
+        {
+            string authJson = JsonConvert.SerializeObject(authData);
+            string aesKeyOfBP = ConfigurationManager.AppSettings["AesKeyOfBP"];
+            string basicIV = ConfigurationManager.AppSettings["AesIV"];
+            result = AesUtility.Encrypt(authJson, aesKeyOfBP, basicIV);
+        }
+        catch (Exception ex)
+        {
+            c.LoggerOfUI.Error("", ex);
+        }
+
+        return result;
     }
 }

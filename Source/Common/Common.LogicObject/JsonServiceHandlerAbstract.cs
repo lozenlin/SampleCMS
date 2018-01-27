@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Common.LogicObject
     public abstract class JsonServiceHandlerAbstract : IJsonServiceHandler
     {
         protected HttpContext context = null;
+        protected ILog logger;
         protected bool allowedParamFromQueryString = false;   // true for testing
 
         #region 工具屬性
@@ -39,6 +41,7 @@ namespace Common.LogicObject
         public JsonServiceHandlerAbstract(HttpContext context)
         {
             this.context = context;
+            logger = LogManager.GetLogger(this.GetType());
         }
 
         protected string GetParamValue(string name)
