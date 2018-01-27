@@ -265,15 +265,25 @@ namespace JsonService
 
             string areaName = GetParamValue("areaName");
             bool isShow = Convert.ToBoolean(GetParamValue("isShow"));
-            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic();
 
-            bool result = artPub.UpdateArticleIsAreaShowInFrontStage(new ArticleUpdateIsAreaShowInFrontStageParams()
+            ArticleUpdateIsAreaShowInFrontStageParams param = new ArticleUpdateIsAreaShowInFrontStageParams()
             {
                 ArticleId = articleId,
                 AreaName = areaName,
                 IsShowInFrontStage = isShow,
-                MdfAccount = mdfAccount
-            });
+                MdfAccount = mdfAccount, 
+                AuthUpdateParams = new AuthenticationUpdateParams()
+                {
+                    CanEditSubItemOfOthers = authData.CanEditSubItemOfOthers,
+                    CanEditSubItemOfCrew = authData.CanEditSubItemOfCrew,
+                    CanEditSubItemOfSelf = authData.CanEditSubItemOfSelf,
+                    MyAccount = c.GetEmpAccount(),
+                    MyDeptId = c.GetDeptId()
+                }
+            };
+
+            bool result = artPub.UpdateArticleIsAreaShowInFrontStage(param);
 
             if (result)
             {
@@ -368,15 +378,25 @@ namespace JsonService
                 strIsSortDesc = "";
             }
 
-            ArticlePublisherLogic artPub = new ArticlePublisherLogic(null);
+            ArticlePublisherLogic artPub = new ArticlePublisherLogic();
 
-            bool result = artPub.UpdateArticleSortFieldOfFrontStage(new ArticleUpdateSortFieldOfFrontStageParams()
+            ArticleUpdateSortFieldOfFrontStageParams param = new ArticleUpdateSortFieldOfFrontStageParams()
             {
                 ArticleId = articleId,
                 SortFieldOfFrontStage = sortField,
                 IsSortDescOfFrontStage = isSortDesc,
-                MdfAccount = mdfAccount
-            });
+                MdfAccount = mdfAccount,
+                AuthUpdateParams = new AuthenticationUpdateParams()
+                {
+                    CanEditSubItemOfOthers = authData.CanEditSubItemOfOthers,
+                    CanEditSubItemOfCrew = authData.CanEditSubItemOfCrew,
+                    CanEditSubItemOfSelf = authData.CanEditSubItemOfSelf,
+                    MyAccount = c.GetEmpAccount(),
+                    MyDeptId = c.GetDeptId()
+                }
+            };
+
+            bool result = artPub.UpdateArticleSortFieldOfFrontStage(param);
 
             if (result)
             {

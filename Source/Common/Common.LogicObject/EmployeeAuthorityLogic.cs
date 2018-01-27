@@ -325,6 +325,14 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 可修改任何人的子項目
+        /// </summary>
+        public bool CanEditSubItemOfOthers()
+        {
+            return authorizations.CanEditSubItemOfOthers;
+        }
+
+        /// <summary>
         /// 可閱讀同部門的子項目
         /// </summary>
         public bool CanReadSubItemOfCrew()
@@ -333,11 +341,27 @@ namespace Common.LogicObject
         }
 
         /// <summary>
+        /// 可修改同部門的子項目
+        /// </summary>
+        public bool CanEditSubItemOfCrew()
+        {
+            return authorizations.CanEditSubItemOfCrew;
+        }
+
+        /// <summary>
         /// 可閱讀自己的子項目
         /// </summary>
         public bool CanReadSubItemOfSelf()
         {
             return authorizations.CanReadSubItemOfSelf;
+        }
+
+        /// <summary>
+        /// 可修改自己的子項目
+        /// </summary>
+        public bool CanEditSubItemOfSelf()
+        {
+            return authorizations.CanEditSubItemOfSelf;
         }
 
         // DataAccess functions

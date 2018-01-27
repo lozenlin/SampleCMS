@@ -401,7 +401,12 @@ namespace Common.LogicObject
                 ArticleId = param.ArticleId,
                 AreaName = param.AreaName,
                 IsShowInFrontStage = param.IsShowInFrontStage,
-                MdfAccount = param.MdfAccount
+                MdfAccount = param.MdfAccount,
+                CanEditSubItemOfOthers = param.AuthUpdateParams.CanEditSubItemOfOthers,
+                CanEditSubItemOfCrew = param.AuthUpdateParams.CanEditSubItemOfCrew,
+                CanEditSubItemOfSelf = param.AuthUpdateParams.CanEditSubItemOfSelf,
+                MyAccount = param.AuthUpdateParams.MyAccount,
+                MyDeptId = param.AuthUpdateParams.MyDeptId
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();
@@ -420,7 +425,12 @@ namespace Common.LogicObject
                 ArticleId = param.ArticleId,
                 SortFieldOfFrontStage = param.SortFieldOfFrontStage,
                 IsSortDescOfFrontStage = param.IsSortDescOfFrontStage,
-                MdfAccount = param.MdfAccount
+                MdfAccount = param.MdfAccount,
+                CanEditSubItemOfOthers = param.AuthUpdateParams.CanEditSubItemOfOthers,
+                CanEditSubItemOfCrew = param.AuthUpdateParams.CanEditSubItemOfCrew,
+                CanEditSubItemOfSelf = param.AuthUpdateParams.CanEditSubItemOfSelf,
+                MyAccount = param.AuthUpdateParams.MyAccount,
+                MyDeptId = param.AuthUpdateParams.MyDeptId
             };
             bool result = cmd.ExecuteNonQuery(cmdInfo);
             dbErrMsg = cmd.GetErrMsg();

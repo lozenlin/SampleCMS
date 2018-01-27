@@ -1260,9 +1260,9 @@ public partial class Article_Node : BasePage
         ArticleAjaxAuthData authData = new ArticleAjaxAuthData()
         {
             EmpAccount = c.GetEmpAccount(),
-            CanReadSubItemOfOthers = empAuth.CanReadSubItemOfOthers(),
-            CanReadSubItemOfCrew = empAuth.CanReadSubItemOfCrew(),
-            CanReadSubItemOfSelf = empAuth.CanReadSubItemOfSelf(),
+            CanEditSubItemOfOthers = empAuth.CanEditSubItemOfOthers(),
+            CanEditSubItemOfCrew = empAuth.CanEditSubItemOfCrew(),
+            CanEditSubItemOfSelf = empAuth.CanEditSubItemOfSelf(),
             PostDate = DateTime.Now
         };
 

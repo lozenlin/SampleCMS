@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Common.LogicObject
 {
-    public class ArticleAjaxAuthData
+    public class AuthenticationUpdateParams
     {
-        public string EmpAccount = "";
         /// <summary>
         /// 可修改任何人的子項目
         /// </summary>
@@ -21,6 +20,7 @@ namespace Common.LogicObject
         /// 可修改自己的子項目
         /// </summary>
         public bool CanEditSubItemOfSelf = false;
-        public DateTime PostDate;
+        public string MyAccount = "";
+        public int MyDeptId = 0;
     }
 }

@@ -1336,10 +1336,12 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/20>
+-- History:
+--	2018/01/27, lozen_lin, modify, 增加權限判斷
 -- Description: <更新網頁內容的指定區域是否在前台顯示>
 -- Test:
 /*
-exec dbo.spArticle_UpdateIsAreaShowInFrontStage '00000000-0000-0000-0000-000000000000', 'ListArea', 1, 'admin'
+exec dbo.spArticle_UpdateIsAreaShowInFrontStage '00000000-0000-0000-0000-000000000000', 'ListArea', 1, 'admin', 0, 0, 1, 'admin', 0
 */
 -- =============================================
 create procedure dbo.spArticle_UpdateIsAreaShowInFrontStage
@@ -1347,6 +1349,11 @@ create procedure dbo.spArticle_UpdateIsAreaShowInFrontStage
 ,@AreaName varchar(20)
 ,@IsShowInFrontStage bit
 ,@MdfAccount varchar(20)
+,@CanEditSubItemOfOthers bit=1	--可修改任何人的子項目
+,@CanEditSubItemOfCrew bit=1	--可修改同部門的子項目
+,@CanEditSubItemOfSelf bit=1	--可修改自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
 as
 begin
 	declare @colName nvarchar(50)
@@ -1368,32 +1375,55 @@ begin
 	declare @parmDef nvarchar(4000)
 
 	set @sql = N'
-update dbo.Article
-set ' + @colName + N' = @IsShowInFrontStage
-	,MdfAccount=@MdfAccount
-	,MdfDate=getdate()
-where ArticleId=@ArticleId
+update a
+set a.' + @colName + N' = @IsShowInFrontStage
+	,a.MdfAccount=@MdfAccount
+	,a.MdfDate=getdate()
+from dbo.Article a
+	left join dbo.Employee e on a.PostAccount=e.EmpAccount
+where a.ArticleId=@ArticleId
+	and (@CanEditSubItemOfOthers=1
+		or @CanEditSubItemOfCrew=1 and e.DeptId=@MyDeptId
+		or @CanEditSubItemOfSelf=1 and a.PostAccount=@MyAccount)
 '
 
 	set @parmDef = N'
 @ArticleId uniqueidentifier
 ,@IsShowInFrontStage bit
 ,@MdfAccount varchar(20)
+,@CanEditSubItemOfOthers bit
+,@CanEditSubItemOfCrew bit
+,@CanEditSubItemOfSelf bit
+,@MyAccount varchar(20)
+,@MyDeptId int
 '
 
 	exec sp_executesql @sql, @parmDef,
 		@ArticleId
 		,@IsShowInFrontStage
 		,@MdfAccount
+		,@CanEditSubItemOfOthers
+		,@CanEditSubItemOfCrew
+		,@CanEditSubItemOfSelf
+		,@MyAccount
+		,@MyDeptId
+
+	if @@rowcount=0
+	begin
+		raiserror(N'update failed', 11, 1)
+	end
 end
 go
 
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/20>
+-- History:
+--	2018/01/27, lozen_lin, modify, 增加權限判斷
 -- Description: <更新網頁內容的前台子項目排序欄位>
 -- Test:
 /*
+exec dbo.spArticle_UpdateSortFieldOfFrontStage '2def0e4f-c47e-4679-8e1a-6084e2e72dd6', 'SortNo', 0, 'admin', 1, 1, 1, 'admin', 0
 */
 -- =============================================
 create procedure dbo.spArticle_UpdateSortFieldOfFrontStage
@@ -1401,14 +1431,29 @@ create procedure dbo.spArticle_UpdateSortFieldOfFrontStage
 ,@SortFieldOfFrontStage	varchar(50)
 ,@IsSortDescOfFrontStage	bit
 ,@MdfAccount varchar(20)
+,@CanEditSubItemOfOthers bit=1	--可修改任何人的子項目
+,@CanEditSubItemOfCrew bit=1	--可修改同部門的子項目
+,@CanEditSubItemOfSelf bit=1	--可修改自己的子項目
+,@MyAccount varchar(20)=''
+,@MyDeptId int=0
 as
 begin
-	update dbo.Article
-	set SortFieldOfFrontStage=@SortFieldOfFrontStage
-		,IsSortDescOfFrontStage=@IsSortDescOfFrontStage
-		,MdfAccount=@MdfAccount
-		,MdfDate=getdate()
-	where ArticleId=@ArticleId
+	update a
+	set a.SortFieldOfFrontStage=@SortFieldOfFrontStage
+		,a.IsSortDescOfFrontStage=@IsSortDescOfFrontStage
+		,a.MdfAccount=@MdfAccount
+		,a.MdfDate=getdate()
+	from dbo.Article a
+		left join dbo.Employee e on a.PostAccount=e.EmpAccount
+	where a.ArticleId=@ArticleId
+		and (@CanEditSubItemOfOthers=1
+			or @CanEditSubItemOfCrew=1 and e.DeptId=@MyDeptId
+			or @CanEditSubItemOfSelf=1 and a.PostAccount=@MyAccount)
+
+	if @@rowcount=0
+	begin
+		raiserror(N'update failed', 11, 1)
+	end
 end
 go
 

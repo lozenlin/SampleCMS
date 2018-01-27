@@ -437,6 +437,11 @@ namespace Common.DataAccess.ArticlePublisher
         public string AreaName;
         public bool IsShowInFrontStage;
         public string MdfAccount;
+        public bool CanEditSubItemOfOthers; //可修改任何人的子項目
+        public bool CanEditSubItemOfCrew;   //可修改同部門的子項目
+        public bool CanEditSubItemOfSelf;   //可修改自己的子項目
+        public string MyAccount;
+        public int MyDeptId;
 
         public CommandType GetCommandType()
         {
@@ -462,6 +467,11 @@ namespace Common.DataAccess.ArticlePublisher
         public string SortFieldOfFrontStage;
         public bool IsSortDescOfFrontStage;
         public string MdfAccount;
+        public bool CanEditSubItemOfOthers; //可修改任何人的子項目
+        public bool CanEditSubItemOfCrew;   //可修改同部門的子項目
+        public bool CanEditSubItemOfSelf;   //可修改自己的子項目
+        public string MyAccount;
+        public int MyDeptId;
 
         public CommandType GetCommandType()
         {

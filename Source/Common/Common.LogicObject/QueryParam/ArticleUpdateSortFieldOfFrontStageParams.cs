@@ -11,5 +11,11 @@ namespace Common.LogicObject
         public string SortFieldOfFrontStage;
         public bool IsSortDescOfFrontStage;
         public string MdfAccount;
+        public AuthenticationUpdateParams AuthUpdateParams;
+
+        public ArticleUpdateSortFieldOfFrontStageParams()
+        {
+            AuthUpdateParams = new AuthenticationUpdateParams();
+        }
     }
 }

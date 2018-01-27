@@ -11,5 +11,11 @@ namespace Common.LogicObject
         public string AreaName;
         public bool IsShowInFrontStage;
         public string MdfAccount;
+        public AuthenticationUpdateParams AuthUpdateParams;
+
+        public ArticleUpdateIsAreaShowInFrontStageParams()
+        {
+            AuthUpdateParams = new AuthenticationUpdateParams();
+        }
     }
 }
