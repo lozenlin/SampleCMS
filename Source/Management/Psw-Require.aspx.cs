@@ -89,6 +89,13 @@ public partial class Psw_Require : System.Web.UI.Page
 
         DataRow drEmpVerify = dsEmp.Tables[0].Rows[0];
 
+        //擋 role-guest
+        if (drEmpVerify.ToSafeStr("RoleName") == "guest")
+        {
+            Master.ShowErrorMsg(Resources.Lang.ErrMsg_RoleGuestIsNotAllowedToUse);
+            return;
+        }
+
         //檢查是否停權
         if (Convert.ToBoolean(drEmpVerify["IsAccessDenied"]))
         {

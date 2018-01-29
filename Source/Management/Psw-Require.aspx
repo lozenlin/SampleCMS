@@ -15,6 +15,9 @@
                     placeholder="Your account" autocomplete="off" ></asp:TextBox>
                 <asp:RequiredFieldValidator ID="rfvAccount" runat="server" ControlToValidate="txtAccount" CssClass="text-danger"
                     Display="Dynamic" ErrorMessage="*" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
+                <div class="text-success">
+                    <%= Resources.Lang.ErrMsg_RoleGuestIsNotAllowedToUse %>
+                </div>
             </div>
         </div>
         <div class="form-group form-row">

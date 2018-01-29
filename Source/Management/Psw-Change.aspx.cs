@@ -223,6 +223,13 @@ public partial class Psw_Change : System.Web.UI.Page
             //有資料
             DataRow drEmpVerify = dsEmpVerify.Tables[0].Rows[0];
 
+            //擋 role-guest
+            if (drEmpVerify.ToSafeStr("RoleName") == "guest")
+            {
+                Master.ShowErrorMsg(Resources.Lang.ErrMsg_RoleGuestIsNotAllowedToUse);
+                return;
+            }
+
             //檢查密碼
             string passwordHash = HashUtility.GetPasswordHash(txtPassword.Text);
             string empPassword = drEmpVerify.ToSafeStr("EmpPassword");

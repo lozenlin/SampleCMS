@@ -1921,6 +1921,10 @@
     <value>已取消重置密碼的要求</value>
     <comment>已取消重置密碼的要求</comment>
   </data>
+  <data name="ErrMsg_RoleGuestIsNotAllowedToUse" xml:space="preserve">
+    <value>身分 "guest" 不允許使用本功能</value>
+    <comment>身分 "guest" 不允許使用本功能</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
