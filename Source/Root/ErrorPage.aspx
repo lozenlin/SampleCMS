@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="favicon.ico"/>
 
     <!-- Google Webfont -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400|Crimson+Text' rel='stylesheet' type='text/css'/>
+	<link href='//fonts.googleapis.com/css?family=Lato:300,400|Crimson+Text' rel='stylesheet' type='text/css'/>
 	<!-- Themify Icons -->
 	<link rel="stylesheet" href="/css/themify-icons.css"/>
 	<!-- Bootstrap -->
