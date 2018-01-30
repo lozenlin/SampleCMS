@@ -81,6 +81,20 @@
                                             <a id="btnDontRememberPsw" runat="server" href="#" class="btn btn-info btn-sm"><%= Resources.Lang.Login_btnDontRememberPsw %></a>
                                         </div>
                                     </div>
+                                    <div class="form-group form-row" runat="server" visible="false">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-9">
+                                            <div class="card border-info small mr-md-5">
+                                                <div class="card-header">Guest account info.</div>
+                                                <div class="card-body text-info">
+                                                    <p class="card-text">
+                                                        Account: <strong>guest</strong><br />
+                                                        Password: <strong>guestguest</strong>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="card-footer text-right">
                                     <small class="text-success"><%= Resources.Lang.Login_YourIpTitle %>: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
