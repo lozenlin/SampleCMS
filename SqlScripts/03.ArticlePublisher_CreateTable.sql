@@ -112,18 +112,22 @@ go
 
 
 -- 預設內容
+declare @today datetime = convert(varchar(10), getdate(), 111)
+
 set identity_insert dbo.Article on
 insert into dbo.Article(
 	ArticleId, SeqnoForCluster, ArticleLevelNo, 
 	ArticleAlias, LayoutModeId, ShowTypeId, 
 	LinkUrl, StartDate, EndDate, 
-	SortNo, PostAccount, PostDate
+	SortNo, PostAccount, PostDate, 
+	PublishDate
 	)
 values(
 	'00000000-0000-0000-0000-000000000000', 1, 0, 
 	'root', 1, 3, 
-	'http://SampleCMS.dev.com/', getdate(), dateadd(year,100,getdate()),
-	0, 'admin', getdate()
+	'http://SampleCMS.dev.com/', @today, dateadd(year,100,@today),
+	0, 'admin', getdate(), 
+	@today
 	)
 go
 
@@ -173,24 +177,24 @@ set identity_insert dbo.ArticleMultiLang on
 insert into dbo.ArticleMultiLang(
 	ArticleId, CultureName, SeqnoForCluster, 
 	ArticleSubject, IsShowInLang, PostAccount,
-	PostDate
+	PostDate, PublisherName
 	)
 values(
 	'00000000-0000-0000-0000-000000000000', 'zh-TW', 1, 
 	N'網站架構管理', 1, 'admin',
-	getdate()
+	getdate(), 'admin'
 	)
 go
 
 insert into dbo.ArticleMultiLang(
 	ArticleId, CultureName, SeqnoForCluster, 
 	ArticleSubject, IsShowInLang, PostAccount,
-	PostDate
+	PostDate, PublisherName
 	)
 values(
 	'00000000-0000-0000-0000-000000000000', 'en', 2, 
 	N'Site Architecture Mgmt.', 1, 'admin',
-	getdate()
+	getdate(), 'admin'
 	)
 go
 
