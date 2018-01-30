@@ -416,9 +416,9 @@ public partial class Account_Config : System.Web.UI.Page
         txtPsw.ReadOnly = true;
         PswConfirmArea.Visible = false;
 
-        //密碼暫時另存一份在備註
-        string remarkWoOldPsw = Regex.Replace(txtRemarks.Text, Resources.Lang.Account_lblDefaultPsw + @"[!@#$%^&*0-9A-Za-z]+", "");
-        txtRemarks.Text = Resources.Lang.Account_lblDefaultPsw + txtPsw.Text + remarkWoOldPsw;
+        ////密碼暫時另存一份在備註
+        //string remarkWoOldPsw = Regex.Replace(txtRemarks.Text, Resources.Lang.Account_lblDefaultPsw + @"[!@#$%^&*0-9A-Za-z]+", "");
+        //txtRemarks.Text = Resources.Lang.Account_lblDefaultPsw + txtPsw.Text + remarkWoOldPsw;
 
         hidDefaultRandomPassword.Text = txtPsw.Text;
     }
