@@ -90,6 +90,8 @@ public partial class Article_Node : BasePage
                 Master.FlagValue = "";
             }
         }
+
+        LoadSwitchButtonsUIData();
     }
 
     private void RebuildBreadcrumbAndHeadOfHUD()
@@ -187,7 +189,6 @@ public partial class Article_Node : BasePage
             "PostDeptName"
         });
 
-        LoadSwitchButtonsUIData();
         LoadSortFieldOfFrontStageUIData();
         SetupLangRelatedFields();
     }
