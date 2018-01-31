@@ -3169,6 +3169,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2018/01/08>
+-- History:
+--	2018/01/31, lozen_lin, modify, 列出被父層隱藏的子網頁
 -- Description: <建立搜尋用資料來源>
 -- Test:
 /*
@@ -3205,7 +3207,6 @@ begin
 		where a.IsHideSelf=0 
 			and am.IsShowInLang=1 
 			and a.StartDate <= getdate() and getdate() < a.EndDate+1
-			and p.IsHideChild=0
 
 	--刪除不需要的資料
 	delete s
