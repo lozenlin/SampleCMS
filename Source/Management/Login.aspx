@@ -96,8 +96,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer text-right">
-                                    <small class="text-success"><%= Resources.Lang.Login_YourIpTitle %>: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
+                                <div class="card-footer">
+                                    <small>
+                                        <span class="text-muted"><%= Resources.Lang.Login_lblBackTo %></span>
+                                        <a href='<%= ConfigurationManager.AppSettings["WebsiteUrl"] %>?l=<%= c.qsLangNo %>'><%= Resources.Lang.WebsiteName %></a>
+                                    </small>
+                                    <small class="text-success float-right"><%= Resources.Lang.Login_YourIpTitle %>: <asp:Literal ID="ltrClientIP" runat="server"></asp:Literal></small>
                                 </div>
                             </div>
                         </div>

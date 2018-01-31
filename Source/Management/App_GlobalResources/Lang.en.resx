@@ -1925,4 +1925,16 @@
     <value>Role "guest" is not allowed to use this feature.</value>
     <comment>身分 "guest" 不允許使用本功能</comment>
   </data>
+  <data name="WebsiteName" xml:space="preserve">
+    <value>SampleCMS Demo</value>
+    <comment>SampleCMS Demo</comment>
+  </data>
+  <data name="WebsiteNameShort" xml:space="preserve">
+    <value>SampleCMS</value>
+    <comment>SampleCMS</comment>
+  </data>
+  <data name="Login_lblBackTo" xml:space="preserve">
+    <value>back to</value>
+    <comment>回到</comment>
+  </data>
 </root>

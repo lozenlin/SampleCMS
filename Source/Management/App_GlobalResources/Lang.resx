@@ -1925,6 +1925,18 @@
     <value>身分 "guest" 不允許使用本功能</value>
     <comment>身分 "guest" 不允許使用本功能</comment>
   </data>
+  <data name="WebsiteName" xml:space="preserve">
+    <value>SampleCMS 前台展示</value>
+    <comment>SampleCMS 前台展示</comment>
+  </data>
+  <data name="WebsiteNameShort" xml:space="preserve">
+    <value>SampleCMS</value>
+    <comment>SampleCMS</comment>
+  </data>
+  <data name="Login_lblBackTo" xml:space="preserve">
+    <value>回到</value>
+    <comment>回到</comment>
+  </data>
   <data name="xxxxx" xml:space="preserve">
     <value>xxxxx</value>
     <comment>xxxxx</comment>
