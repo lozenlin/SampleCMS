@@ -225,6 +225,13 @@ go
 create clustered index IX_AttachFile on dbo.AttachFile (SeqnoForCluster)
 go
 
+CREATE NONCLUSTERED INDEX [IX_AttachFile_ArticleId] ON [dbo].[AttachFile]
+(
+	[ArticleId] ASC
+)
+INCLUDE ( 	[AttId]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 ----------------------------------------------------------------------------
 -- dbo.AttachFileMultiLang 附件檔案的多國語系資料	
 ----------------------------------------------------------------------------
@@ -278,6 +285,13 @@ go
 create clustered index IX_ArticlePicture on dbo.ArticlePicture (SeqnoForCluster)
 go
 
+CREATE NONCLUSTERED INDEX [IX_ArticlePicture_ArticleId] ON [dbo].[ArticlePicture]
+(
+	[ArticleId] ASC
+)
+INCLUDE ( 	[PicId]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+go
+
 ----------------------------------------------------------------------------
 -- dbo.ArticlePictureMultiLang 網頁照片的多國語系資料	
 ----------------------------------------------------------------------------
@@ -326,6 +340,13 @@ create table dbo.ArticleVideo(
 go
 -- 為避免 GUID 造成的索引破碎帶來的效能影響，叢集索引使用自動編號並且與主鍵分開
 create clustered index IX_ArticleVideo on dbo.ArticleVideo (SeqnoForCluster)
+go
+
+CREATE NONCLUSTERED INDEX [IX_ArticleVideo_ArticleId] ON [dbo].[ArticleVideo]
+(
+	[ArticleId] ASC
+)
+INCLUDE ( 	[VidId]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
 go
 
 ----------------------------------------------------------------------------

@@ -1063,6 +1063,8 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/12/01>
+-- History:
+--	2018/01/31, lozen_lin, modify, 增加刪除附件、照片、影片
 -- Description: <刪除網頁內容>
 -- Test:
 /*
@@ -1074,6 +1076,33 @@ as
 begin
 	begin transaction
 	begin try
+		-- delete attachment
+		delete from afm
+		from dbo.AttachFileMultiLang afm
+			join dbo.AttachFile af on afm.AttId=af.AttId
+		where af.ArticleId=@ArticleId
+
+		delete from dbo.AttachFile
+		where ArticleId=@ArticleId
+
+		-- delete picture
+		delete from apm
+		from dbo.ArticlePictureMultiLang apm
+			join dbo.ArticlePicture ap on apm.PicId=apm.PicId
+		where ap.ArticleId=@ArticleId
+
+		delete from dbo.ArticlePicture
+		where ArticleId=@ArticleId
+
+		-- delete video
+		delete from avm
+		from dbo.ArticleVideoMultiLang avm
+			join dbo.ArticleVideo av on avm.VidId=av.VidId
+		where av.ArticleId=@ArticleId
+
+		delete from dbo.ArticleVideo
+		where ArticleId=@ArticleId
+
 		-- delete multi language data
 		delete from dbo.ArticleMultiLang
 		where ArticleId=@ArticleId
@@ -1666,6 +1695,66 @@ begin
 		and am.IsShowInLang=1
 		and a.IsShowInSitemap=1
 	order by a.SortNo
+end
+go
+
+-- =============================================
+-- Author:      <lozen_lin>
+-- Create date: <2018/01/31>
+-- Description: <取得網頁的所有子網頁>
+-- Test:
+/*
+exec dbo.spArticle_GetDescendants '00000000-0000-0000-0000-000000000000'
+exec dbo.spArticle_GetDescendants 'bcea101f-0173-4d07-84fa-0d7bb9a81073'
+*/
+-- =============================================
+create procedure dbo.spArticle_GetDescendants
+@ArticleId uniqueidentifier
+as
+begin
+	declare @CurArticleId uniqueidentifier=@ArticleId
+	declare @CurLevelNo int
+
+	-- get current info
+	select
+		@CurLevelNo=ArticleLevelNo
+	from dbo.Article
+	where ArticleId=@ArticleId
+
+	create table #tblResult(
+		ArticleId uniqueidentifier
+		,ArticleLevelNo int
+	)
+
+	if @CurLevelNo is not null
+	begin
+		insert into #tblResult
+		values (@CurArticleId, @CurLevelNo)
+	end
+
+	while 1=1
+	begin
+		insert into #tblResult
+			select
+				ArticleId, ArticleLevelNo
+			from dbo.Article
+			where ParentId in (
+				select ArticleId from #tblResult 
+				where ArticleLevelNo=@CurLevelNo
+				)
+
+		if @@rowcount=0
+		begin
+			break
+		end
+
+		set @CurLevelNo+=1
+	end
+
+	select * from #tblResult
+	order by ArticleLevelNo desc
+
+	drop table #tblResult
 end
 go
 
@@ -3319,7 +3408,7 @@ go
 go
 -- =============================================
 -- Author:      <lozen_lin>
--- Create date: <2018/01/13>
+-- Create date: <2018/01/31>
 -- Description: <xxxxxxxxxxxxxxxxxx>
 -- Test:
 
