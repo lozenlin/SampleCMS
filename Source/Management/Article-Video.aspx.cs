@@ -296,10 +296,13 @@ public partial class Article_Video : System.Web.UI.Page
             }
 
             //新增後端操作記錄
+            string description = string.Format("．{0}　．儲存網頁影片/Save article video[{1}][{2}]　VidId[{3}]　結果/result[{4}]",
+                Title, txtVidSubjectZhTw.Text, txtVidSubjectEn.Text, param.VidId, result);
+
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存網頁影片/Save article video[{1}][{2}]　結果/result[{3}]", Title, txtVidSubjectZhTw.Text, txtVidSubjectEn.Text, result),
+                Description = description,
                 IP = c.GetClientIP()
             });
         }

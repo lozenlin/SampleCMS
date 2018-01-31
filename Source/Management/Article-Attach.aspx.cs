@@ -201,9 +201,9 @@ public partial class Article_Attach : System.Web.UI.Page
 
             //新增後端操作記錄
             string description = string.Format("．{0}　．儲存附件/Save attach file[{1}][{2}]" +
-                "　有檔案/has file[{3}]　結果/result[{4}]",
+                "　有檔案/has file[{3}]　AttId[{4}]　結果/result[{5}]",
                 Title, txtAttSubjectZhTw.Text, txtAttSubjectEn.Text,
-                fuPickedFile.HasFile, result);
+                fuPickedFile.HasFile, attFileMgr.AttId, result);
 
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {

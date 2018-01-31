@@ -352,7 +352,7 @@ public partial class Account_Config : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存帳號/Save account[{1}]　結果/result[{2}]", Title, txtEmpAccount.Text, result),
+                Description = string.Format("．{0}　．儲存帳號/Save account[{1}]　EmpId[{2}]　結果/result[{3}]", Title, txtEmpAccount.Text, param.EmpId, result),
                 IP = c.GetClientIP()
             });
         }

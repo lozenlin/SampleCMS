@@ -156,7 +156,7 @@ public partial class Department_Config : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存部門/Save department[{1}]　結果/result[{2}]", Title, txtDeptName.Text, result),
+                Description = string.Format("．{0}　．儲存部門/Save department[{1}]　DeptId[{2}]　結果/result[{3}]", Title, txtDeptName.Text, param.DeptId, result),
                 IP = c.GetClientIP()
             });
         }

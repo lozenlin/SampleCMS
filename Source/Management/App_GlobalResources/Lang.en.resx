@@ -1390,8 +1390,8 @@
     <comment>兩欄式</comment>
   </data>
   <data name="Article_Title_AddNew_Format" xml:space="preserve">
-    <value>Add an article - id:{0}</value>
-    <comment>新增網頁 - id:{0}</comment>
+    <value>Add an article - parent id:{0}</value>
+    <comment>新增網頁 - 上層 id:{0}</comment>
   </data>
   <data name="Article_Title_Edit_Format" xml:space="preserve">
     <value>Edit article - id:{0}</value>

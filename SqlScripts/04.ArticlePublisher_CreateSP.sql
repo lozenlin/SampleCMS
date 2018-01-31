@@ -1065,6 +1065,7 @@ go
 -- Create date: <2017/12/01>
 -- History:
 --	2018/01/31, lozen_lin, modify, 增加刪除附件、照片、影片
+--	2018/01/31, lozen_lin, modify, 修正 ArticlePicture 錯誤關聯
 -- Description: <刪除網頁內容>
 -- Test:
 /*
@@ -1088,7 +1089,7 @@ begin
 		-- delete picture
 		delete from apm
 		from dbo.ArticlePictureMultiLang apm
-			join dbo.ArticlePicture ap on apm.PicId=apm.PicId
+			join dbo.ArticlePicture ap on apm.PicId=ap.PicId
 		where ap.ArticleId=@ArticleId
 
 		delete from dbo.ArticlePicture

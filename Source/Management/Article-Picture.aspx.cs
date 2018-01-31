@@ -198,9 +198,9 @@ public partial class Article_Picture : System.Web.UI.Page
 
             //新增後端操作記錄
             string description = string.Format("．{0}　．儲存網頁照片/Save article picture[{1}][{2}]" +
-                "　有檔案/has file[{3}]　結果/result[{4}]",
+                "　有檔案/has file[{3}]　PicId[{4}]　結果/result[{5}]",
                 Title, txtPicSubjectZhTw.Text, txtPicSubjectEn.Text,
-                fuPickedFile.HasFile, result);
+                fuPickedFile.HasFile, artPicMgr.AttId, result);
 
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {

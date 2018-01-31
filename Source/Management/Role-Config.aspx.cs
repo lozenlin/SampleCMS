@@ -180,7 +180,7 @@ public partial class Role_Config : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存身分/Save role[{1}]　結果/result[{2}]", Title, txtRoleName.Text, result),
+                Description = string.Format("．{0}　．儲存身分/Save role[{1}]　RoleId[{2}]　結果/result[{3}]", Title, txtRoleName.Text, param.RoleId, result),
                 IP = c.GetClientIP()
             });
         }

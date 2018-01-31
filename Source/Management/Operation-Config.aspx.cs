@@ -204,7 +204,7 @@ public partial class Operation_Config : System.Web.UI.Page
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存後端作業選項/Save operation[{1}][{2}]　結果/result[{3}]", Title, txtOpSubject.Text, txtEnglishSubject.Text, result),
+                Description = string.Format("．{0}　．儲存後端作業選項/Save operation[{1}][{2}]　OpId[{3}]　結果/result[{4}]", Title, txtOpSubject.Text, txtEnglishSubject.Text, param.OpId, result),
                 IP = c.GetClientIP()
             });
         }

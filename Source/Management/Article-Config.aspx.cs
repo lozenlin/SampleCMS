@@ -485,10 +485,13 @@ public partial class Article_Config : System.Web.UI.Page
             }
 
             //新增後端操作記錄
+            string description = string.Format("．{0}　．儲存網頁/Save article[{1}][{2}]　ArticleId[{3}]　結果/result[{4}]",
+                Title, txtArticleSubjectZhTw.Text, txtArticleSubjectEn.Text, param.ArticleId, result);
+
             empAuth.InsertBackEndLogData(new BackEndLogData()
             {
                 EmpAccount = c.GetEmpAccount(),
-                Description = string.Format("．{0}　．儲存網頁/Save article[{1}][{2}]　結果/result[{3}]", Title, txtArticleSubjectZhTw.Text, txtArticleSubjectEn.Text, result),
+                Description = description,
                 IP = c.GetClientIP()
             });
         }
