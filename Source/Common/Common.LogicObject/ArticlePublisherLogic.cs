@@ -561,6 +561,20 @@ namespace Common.LogicObject
             return ds;
         }
 
+        /// <summary>
+        /// 取得網頁的所有子網頁
+        /// </summary>
+        public DataSet GetArticleDescendants(Guid articleId)
+        {
+            IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
+            spArticle_GetDescendants cmdInfo = new spArticle_GetDescendants() { ArticleId = articleId };
+
+            DataSet ds = cmd.ExecuteDataset(cmdInfo);
+            dbErrMsg = cmd.GetErrMsg();
+
+            return ds;
+        }
+
         #endregion
 
         #region AttachFile DataAccess functions

@@ -679,6 +679,41 @@ public partial class Article_Node : BasePage
                 articleId = new Guid(args[0]);
                 string articleSubject = args[1];
 
+                //取得所有子項目id, 階層越高排越前面
+                DataSet dsDescsAndSelf = artPub.GetArticleDescendants(articleId);
+
+                if (dsDescsAndSelf != null && dsDescsAndSelf.Tables[0].Rows.Count > 1)
+                {
+                    // delete descendants
+                    foreach (DataRow drDesc in dsDescsAndSelf.Tables[0].Rows)
+                    {
+                        Guid descId = (Guid)drDesc["ArticleId"];
+
+                        if (descId == articleId)
+                            continue;
+
+                        bool descResult = artPub.DeleteArticleData(descId);
+
+                        //新增後端操作記錄
+                        empAuth.InsertBackEndLogData(new BackEndLogData()
+                        {
+                            EmpAccount = c.GetEmpAccount(),
+                            Description = string.Format("．刪除子網頁內容/Delete descendant of article　．代碼/id[{0}]　根代碼/root id[{1}]　結果/result[{2}]", descId, articleId, descResult),
+                            IP = c.GetClientIP()
+                        });
+
+                        // log to file
+                        c.LoggerOfUI.InfoFormat("{0} deletes descendant-[{1}] of article-[{2}], result: {3}",
+                            c.GetEmpAccount(), descId.ToString(), articleId.ToString(), descResult);
+
+                        if (!descResult)
+                        {
+                            Master.ShowErrorMsg(Resources.Lang.ErrMsg_DeleteArticleFailed);
+                            return;
+                        }
+                    }
+                }
+
                 result = artPub.DeleteArticleData(articleId);
 
                 //新增後端操作記錄
