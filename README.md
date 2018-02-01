@@ -9,7 +9,7 @@ Front-stage: [SampleCMS Demo](http://samplecmsonazure.azurewebsites.net)
 
 ## Screenshots
 
-[Back-stage model](http://lozenlin.blogspot.tw/2017/11/108-hours.html)
+[Back-stage first look](http://lozenlin.blogspot.tw/2017/11/108-hours.html)
 
 [Employee Authority](https://lozenlin.blogspot.tw/2017/11/177-hours.html)
 
