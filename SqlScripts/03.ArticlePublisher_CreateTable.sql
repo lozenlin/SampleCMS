@@ -115,6 +115,7 @@ go
 declare @today datetime = convert(varchar(10), getdate(), 111)
 
 set identity_insert dbo.Article on
+
 insert into dbo.Article(
 	ArticleId, SeqnoForCluster, ArticleLevelNo, 
 	ArticleAlias, LayoutModeId, ShowTypeId, 
@@ -129,7 +130,11 @@ values(
 	0, 'admin', getdate(), 
 	@today
 	)
-go
+
+INSERT dbo.Article (ArticleId, SeqnoForCluster, ParentId, ArticleLevelNo, ArticleAlias, BannerPicFileName, LayoutModeId, ShowTypeId, LinkUrl, LinkTarget, ControlName, SubItemControlName, IsHideSelf, IsHideChild, StartDate, EndDate, SortNo, DontDelete, PostAccount, PostDate, MdfAccount, MdfDate, SubjectAtBannerArea, PublishDate, IsShowInUnitArea, IsShowInSitemap, SortFieldOfFrontStage, IsSortDescOfFrontStage, IsListAreaShowInFrontStage, IsAttAreaShowInFrontStage, IsPicAreaShowInFrontStage, IsVideoAreaShowInFrontStage, SubItemLinkUrl)
+ VALUES (N'031C4F54-6BFC-4EE1-96AF-95044CF80DC5', 2, N'00000000-0000-0000-0000-000000000000', 1, '031c4f54-6bfc-4ee1-96af-95044cf80dc5', N'', 1, 3, N'~/Sitemap.aspx', '', '', '', 0, 0, @today, dateadd(year,100,@today), 10, 1, 'admin', getdate(), null, null, 1, @today, 1, 0, '', 0, 1, 0, 0, 0, N'')
+INSERT dbo.Article (ArticleId, SeqnoForCluster, ParentId, ArticleLevelNo, ArticleAlias, BannerPicFileName, LayoutModeId, ShowTypeId, LinkUrl, LinkTarget, ControlName, SubItemControlName, IsHideSelf, IsHideChild, StartDate, EndDate, SortNo, DontDelete, PostAccount, PostDate, MdfAccount, MdfDate, SubjectAtBannerArea, PublishDate, IsShowInUnitArea, IsShowInSitemap, SortFieldOfFrontStage, IsSortDescOfFrontStage, IsListAreaShowInFrontStage, IsAttAreaShowInFrontStage, IsPicAreaShowInFrontStage, IsVideoAreaShowInFrontStage, SubItemLinkUrl)
+ VALUES (N'5CD4677A-080D-4587-936B-2F3D6D924746', 3, N'00000000-0000-0000-0000-000000000000', 1, '5cd4677a-080d-4587-936b-2f3d6d924746', N'', 1, 3, N'~/Search-Result.aspx', '', '', '', 0, 0, @today, dateadd(year,100,@today), 20, 1, 'admin', getdate(), null, null, 1, @today, 0, 0, '', 0, 1, 0, 0, 0, N'')
 
 set identity_insert dbo.Article off
 go
@@ -174,6 +179,7 @@ go
 
 -- 預設內容
 set identity_insert dbo.ArticleMultiLang on
+
 insert into dbo.ArticleMultiLang(
 	ArticleId, CultureName, SeqnoForCluster, 
 	ArticleSubject, IsShowInLang, PostAccount,
@@ -184,7 +190,6 @@ values(
 	N'網站架構管理', 1, 'admin',
 	getdate(), 'admin'
 	)
-go
 
 insert into dbo.ArticleMultiLang(
 	ArticleId, CultureName, SeqnoForCluster, 
@@ -196,7 +201,15 @@ values(
 	N'Site Architecture Mgmt.', 1, 'admin',
 	getdate(), 'admin'
 	)
-go
+
+INSERT dbo.ArticleMultiLang (ArticleId, CultureName, SeqnoForCluster, ArticleSubject, ArticleContext, ReadCount, IsShowInLang, PostAccount, PostDate, MdfAccount, MdfDate, Subtitle, PublisherName, TextContext)
+ VALUES (N'031C4F54-6BFC-4EE1-96AF-95044CF80DC5', 'zh-TW', 3, N'網站導覽', N'', 0, 1, 'admin', getdate(), null, null, N'', N'admin', N'')
+INSERT dbo.ArticleMultiLang (ArticleId, CultureName, SeqnoForCluster, ArticleSubject, ArticleContext, ReadCount, IsShowInLang, PostAccount, PostDate, MdfAccount, MdfDate, Subtitle, PublisherName, TextContext)
+ VALUES (N'031C4F54-6BFC-4EE1-96AF-95044CF80DC5', 'en', 4, N'Sitemap', N'', 0, 1, 'admin', getdate(), null, null, N'', N'admin', N'')
+INSERT dbo.ArticleMultiLang (ArticleId, CultureName, SeqnoForCluster, ArticleSubject, ArticleContext, ReadCount, IsShowInLang, PostAccount, PostDate, MdfAccount, MdfDate, Subtitle, PublisherName, TextContext)
+ VALUES (N'5CD4677A-080D-4587-936B-2F3D6D924746', 'zh-TW', 5, N'搜尋結果', N'', 0, 1, 'admin', getdate(), null, null, N'', N'admin', N'')
+INSERT dbo.ArticleMultiLang (ArticleId, CultureName, SeqnoForCluster, ArticleSubject, ArticleContext, ReadCount, IsShowInLang, PostAccount, PostDate, MdfAccount, MdfDate, Subtitle, PublisherName, TextContext)
+ VALUES (N'5CD4677A-080D-4587-936B-2F3D6D924746', 'en', 6, N'Search Result', N'', 0, 1, 'admin', getdate(), null, null, N'', N'admin', N'')
 
 set identity_insert dbo.ArticleMultiLang off
 go
