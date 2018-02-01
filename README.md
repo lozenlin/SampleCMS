@@ -2,7 +2,9 @@ SampleCMS
 ==============
 
 ## DEMO website
+
 Back-stage : [SampleCMS Management Information System](https://samplecmsonazure.azurewebsites.net/Management/Login.aspx)
+
 Front-stage: [SampleCMS Demo](http://samplecmsonazure.azurewebsites.net)
 
 ## Versioning
