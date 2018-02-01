@@ -65,13 +65,15 @@ public partial class Article_Node : BasePage
         else
         {
             //PostBack
+            DisplayArticleData();
+
             if (Master.FlagValue != "")
             {
                 // message from config-form
-                DisplayArticle();
 
                 if (Master.FlagValue == "Config")
                 {
+                    DisplaySubitems();
                     Master.RefreshOpMenu();
                 }
                 else if (Master.FlagValue == "Attach")
@@ -253,9 +255,29 @@ public partial class Article_Node : BasePage
 
     private void DisplayArticle()
     {
+        DisplayArticleData();
+        DisplaySubitems();
+    }
+
+    private void SetupStatusHtmlOfArticleContentSetting(HtmlGenericControl ctlStatus, bool show)
+    {
+        if (show)
+        {
+            ctlStatus.Attributes["class"] = "status text-success";
+            ctlStatus.InnerHtml = "ON";
+        }
+        else
+        {
+            ctlStatus.Attributes["class"] = "status text-muted";
+            ctlStatus.InnerHtml = "OFF";
+        }
+    }
+
+    private void DisplayArticleData()
+    {
         btnEditContext.Title = Resources.Lang.Article_btnEditContext_Hint;
         btnEditContext.Visible = empAuth.CanEditThisPage();
-        btnEditContext.Attributes["onclick"] = 
+        btnEditContext.Attributes["onclick"] =
             string.Format("popWin('Article-Config.aspx?act={0}&artid={1}', 700, 600);", ConfigFormAction.edit, c.qsArtId);
 
         DataSet dsArticle = artPub.GetArticleDataForBackend(c.qsArtId);
@@ -468,22 +490,6 @@ public partial class Article_Node : BasePage
                     }
                 }
             }
-        }
-
-        DisplaySubitems();
-    }
-
-    private void SetupStatusHtmlOfArticleContentSetting(HtmlGenericControl ctlStatus, bool show)
-    {
-        if (show)
-        {
-            ctlStatus.Attributes["class"] = "status text-success";
-            ctlStatus.InnerHtml = "ON";
-        }
-        else
-        {
-            ctlStatus.Attributes["class"] = "status text-muted";
-            ctlStatus.InnerHtml = "OFF";
         }
     }
 
