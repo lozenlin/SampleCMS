@@ -1,6 +1,10 @@
 SampleCMS
 ==============
 
+## DEMO website
+Back-stage : [SampleCMS Management Information System](https://samplecmsonazure.azurewebsites.net/Management/Login.aspx)
+Front-stage: [SampleCMS Demo](http://samplecmsonazure.azurewebsites.net)
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, SampleCMS is maintained under [the Semantic Versioning guidelines](http://semver.org/). 
