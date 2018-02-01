@@ -1937,4 +1937,12 @@
     <value>back to</value>
     <comment>回到</comment>
   </data>
+  <data name="Article_txtStartDate_Notice" xml:space="preserve">
+    <value>The default is 3 days after opening</value>
+    <comment>預設為 3 天後上架</comment>
+  </data>
+  <data name="Article_btnStartToday" xml:space="preserve">
+    <value>Change now to open</value>
+    <comment>更改為現在上架</comment>
+  </data>
 </root>

@@ -33,6 +33,10 @@
                         Display="Dynamic" ErrorMessage="*必填" SetFocusOnError="true" ValidationGroup="g" ></asp:RequiredFieldValidator>
                     <asp:CompareValidator ID="covEndDate" runat="server" ControlToValidate="txtEndDate" CssClass="text-danger"
                         Display="Dynamic" ErrorMessage="*" Operator="DataTypeCheck" SetFocusOnError="true" Type="Date" ValidationGroup="g"></asp:CompareValidator>
+                    <div id="StartTodayArea" runat="server" class="mt-1 pl-1" visible="false">
+                        <a id="btnStartToday" href="#" class="btn btn-sm btn-info"><%= Resources.Lang.Article_btnStartToday %></a>
+                        <span class="text-success">(<%= Resources.Lang.Article_txtStartDate_Notice %>)</span>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -101,6 +105,9 @@
                 <th><%= Resources.Lang.Col_ArticleAlias %></th>
                 <td colspan="3">
                     <asp:TextBox ID="txtArticleAlias" runat="server" MaxLength="50" Width="90%"></asp:TextBox>
+                    <div id="AliasLinkArea" runat="server" class="pl-1" visible="false">
+                        e.g., <a id="btnAliasLink" runat="server" href="#" target="_blank"></a>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -295,6 +302,14 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="cphBeforeBodyTail" Runat="Server">
     <script src="ckeditor/ckeditor.js?t=20171204"></script>
     <script>
+        var strToday = '<%= DateTime.Today.ToString("yyyy-MM-dd") %>';
+        var txtStartDateId = '<%= txtStartDate.ClientID %>';
+
+        $("#btnStartToday").click(function () {
+            $("#" + txtStartDateId).val(strToday);
+            return false;
+        });
+
         //取得過濾掉多餘路徑的檔名
         function GetSievedFileName(fileUrl) {
             // exclude lang directory

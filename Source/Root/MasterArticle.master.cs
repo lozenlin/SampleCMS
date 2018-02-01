@@ -489,7 +489,7 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         btnItem.HRef = destUrl;
         Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
 
-        if (!isHideChild && rptSubitems != null)
+        if (rptSubitems != null)    /*  && !isHideChild <-- 視專案需要加回 */
         {
             DataSet dsSubitems = artPub.GetArticleValidListForSideSection(articleId, c.qsCultureNameOfLangNo);
 

@@ -2,7 +2,8 @@
 
     <div class="form-inline">
         <div class="form-group">
-            <input id="txtKeyword" type="text" class="form-control" placeholder='<%= Resources.Lang.SearchResult_txtKeyword_Hint %>' accesskey="S" autocomplete="off" />
+            <input id="txtKeyword" type="text" class="form-control" placeholder='<%= Resources.Lang.SearchResult_txtKeyword_Hint %>' accesskey="S" autocomplete="off" 
+                title='<%= Resources.Lang.SearchResult_txtKeyword_Hint %>' />
         </div>
         <div class="form-group">
             <a id="btnToSearchResult" href="#" class="btn btn-primary btn-sm" style="margin-bottom:0;" title='<%= Resources.Lang.SearchResult_btnSearch_Hint %>'>

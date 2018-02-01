@@ -27,6 +27,7 @@ public partial class UserControls_wucSearchConditionPost : System.Web.UI.UserCon
     private void LoadUIData()
     {
         txtKeyword.Attributes["placeholder"] = Resources.Lang.SearchResult_txtKeyword_Hint;
+        txtKeyword.ToolTip = Resources.Lang.SearchResult_txtKeyword_Hint;
         btnToSearchResult.ToolTip = Resources.Lang.SearchResult_btnSearch_Hint;
     }
 

@@ -68,10 +68,10 @@ public partial class Article_Node : BasePage
             if (Master.FlagValue != "")
             {
                 // message from config-form
+                DisplayArticle();
 
                 if (Master.FlagValue == "Config")
                 {
-                    DisplayArticle();
                     Master.RefreshOpMenu();
                 }
                 else if (Master.FlagValue == "Attach")

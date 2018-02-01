@@ -56,6 +56,7 @@ public partial class Search_Result : FrontendBasePage
     private void LoadUIData()
     {
         txtKeyword.Attributes["placeholder"] = Resources.Lang.SearchResult_txtKeyword_Hint;
+        txtKeyword.ToolTip = Resources.Lang.SearchResult_txtKeyword_Hint;
         btnToSearchResult.ToolTip = Resources.Lang.SearchResult_btnSearch_Hint;
     }
 

@@ -2,6 +2,7 @@
 using Common.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -148,7 +149,12 @@ public partial class Article_Config : System.Web.UI.Page
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["StartDate"]);
                 txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", drFirst["EndDate"]);
                 txtBannerPicFileName.Text = drFirst.ToSafeStr("BannerPicFileName");
+
                 txtArticleAlias.Text = drFirst.ToSafeStr("ArticleAlias");
+                btnAliasLink.HRef = string.Format("{0}/Article.aspx?alias={1}", ConfigurationManager.AppSettings["WebsiteUrl"], txtArticleAlias.Text);
+                btnAliasLink.InnerHtml = Server.HtmlEncode(btnAliasLink.HRef);
+                AliasLinkArea.Visible = true;
+
                 rdolLayoutMode.SelectedValue = drFirst.ToSafeStr("LayoutModeId");
                 rdolShowType.SelectedValue = drFirst.ToSafeStr("ShowTypeId");
                 txtLinkUrl.Text = drFirst.ToSafeStr("LinkUrl");
@@ -248,6 +254,7 @@ public partial class Article_Config : System.Web.UI.Page
                 int parentArticleLevelNo = Convert.ToInt32(drParent["ArticleLevelNo"]);
                 hidArticleLevelNo.Text = (parentArticleLevelNo + 1).ToString();
                 int parentShowTypeId = Convert.ToInt32(drParent["ShowTypeId"]);
+                int parentLayoutModeId = Convert.ToInt32(drParent["LayoutModeId"]);
 
                 if (parentShowTypeId == 3)
                 {
@@ -278,9 +285,11 @@ public partial class Article_Config : System.Web.UI.Page
                 DateTime endDate = startDate.AddYears(10);
                 txtStartDate.Text = string.Format("{0:yyyy-MM-dd}", startDate);
                 txtEndDate.Text = string.Format("{0:yyyy-MM-dd}", endDate);
+                StartTodayArea.Visible = true;
                 txtPublisherNameZhTw.Text = c.seLoginEmpData.EmpName;
                 txtPublisherNameEn.Text = c.seLoginEmpData.EmpName;
                 txtPublishDate.Text = txtStartDate.Text;
+                rdolLayoutMode.SelectedValue = parentLayoutModeId.ToString();
 
                 btnSave.Visible = true;
             }
