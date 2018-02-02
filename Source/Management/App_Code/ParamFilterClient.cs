@@ -254,10 +254,19 @@ public class ParamFilterClient
             return true;
 
         bool useSimplifedChain = true;
+        string lowerFileName = execFilePath.ToLower();
 
-        if (string.Compare(execFilePath, "Login.aspx", true) == 0)
+        for (int i = 0; i < 10000; i++)
         {
-            useSimplifedChain = false;
+            if (lowerFileName == "login.aspx"
+                || lowerFileName == "psw-change.aspx"
+                || lowerFileName == "psw-require.aspx"
+                || lowerFileName == "captcha.ashx"
+                || lowerFileName == "errorpage.aspx"
+                )
+            {
+                useSimplifedChain = false;
+            }
         }
 
         //規則表達式黑名單過濾
