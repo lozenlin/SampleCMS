@@ -211,6 +211,7 @@ public partial class Psw_Require : System.Web.UI.Page
     private bool SendNoticeMailToUserZhTw(UserInfo userInfo)
     {
         bool result = true;
+        string smtpServer = ConfigurationManager.AppSettings["SmtpServer"];
         string smtpAccount = ConfigurationManager.AppSettings["SmtpAccount"];
         string smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
         string from = string.Format("{0}<{1}>", Resources.Lang.BackStageName, ConfigurationManager.AppSettings["ServiceEmail"]);
@@ -253,6 +254,7 @@ public partial class Psw_Require : System.Web.UI.Page
         sbBody.Replace("##cnt;", noticeContext.Replace("\r\n", "<br>"));
 
         EmailSender emailSender = new EmailSender();
+        emailSender.SmtpServer = smtpServer;
 
         if (c.UseSender())
         {
@@ -276,6 +278,7 @@ public partial class Psw_Require : System.Web.UI.Page
     private bool SendNoticeMailToUserEn(UserInfo userInfo)
     {
         bool result = true;
+        string smtpServer = ConfigurationManager.AppSettings["SmtpServer"];
         string smtpAccount = ConfigurationManager.AppSettings["SmtpAccount"];
         string smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
         string from = string.Format("{0}<{1}>", Resources.Lang.BackStageName, ConfigurationManager.AppSettings["ServiceEmail"]);
@@ -318,6 +321,7 @@ public partial class Psw_Require : System.Web.UI.Page
         sbBody.Replace("##cnt;", noticeContext.Replace("\r\n", "<br>"));
 
         EmailSender emailSender = new EmailSender();
+        emailSender.SmtpServer = smtpServer;
 
         if (c.UseSender())
         {
