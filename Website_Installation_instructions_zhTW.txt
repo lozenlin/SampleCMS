@@ -1,0 +1,59 @@
+﻿在本機開發本專案或架設網站前，請依照下列項目設定。
+
+1. 建立資料庫
+
+1-1. 在您的 SQL Server 2012 (或更新的版本) 建立一個新的資料庫，名稱為 SampleCMS (或者其他您喜歡的名稱)
+
+1-2. 使用 SQL Server Management Studio 開啟下列檔案並連接至上一項建立的資料庫執行 script
+SqlScripts\01.EmployeeAuthority_CreateTable.sql
+SqlScripts\02.EmployeeAuthority_CreateSP.sql
+SqlScripts\03.ArticlePublisher_CreateTable.sql
+SqlScripts\04.ArticlePublisher_CreateSP.sql
+SqlScripts\05.SQLInjectionFilter_CreateSP.sql
+
+
+2. 在 IIS7(含更新版本) 依照下列項目設定網站：
+
+2-1. 請在 C:\Windows\System32\drivers\etc\hosts 內容新增
+127.0.0.1	SampleCMS.dev.com
+
+2-2. 新增網站：(此為 SampleCMS 前台網站)
+．站台名稱[SampleCMS]
+．應用程式集區[.NET 4.0 整合式]
+．目錄選擇此專案的資料夾[Source\Root]
+．主機名稱[SampleCMS.dev.com]
+．完成
+
+2-3. 在網站下新增[應用程式]：(此為 SampleCMS 後台網站)
+．別名[Management]
+．應用程式集區[.NET 4.0 整合式]
+．目錄選擇此專案的資料夾[Source\Management]
+．完成
+
+2-4. 在網站下新增[虛擬目錄]：(此為 SampleCMS 前台和後台網站的共用圖片區)
+．別名[images]
+．目錄選擇此專案的資料夾[Source\Management\images]
+．完成
+
+2-5. 在網站下新增[虛擬目錄]：(此為 CKeditor 編輯器放置已上傳檔案的目錄，後台使用)
+．別名[UserFiles]
+．目錄選擇此專案的資料夾[Source\Management\UserFiles]
+．完成
+
+2-6. 在網站下新增[虛擬目錄]：(此為 SampleCMS 前台和後台網站的共用附件區)
+．別名[Attachments]
+．目錄選擇此專案的資料夾[Source\Management\Attachments]
+．完成
+
+2-7. 到目錄 Source\Root 把 Web.config_Dev.txt 更名為 Web.config
+把 Web.config 內文中 connectionStrings / DBConnString 更改為您的資料庫資訊。
+
+2-8. 到目錄 Source\Management 把 Web.config_Dev.txt 更名為 Web.config
+把 Web.config 內文中 connectionStrings / DBConnString 更改為您的資料庫資訊。
+
+到目前為止，網站已架設完成。
+前台網址: http://SampleCMS.dev.com/Index.aspx
+後台網址: http://SampleCMS.dev.com/Management/Login.aspx
+預設後台管理者帳號/密碼: admin / admin
+
+3. 使用 Visual Studio 開啟 Source\SampleCMS.sln (此方案檔為 Visual Studio 2012 建立)

@@ -1,11 +1,14 @@
-SampleCMS
-==============
+#SampleCMS
 
 ## DEMO website
 
-Back-stage : [SampleCMS Management Information System](https://samplecmsonazure.azurewebsites.net/Management/Login.aspx)
+* Back-stage : [SampleCMS Management Information System](https://samplecmsonazure.azurewebsites.net/Management/Login.aspx)
+* Front-stage: [SampleCMS Demo](http://samplecmsonazure.azurewebsites.net)
 
-Front-stage: [SampleCMS Demo](http://samplecmsonazure.azurewebsites.net)
+## Installation instructions
+
+* [中文](./Website_Installation_instructions_zhTW.txt)
+* [English](./Website_Installation_instructions_en.txt)
 
 ## Screenshots
 
