@@ -190,7 +190,7 @@ public partial class Back_End_Log : BasePage
             rptLogs.DataBind();
         }
 
-        if (c.qsPageCode > 1)
+        if (c.qsPageCode > 1 || c.qsSortField != "")
         {
             ClientScript.RegisterStartupScript(this.GetType(), "isSearchPanelCollapsingAtBeginning", "isSearchPanelCollapsingAtBeginning = true;", true);
         }

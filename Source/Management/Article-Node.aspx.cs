@@ -544,7 +544,7 @@ public partial class Article_Node : BasePage
             rptSubitems.DataBind();
         }
 
-        if (c.qsPageCode > 1)
+        if (c.qsPageCode > 1 || c.qsSortField != "")
         {
             ClientScript.RegisterStartupScript(this.GetType(), "isSearchPanelCollapsingAtBeginning", "isSearchPanelCollapsingAtBeginning = true;", true);
         }
