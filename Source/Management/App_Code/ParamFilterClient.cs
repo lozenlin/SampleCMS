@@ -256,17 +256,14 @@ public class ParamFilterClient
         bool useSimplifedChain = true;
         string lowerFileName = execFilePath.ToLower();
 
-        for (int i = 0; i < 10000; i++)
+        if (lowerFileName == "login.aspx"
+            || lowerFileName == "psw-change.aspx"
+            || lowerFileName == "psw-require.aspx"
+            || lowerFileName == "captcha.ashx"
+            || lowerFileName == "errorpage.aspx"
+            )
         {
-            if (lowerFileName == "login.aspx"
-                || lowerFileName == "psw-change.aspx"
-                || lowerFileName == "psw-require.aspx"
-                || lowerFileName == "captcha.ashx"
-                || lowerFileName == "errorpage.aspx"
-                )
-            {
-                useSimplifedChain = false;
-            }
+            useSimplifedChain = false;
         }
 
         //規則表達式黑名單過濾
