@@ -42,14 +42,14 @@
                     <label for='<%= txtAccount.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblAccount %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtAccount" runat="server" CssClass="form-control" MaxLength="20"></asp:TextBox>
-                        <label class="form-check-label">
+                        <label class="form-check form-check-label">
                             <asp:CheckBox ID="chkIsAccKw" runat="server" CssClass="form-check-input" /> <%= Resources.Lang.SearchPanel_lblIsKeyword %>
                         </label>
                     </div>
                     <label for='<%= txtIP.ClientID %>' class="col-md-2 col-form-label text-md-right"><%= Resources.Lang.SearchPanel_lblIP %></label>
                     <div class="col-md-4">
                         <asp:TextBox ID="txtIP" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
-                        <label class="form-check-label">
+                        <label class="form-check form-check-label">
                             <asp:CheckBox ID="chkIsIpHeadKw" runat="server" CssClass="form-check-input" /> <%= Resources.Lang.SearchPanel_lblIsKeywordOfHead %>
                         </label>
                     </div>
