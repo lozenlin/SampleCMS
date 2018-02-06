@@ -56,4 +56,4 @@ SqlScripts\05.SQLInjectionFilter_CreateSP.sql
 後台網址: http://SampleCMS.dev.com/Management/Login.aspx
 預設後台管理者帳號/密碼: admin / admin
 
-3. 使用 Visual Studio 開啟 Source\SampleCMS.sln (此方案檔為 Visual Studio 2012 建立)
+3. 使用 Visual Studio 開啟 Source\SampleCMS.sln (此方案檔為 Visual Studio 2012 建立)(Visual Studio 2015 可開啟此檔且不需升級)
