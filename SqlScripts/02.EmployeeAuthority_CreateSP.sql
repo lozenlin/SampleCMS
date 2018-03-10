@@ -495,12 +495,19 @@ go
 -- =============================================
 -- Author:      <lozen_lin>
 -- Create date: <2017/11/20>
+-- History:
+--	2018/03/10, lozen_lin, modify, 修正問題"無法看到所擁有帳號的記錄"
 -- Description: <取得後端操作記錄清單>
 -- Test:
 /*
 declare @RowCount int
 exec dbo.spBackEndLog_GetList '1901/1/1', '2017/11/21', '', 1, '', 1, N'', 1, 1, 20, '', 0, 1, 1, 1, '', 0, @RowCount output
 select @RowCount
+
+declare @RowCount int
+exec dbo.spBackEndLog_GetList '1901/1/1', '2018/03/21', '', 1, '', 1, N'', 1, 1, 20, '', 0, 0, 0, 1, 'user1', 0, @RowCount output
+select @RowCount
+
 */
 -- =============================================
 create procedure dbo.spBackEndLog_GetList
@@ -535,7 +542,7 @@ begin
 	set @conditions += N'
  and (@CanReadSubItemOfOthers=1
 	or @CanReadSubItemOfCrew=1 and e.DeptId=@MyDeptId
-	or @CanReadSubItemOfSelf=1 and l.EmpAccount=@MyAccount) '
+	or @CanReadSubItemOfSelf=1 and (l.EmpAccount=@MyAccount or e.OwnerAccount=@MyAccount )) '
 
 	if @Account<>''
 	begin
