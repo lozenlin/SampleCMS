@@ -52,7 +52,7 @@ public class ParamFilterClient
         "db_name", "sysprocesses", "db_", 
         "${", "#{", "t(", 
         "msgbox(", "'():;", "onmouse", 
-        "onresize", "\"style=", "ssion("
+        "onresize", "ssion("
     };
 
     /// <summary>
