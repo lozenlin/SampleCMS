@@ -147,6 +147,7 @@ public partial class Role_Privilege : System.Web.UI.Page
 
         int opId = Convert.ToInt32(drvTemp["OpId"]);
         string opSubject = drvTemp.ToSafeStr("OpSubject");
+        string englishSubject = drvTemp.ToSafeStr("EnglishSubject");
         bool canRead = drvTemp.To<bool>("CanRead", false);
         bool canEdit = drvTemp.To<bool>("CanEdit", false);
         bool canReadSubItemOfSelf = drvTemp.To<bool>("CanReadSubItemOfSelf", false);
@@ -159,6 +160,11 @@ public partial class Role_Privilege : System.Web.UI.Page
         bool canReadSubItemOfOthers = drvTemp.To<bool>("CanReadSubItemOfOthers", false);
         bool canEditSubItemOfOthers = drvTemp.To<bool>("CanEditSubItemOfOthers", false);
         bool canDelSubItemOfOthers = drvTemp.To<bool>("CanDelSubItemOfOthers", false);
+
+        if (c.seCultureNameOfBackend == "en")
+        {
+            opSubject = englishSubject;
+        }
 
         string lastMdfAccount = "";
         DateTime? lastMdfDate = null;

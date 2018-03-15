@@ -487,6 +487,12 @@ public partial class MasterArticle : System.Web.UI.MasterPage, IMasterArticleSet
         btnItem.Title = articleSubject;
         string destUrl = StringUtility.GetLinkUrlOfShowType(articleId, c.qsLangNo, showTypeId, linkUrl);
         btnItem.HRef = destUrl;
+
+        if (!string.IsNullOrEmpty(linkTarget))
+        {
+            btnItem.Target = linkTarget;
+        }
+
         Repeater rptSubitems = e.Item.FindControl("rptSubitems") as Repeater;
 
         if (rptSubitems != null)    /*  && !isHideChild <-- 視專案需要加回 */
