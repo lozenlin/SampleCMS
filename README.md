@@ -18,6 +18,11 @@
 4. [Article Publisher - Configurations](http://lozenlin.blogspot.tw/2018/01/352-hours-2.html)
 5. [Article Publisher - Front-stage pages](https://lozenlin.blogspot.tw/2018/01/352-hours-3.html)
 
+## Manual
+
+* [中文](./Documents/5.使用者測試與交付(User_Phase)/Manual/Manual_zhTW.pdf)
+* [English](./Documents/5.使用者測試與交付(User_Phase)/Manual/Manual_en.pdf)
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, SampleCMS is maintained under [the Semantic Versioning guidelines](http://semver.org/). 
