@@ -85,7 +85,7 @@ public partial class Article_Video : System.Web.UI.Page
         if (c.qsAct == ConfigFormAction.add)
             Title = string.Format(Resources.Lang.ArticleVideo_Title_AddNew_Format, c.qsArtId);
         else if (c.qsAct == ConfigFormAction.edit)
-            Title = string.Format(Resources.Lang.ArticleVideo_Title_Edit_Format, c.qsPicId);
+            Title = string.Format(Resources.Lang.ArticleVideo_Title_Edit_Format, c.qsVidId);
     }
 
     private void DisplayArticleVideoData()
