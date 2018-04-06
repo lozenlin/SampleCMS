@@ -2,6 +2,16 @@
     'use strict';
     angular.module('FileManagerApp', ['pascalprecht.translate', 'ngFileUpload']);
 
+    // 2018/04/06, lozen_lin, fixes the problem "cannot open context menu in iOS devices."
+    var isJustOpenedByIOSclient = false;
+    var isIOS = false;
+
+    if (navigator) {
+        if (navigator.userAgent.match(/(iPhone|iPad);/i) != null) {
+            isIOS = true;
+        }
+    }
+
     /**
      * jQuery inits
      */
@@ -11,8 +21,38 @@
         }.bind(this), 100);
     });
 
+    // 2018/04/06, lozen_lin
+    angular.element(window.document).on('click', '.item-list.ng-scope, .item-list .thumbnail', function (e) {
+        if (isIOS) {
+            var menu = angular.element('#context-menu');
+
+            if (e.pageX >= window.innerWidth - menu.width()) {
+                e.pageX -= menu.width();
+            }
+            if (e.pageY >= window.innerHeight - menu.height()) {
+                e.pageY -= menu.height();
+            }
+
+            menu.hide().css({
+                left: e.pageX,
+                top: e.pageY
+            }).appendTo('body').show();
+
+            isJustOpenedByIOSclient = true;
+        }
+    });
+
     angular.element(window.document).on('click', function() {
-        angular.element('#context-menu').hide();
+        if (isIOS) {
+            // 2018/04/06, lozen_lin
+            if (isJustOpenedByIOSclient) {
+                isJustOpenedByIOSclient = false;
+            } else {
+                angular.element('#context-menu').hide();
+            }
+        } else {
+            angular.element('#context-menu').hide();
+        }
     });
 
     angular.element(window.document).on('contextmenu', '.main-navigation .table-files tr.item-list:has("td"), .item-list', function(e) {
