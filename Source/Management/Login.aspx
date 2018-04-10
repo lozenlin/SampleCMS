@@ -110,7 +110,7 @@
             </div>
         </div>
 
-        <script src="Common/js/jquery-3.2.1.min.js"></script>
+        <script src="Common/js/jquery-3.3.1.min.js"></script>
         <!--<script src="Common/js/jquery-migrate-3.0.0.js"></script>-->
         <script src="Common/js/popper.min.js"></script>
         <script src="Common/bootstrap-4/js/bootstrap.min.js"></script>

@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-3.2.1.js"/>
+﻿/// <reference path="jquery-3.3.1.js"/>
 
 var langNo = "1";   // change this value at page.
 var serviceUrl = "";    // change this value at page. e.g.,"jsonService.ashx?l=" + langNo;
