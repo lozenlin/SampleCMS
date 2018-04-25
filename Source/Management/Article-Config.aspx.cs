@@ -24,7 +24,7 @@ public partial class Article_Config : System.Web.UI.Page
 
         empAuth = new EmployeeAuthorityLogic(c);
         empAuth.SetCustomEmployeeAuthorizationResult(artPub);
-        empAuth.InitialAuthorizationResultOfSubPages();
+        empAuth.InitialAuthorizationResultOfTopPage();
     }
 
     protected void Page_Load(object sender, EventArgs e)
