@@ -1945,4 +1945,52 @@
     <value>Change now to open</value>
     <comment>更改為現在上架</comment>
   </data>
+  <data name="ErrMsg_LoadDataFailed" xml:space="preserve">
+    <value>Load data failed.</value>
+    <comment>載入資料失敗</comment>
+  </data>
+  <data name="ErrMsg_LoadMultiLangDataFailed" xml:space="preserve">
+    <value>Load multi-language data failed.</value>
+    <comment>載入多語系資料失敗</comment>
+  </data>
+  <data name="ErrMsg_AttachFileIsRequired" xml:space="preserve">
+    <value>Upload a file please.</value>
+    <comment>請上傳檔案</comment>
+  </data>
+  <data name="ErrMsg_InvalidFileExt" xml:space="preserve">
+    <value>Invalid file type.</value>
+    <comment>不允許的檔案類型</comment>
+  </data>
+  <data name="ErrMsg_NoInitialize" xml:space="preserve">
+    <value>Please call initalization first.</value>
+    <comment>請先執行初始化</comment>
+  </data>
+  <data name="ErrMsg_DeletePhysicalFileFailed" xml:space="preserve">
+    <value>Delete physical file failed.</value>
+    <comment>刪除實體檔案失敗</comment>
+  </data>
+  <data name="ErrMsg_SavePhysicalFileFailed" xml:space="preserve">
+    <value>Save physical file failed.</value>
+    <comment>儲存實體檔案失敗</comment>
+  </data>
+  <data name="ErrMsg_InsertAttachmentFailed" xml:space="preserve">
+    <value>Insert data of attachment failed.</value>
+    <comment>新增附件資料失敗</comment>
+  </data>
+  <data name="ErrMsg_InsertMultiLangAttachmentFailed" xml:space="preserve">
+    <value>Insert multi-language data of attachment failed.</value>
+    <comment>新增附件多語系資料失敗</comment>
+  </data>
+  <data name="ErrMsg_UpdateAttachmentFailed" xml:space="preserve">
+    <value>Update data of attachment failed.</value>
+    <comment>更新附件資料失敗</comment>
+  </data>
+  <data name="ErrMsg_UpdateMultiLangAttachmentFailed" xml:space="preserve">
+    <value>Update multi-language data of attachment failed.</value>
+    <comment>更新附件多語系資料失敗</comment>
+  </data>
+  <data name="ErrMsg_AttIdIsRequired" xml:space="preserve">
+    <value>AttId is required.</value>
+    <comment>請提供 AttId</comment>
+  </data>
 </root>

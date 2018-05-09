@@ -56,7 +56,7 @@ var opMenu = {
             $(".sidebar-menu .items-group>ul").show();
     },
 
-    toggleItemsGroup: function ($itemsGroup) {
+    foldAllItemsGroupButThis: function ($itemsGroup) {
         $itemsGroup.siblings().children(".item-list, .tree-list").slideUp("fast");
         $itemsGroup.children(".item-list, .tree-list").show();
     },
@@ -73,12 +73,12 @@ var opMenu = {
 
         if ($itemAreaOrItemsGroup.length > 0) {
             if ($itemAreaOrItemsGroup.hasClass("items-group")) {
-                opMenu.toggleItemsGroup($itemAreaOrItemsGroup);
+                opMenu.foldAllItemsGroupButThis($itemAreaOrItemsGroup);
                 $itemAreaOrItemsGroup.children(".item-header").addClass("active");
             } else if ($itemAreaOrItemsGroup.hasClass("item-area")) {
                 $itemHeader = $itemAreaOrItemsGroup.parent().siblings(".item-header");
                 $itemHeader.addClass("active");
-                opMenu.toggleItemsGroup($itemHeader.parent());
+                opMenu.foldAllItemsGroupButThis($itemHeader.parent());
                 $itemAreaOrItemsGroup.children(".item").addClass("active");
             }
         } else {
@@ -112,7 +112,7 @@ articleMenu.foldAllBranches(false);
 var $itemHeaders = $(".sidebar-menu .items-group>.item-header");
 
 $itemHeaders.click(function () {
-    $(this).siblings(".item-list, .tree-list").slideToggle("fast");
+    $(this).siblings(".item-list, .tree-list").slideDown("fast");   // 2018/05/09, lozen_lin, modify, slideToggle to slideDown
 
     // return false;
 });

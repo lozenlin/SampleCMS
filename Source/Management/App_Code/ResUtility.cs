@@ -179,43 +179,43 @@ public static class ResUtility
         switch (errState)
         {
             case AttFileErrState.LoadDataFailed:
-                errMsg = "載入資料失敗";
+                errMsg = Resources.Lang.ErrMsg_LoadDataFailed;
                 break;
             case AttFileErrState.LoadMultiLangDataFailed:
-                errMsg = "載入多語系資料失敗";
+                errMsg = Resources.Lang.ErrMsg_LoadMultiLangDataFailed;
                 break;
             case AttFileErrState.AttachFileIsRequired:
-                errMsg = "請上傳檔案";
+                errMsg = Resources.Lang.ErrMsg_AttachFileIsRequired;
                 break;
             case AttFileErrState.InvalidFileExt:
-                errMsg = "不允許的檔案類型";
+                errMsg = Resources.Lang.ErrMsg_InvalidFileExt;
                 break;
             case AttFileErrState.NoInitialize:
-                errMsg = "請先執行初始化";
+                errMsg = Resources.Lang.ErrMsg_NoInitialize;
                 break;
             case AttFileErrState.DeleteDataFailed:
-                errMsg = "刪除附件失敗";
+                errMsg = Resources.Lang.ErrMsg_DeleteAttachmentFailed;
                 break;
             case AttFileErrState.DeletePhysicalFileFailed:
-                errMsg = "刪除實體檔案失敗";
+                errMsg = Resources.Lang.ErrMsg_DeletePhysicalFileFailed;
                 break;
             case AttFileErrState.SavePhysicalFileFailed:
-                errMsg = "儲存實體檔案失敗";
+                errMsg = Resources.Lang.ErrMsg_SavePhysicalFileFailed;
                 break;
             case AttFileErrState.InsertDataFailed:
-                errMsg = "新增附件資料失敗";
+                errMsg = Resources.Lang.ErrMsg_InsertAttachmentFailed;
                 break;
             case AttFileErrState.InsertMultiLangDataFailed:
-                errMsg = "新增附件多語系資料失敗";
+                errMsg = Resources.Lang.ErrMsg_InsertMultiLangAttachmentFailed;
                 break;
             case AttFileErrState.UpdateDataFailed:
-                errMsg = "更新附件資料失敗";
+                errMsg = Resources.Lang.ErrMsg_UpdateAttachmentFailed;
                 break;
             case AttFileErrState.UpdateMultiLangDataFailed:
-                errMsg = "更新附件多語系資料失敗";
+                errMsg = Resources.Lang.ErrMsg_UpdateMultiLangAttachmentFailed;
                 break;
             case AttFileErrState.AttIdIsRequired:
-                errMsg = "請提供 AttId";
+                errMsg = Resources.Lang.ErrMsg_AttIdIsRequired;
                 break;
         }
 
