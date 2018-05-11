@@ -526,7 +526,7 @@ namespace Common.LogicObject
                             }
 
                             //已知最短長度
-                            if (paramInfo.Value.Length < 16)
+                            if (paramInfo.Value.Length < 8) // 2018/05/11, lozen_lin, modify
                             {
                                 ShowInfoMsgBeforeFailed(paramInfo);
                                 return false;
