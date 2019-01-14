@@ -1,0 +1,10 @@
+﻿。首頁: index.html
+。內文頁: Content-1.html (含足跡區、搜尋條件區、標題區、內文區、附件區、圖片區)
+。內文頁有右側選單: Content-2.html
+。清單頁: List-Items.html
+。搜尋結果頁: Search-Result.html
+。錯誤頁: Error.html
+。網站導覽頁: Sitemap.html
+
+。加縮圖的清單: List-Items-thumb.html
+。區塊清單: List-Blocks.html
