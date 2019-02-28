@@ -380,7 +380,10 @@ namespace Common.LogicObject
         /// <summary>
         /// 顯示可排序欄位標題區
         /// </summary>
-        public void DisplySortableCols(string[] colNames)
+        /// <history>
+        /// 2019/02/28, lozenlin, modify, typo fixes "Disply" to "Display"
+        /// </history>
+        public void DisplaySortableCols(string[] colNames)
         {
             if (qsSortField == "")
                 return;

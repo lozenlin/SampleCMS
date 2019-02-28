@@ -93,7 +93,7 @@ public partial class Department_List : BasePage
         btnSortEmpTotal.Text = Resources.Lang.Col_EmpTotal;
         hidSortEmpTotal.Text = btnSortEmpTotal.Text;
 
-        c.DisplySortableCols(new string[] { 
+        c.DisplaySortableCols(new string[] { 
             "DeptName", "SortNo", "EmpTotal"
         });
     }

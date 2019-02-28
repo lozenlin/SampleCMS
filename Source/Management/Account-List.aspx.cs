@@ -104,7 +104,7 @@ public partial class Account_List : BasePage
         btnSortOwnerName.Text = Resources.Lang.Col_OwnerName;
         hidSortOwnerName.Text = btnSortOwnerName.Text;
 
-        c.DisplySortableCols(new string[] { 
+        c.DisplaySortableCols(new string[] { 
             "DeptName", "RoleSortNo", "EmpName", 
             "EmpAccount", "StartDate", "OwnerName"
         });

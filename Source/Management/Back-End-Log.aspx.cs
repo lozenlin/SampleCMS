@@ -88,7 +88,7 @@ public partial class Back_End_Log : BasePage
         btnSortDescription.Text = Resources.Lang.Col_LogRecord;
         hidSortDescription.Text = btnSortDescription.Text;
 
-        c.DisplySortableCols(new string[] { 
+        c.DisplaySortableCols(new string[] { 
             "OpDate", "IP", "EmpName", 
             "Description"
         });

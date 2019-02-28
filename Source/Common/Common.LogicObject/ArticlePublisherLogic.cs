@@ -972,7 +972,10 @@ namespace Common.LogicObject
         /// <summary>
         /// 取得後台用指定語系的網頁照片清單
         /// </summary>
-        public DataSet GetArticlePicutreMultiLangListForBackend(ArticlePictureListQueryParams param)
+        /// <history>
+        /// 2019/02/28, lozenlin, modify, typo fixes "Picutre" to "Picture"
+        /// </history>
+        public DataSet GetArticlePictureMultiLangListForBackend(ArticlePictureListQueryParams param)
         {
             IDataAccessCommand cmd = DataAccessCommandFactory.GetDataAccessCommand(DBs.MainDB);
             spArticlePictureMultiLang_GetListForBackend cmdInfo = new spArticlePictureMultiLang_GetListForBackend()

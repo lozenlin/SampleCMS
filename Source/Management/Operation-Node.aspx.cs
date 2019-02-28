@@ -179,7 +179,7 @@ public partial class Operation_Node : BasePage
         btnSortSortNo.Text = Resources.Lang.Col_SortNo;
         hidSortSortNo.Text = btnSortSortNo.Text;
 
-        c.DisplySortableCols(new string[] { 
+        c.DisplaySortableCols(new string[] { 
             "Subject", "IsNewWindow", "CommonClass", 
             "SortNo"
         });
