@@ -23,6 +23,10 @@
 * [中文](./Documents/5.使用者測試與交付(User_Phase)/Manual/Manual_zhTW.pdf)
 * [English](./Documents/5.使用者測試與交付(User_Phase)/Manual/Manual_en.pdf)
 
+## Assemblies relation
+
+![assemblies relationship](./Documents/3.%E7%B3%BB%E7%B5%B1%E8%A8%AD%E8%A8%88(Design_Phase)/%E7%B3%BB%E7%B5%B1%E7%B5%84%E4%BB%B6%E9%97%9C%E8%81%AF%E5%9C%96/%E7%B5%84%E4%BB%B6%E9%97%9C%E8%81%AF.jpg)
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, SampleCMS is maintained under [the Semantic Versioning guidelines](http://semver.org/). 
